@@ -8,7 +8,6 @@ vim.g.copilot_no_tab_map = true
 vim.g.copilot_filetypes = {
     markdown = true,
 }
-vim.g.copilot_assume_mapped = true
 
 -- [[ Ident - Whitespace ]]
 -- vim.opt.expandtab = true             -- bool: Use spaces instead of tabs
