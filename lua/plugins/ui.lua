@@ -2,10 +2,16 @@ return {
     {
         -- for dark mode
         "rmehri01/onenord.nvim",
+        event = "VimEnter",
     },
     {
         -- for light mode
         "folke/tokyonight.nvim",
+        event = "VimEnter",
+    },
+    {
+        "catppuccin/nvim",
+        event = "VimEnter",
     },
     {
         -- sneak of the line when doing :50g, for example
@@ -57,7 +63,7 @@ return {
         config = {
             update_interval = 1000,
             set_dark_mode = function()
-                vim.cmd("colorscheme onenord")
+                vim.cmd("colorscheme catppuccin-frappe")
             end,
             set_light_mode = function()
                 vim.cmd("colorscheme tokyonight-day")
