@@ -60,7 +60,7 @@ return {
                 vim.cmd("colorscheme onenord")
             end,
             set_light_mode = function()
-                vim.cmd(":TransparentDisable")
+                vim.cmd("colorscheme tokyonight-day")
             end,
         },
     },
