@@ -16,6 +16,9 @@ map("n", "N", "Nzzzv", { desc = "Move to previous find" })
 -- reload the current buffer
 map("n", "<leader>r", "<cmd>edit!<CR>", { desc = "Reload the current buffer" })
 
+-- reload neovim entirely
+map("n", "<leader>R", "<cmd>source $MYVIMRC<CR>", { desc = "Reload neovim entirely" })
+
 -- back to the last buffer
 map("n", "<BS>", "<cmd>bp<CR>", { desc = "Back to the last buffer" })
 
@@ -30,3 +33,4 @@ map('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 map('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 map('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
