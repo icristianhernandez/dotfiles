@@ -72,6 +72,16 @@ return {
     },
 
     {
+        "numToStr/FTerm.nvim",
+        opts = {},
+        config = function()
+            vim.api.nvim_create_user_command('FTermToggle', require('FTerm').toggle, { bang = true })
+            vim.api.nvim_set_keymap('n', '<leader>tt', '<cmd>FTermToggle<CR>', { noremap = true, silent = true })
+        end,
+
+    },
+
+    {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         config = function()
