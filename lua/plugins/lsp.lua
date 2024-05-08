@@ -1,3 +1,27 @@
+-- Need review:
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#pyright
+-- Try to dinamycally load the formatters, linters, etc of null_ls
+-- Also try to do an ensure installation of these servers
+
+local lsp_servers = {
+	"lua_ls",
+	"pyright",
+}
+
+local stylers_servers = {
+	"stylua",
+	"black",
+}
+
+-- table to store all of above servers
+local all_servers = {}
+for _, server in ipairs(lsp_servers) do
+	table.insert(all_servers, server)
+end
+for _, server in ipairs(stylers_servers) do
+	table.insert(all_servers, server)
+end
+
 return {
 	-- for installing lsp
 	{
@@ -11,7 +35,7 @@ return {
 			{
 				"williamboman/mason-lspconfig.nvim",
 				opts = {
-					ensure_installed = { "lua_ls" },
+					ensure_installed = lsp_servers,
 				},
 			},
 		},
@@ -19,9 +43,33 @@ return {
 		config = function()
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local on_attach = function(client, bufnr)
+				require("mason-lspconfig").on_attach(client, bufnr)
+			end
+			local on_init = function(client)
+				require("mason-lspconfig").on_init(client)
+			end
 
-			lspconfig.lua_ls.setup({
+			for _, server in ipairs(lsp_servers) do
+				lspconfig[server].setup({
+					capabilities = capabilities,
+					on_attach = on_attach,
+					on_init = on_init,
+				})
+			end
+
+			lspconfig["pyright"].setup({
 				capabilities = capabilities,
+				on_attach = on_attach,
+				on_init = on_init,
+				settings = {
+					python = {
+						analysis = {
+							autoSearchPaths = true,
+							useLibraryCodeForTypes = true,
+						},
+					},
+				},
 			})
 
 			vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Hover information" })
@@ -85,6 +133,7 @@ return {
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.stylua,
+					null_ls.builtins.formatting.black,
 					-- null_ls.builtins.diagnostics.eslint,
 					-- null_ls.builtins.completion.spell,
 				},
