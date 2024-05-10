@@ -6,20 +6,19 @@
 local lsp_servers = {
 	"lua_ls",
 	"pyright",
+	"ruff_lsp",
+	-- taplo: lsp for TOML
+	"taplo",
 }
 
-local stylers_servers = {
-	"stylua",
-	"black",
+local formatters = {
+	python = { "black" },
+	lua = { "stylua" },
 }
 
--- table to store all of above servers
-local all_servers = {}
-for _, server in ipairs(lsp_servers) do
-	table.insert(all_servers, server)
-end
-for _, server in ipairs(stylers_servers) do
-	table.insert(all_servers, server)
+local formatters_table = {}
+for _, formatter in ipairs(formatters) do
+	table.insert(formatters_table, unpack(formatter))
 end
 
 return {
@@ -36,6 +35,12 @@ return {
 				"williamboman/mason-lspconfig.nvim",
 				opts = {
 					ensure_installed = lsp_servers,
+				},
+			},
+			{
+				"jay-babu/mason-null-ls.nvim",
+				opts = {
+					ensure_installed = formatters_table,
 				},
 			},
 		},
@@ -72,7 +77,14 @@ return {
 				},
 			})
 
-			vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Hover information" })
+			lspconfig["ruff_lsp"].setup({
+				-- disble ruff as hover provider to avoid conflict with pyright
+				on_attach = function(client)
+					client.server_capabilities.hoverProvider = false
+				end,
+			})
+
+			vim.keymap.set("n", "<leader>lh", vim.diagnostic.open_float, { desc = "Hover information" })
 			vim.keymap.set(
 				{ "n", "v" },
 				"<leader>la",
@@ -132,14 +144,25 @@ return {
 			local null_ls = require("null-ls")
 			null_ls.setup({
 				sources = {
-					null_ls.builtins.formatting.stylua,
-					null_ls.builtins.formatting.black,
+					-- null_ls.builtins.formatting.stylua,
+					-- null_ls.builtins.formatting.black,
 					-- null_ls.builtins.diagnostics.eslint,
 					-- null_ls.builtins.completion.spell,
 				},
 			})
 
-			vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, { desc = "Autoformat" })
+			-- vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, { desc = "Autoformat" })
 		end,
+	},
+
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			formatters_by_ft = formatters,
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_fallback = true,
+			},
+		},
 	},
 }
