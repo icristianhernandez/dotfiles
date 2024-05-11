@@ -6,7 +6,6 @@
 local lsp_servers = {
 	"lua_ls",
 	"pyright",
-	"ruff_lsp",
 	-- taplo: lsp for TOML
 	"taplo",
 }
@@ -48,25 +47,25 @@ return {
 		config = function()
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local on_attach = function(client, bufnr)
-				require("mason-lspconfig").on_attach(client, bufnr)
-			end
-			local on_init = function(client)
-				require("mason-lspconfig").on_init(client)
-			end
+			-- local on_attach = function(client, bufnr)
+			-- 	require("mason-lspconfig").on_attach(client, bufnr)
+			-- end
+			-- local on_init = function(client)
+			-- 	require("mason-lspconfig").on_init(client)
+			-- end
 
 			for _, server in ipairs(lsp_servers) do
 				lspconfig[server].setup({
 					capabilities = capabilities,
-					on_attach = on_attach,
-					on_init = on_init,
+					-- on_attach = on_attach,
+					-- on_init = on_init,
 				})
 			end
 
 			lspconfig["pyright"].setup({
 				capabilities = capabilities,
-				on_attach = on_attach,
-				on_init = on_init,
+				-- on_attach = on_attach,
+				-- on_init = on_init,
 				settings = {
 					python = {
 						analysis = {
@@ -77,12 +76,9 @@ return {
 				},
 			})
 
-			lspconfig["ruff_lsp"].setup({
-				-- disble ruff as hover provider to avoid conflict with pyright
-				on_attach = function(client)
-					client.server_capabilities.hoverProvider = false
-				end,
-			})
+			-- vim.diagnostic.config({
+			-- 	virtual_text = false,
+			-- })
 
 			vim.keymap.set("n", "<leader>lh", vim.diagnostic.open_float, { desc = "Hover information" })
 			vim.keymap.set(
