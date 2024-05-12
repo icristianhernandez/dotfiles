@@ -1,10 +1,7 @@
--- use system clipboard 
+-- use system clipboard
 -- vim.opt.clipboard = "unnamedplus"
 
--- visual line in column 80
--- vim.opt.colorcolumn = "80"
-
--- Ident (whitespaces) 
+-- Ident (whitespaces)
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
@@ -31,11 +28,11 @@ vim.o.smartcase = true
 -- Enable break indent
 vim.o.breakindent = true
 
--- determines the number of lines above and below the cursor that 
+-- determines the number of lines above and below the cursor that
 -- remain visible even when scrolling
 vim.opt.scrolloff = 5
 
--- character used to visually represent whitespace inserted by Vim 
+-- character used to visually represent whitespace inserted by Vim
 -- to automatically fill lines to a specific width
 vim.opt.fillchars = { eob = " " }
 
@@ -45,12 +42,12 @@ vim.g.loaded_netrwPlugin = 1
 
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
-vim.opt.whichwrap:append "<>[]hl"
+vim.opt.whichwrap:append("<>[]hl")
 
 -- dont show mode (insert, visual, etc) in the status line
 vim.o.showmode = false
 
--- always show status line but only of the actual buffer 
+-- always show status line but only of the actual buffer
 vim.o.laststatus = 3
 
 -- highlight the current line
@@ -74,7 +71,14 @@ vim.opt.linebreak = true
 vim.opt.formatoptions = { "t", "j" }
 
 -- clear sign column colors highlighting
-vim.cmd('au ColorScheme * hi clear SignColumn')
+-- vim.cmd("au ColorScheme * hi clear SignColumn")
+-- above but written in lua
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+	pattern = { "*" },
+	callback = function()
+		vim.cmd("hi clear SignColumn")
+	end,
+})
 
 -- store undo history
 vim.opt.undofile = true
@@ -84,13 +88,22 @@ vim.opt.hidden = false
 
 -- Auto insert when enter a terminal window
 vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
-    pattern = { "*" },
-    callback = function()
-        if vim.opt.buftype:get() == "terminal" then
-            vim.cmd(":startinsert")
-        end
-    end
+	pattern = { "*" },
+	callback = function()
+		if vim.opt.buftype:get() == "terminal" then
+			vim.cmd(":startinsert")
+		end
+	end,
 })
 
--- disable auto comment
-vim.cmd('au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o')
+-- -- disable auto comment
+-- vim.cmd('au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o')
+-- the above autocmd but in lua
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = { "*" },
+	callback = function()
+		vim.opt_local.formatoptions:remove("c")
+		vim.opt_local.formatoptions:remove("r")
+		vim.opt_local.formatoptions:remove("o")
+	end,
+})
