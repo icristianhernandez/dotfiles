@@ -1,4 +1,5 @@
 local map = vim.keymap.set
+local opts = { noremap = true, silent = true }
 
 -- scroll the screen up and down and top the cursor
 map( {"n", "v"} , "t", "<C-u>zt", {desc = "Center cursor after moving up half-page"})
@@ -34,3 +35,6 @@ map('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 map('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Move the visual selection up and down
+map('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move the visual selection down' }, opts)
+map('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move the visual selection up' }, opts)
