@@ -1,13 +1,6 @@
 return {
     "nvim-treesitter/nvim-treesitter",
     -- need to configure
-    dependencies = {
-        {
-            "andersevenrud/nvim_context_vt",
-            opts = {},
-        }
-        -- "nvim-treesitter/nvim-treesitter-textobjects",
-    },
     build = ":TSUpdate",
     event = "BufRead",
 

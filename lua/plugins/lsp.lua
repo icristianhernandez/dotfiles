@@ -64,8 +64,6 @@ return {
 
 			lspconfig["pyright"].setup({
 				capabilities = capabilities,
-				-- on_attach = on_attach,
-				-- on_init = on_init,
 				settings = {
 					python = {
 						analysis = {

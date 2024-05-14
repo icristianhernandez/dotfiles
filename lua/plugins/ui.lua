@@ -127,10 +127,25 @@ return {
 
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
 
 		opts = {
 			options = { theme = "auto" },
+		},
+	},
+
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
+		opts = {
+			-- configurations go here
 		},
 	},
 
@@ -139,59 +154,59 @@ return {
 		"TaDaa/vimade",
 	},
 
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-
-		opts = {
-			routes = {
-				{
-					filter = { event = "notify", find = "No information available" },
-					opts = { skip = true },
-				},
-			},
-
-			views = {
-				cmdline_popup = {
-					position = {
-						row = 5,
-						col = "50%",
-					},
-					size = {
-						width = 60,
-						height = "auto",
-					},
-					-- border = {
-					--     style = "none",
-					--     padding = { 2, 3 },
-					-- },
-					-- filter_options = {},
-					-- win_options = {
-					--     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-					-- },
-				},
-			},
-
-			presets = {
-				lsp_doc_border = true,
-			},
-
-			cmdline = {
-				format = {
-					conceal = false,
-				},
-			},
-
-			messages = {
-				enabled = false,
-			},
-		},
-
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
-		},
-	},
+	-- {
+	-- 	"folke/noice.nvim",
+	-- 	event = "VeryLazy",
+	--
+	-- 	opts = {
+	-- 		routes = {
+	-- 			{
+	-- 				filter = { event = "notify", find = "No information available" },
+	-- 				opts = { skip = true },
+	-- 			},
+	-- 		},
+	--
+	-- 		views = {
+	-- 			cmdline_popup = {
+	-- 				position = {
+	-- 					row = 5,
+	-- 					col = "50%",
+	-- 				},
+	-- 				size = {
+	-- 					width = 60,
+	-- 					height = "auto",
+	-- 				},
+	-- 				-- border = {
+	-- 				--     style = "none",
+	-- 				--     padding = { 2, 3 },
+	-- 				-- },
+	-- 				-- filter_options = {},
+	-- 				-- win_options = {
+	-- 				--     winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+	-- 				-- },
+	-- 			},
+	-- 		},
+	--
+	-- 		presets = {
+	-- 			lsp_doc_border = true,
+	-- 		},
+	--
+	-- 		cmdline = {
+	-- 			format = {
+	-- 				conceal = false,
+	-- 			},
+	-- 		},
+	--
+	-- 		messages = {
+	-- 			enabled = false,
+	-- 		},
+	-- 	},
+	--
+	-- 	dependencies = {
+	-- 		"MunifTanjim/nui.nvim",
+	-- 		"rcarriga/nvim-notify",
+	-- 	},
+	-- },
 
 	{
 		"nvimdev/hlsearch.nvim",
