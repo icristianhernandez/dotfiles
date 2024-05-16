@@ -66,7 +66,7 @@ vim.o.showmatch = true
 
 -- text wrapping at 80 characters without breaking words
 vim.opt.textwidth = 80
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = true
 vim.opt.formatoptions = { "t", "j" }
 
