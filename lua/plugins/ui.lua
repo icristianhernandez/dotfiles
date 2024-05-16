@@ -4,21 +4,25 @@ return {
 		"rmehri01/onenord.nvim",
 		event = "VimEnter",
 	},
+
 	{
 		-- for light mode
 		"folke/tokyonight.nvim",
 		event = "VimEnter",
 	},
+
 	{
 		"catppuccin/nvim",
 		event = "VimEnter",
 	},
+
 	{
 		-- sneak of the line when doing :50g, for example
 		"nacro90/numb.nvim",
 		event = "BufRead",
 		opts = {},
 	},
+
 	{
 		-- for changing some uis
 		"stevearc/dressing.nvim",
@@ -184,7 +188,7 @@ return {
 			presets = {
 				bottom_search = true,
 				command_palette = true,
-				long_message_to_split = true,
+				long_message_to_split = false,
 				inc_rename = false,
 				lsp_doc_border = false,
 			},
