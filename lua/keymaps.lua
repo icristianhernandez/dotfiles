@@ -2,8 +2,8 @@ local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 -- scroll the screen up and down and top the cursor
-map( {"n", "v"} , "t", "<C-u>zt", {desc = "Center cursor after moving up half-page"})
-map( {"n", "v"} , "r", "<C-d>zt", {desc = "Center cursor after moving down half-page"})
+map({ "n", "v" }, "t", "<C-u>zt", { desc = "Center cursor after moving up half-page" })
+map({ "n", "v" }, "r", "<C-d>zt", { desc = "Center cursor after moving down half-page" })
 
 -- mapping the save and exit
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "File Save" })
@@ -25,16 +25,22 @@ map("n", "<BS>", "<cmd>bp<CR>", { desc = "Back to the last buffer" })
 
 -- Show all diagnostics on current line in floating window
 vim.api.nvim_set_keymap(
-  'n', '<Leader>le', ':lua vim.diagnostic.open_float()<CR>',
-  { noremap = true, silent = true, desc = "Show diagnostics on current line in floating window" }
+	"n",
+	"<Leader>le",
+	":lua vim.diagnostic.open_float()<CR>",
+	{ noremap = true, silent = true, desc = "Show diagnostics on current line in floating window" }
 )
 
 -- Move focus to the window in the given direction
-map('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-map('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-map('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+map("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+map("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+map("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+map("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 -- Move the visual selection up and down
-map('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move the visual selection down' }, opts)
-map('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move the visual selection up' }, opts)
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move the visual selection down" }, opts)
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move the visual selection up" }, opts)
+
+-- Move between wrapped lines but limited to only normal jk, not change behavior of 2j or 2k
+vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, noremap = true, silent = true })

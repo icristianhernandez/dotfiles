@@ -25,9 +25,6 @@ vim.o.mouse = "a"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Enable break indent
-vim.o.breakindent = true
-
 -- determines the number of lines above and below the cursor that
 -- remain visible even when scrolling
 vim.opt.scrolloff = 5
@@ -66,25 +63,26 @@ vim.o.showmatch = true
 
 -- text wrapping at 80 characters without breaking words
 vim.opt.textwidth = 80
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = true
-vim.opt.formatoptions = { "t", "j" }
-
--- clear sign column colors highlighting
--- vim.cmd("au ColorScheme * hi clear SignColumn")
--- above but written in lua
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-	pattern = { "*" },
-	callback = function()
-		vim.cmd("hi clear SignColumn")
-	end,
-})
+vim.opt.formatoptions = "jcroqlnt"
+vim.opt.breakindent = true
+vim.opt.breakindentopt = "shift:1,min:0"
+vim.opt.showbreak = " ↪↪  "
 
 -- store undo history
 vim.opt.undofile = true
 
 -- disable swap files
 vim.opt.hidden = false
+
+-- Disable highlight signs color
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+	pattern = { "*" },
+	callback = function()
+		vim.cmd("hi clear SignColumn")
+	end,
+})
 
 -- Auto insert when enter a terminal window
 vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
@@ -97,8 +95,6 @@ vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
 })
 
 -- -- disable auto comment
--- vim.cmd('au FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o')
--- the above autocmd but in lua
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "*" },
 	callback = function()

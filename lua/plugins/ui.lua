@@ -1,11 +1,5 @@
 return {
 	{
-		-- for dark mode
-		"rmehri01/onenord.nvim",
-		event = "VimEnter",
-	},
-
-	{
 		-- for light mode
 		"folke/tokyonight.nvim",
 		event = "VimEnter",
@@ -40,10 +34,10 @@ return {
 		opts = {
 			width = 90,
 
-			autocmds = {
-				enableOnVimEnter = true,
-				reloadOnColorSchemeChange = true,
-			},
+			-- autocmds = {
+			-- 	enableOnVimEnter = true,
+			-- 	reloadOnColorSchemeChange = true,
+			-- },
 
 			mappings = {
 				enable = true,
@@ -88,30 +82,19 @@ return {
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		config = function()
-			local highlight = {
-				"RainbowRed",
-				"RainbowYellow",
-				"RainbowBlue",
-				"RainbowOrange",
-				"RainbowGreen",
-				"RainbowViolet",
-				"RainbowCyan",
-			}
-			local hooks = require("ibl.hooks")
-			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-				vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
-				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
-				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
-				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
-				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
-				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
-				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
-			end)
-
-			vim.g.rainbow_delimiters = { highlight = highlight }
-			require("ibl").setup({ scope = { highlight = highlight } })
-
-			hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+			require("ibl").setup({
+				indent = {
+					char = "▏",
+				},
+				scope = {
+					show_start = false,
+					show_end = false,
+				},
+				exclude = {
+					-- filetypes =,
+					buftypes = { "terminal" },
+				},
+			})
 		end,
 	},
 
@@ -129,97 +112,10 @@ return {
 		end,
 	},
 
-	{
-		"nvim-lualine/lualine.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-
-		opts = {
-			options = { theme = "auto" },
-		},
-	},
-
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons", -- optional dependency
-		},
-		opts = {
-			-- configurations go here
-		},
-	},
-
-	{
-		-- fade inactive windows
-		"TaDaa/vimade",
-	},
-
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-		},
-		opts = {
-			lsp = {
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-			},
-			routes = {
-				{
-					filter = {
-						event = "msg_show",
-						any = {
-							{ find = "%d+L, %d+B" },
-							{ find = "; after #%d+" },
-							{ find = "; before #%d+" },
-						},
-					},
-					view = "mini",
-				},
-			},
-			presets = {
-				bottom_search = true,
-				command_palette = true,
-				long_message_to_split = false,
-				inc_rename = false,
-				lsp_doc_border = false,
-			},
-		},
-	},
-
-	{
-		"rcarriga/nvim-notify",
-		keys = {
-			{
-				"<leader>un",
-				function()
-					require("notify").dismiss({ silent = true, pending = true })
-				end,
-				desc = "Dismiss All Notifications",
-			},
-		},
-		opts = {
-			stages = "static",
-			timeout = 3000,
-			max_height = function()
-				return math.floor(vim.o.lines * 0.75)
-			end,
-			max_width = function()
-				return math.floor(vim.o.columns * 0.75)
-			end,
-			on_open = function(win)
-				vim.api.nvim_win_set_config(win, { zindex = 100 })
-			end,
-		},
-	},
+	-- {
+	-- 	-- fade inactive windows
+	-- 	"TaDaa/vimade",
+	-- },
 
 	{
 		"nvimdev/hlsearch.nvim",

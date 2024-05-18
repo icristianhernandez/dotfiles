@@ -13,5 +13,4 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Lazy exec
--- config.defaults.lazy = true
 require("lazy").setup("plugins")

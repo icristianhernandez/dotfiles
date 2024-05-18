@@ -79,6 +79,7 @@ return {
 			-- })
 
 			vim.keymap.set("n", "<leader>lh", vim.diagnostic.open_float, { desc = "Hover information" })
+			vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", {})
 			vim.keymap.set(
 				{ "n", "v" },
 				"<leader>la",
@@ -99,29 +100,23 @@ return {
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>ld",
+				"gD",
 				vim.lsp.buf.declaration,
 				{ desc = "Go to the declaration of the symbol under the cursor" }
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>lD",
+				"gd",
 				vim.lsp.buf.definition,
 				{ desc = "Go to the definition of the symbol under the cursor" }
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>li",
+				"gi",
 				vim.lsp.buf.implementation,
 				{ desc = "Go to the implementation(s) of the symbol under the cursor" }
 			)
 			vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename the symbol under the cursor" })
-			vim.keymap.set(
-				"n",
-				"<leader>lR",
-				vim.lsp.buf.references,
-				{ desc = "Show references to the symbol under the cursor" }
-			)
 
 			-- custom characters for the signs of visual columns
 			local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
