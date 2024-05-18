@@ -1,11 +1,11 @@
 -- use system clipboard
 -- vim.opt.clipboard = "unnamedplus"
 
--- Ident (whitespaces)
-vim.opt.expandtab = true
+-- change identation to 4 spaces
+vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
-vim.opt.tabstop = 4
+vim.opt.expandtab = true
 
 -- True color
 vim.o.termguicolors = true

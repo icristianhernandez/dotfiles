@@ -6,5 +6,5 @@ return {
 			block = "<leader>C",
 		},
 	},
-	-- Lazy load when the keymap is used. 
+	-- Lazy load when the keymap is used.
 }
