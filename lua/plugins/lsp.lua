@@ -74,9 +74,9 @@ return {
 				},
 			})
 
-			-- vim.diagnostic.config({
-			-- 	virtual_text = false,
-			-- })
+			vim.diagnostic.config({
+				virtual_text = false,
+			})
 
 			vim.keymap.set("n", "<leader>lh", vim.diagnostic.open_float, { desc = "Hover information" })
 			vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", {})

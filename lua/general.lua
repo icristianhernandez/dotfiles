@@ -67,8 +67,8 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.formatoptions = "jcroqlnt"
 vim.opt.breakindent = true
-vim.opt.breakindentopt = "shift:1,min:0"
-vim.opt.showbreak = " ↪↪  "
+-- vim.opt.breakindentopt = "shift:1,min:0"
+vim.opt.showbreak = "↪:  "
 
 -- store undo history
 vim.opt.undofile = true

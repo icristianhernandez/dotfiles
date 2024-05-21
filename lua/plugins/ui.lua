@@ -78,6 +78,36 @@ return {
 		end,
 	},
 
+	-- {
+	-- 	"folke/noice.nvim",
+	-- 	dependencies = {
+	-- 		"MunifTanjim/nui.nvim",
+	-- 	},
+	-- 	opts = {
+	-- 		messages = {
+	-- 			enabled = false,
+	-- 		},
+	-- 		popupmenu = {
+	-- 			enabled = false,
+	-- 		},
+	-- 		notify = {
+	-- 			enabled = false,
+	-- 		},
+	-- 		lsp = {
+	-- 			progress = {
+	-- 				enabled = false,
+	-- 			},
+	-- 			message = {
+	-- 				enabled = false,
+	-- 			},
+	-- 		},
+	-- 		presets = {
+	-- 			bottom_search = true,
+	-- 			lsp_doc_border = false,
+	-- 		},
+	-- 	},
+	-- },
+
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
