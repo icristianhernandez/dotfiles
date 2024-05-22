@@ -4,12 +4,19 @@ return {
 		"folke/tokyonight.nvim",
 		event = "VimEnter",
 	},
-
 	{
+		"numToStr/Sakura.nvim",
+		event = "VimEnter",
+	},
+	{
+		-- for dark mode
 		"catppuccin/nvim",
 		event = "VimEnter",
 	},
-
+	{
+		"navarasu/onedark.nvim",
+		event = "VimEnter",
+	},
 	{
 		-- sneak of the line when doing :50g, for example
 		"nacro90/numb.nvim",
@@ -58,10 +65,11 @@ return {
 
 	{
 		"f-person/auto-dark-mode.nvim",
+		priority = 1000,
 		config = {
 			update_interval = 1000,
 			set_dark_mode = function()
-				vim.cmd("colorscheme catppuccin-frappe")
+				vim.cmd("colorscheme onedark")
 			end,
 			set_light_mode = function()
 				vim.cmd("colorscheme tokyonight-day")
@@ -74,7 +82,8 @@ return {
 		opts = {},
 		config = function()
 			vim.api.nvim_create_user_command("FTermToggle", require("FTerm").toggle, { bang = true })
-			vim.api.nvim_set_keymap("n", "<leader>tt", "<cmd>FTermToggle<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<C-i>", "<cmd>FTermToggle<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("t", "<C-i>", "<C-\\><C-n><cmd>FTermToggle<CR>", { noremap = true, silent = true })
 		end,
 	},
 

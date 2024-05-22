@@ -8,10 +8,10 @@ return {
 
 			require("auto-session").setup({
 				-- auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+				-- auto_session_use_git_branch = true,
 				auto_session_enable_last_session = vim.loop.cwd() == vim.loop.os_homedir(),
 				auto_save_enabled = true,
 				auto_restore_enabled = true,
-				-- auto_session_use_git_branch = true,
 
 				session_lens = {
 					buftypes_to_ignore = {}, -- list of buffer types what should not be deleted from current session
@@ -25,7 +25,7 @@ return {
 				noremap = true,
 			})
 
-			vim.keymap.set("n", "<leader>sd", ":Autosession delete<CR>", {
+			vim.keymap.set("n", "<leader>fS", ":Autosession delete<CR>", {
 				noremap = true,
 			})
 

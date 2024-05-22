@@ -22,32 +22,28 @@ return {
 	config = function()
 		local actions = require("telescope.actions")
 
-		-- these two are used to display the file name in telescope search followed by the dimmed path text
-		vim.api.nvim_create_autocmd("FileType", {
-			pattern = "TelescopeResults",
-			callback = function(ctx)
-				vim.api.nvim_buf_call(ctx.buf, function()
-					vim.fn.matchadd("TelescopeParent", "\t\t.*$")
-					vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
-				end)
-			end,
-		})
-		local function filenameFirst(_, path)
-			local tail = vim.fs.basename(path)
-			local parent = vim.fs.dirname(path)
-			if parent == "." then
-				return tail
-			end
-			return string.format("%s\t\t%s", tail, parent)
-		end
-
+      -- Display entry text after two tabs as comment.
+      -- Used to display file paths as filename followed by greyed-out path.
+      -- https://github.com/nvim-telescope/telescope.nvim/issues/2014#issuecomment-1873229658
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "TelescopeResults",
+        callback = function(ctx)
+          vim.api.nvim_buf_call(ctx.buf, function()
+            vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+            vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+          end)
+        end,
+      })
+      local function filename_first_path_display(_, path)
+        local tail = vim.fs.basename(path)
+        local parent = vim.fs.dirname(path)
+        if parent == "." then
+          return tail
+        else
+          return string.format("%s\t\t%s", tail, parent)
+        end
+      end
 		require("telescope").setup({
-			pickers = {
-				find_files = {
-					path_display = filenameFirst,
-				},
-			},
-
 			defaults = {
 				mappings = {
 					i = {
@@ -69,8 +65,8 @@ return {
 				entry_prefix = " ",
 				initial_mode = "insert",
 
-				path_display = { "shorten" },
-				winblend = 0,
+				path_display = filename_first_path_display,
+				winblend = 5,
 				borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 				color_devicons = true,
 				set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
@@ -83,7 +79,7 @@ return {
 				layout_config = {
 					prompt_position = "top",
 					preview_cutoff = 120,
-					horizontal = { width = 0.9, height = 0.9, preview_width = 0 },
+					horizontal = { width = 0.9, height = 0.9, preview_width = 0.5 },
 					vertical = { width = 0.9, height = 0.9, preview_height = 0.6 },
 				},
 

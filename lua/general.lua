@@ -76,6 +76,9 @@ vim.opt.undofile = true
 -- disable swap files
 vim.opt.hidden = false
 
+-- float transparency
+vim.opt.pumblend = 10
+
 -- Disable highlight signs color
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	pattern = { "*" },
@@ -103,3 +106,4 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.opt_local.formatoptions:remove("o")
 	end,
 })
+
