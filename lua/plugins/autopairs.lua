@@ -1,5 +1,4 @@
 return {
-	-- lazyloads all when enter insert mode
 	{
 		-- autopairing of (){}[] etc
 		"windwp/nvim-autopairs",

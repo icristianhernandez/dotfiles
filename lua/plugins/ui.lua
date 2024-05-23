@@ -31,10 +31,12 @@ return {
 		opts = {},
 	},
 
-	{
-		"dstein64/nvim-scrollview",
-		opts = {},
-	},
+	-- {
+	-- 	-- scroll bar at the right of the screen
+	-- 	"dstein64/nvim-scrollview",
+	-- 	event = "BufRead",
+	-- 	opts = {},
+	-- },
 
 	{
 		"shortcuts/no-neck-pain.nvim",
@@ -82,8 +84,8 @@ return {
 		opts = {},
 		config = function()
 			vim.api.nvim_create_user_command("FTermToggle", require("FTerm").toggle, { bang = true })
-			vim.api.nvim_set_keymap("n", "<C-i>", "<cmd>FTermToggle<CR>", { noremap = true, silent = true })
-			vim.api.nvim_set_keymap("t", "<C-i>", "<C-\\><C-n><cmd>FTermToggle<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<C-o>", "<cmd>FTermToggle<CR>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("t", "<C-o>", "<C-\\><C-n><cmd>FTermToggle<CR>", { noremap = true, silent = true })
 		end,
 	},
 

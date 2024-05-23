@@ -2,12 +2,12 @@ local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 -- scroll the screen up and down and top the cursor
-map({ "n", "v" }, "t", "<C-u>zt", { desc = "Center cursor after moving up half-page" })
-map({ "n", "v" }, "r", "<C-d>zt", { desc = "Center cursor after moving down half-page" })
+map({ "n", "v" }, "t", "<C-u>zz", { desc = "Center cursor after moving up half-page" })
+map({ "n", "v" }, "r", "<C-d>zz", { desc = "Center cursor after moving down half-page" })
 
 -- mapping the save and exit
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "File Save" })
-map("n", "<leader>q", "<cmd>q!<CR>", { desc = "Exit without saving" })
+map("n", "<leader>q", "<cmd>q<CR>", { desc = "Exit Nvim" })
 map("n", "<leader>Q", "<cmd>wq<CR>", { desc = "File Save and Exit" })
 
 -- centered move to the next find in / or ? search

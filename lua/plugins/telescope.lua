@@ -66,7 +66,7 @@ return {
 				initial_mode = "insert",
 
 				path_display = filename_first_path_display,
-				winblend = 5,
+				winblend = 0,
 				borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 				color_devicons = true,
 				set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,

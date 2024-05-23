@@ -1,3 +1,3 @@
 require("general")
-require("lazyexec")
 require("keymaps")
+require("lazyexec")
