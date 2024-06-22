@@ -5,6 +5,10 @@ local opts = { noremap = true, silent = true }
 map({ "n", "v" }, "t", "<C-u>zz", { desc = "Center cursor after moving up half-page" })
 map({ "n", "v" }, "r", "<C-d>zz", { desc = "Center cursor after moving down half-page" })
 
+-- remap p to P and P to p
+map({ "n", "v" }, "p", "P", { desc = "Paste before the cursor" })
+map({ "n", "v" }, "P", "p", { desc = "Paste after the cursor" })
+
 -- mapping the save and exit
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "File Save" })
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "Exit Nvim" })

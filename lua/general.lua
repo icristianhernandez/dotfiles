@@ -27,7 +27,7 @@ vim.o.smartcase = true
 
 -- determines the number of lines above and below the cursor that
 -- remain visible even when scrolling
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 7
 
 -- character used to visually represent whitespace inserted by Vim
 -- to automatically fill lines to a specific width
@@ -49,7 +49,7 @@ vim.o.laststatus = 3
 
 -- highlight the current line
 vim.o.cursorline = true
-vim.o.cursorlineopt = "screenline,number"
+vim.o.cursorlineopt = "line,number"
 
 -- sign column always displayed
 vim.o.signcolumn = "yes"

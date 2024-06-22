@@ -5,6 +5,10 @@ return {
 		event = "VimEnter",
 	},
 	{
+		"Mofiqul/vscode.nvim",
+		event = "VimEnter",
+	},
+	{
 		"numToStr/Sakura.nvim",
 		event = "VimEnter",
 	},
@@ -30,6 +34,13 @@ return {
 		event = "UIEnter",
 		opts = {},
 	},
+
+	-- {
+	-- 	"rmagatti/goto-preview",
+	-- 	opts = {
+	-- 		default_mappings = false
+	-- 	},
+	-- },
 
 	-- {
 	-- 	-- scroll bar at the right of the screen
