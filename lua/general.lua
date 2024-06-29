@@ -25,6 +25,9 @@ vim.o.mouse = "a"
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
+-- Incremental live completion
+vim.opt.inccommand = "split"
+
 -- determines the number of lines above and below the cursor that
 -- remain visible even when scrolling
 vim.opt.scrolloff = 7

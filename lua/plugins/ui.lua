@@ -139,6 +139,8 @@ return {
 					char = "▏",
 				},
 				scope = {
+					-- disable scope highlighting
+					enabled = false,
 					show_start = false,
 					show_end = false,
 				},
@@ -217,6 +219,63 @@ return {
 		init = function()
 			-- `matchparen.vim` needs to be disabled manually in case of lazy loading
 			vim.g.loaded_matchparen = 1
+		end,
+	},
+
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			section_separators = { "", "" },
+			component_separators = { "", "" },
+			icons_enabled = true,
+
+			disabled_filetypes = { "toggleterm", "nofile" },
+			inactive_sections = {
+				lualine_a = {},
+				lualine_b = {},
+				lualine_c = { "filename" },
+				lualine_x = { "location" },
+				lualine_y = {},
+				lualine_z = {},
+			},
+			tabline = {},
+			extensions = { "nvim-tree" },
+		},
+	},
+
+	{
+		"echasnovski/mini.indentscope",
+		version = false,
+		config = function()
+			require("mini.indentscope").setup({
+				draw = {
+					delay = 0,
+					animation = require("mini.indentscope").gen_animation.none(),
+				},
+				symbol = "│",
+			})
+
+			vim.api.nvim_create_autocmd("FileType", {
+				desc = "Disable indentscope for certain filetypes",
+				pattern = {
+					"NvimTree",
+					"help",
+					"Trouble",
+					"trouble",
+					"lazy",
+					"mason",
+					"notify",
+					"better_term",
+					"toggleterm",
+					"lazyterm",
+					"noice",
+				},
+				callback = function()
+					---@diagnostic disable-next-line: inject-field
+					vim.b.miniindentscope_disable = true
+				end,
+			})
 		end,
 	},
 }
