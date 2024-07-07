@@ -71,7 +71,7 @@ vim.opt.linebreak = true
 vim.opt.formatoptions = "jcroqlnt"
 vim.opt.breakindent = true
 -- vim.opt.breakindentopt = "shift:1,min:0"
-vim.opt.showbreak = "↪:  "
+vim.opt.showbreak = "↪:::"
 
 -- store undo history
 vim.opt.undofile = true
@@ -80,7 +80,13 @@ vim.opt.undofile = true
 vim.opt.hidden = false
 
 -- float transparency
-vim.opt.pumblend = 10
+vim.opt.pumblend = 20
+
+-- window transparency
+vim.opt.winblend = 10
+
+-- fast update time for events
+vim.opt.updatetime = 100
 
 -- Disable highlight signs color
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {

@@ -85,7 +85,7 @@ return {
 				vim.cmd("colorscheme onedark")
 			end,
 			set_light_mode = function()
-				vim.cmd("colorscheme tokyonight-day")
+				vim.cmd("colorscheme catppuccin-latte")
 			end,
 		},
 	},
@@ -278,4 +278,29 @@ return {
 			})
 		end,
 	},
+
+	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "BufRead",
+		config = function()
+			require("tiny-inline-diagnostic").setup({
+				signs = {
+					-- I have a bug with the signs, so I'm disabling them for now
+					-- The bug is that the higlihting it's been overriden and the signs look bad
+					left = "",
+					right = "",
+				}
+			})
+		end,
+	},
+	{
+		"andymass/vim-matchup",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				matchup = {
+					enable = true,
+				},
+			})
+		end,
+	}
 }
