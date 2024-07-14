@@ -97,6 +97,10 @@ return {
 			vim.api.nvim_create_user_command("FTermToggle", require("FTerm").toggle, { bang = true })
 			vim.api.nvim_set_keymap("n", "<C-o>", "<cmd>FTermToggle<CR>", { noremap = true, silent = true })
 			vim.api.nvim_set_keymap("t", "<C-o>", "<C-\\><C-n><cmd>FTermToggle<CR>", { noremap = true, silent = true })
+
+			require("FTerm").setup({
+				cmd = "fish" or "zhs" or os.getenv("SHELL"),
+			})
 		end,
 	},
 
