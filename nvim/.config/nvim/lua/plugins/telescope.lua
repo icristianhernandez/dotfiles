@@ -8,9 +8,9 @@ return {
 
 	keys = {
 		{ "<leader>ff", ":Telescope find_files<CR>", desc = "Find files", silent = true },
-		{ "<leader>fg", ":Telescope live_grep<CR>", desc = "Live grep", silent = true },
-		{ "<leader>fb", ":Telescope buffers<CR>", desc = "Buffers", silent = true },
-		{ "<leader>fh", ":Telescope help_tags<CR>", desc = "Help tags", silent = true },
+		{ "<leader>fg", ":Telescope live_grep<CR>",  desc = "Live grep",  silent = true },
+		{ "<leader>fb", ":Telescope buffers<CR>",    desc = "Buffers",    silent = true },
+		{ "<leader>fh", ":Telescope help_tags<CR>",  desc = "Help tags",  silent = true },
 		{
 			"<leader>fa",
 			":Telescope find_files follow=true no_ignore=true hidden=true<CR>",
@@ -22,34 +22,43 @@ return {
 	config = function()
 		local actions = require("telescope.actions")
 
-      -- Display entry text after two tabs as comment.
-      -- Used to display file paths as filename followed by greyed-out path.
-      -- https://github.com/nvim-telescope/telescope.nvim/issues/2014#issuecomment-1873229658
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "TelescopeResults",
-        callback = function(ctx)
-          vim.api.nvim_buf_call(ctx.buf, function()
-            vim.fn.matchadd("TelescopeParent", "\t\t.*$")
-            vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
-          end)
-        end,
-      })
-      local function filename_first_path_display(_, path)
-        local tail = vim.fs.basename(path)
-        local parent = vim.fs.dirname(path)
-        if parent == "." then
-          return tail
-        else
-          return string.format("%s\t\t%s", tail, parent)
-        end
-      end
+		-- Display entry text after two tabs as comment.
+		-- Used to display file paths as filename followed by greyed-out path.
+		-- https://github.com/nvim-telescope/telescope.nvim/issues/2014#issuecomment-1873229658
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "TelescopeResults",
+			callback = function(ctx)
+				vim.api.nvim_buf_call(ctx.buf, function()
+					vim.fn.matchadd("TelescopeParent", "\t\t.*$")
+					vim.api.nvim_set_hl(0, "TelescopeParent", { link = "Comment" })
+				end)
+			end,
+		})
+		local function filename_first_path_display(_, path)
+			local tail = vim.fs.basename(path)
+			local parent = vim.fs.dirname(path)
+			if parent == "." then
+				return tail
+			else
+				return string.format("%s\t\t%s", tail, parent)
+			end
+		end
 		require("telescope").setup({
 			defaults = {
 				mappings = {
 					i = {
 						["<esc>"] = actions.close,
+						["<tab>"] = actions.move_selection_next,
+						["<s-tab>"] = actions.move_selection_previous,
 					},
+					n = {
+						["<tab>"] = actions.move_selection_next,
+						["<s-tab>"] = actions.move_selection_previous,
+					}
 				},
+
+				file_ignore_patterns = { ".git/", "node_modules/", "vendor/" },
+
 				vimgrep_arguments = {
 					"rg",
 					"-L",
@@ -59,6 +68,7 @@ return {
 					"--line-number",
 					"--column",
 					"--smart-case",
+					"--hidden",
 				},
 				prompt_prefix = "  ",
 				selection_caret = " 󱞩  ",
@@ -78,7 +88,7 @@ return {
 				-- also, set prompt box to top
 				layout_config = {
 					prompt_position = "top",
-					preview_cutoff = 120,
+					preview_cutoff = 0,
 					horizontal = { width = 0.9, height = 0.9, preview_width = 0.5 },
 					vertical = { width = 0.9, height = 0.9, preview_height = 0.6 },
 				},
