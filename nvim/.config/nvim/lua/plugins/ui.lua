@@ -257,7 +257,7 @@ return {
 					delay = 0,
 					animation = require("mini.indentscope").gen_animation.none(),
 				},
-				symbol = "│",
+				symbol = "▏",
 			})
 
 			vim.api.nvim_create_autocmd("FileType", {
