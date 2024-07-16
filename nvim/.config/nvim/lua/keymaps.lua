@@ -9,6 +9,11 @@ map({ "n", "v" }, "r", "<C-d>zz", { desc = "Center cursor after moving down half
 map({ "n", "v" }, "p", "P", { desc = "Paste before the cursor" })
 map({ "n", "v" }, "P", "p", { desc = "Paste after the cursor" })
 
+-- system clipboard mappings
+vim.keymap.set({ "n", "v", "x" }, '<leader>y', '"+y', { noremap = true, silent = true, desc = 'Yank to clipboard' })
+vim.keymap.set({ "n", "v", "x" }, '<leader>Y', '"+yy', { noremap = true, silent = true, desc = 'Yank line to clipboard' })
+vim.keymap.set({ "n", "v", "x" }, '<leader>p', '"+p', { noremap = true, silent = true, desc = 'Paste from clipboard' })
+
 -- mapping the save and exit
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "File Save" })
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "Exit Nvim" })
@@ -48,3 +53,6 @@ map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move the visual selection up" }, opt
 -- Move between wrapped lines but limited to only normal jk, not change behavior of 2j or 2k
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, noremap = true, silent = true })
+
+-- In insert mode, delete the actual word with ctrl+backspace
+vim.api.nvim_set_keymap("i", "<C-BS>", "<C-w>", { noremap = true, silent = true })
