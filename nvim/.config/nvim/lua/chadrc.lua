@@ -26,13 +26,10 @@ M.ui = {
 			end,
 		},
 
-		order = {"mode", "file","file_modified", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cursor", "cwd" },
-	},
+		-- order = {"mode", "file","file_modified", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cursor", "cwd" },
+		order = {"mode", "file","file_modified", "%=", "lsp_msg", "%=", "diagnostics", "git", "cwd" },
 
-	-- hl_override = {
-	-- Comment = { italic = true },
-	-- [@comment] = { italic = true },
-	-- },
+	},
 }
 
 return M
