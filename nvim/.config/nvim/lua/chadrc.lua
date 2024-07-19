@@ -12,24 +12,29 @@ end
 local M = {}
 
 M.ui = {
-	theme = "rosepine",
+	theme = "rosepine-dawn",
 
 	statusline = {
     theme = "vscode_colored",
 
 		modules = {
-			file_modified = function()
-				-- return vim.bo.modified and "%#St_file#%#St_file_sep#" or ""
-        return vim.bo.modified and "[]" or ""
+			-- file_modified = function()
+			-- 	-- return vim.bo.modified and "%#St_file#%#St_file_sep#" or ""
+			--      return vim.bo.modified and "[]" or ""
+			-- end,
 
-
-			end,
+      file_modified ="%m ",
+      empty_space = " ",
 		},
 
 		-- order = {"mode", "file","file_modified", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cursor", "cwd" },
-		order = {"mode", "file","file_modified", "%=", "lsp_msg", "%=", "diagnostics", "git", "cwd" },
+		order = {"mode", "file","file_modified", "%=", "lsp_msg", "%=", "diagnostics", "git", "empty_space", "cwd" },
 
 	},
+
+  tabufline = {
+    enabled = false,
+  }
 }
 
 return M
