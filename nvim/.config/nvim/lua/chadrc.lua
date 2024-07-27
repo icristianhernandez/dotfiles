@@ -12,7 +12,7 @@ end
 local M = {}
 
 M.ui = {
-	theme = "rosepine-dawn",
+	theme = "rosepine",
 
 	statusline = {
     theme = "vscode_colored",

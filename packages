@@ -1,0 +1,25 @@
+!Create a way to automatically install these packages
+
+## various utils
+wget unzip 
+
+## full unicode fonts
+noto-fonts-cjk noto-fonts-emoji noto-fonts-extra 
+
+## my own font
+ttf-jetbrains-mono ttf-jetbrains-mono-nerd
+
+## audio
+pipewire pipewire-pulse
+
+## code enviroment
+neovim git fd ripgrep node openssh
+
+## desktop enviroment
+stow yazi firefox starship fish wl-copy slurp grim 
+
+## hyprland
+hyprland kitty xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
+xdg-utils
+
+
