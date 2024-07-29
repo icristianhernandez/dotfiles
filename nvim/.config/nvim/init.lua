@@ -4,6 +4,7 @@ vim.g.maplocalleader = " "
 
 -- require("options")
 require("lazyload")
-require("mappings")
-
 require("nvchad.autocmds")
+vim.schedule(function()
+    require("mappings")
+end)

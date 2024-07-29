@@ -15,7 +15,7 @@ M.ui = {
 	theme = "rosepine",
 
 	statusline = {
-    theme = "vscode_colored",
+		theme = "vscode_colored",
 
 		modules = {
 			-- file_modified = function()
@@ -23,18 +23,18 @@ M.ui = {
 			--      return vim.bo.modified and "[]" or ""
 			-- end,
 
-      file_modified ="%m ",
-      empty_space = " ",
+			file_modified = "%m ",
+			empty_space = " ",
 		},
 
 		-- order = {"mode", "file","file_modified", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cursor", "cwd" },
-		order = {"mode", "file","file_modified", "%=", "lsp_msg", "%=", "diagnostics", "git", "empty_space", "cwd" },
+		order = { "mode", "file", "file_modified", "%=", "lsp_msg", "%=", "diagnostics", "git", "empty_space", "cwd" },
 
 	},
 
-  tabufline = {
-    enabled = false,
-  }
+	tabufline = {
+		enabled = false,
+	}
 }
 
 return M
