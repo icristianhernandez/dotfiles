@@ -1,10 +1,10 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
--- require("options")
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣'}
 require("lazyload")
-require("nvchad.autocmds")
+require("options")
+require("autocmds")
 vim.schedule(function()
     require("mappings")
 end)

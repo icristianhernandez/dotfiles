@@ -3,16 +3,11 @@
 
 ---@type ChadrcConfig
 
--- load all base46 highlights
-for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
-	dofile(vim.g.base46_cache .. v)
-end
-
 -- base46+ui config
 local M = {}
 
 M.ui = {
-	theme = "rosepine",
+	theme = "rosepine-dawn",
 
 	statusline = {
 		theme = "vscode_colored",

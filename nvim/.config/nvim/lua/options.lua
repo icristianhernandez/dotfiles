@@ -1,25 +1,34 @@
--- use system clipboard
--- vim.opt.clipboard = "unnamedplus"
+-- leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- use independent clipboard for neovim
+vim.opt.clipboard = "unnamed"
+
+-- True color
+vim.o.termguicolors = true
+
+-- Enable mouse mode
+vim.o.mouse = "a"
+
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
 
 -- change identation to 4 spaces
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.expandtab = true
+vim.opt.smartindent = true
+vim.opt.autoindent = true
 
--- True color
-vim.o.termguicolors = true
-
--- leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 -- show line numbers
 vim.opt.number = true
-vim.opt.numberwidth = 5
-
--- Enable mouse mode
-vim.o.mouse = "a"
+vim.opt.numberwidth = 4
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
@@ -36,9 +45,9 @@ vim.opt.scrolloff = 7
 -- to automatically fill lines to a specific width
 vim.opt.fillchars = { eob = " " }
 
--- disable netrw at the very start of your init.lua
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- show trailing whitespace
+-- vim.opt.list = true
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣'}
 
 -- go to previous/next line with h,l,left arrow and right arrow
 -- when cursor reaches end/beginning of line
@@ -79,39 +88,5 @@ vim.opt.undofile = true
 -- disable swap files
 vim.opt.hidden = false
 
--- float transparency
-vim.opt.pumblend = 20
-
--- window transparency
-vim.opt.winblend = 10
-
 -- fast update time for events
-vim.opt.updatetime = 100
-
--- Disable highlight signs color
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-	pattern = { "*" },
-	callback = function()
-		vim.cmd("hi clear SignColumn")
-	end,
-})
-
--- Auto insert when enter a terminal window
-vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter" }, {
-	pattern = { "*" },
-	callback = function()
-		if vim.opt.buftype:get() == "terminal" then
-			vim.cmd(":startinsert")
-		end
-	end,
-})
-
--- -- disable auto comment
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "*" },
-	callback = function()
-		vim.opt_local.formatoptions:remove("c")
-		vim.opt_local.formatoptions:remove("r")
-		vim.opt_local.formatoptions:remove("o")
-	end,
-})
+vim.opt.updatetime = 200
