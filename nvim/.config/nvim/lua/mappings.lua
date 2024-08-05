@@ -7,8 +7,8 @@ vim.keymap.set({ "n", "v" }, "t", "<C-u>zz", create_opts("Scroll the screen up a
 vim.keymap.set({ "n", "v" }, "r", "<C-d>zz", create_opts("Scroll the screen down and keep the cursor in the center"))
 
 -- remap p to P and P to p
-vim.keymap.set({ "n", "v" }, "p", "P", create_opts("Paste before the cursor"))
-vim.keymap.set({ "n", "v" }, "P", "p", create_opts("Paste after the cursor"))
+-- vim.keymap.set({ "n", "v" }, "p", "P", create_opts("Paste before the cursor"))
+-- vim.keymap.set({ "n", "v" }, "P", "p", create_opts("Paste after the cursor"))
 
 -- system clipboard mappings
 vim.keymap.set({ "n", "v", "x" }, '<leader>y', '"+y', create_opts('Yank to clipboard'))
