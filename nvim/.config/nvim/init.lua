@@ -1,6 +1,6 @@
 require("options")
-require("autocmds")
-require("lazyload")
 vim.schedule(function()
     require("mappings")
 end)
+require("autocmds")
+require("lazyload")

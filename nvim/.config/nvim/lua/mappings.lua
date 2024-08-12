@@ -18,7 +18,7 @@ vim.keymap.set({ "n", "v", "x" }, '<leader>p', '"+p', create_opts('Paste from cl
 -- mapping the save and exit
 vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", create_opts("File Save"))
 vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", create_opts("Exit Nvim"))
-vim.keymap.set("n", "<leader>Q", "<cmd>wq<CR>", create_opts("File Save and Exit"))
+vim.keymap.set("n", "<leader>Q", "<cmd>q!<CR>", create_opts("Exit Nvim without saving"))
 
 -- centered move to the next find in / or ? search
 vim.keymap.set("n", "n", "nzzzv", create_opts("Move to next find"))
