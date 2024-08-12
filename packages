@@ -13,7 +13,7 @@ ttf-jetbrains-mono ttf-jetbrains-mono-nerd
 pipewire pipewire-pulse
 
 ## code enviroment
-neovim git fd ripgrep node openssh
+neovim git fd ripgrep node openssh tree-sitter tree-sitter-cli
 
 ## desktop enviroment
 stow yazi firefox starship fish wl-copy slurp grim 
