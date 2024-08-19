@@ -35,10 +35,9 @@ return {
                     if cmp.visible() then
                         if luasnip.expandable() then
                             luasnip.expand()
-                        else
-                            cmp.confirm({
-                                select = true,
-                            })
+                        elseif cmp.get_active_entry() then
+                            cmp.confirm({select = true})
+                        else fallback()
                         end
                     else
                         fallback()
