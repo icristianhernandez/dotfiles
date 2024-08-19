@@ -39,7 +39,7 @@ return {
                     prompt_position = "top",
                     preview_cutoff = 0,
                     -- center = { width = 0.7, height = 0.45, anchor = "N", },
-                    vertical = { mirror = true, },
+                    -- vertical = { mirror = true, },
                 },
 
 				sorting_strategy = "ascending",

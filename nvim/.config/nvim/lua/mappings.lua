@@ -6,14 +6,13 @@ end
 vim.keymap.set({ "n", "v" }, "t", "<C-u>zz", create_opts("Scroll the screen up and keep the cursor in the center"))
 vim.keymap.set({ "n", "v" }, "r", "<C-d>zz", create_opts("Scroll the screen down and keep the cursor in the center"))
 
--- remap p to P and P to p
--- vim.keymap.set({ "n", "v" }, "p", "P", create_opts("Paste before the cursor"))
--- vim.keymap.set({ "n", "v" }, "P", "p", create_opts("Paste after the cursor"))
-
 -- system clipboard mappings
 vim.keymap.set({ "n", "v", "x" }, '<leader>y', '"+y', create_opts('Yank to clipboard'))
 vim.keymap.set({ "n", "v", "x" }, '<leader>Y', '"+yy', create_opts('Yank line to clipboard'))
 vim.keymap.set({ "n", "v", "x" }, '<leader>p', '"+p', create_opts('Paste from clipboard'))
+
+-- General clear search highlights
+vim.keymap.set("n", "<Esc>", ":noh<CR>", create_opts("Clear search highlights"))
 
 -- mapping the save and exit
 vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", create_opts("File Save"))
@@ -51,6 +50,12 @@ vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, no
 
 -- In insert mode, delete the actual word with ctrl+backspace
 vim.api.nvim_set_keymap("i", "<C-BS>", "<C-w>", create_opts("Delete the actual word with ctrl+backspace"))
+
+-- In insert mode, arrow move with ctrl+hjkl
+vim.api.nvim_set_keymap("i", "<C-h>", "<Left>", create_opts("Move left with ctrl+h"))
+vim.api.nvim_set_keymap("i", "<C-j>", "<Down>", create_opts("Move down with ctrl+j"))
+vim.api.nvim_set_keymap("i", "<C-k>", "<Up>", create_opts("Move up with ctrl+k"))
+vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", create_opts("Move right with ctrl+l"))
 
 -- Use ñ as ;
 vim.api.nvim_set_keymap("n", "ñ", ":", {desc = "Ñ as ;"})

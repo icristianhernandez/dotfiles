@@ -62,6 +62,7 @@ vim.o.laststatus = 3
 -- highlight the current line
 vim.o.cursorline = true
 vim.o.cursorlineopt = "line,number"
+-- vim.o.cursorlineopt = "number"
 
 -- sign column always displayed
 vim.o.signcolumn = "yes"
