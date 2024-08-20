@@ -48,14 +48,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", create_opts("Move the visual select
 vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, noremap = true, silent = true })
 
--- In insert mode, delete the actual word with ctrl+backspace
-vim.api.nvim_set_keymap("i", "<C-BS>", "<C-w>", create_opts("Delete the actual word with ctrl+backspace"))
-
 -- In insert mode, arrow move with ctrl+hjkl
 vim.api.nvim_set_keymap("i", "<C-h>", "<Left>", create_opts("Move left with ctrl+h"))
 vim.api.nvim_set_keymap("i", "<C-j>", "<Down>", create_opts("Move down with ctrl+j"))
 vim.api.nvim_set_keymap("i", "<C-k>", "<Up>", create_opts("Move up with ctrl+k"))
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", create_opts("Move right with ctrl+l"))
-
--- Use ñ as ;
-vim.api.nvim_set_keymap("n", "ñ", ":", {desc = "Ñ as ;"})
