@@ -1,7 +1,8 @@
 return {
     "stevearc/dressing.nvim",
-    event = "UIEnter",
+    -- event = "UIEnter",
+    lazy = false,
     config = function()
         require("dressing").setup()
-    end
+    end,
 }

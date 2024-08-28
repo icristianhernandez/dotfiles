@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- use independent clipboard for neovim
-vim.opt.clipboard = "unnamed"
+-- vim.opt.clipboard = ""
 
 -- True color
 vim.o.termguicolors = true
@@ -77,6 +77,7 @@ vim.o.showmatch = true
 -- text wrapping at 80 characters without breaking words
 vim.opt.textwidth = 80
 vim.opt.wrap = true
+vim.opt.smoothscroll = true
 vim.opt.linebreak = true
 vim.opt.formatoptions = "jqlnt"
 vim.opt.breakindent = true

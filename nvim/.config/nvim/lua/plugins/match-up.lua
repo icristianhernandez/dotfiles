@@ -1,6 +1,7 @@
 return {
     "andymass/vim-matchup",
     lazy = false,
+    enable = true,
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
     },
@@ -14,15 +15,14 @@ return {
         vim.g.matchup_matchparen_deferred = 1 -- needed dependency
         vim.g.matchup_matchparen_hi_surround_always = 1
         -- for instant highlight but laggy
-        -- vim.g.matchup_matchparen_deferred_show_delay = 0 
-       vim.g.matchup_matchparen_deferred_hide_delay = 150
-
+        -- vim.g.matchup_matchparen_deferred_show_delay = 0
+        -- vim.g.matchup_matchparen_deferred_hide_delay = 1000
 
         -- treesitter support
-        require("nvim-treesitter.configs").setup {
+        require("nvim-treesitter.configs").setup({
             matchup = {
                 enable = true,
             },
-        }
+        })
     end,
 }

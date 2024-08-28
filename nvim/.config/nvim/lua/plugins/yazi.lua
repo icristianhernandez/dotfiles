@@ -6,7 +6,7 @@ return {
         {
             "<leader>e",
             "<cmd>Yazi<cr>",
-            desc = "Open yazi at the current file"
+            desc = "Open yazi at the current file",
         },
         {
             "<leader>E",
@@ -22,18 +22,19 @@ return {
 
     config = function()
         require("yazi").setup({
+            -- netrw replacement
             open_for_directories = false,
 
             -- enable these if you are using the latest version of yazi
             use_ya_for_events_reading = true,
             use_yazi_client_id_flag = true,
 
-            floating_window_scaling_factor = 0.7,
+            floating_window_scaling_factor = 0.85,
             yazi_floating_window_border = "double",
 
             keymaps = {
-                show_help = "<f1>"
-            }
+                show_help = "<f1>",
+            },
         })
-    end
+    end,
 }

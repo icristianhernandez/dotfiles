@@ -4,8 +4,8 @@ return {
     config = function()
         require("scrollbar").setup({
             handle = {
-                blend = 15,
-            }
+                blend = 5,
+            },
         })
     end,
 }
