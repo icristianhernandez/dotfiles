@@ -77,8 +77,8 @@ return {
 
             performance = {
                 throttle = 0,
-                debounce = 0,
-                fetching_timeout = 10,
+                debounce = 20,
+                fetching_timeout = 0,
             },
 
             mapping = cmp.mapping.preset.insert({
