@@ -4,12 +4,12 @@ return {
     event = "VeryLazy",
     keys = {
         {
-            "<leader>e",
+            "<leader>ee",
             "<cmd>Yazi<cr>",
             desc = "Open yazi at the current file",
         },
         {
-            "<leader>E",
+            "<leader>er",
             "<cmd>Yazi toggle<cr>",
             desc = "Resume the last yazi session",
         },

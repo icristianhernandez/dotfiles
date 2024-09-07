@@ -67,10 +67,13 @@ return {
                     kind.kind = " " .. (strings[1] or "") .. " "
 
                     -- filetypes
-                    kind.menu = "    (" .. (strings[2] or "") .. ")" --
+                    -- kind.menu = "    (" .. (strings[2] or "") .. ")" --
 
                     -- source
                     -- kind.menu = "    [" .. entry.source.name .. "]"
+
+                    -- merge filetypes and source
+                    kind.menu = "    (" .. (strings[2] or "") .. ") [" .. entry.source.name .. "] "
                     return kind
                 end,
             },

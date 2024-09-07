@@ -22,4 +22,8 @@ stow yazi firefox starship fish wl-copy slurp grim
 hyprland kitty xdg-desktop-portal xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
 xdg-utils
 
+## audio
+easyeffects lsp-plugins calf
 
+## AUR
+libdeep_filter_ladspa-bin

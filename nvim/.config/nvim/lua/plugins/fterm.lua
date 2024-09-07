@@ -1,7 +1,7 @@
 return {
     "numToStr/FTerm.nvim",
     keys = {
-        { "<leader>t", "<cmd>FTermToggle<CR>", mode = "n", desc = "Toggle FTerm" },
+        { "<leader>tt", "<cmd>FTermToggle<CR>", mode = "n", desc = "Toggle FTerm" },
         { "<Esc>", "<cmd>FTermToggle<CR>", mode = "t", desc = "Toggle FTerm" },
     },
     config = function()

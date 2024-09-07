@@ -1,0 +1,170 @@
+local lsp_servers = {
+    "lua_ls",
+    "taplo", -- TOML
+}
+
+local formatters = {
+    lua = { "stylua" },
+}
+
+local formatters_table = {}
+for _, formatters_list in pairs(formatters) do
+    for _, formatter in pairs(formatters_list) do
+        table.insert(formatters_table, formatter)
+    end
+end
+
+return {
+    "neovim/nvim-lspconfig",
+    lazy = false,
+
+    dependencies = {
+        -- Telescope
+        "nvim-telescope/telescope.nvim",
+        {
+            "williamboman/mason.nvim",
+            opts = {},
+        },
+        {
+            "williamboman/mason-lspconfig.nvim",
+            opts = {
+                ensure_installed = lsp_servers,
+            },
+        },
+        {
+            "nvimtools/none-ls.nvim",
+            opts = {},
+        },
+        {
+            "jay-babu/mason-null-ls.nvim",
+            opts = {
+                ensure_installed = formatters_table,
+            },
+        },
+        {
+            "stevearc/conform.nvim",
+            event = { "BufWritePre" },
+            cmd = { "ConformInfo" },
+            keys = {
+                {
+                    "<leader>lf",
+                    function()
+                        require("conform").format({ async = true, lsp_fallback = true })
+                    end,
+                    mode = "",
+                    desc = "Format buffer",
+                },
+            },
+
+            init = function()
+                vim.o.formatexpr = [[v:lua.require("conform").formatexpr()]]
+            end,
+
+            opts = {
+                formatters_by_ft = formatters,
+                format_on_save = {
+                    timeout_ms = 500,
+                    lsp_fallback = true,
+                },
+            },
+        },
+    },
+
+    config = function()
+        local lspconfig = require("lspconfig")
+        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        local on_attach = function(_, bufnr)
+            local nmap = function(keys, func, desc)
+                if desc then
+                    desc = "LSP: " .. desc
+                end
+
+                vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+            end
+            vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+            vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+            vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+            vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = 0 })
+            nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+
+            nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+            nmap("gD", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Open Definition in Vertical Split")
+            nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+            nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+            nmap("<leader>li", vim.lsp.buf.incoming_calls, "[I]ncoming [C]alls")
+            nmap("<leader>la", vim.lsp.buf.code_action, "[C]ode [A]ction")
+            nmap("<leader>lo", vim.lsp.buf.outgoing_calls, "[O]utgoing [C]alls")
+            nmap("<leader>lr", vim.lsp.buf.rename, "Rename Symbol")
+            nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+            -- nmap("<leader>fs", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+            -- nmap("<leader>fS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+
+            -- Lesser used LSP functionality
+            -- nmap("<leader>wA", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+            -- nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+            -- nmap("<leader>wl", function()
+            --     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+            -- end, "[W]orkspace [L]ist Folders")
+            --
+            -- nmap("<c-f>", vim.lsp.buf.format, "Format Buffer")
+            --
+            -- nmap("<leader>br", require("dap").toggle_breakpoint, "Toggle Breakpoint")
+        end
+
+        for _, server in ipairs(lsp_servers) do
+            lspconfig[server].setup({
+                capabilities = capabilities,
+                on_attach = on_attach,
+                -- on_init = on_init,
+            })
+        end
+
+        local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
+        for type, icon in pairs(signs) do
+            local hl = "DiagnosticSign" .. type
+            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        end
+
+        vim.diagnostic.config({ virtual_text = false })
+
+        -- vim.keymap.set("n", "<leader>lh", vim.diagnostic.open_float, { desc = "Hover information" })
+        -- vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", {})
+        -- vim.keymap.set(
+        --     { "n", "v" },
+        --     "<leader>la",
+        --     vim.lsp.buf.code_action,
+        --     { desc = "Code actions at the current position" }
+        -- )
+        -- vim.keymap.set(
+        --     "n",
+        --     "<leader>lp",
+        --     vim.diagnostic.goto_prev,
+        --     { desc = "Jump to the previous diagnostic in the buffer" }
+        -- )
+        -- vim.keymap.set(
+        --     "n",
+        --     "<leader>ln",
+        --     vim.diagnostic.goto_next,
+        --     { desc = "Jump to the next diagnostic in the buffer" }
+        -- )
+        -- vim.keymap.set(
+        --     "n",
+        --     "gD",
+        --     vim.lsp.buf.declaration,
+        --     { desc = "Go to the declaration of the symbol under the cursor" }
+        -- )
+        -- vim.keymap.set(
+        --     "n",
+        --     "gd",
+        --     vim.lsp.buf.definition,
+        --     { desc = "Go to the definition of the symbol under the cursor" }
+        -- )
+        -- vim.keymap.set(
+        --     "n",
+        --     "gi",
+        --     vim.lsp.buf.implementation,
+        --     { desc = "Go to the implementation(s) of the symbol under the cursor" }
+        -- )
+        -- vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename the symbol under the cursor" })
+    end,
+}
