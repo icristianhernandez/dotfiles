@@ -89,6 +89,10 @@ vim.opt.undofile = true
 
 -- disable swap files
 vim.opt.hidden = false
+vim.opt.swapfile = false
+
+-- sync buffers automatically between different neovim sessions
+vim.opt.autoread = true
 
 -- fast update time for events
 vim.opt.updatetime = 200
