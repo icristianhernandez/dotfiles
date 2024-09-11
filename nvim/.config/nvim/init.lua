@@ -1,7 +1,13 @@
 require("options")
+
 vim.schedule(function()
     require("mappings")
 end)
+
 require("autocmds")
-require("neovide-options")
+
+if vim.g.neovide then
+    require("neovide-options")
+end
+
 require("lazyload")
