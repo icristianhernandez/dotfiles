@@ -5,11 +5,15 @@ return {
         dependencies = { "nvim-telescope/telescope.nvim" },
         config = function()
             vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
+            local neovide_path = "/mnt/c/Program Files/Neovide"
+            local is_neovide = vim.loop.cwd() == neovide_path
+
+            local enable_last_session = vim.loop.cwd() == vim.loop.os_homedir() or is_neovide
 
             require("auto-session").setup({
                 -- auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
                 -- auto_session_use_git_branch = true,
-                auto_session_enable_last_session = vim.loop.cwd() == vim.loop.os_homedir(),
+                auto_session_enable_last_session = enable_last_session,
                 auto_save_enabled = true,
                 auto_restore_enabled = true,
 
