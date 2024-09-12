@@ -8,9 +8,9 @@ vim.keymap.set({ "n", "v" }, "r", "<C-d>zz", create_opts("Scroll the screen down
 
 -- mapping the save and exit
 vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", create_opts("File Save"))
-vim.keymap.set("n", "<leader>W", "<cmd>wq<CR>", create_opts("File Save and Exit"))
+vim.keymap.set("n", "<leader>W", "<cmd>conf qa<CR>", create_opts("File Save and Exit"))
 vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", create_opts("Exit Nvim"))
-vim.keymap.set("n", "<leader>Q", "<cmd>q!<CR>", create_opts("Exit Nvim without saving"))
+vim.keymap.set("n", "<leader>Q", "<cmd>qall!<CR>", create_opts("Exit Nvim in Group"))
 
 -- system clipboard mappings
 vim.keymap.set({ "n", "v", "x" }, "<C-c>", '"+y', { noremap = false, silent = true, desc = "Yank to clipboard" })
@@ -78,8 +78,10 @@ vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", create_opts("Move right with ct
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", create_opts("New tab"))
 vim.keymap.set("n", "<leader>to", "<cmd>tabonly<CR>", create_opts("Close all other tabs"))
 vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>", create_opts("Close tab"))
-vim.keymap.set("n", "<leader><Tab>", "<cmd>tabnext<CR>", create_opts("Next tab"))
-vim.keymap.set("n", "<leader><S-Tab>", "<cmd>tabprevious<CR>", create_opts("Previous tab"))
+-- vim.keymap.set("n", "<leader><Tab>", "<cmd>tabnext<CR>", create_opts("Next tab"))
+-- vim.keymap.set("n", "<leader><S-Tab>", "<cmd>tabprevious<CR>", create_opts("Previous tab"))
+vim.keymap.set("n", "<Tab>", "<cmd>tabnext<CR>", create_opts("Next tab"))
+vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<CR>", create_opts("Previous tab"))
 vim.keymap.set("n", "<leader>t1", "1gt", create_opts("Go to tab 1"))
 vim.keymap.set("n", "<leader>t2", "2gt", create_opts("Go to tab 2"))
 vim.keymap.set("n", "<leader>t3", "3gt", create_opts("Go to tab 3"))
