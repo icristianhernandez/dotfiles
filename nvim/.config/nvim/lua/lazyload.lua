@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Lazy exec
 local lazy_config = {
     defaults = { lazy = true },
+    change_detection = { notify = false },
 
     ui = {
         icons = {

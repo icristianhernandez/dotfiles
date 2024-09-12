@@ -1,11 +1,17 @@
 return {
     {
-        "rose-pine/neovim",
-        name = "rose-pine",
+        "f-person/auto-dark-mode.nvim",
         lazy = false,
-        priority = 1001,
+        priority = 1002,
         config = function()
-            -- vim.cmd("colorscheme rose-pine")
+            require("auto-dark-mode").setup({
+                set_dark_mode = function()
+                    vim.api.nvim_set_option_value("background", "dark", {})
+                end,
+                set_light_mode = function()
+                    vim.api.nvim_set_option_value("background", "light", {})
+                end,
+            })
         end,
     },
     {
@@ -27,6 +33,15 @@ return {
             vim.cmd("colorscheme catppuccin")
         end,
     },
+    -- {
+    --     "rose-pine/neovim",
+    --     name = "rose-pine",
+    --     lazy = false,
+    --     priority = 1001,
+    --     config = function()
+    --         -- vim.cmd("colorscheme rose-pine")
+    --     end,
+    -- },
     -- {
     --     "olimorris/onedarkpro.nvim",
     --     lazy = false,
