@@ -18,7 +18,7 @@ return {
         vim.g.matchup_matchparen_hi_surround_always = 1
         -- for instant highlight but laggy
         vim.g.matchup_matchparen_deferred_show_delay = 200
-        vim.g.matchup_matchparen_deferred_hide_delay = 1000
+        vim.g.matchup_matchparen_deferred_hide_delay = 0
 
         -- treesitter support
         require("nvim-treesitter.configs").setup({

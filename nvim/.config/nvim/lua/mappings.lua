@@ -91,6 +91,9 @@ vim.keymap.set("n", "<leader>t6", "6gt", create_opts("Go to tab 6"))
 vim.keymap.set("n", "<leader>t7", "7gt", create_opts("Go to tab 7"))
 vim.keymap.set("n", "<leader>t8", "8gt", create_opts("Go to tab 8"))
 vim.keymap.set("n", "<leader>t9", "9gt", create_opts("Go to tab 9"))
+-- move current tab to next/previous position
+vim.api.nvim_set_keymap("n", "<leader>tn", ":+tabmove<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tp", ":-tabmove<CR>", { noremap = true })
 -- vim.keymap.set("n", "<leader>te", "<cmd>tabedit ", create_opts("Edit tab"))
 -- vim.keymap.set("n", "<leader>tm", "<cmd>tabmove ", create_opts("Move tab"))
 

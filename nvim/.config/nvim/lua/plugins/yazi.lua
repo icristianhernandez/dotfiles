@@ -30,7 +30,7 @@ return {
             use_yazi_client_id_flag = true,
 
             floating_window_scaling_factor = 0.85,
-            yazi_floating_window_border = "double",
+            yazi_floating_window_border = "single",
 
             keymaps = {
                 show_help = "<f1>",
