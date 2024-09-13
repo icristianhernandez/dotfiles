@@ -29,7 +29,6 @@ return {
                 term_colors = true,
             })
 
-            -- vim.o.background = "dark"
             vim.cmd("colorscheme catppuccin")
         end,
     },
