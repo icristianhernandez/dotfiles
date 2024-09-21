@@ -101,5 +101,5 @@ vim.opt.updatetime = 200
 vim.opt.fileformat = "unix"
 vim.opt.fileformats = { "unix", "dos", "mac" }
 -- vim.opt.fileformats = { "unix" }
--- vim.opt.encoding = "utf-8"
+vim.opt.encoding = "utf-8"
 -- vim.opt.fileencoding = "utf-8"

@@ -11,7 +11,7 @@ return {
                 -- Match the context lines to the source code.
                 multiline_threshold = 1,
                 -- Disable it when the window is too small.
-                min_window_height = 25,
+                min_window_height = 20,
             },
         },
     },

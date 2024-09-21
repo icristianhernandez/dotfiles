@@ -33,6 +33,14 @@ return {
         end,
     },
     -- {
+    --     "0xstepit/flow.nvim",
+    --     lazy = false,
+    --     priority = 1001,
+    --     config = function()
+    --         vim.cmd("colorscheme flow")
+    --     end,
+    -- },
+    -- {
     --     "rose-pine/neovim",
     --     name = "rose-pine",
     --     lazy = false,
