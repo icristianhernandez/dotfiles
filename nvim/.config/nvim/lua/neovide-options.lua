@@ -7,12 +7,18 @@ end
 vim.o.guifont = "JetBrainsMonoNL Nerd Font:h13"
 
 -- neovide settings
-vim.g.neovide_cursor_antialiasing = true
-vim.g.neovide_cursor_antialiasing = true
-vim.opt.linespace = -1
+-- vim.g.neovide_cursor_antialiasing = true
+-- vim.opt.linespace = -1
 -- vim.g.neovide_refresh_rate = 120
 
--- neovide keymaps
+-- if neovide open in exe directory, change to a desired initial directory
+local desired_initial_dir = "~/"
+local neovide_exe_path = "/mnt/c/Program Files/Neovide"
+if vim.fn.getcwd() == neovide_exe_path then
+    vim.cmd("cd " .. desired_initial_dir)
+end
+
+---- neovide keymaps
 -- toggle fullscreen
 vim.api.nvim_set_keymap(
     "n",

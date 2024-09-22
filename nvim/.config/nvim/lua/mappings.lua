@@ -78,8 +78,6 @@ vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", create_opts("Move right with ct
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", create_opts("New tab"))
 vim.keymap.set("n", "<leader>to", "<cmd>tabonly<CR>", create_opts("Close all other tabs"))
 vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>", create_opts("Close tab"))
--- vim.keymap.set("n", "<leader><Tab>", "<cmd>tabnext<CR>", create_opts("Next tab"))
--- vim.keymap.set("n", "<leader><S-Tab>", "<cmd>tabprevious<CR>", create_opts("Previous tab"))
 vim.keymap.set("n", "<Tab>", "<cmd>tabnext<CR>", create_opts("Next tab"))
 vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<CR>", create_opts("Previous tab"))
 vim.keymap.set("n", "<leader>t1", "1gt", create_opts("Go to tab 1"))
@@ -102,3 +100,7 @@ vim.keymap.set("n", "<Up>", ":resize +4<CR>", create_opts("Resize window up"))
 vim.keymap.set("n", "<Down>", ":resize -4<CR>", create_opts("Resize window down"))
 vim.keymap.set("n", "<Left>", ":vertical resize +4<CR>", create_opts("Resize window left"))
 vim.keymap.set("n", "<Right>", ":vertical resize -4<CR>", create_opts("Resize window right"))
+
+-- change 0 to ^, ^ to 0
+vim.keymap.set("n", "0", "^", create_opts("Change 0 to ^"))
+vim.keymap.set("n", "^", "0", create_opts("Change ^ to 0"))

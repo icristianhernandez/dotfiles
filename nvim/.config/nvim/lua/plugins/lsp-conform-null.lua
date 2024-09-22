@@ -1,6 +1,7 @@
 local lsp_servers = {
+    -- "typos_lsp", -- code-spell checker
     "lua_ls",
-    "taplo", -- TOML
+    "taplo", -- for TOML
 }
 
 local formatters = {
@@ -19,8 +20,7 @@ return {
     lazy = false,
 
     dependencies = {
-        -- Telescope
-        "nvim-telescope/telescope.nvim",
+        { "nvim-telescope/telescope.nvim" },
         {
             "williamboman/mason.nvim",
             opts = {},
@@ -82,6 +82,7 @@ return {
                 vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
             end
             vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+
             vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
             vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
             vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { buffer = 0 })
@@ -94,8 +95,9 @@ return {
             nmap("<leader>li", vim.lsp.buf.incoming_calls, "[I]ncoming [C]alls")
             nmap("<leader>la", vim.lsp.buf.code_action, "[C]ode [A]ction")
             nmap("<leader>lo", vim.lsp.buf.outgoing_calls, "[O]utgoing [C]alls")
-            nmap("<leader>lr", vim.lsp.buf.rename, "Rename Symbol")
             nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+            nmap("<leader>lr", vim.lsp.buf.rename, "Rename Symbol")
+
             -- nmap("<leader>fs", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
             -- nmap("<leader>fS", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
@@ -126,45 +128,5 @@ return {
         end
 
         vim.diagnostic.config({ virtual_text = false })
-
-        -- vim.keymap.set("n", "<leader>lh", vim.diagnostic.open_float, { desc = "Hover information" })
-        -- vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", {})
-        -- vim.keymap.set(
-        --     { "n", "v" },
-        --     "<leader>la",
-        --     vim.lsp.buf.code_action,
-        --     { desc = "Code actions at the current position" }
-        -- )
-        -- vim.keymap.set(
-        --     "n",
-        --     "<leader>lp",
-        --     vim.diagnostic.goto_prev,
-        --     { desc = "Jump to the previous diagnostic in the buffer" }
-        -- )
-        -- vim.keymap.set(
-        --     "n",
-        --     "<leader>ln",
-        --     vim.diagnostic.goto_next,
-        --     { desc = "Jump to the next diagnostic in the buffer" }
-        -- )
-        -- vim.keymap.set(
-        --     "n",
-        --     "gD",
-        --     vim.lsp.buf.declaration,
-        --     { desc = "Go to the declaration of the symbol under the cursor" }
-        -- )
-        -- vim.keymap.set(
-        --     "n",
-        --     "gd",
-        --     vim.lsp.buf.definition,
-        --     { desc = "Go to the definition of the symbol under the cursor" }
-        -- )
-        -- vim.keymap.set(
-        --     "n",
-        --     "gi",
-        --     vim.lsp.buf.implementation,
-        --     { desc = "Go to the implementation(s) of the symbol under the cursor" }
-        -- )
-        -- vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, { desc = "Rename the symbol under the cursor" })
     end,
 }
