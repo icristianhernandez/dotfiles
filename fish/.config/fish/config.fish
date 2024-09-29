@@ -14,5 +14,13 @@ if status is-interactive
 		rm -f -- "$tmp"
 	end
 
-    starship init fish | source
+	function cppc
+		g++ -std=c++17 -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Werror -o $argv[1] $argv[1].cpp && ./$argv[1]
+	end
+
+	function cpps
+		g++ -std=c++17 -o $argv[1] $argv[1].cpp && ./$argv[1]
+	end
+
+	starship init fish | source
 end
