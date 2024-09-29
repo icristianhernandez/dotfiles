@@ -103,3 +103,6 @@ vim.opt.fileformats = { "unix", "dos", "mac" }
 -- vim.opt.fileformats = { "unix" }
 vim.opt.encoding = "utf-8"
 -- vim.opt.fileencoding = "utf-8"
+
+-- instead of splits, open in tabs
+vim.opt.switchbuf = "newtab"

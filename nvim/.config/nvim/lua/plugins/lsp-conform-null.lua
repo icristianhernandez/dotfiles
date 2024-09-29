@@ -2,10 +2,13 @@ local lsp_servers = {
     -- "typos_lsp", -- code-spell checker
     "lua_ls",
     "taplo", -- for TOML
+    "pyright", -- for Python
+    "clangd", -- for C/C++
 }
 
 local formatters = {
     lua = { "stylua" },
+    python = { "black" },
 }
 
 local formatters_table = {}
@@ -72,8 +75,14 @@ return {
 
     config = function()
         local lspconfig = require("lspconfig")
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
-        local on_attach = function(_, bufnr)
+        if vim.fn.exists(":CmpNvimLsp") == 2 then
+            capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+        else
+            capabilities = vim.lsp.protocol.make_client_capabilities()
+            -- report that cmp is not installed
+            print("cmp_nvim_lsp is not installed")
+        end
+        local on_attach_keymaps = function(_, bufnr)
             local nmap = function(keys, func, desc)
                 if desc then
                     desc = "LSP: " .. desc
@@ -116,7 +125,7 @@ return {
         for _, server in ipairs(lsp_servers) do
             lspconfig[server].setup({
                 capabilities = capabilities,
-                on_attach = on_attach,
+                on_attach = on_attach_keymaps,
                 -- on_init = on_init,
             })
         end

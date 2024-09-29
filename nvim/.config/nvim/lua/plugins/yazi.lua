@@ -13,11 +13,11 @@ return {
             "<cmd>Yazi toggle<cr>",
             desc = "Resume the last yazi session",
         },
-        -- {
-        --     "<leader>ec",
-        --     "<cmd>Yazi cwd<cr>",
-        --     desc = "Open the file manager in nvim's working directory"
-        -- }
+        {
+            "<leader>ec",
+            "<cmd>Yazi cwd<cr>",
+            desc = "Open the file manager in nvim's working directory",
+        },
     },
 
     config = function()

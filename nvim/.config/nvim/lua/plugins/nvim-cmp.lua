@@ -1,5 +1,8 @@
 return {
     "hrsh7th/nvim-cmp",
+    -- changed for a better performance fork
+    -- "yioneko/nvim-cmp",
+    branch = "perf",
     event = "VeryLazy",
 
     dependencies = {
@@ -59,6 +62,14 @@ return {
                 },
             },
 
+            performance = {
+                throttle = 0,
+                debounce = 10,
+                fetching_timeout = 0,
+                -- async_budget = 1000,
+                max_view_entries = 10,
+            },
+
             formatting = {
                 fields = { "kind", "abbr", "menu" },
                 format = function(entry, vim_item)
@@ -66,22 +77,16 @@ return {
                     local strings = vim.split(kind.kind, "%s", { trimempty = true })
                     kind.kind = " " .. (strings[1] or "") .. " "
 
-                    -- filetypes
-                    -- kind.menu = "    (" .. (strings[2] or "") .. ")" --
+                    -- selection type
+                    kind.menu = "     " .. (strings[2] or "") .. " " --
 
                     -- source
                     -- kind.menu = "    [" .. entry.source.name .. "]"
 
                     -- merge filetypes and source
-                    kind.menu = "    (" .. (strings[2] or "") .. ") [" .. entry.source.name .. "] "
+                    -- kind.menu = "    (" .. (strings[2] or "") .. ") [" .. entry.source.name .. "] "
                     return kind
                 end,
-            },
-
-            performance = {
-                throttle = 0,
-                debounce = 20,
-                fetching_timeout = 0,
             },
 
             mapping = cmp.mapping.preset.insert({
@@ -177,15 +182,14 @@ return {
             matching = { disallow_symbol_nonprefix_matching = false },
         })
 
-        -- function to print hello world
-        local function cmp_icons_bg_colors()
+        local function cmp_icons_colors()
             -- vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#282C34", fg = "NONE" })
             -- vim.api.nvim_set_hl(0, "Pmenu", { fg = "#C5CDD9", bg = "#22252A" })
 
             vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { fg = "#7E8294", bg = "NONE", strikethrough = true })
             vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#82AAFF", bg = "NONE", bold = true })
             vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { fg = "#82AAFF", bg = "NONE", bold = true })
-            -- vim.api.nvim_set_hl(0, "CmpItemMenu", {fg = "#C792EA", bg = "NONE", italic = true})
+            vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#C792EA", bg = "NONE", italic = true })
 
             vim.api.nvim_set_hl(0, "CmpItemKindField", { fg = "#EED8DA", bg = "#B5585F" })
             vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = "#EED8DA", bg = "#B5585F" })
@@ -222,11 +226,11 @@ return {
         end
 
         -- autocmd of the icons highlight when colorscheme changed
-        cmp_icons_bg_colors()
+        cmp_icons_colors()
         vim.api.nvim_create_autocmd("ColorScheme", {
             pattern = "*",
             callback = function()
-                cmp_icons_bg_colors()
+                cmp_icons_colors()
             end,
         })
     end,

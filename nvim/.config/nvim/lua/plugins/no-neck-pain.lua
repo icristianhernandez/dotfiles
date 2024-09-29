@@ -6,7 +6,7 @@ return {
         require("no-neck-pain").setup({
             width = 90,
             autocmds = {
-                -- enableOnVimEnter = true,
+                enableOnVimEnter = true,
             },
         })
 

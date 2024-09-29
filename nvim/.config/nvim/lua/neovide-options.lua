@@ -4,12 +4,13 @@ if not vim.g.neovide then
 end
 
 -- font settings
-vim.o.guifont = "JetBrainsMonoNL Nerd Font:h13"
+vim.o.guifont = "JetBrainsMonoNL Nerd Font:h14"
 
 -- neovide settings
--- vim.g.neovide_cursor_antialiasing = true
--- vim.opt.linespace = -1
+vim.g.neovide_cursor_antialiasing = true
+vim.opt.linespace = -1
 -- vim.g.neovide_refresh_rate = 120
+-- vim.g.neovide_transparency = 0.95
 
 -- if neovide open in exe directory, change to a desired initial directory
 local desired_initial_dir = "~/"
@@ -32,9 +33,10 @@ local change_scale_factor = function(delta)
     vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
 end
 
+local scale_delta = 0.1
 vim.keymap.set("n", "<C-+>", function()
-    change_scale_factor(1.25)
+    change_scale_factor(1 + scale_delta)
 end)
 vim.keymap.set("n", "<C-->", function()
-    change_scale_factor(1 / 1.25)
+    change_scale_factor(1 / (1 + scale_delta))
 end)

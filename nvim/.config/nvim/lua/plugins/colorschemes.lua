@@ -2,7 +2,7 @@ return {
     {
         "f-person/auto-dark-mode.nvim",
         lazy = false,
-        priority = 1002,
+        priority = 1010,
         config = function()
             require("auto-dark-mode").setup({
                 set_dark_mode = function()
@@ -33,11 +33,12 @@ return {
         end,
     },
     -- {
-    --     "0xstepit/flow.nvim",
+    --     -- tokyonight
+    --     "folke/tokyonight.nvim",
     --     lazy = false,
     --     priority = 1001,
     --     config = function()
-    --         vim.cmd("colorscheme flow")
+    --         vim.cmd("colorscheme tokyonight")
     --     end,
     -- },
     -- {
@@ -46,7 +47,7 @@ return {
     --     lazy = false,
     --     priority = 1001,
     --     config = function()
-    --         -- vim.cmd("colorscheme rose-pine")
+    --         vim.cmd("colorscheme rose-pine")
     --     end,
     -- },
     -- {
@@ -63,6 +64,6 @@ return {
     --     priority = 1001,
     --     config = function()
     --         vim.cmd("colorscheme edge")
-    --     end
+    --     end,
     -- },
 }
