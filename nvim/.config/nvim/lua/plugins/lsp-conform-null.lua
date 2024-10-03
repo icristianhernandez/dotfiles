@@ -75,6 +75,7 @@ return {
 
     config = function()
         local lspconfig = require("lspconfig")
+        local capabilities
         if vim.fn.exists(":CmpNvimLsp") == 2 then
             capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
         else

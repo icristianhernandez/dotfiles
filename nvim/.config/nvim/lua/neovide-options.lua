@@ -9,7 +9,7 @@ vim.o.guifont = "JetBrainsMonoNL Nerd Font:h14"
 -- neovide settings
 vim.g.neovide_cursor_antialiasing = true
 vim.opt.linespace = -1
--- vim.g.neovide_refresh_rate = 120
+vim.g.neovide_refresh_rate = 60
 -- vim.g.neovide_transparency = 0.95
 
 -- if neovide open in exe directory, change to a desired initial directory
@@ -40,3 +40,9 @@ end)
 vim.keymap.set("n", "<C-->", function()
     change_scale_factor(1 / (1 + scale_delta))
 end)
+vim.keymap.set("n", "<C-'>", function()
+    vim.g.neovide_scale_factor = 1
+end)
+
+vim.g.neovide_scroll_animation_far_lines = 0
+-- vim.g.neovide_scroll_animation_length = 0

@@ -2,7 +2,7 @@ return {
     "hrsh7th/nvim-cmp",
     -- changed for a better performance fork
     -- "yioneko/nvim-cmp",
-    branch = "perf",
+    -- branch = "perf",
     event = "VeryLazy",
 
     dependencies = {

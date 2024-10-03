@@ -16,5 +16,11 @@ return {
             "<cmd>lua require('no-neck-pain').toggle()<cr>",
             { noremap = true, silent = true }
         )
+        vim.api.nvim_set_keymap(
+            "n",
+            "<leader>uN",
+            "<cmd>lua require('no-neck-pain').resize(90)<cr>",
+            { noremap = true, silent = true }
+        )
     end,
 }
