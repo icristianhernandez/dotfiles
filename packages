@@ -1,7 +1,7 @@
 !Create a way to automatically install these packages
 
 ## wsl arch
-wget unzip yazi nvim nodejs npm git python python-pip ripgrep openssh stow starship fish ripgrep fd
+wget unzip yazi nvim nodejs npm git python python-pip ripgrep openssh stow starship fish ripgrep fd, python-pip
 # autochange fish, auto stow, set git profile, create ssh key, 
 
 ## various utils
