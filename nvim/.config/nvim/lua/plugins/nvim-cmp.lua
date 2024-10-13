@@ -1,8 +1,8 @@
 return {
-    "hrsh7th/nvim-cmp",
+    -- "hrsh7th/nvim-cmp",
     -- changed for a better performance fork
-    -- "yioneko/nvim-cmp",
-    -- branch = "perf",
+    "iguanacucumber/magazine.nvim",
+    name = "nvim-cmp",
     event = "VeryLazy",
 
     dependencies = {
@@ -64,7 +64,7 @@ return {
 
             performance = {
                 throttle = 0,
-                debounce = 10,
+                debounce = 0,
                 fetching_timeout = 0,
                 -- async_budget = 1000,
                 max_view_entries = 10,
