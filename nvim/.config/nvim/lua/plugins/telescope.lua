@@ -3,6 +3,32 @@ return {
     branch = "0.1.x",
     dependencies = {
         { "nvim-lua/plenary.nvim" },
+        {
+            "debugloop/telescope-undo.nvim",
+            keys = {
+                {
+                    "<leader>fu",
+                    "<cmd>Telescope undo<cr>",
+                    desc = "undo history",
+                },
+            },
+            config = function()
+                require("telescope").load_extension("undo")
+            end,
+        },
+        {
+            "xiyaowong/telescope-emoji.nvim",
+            keys = {
+                {
+                    "<leader>fe",
+                    "<cmd>Telescope emoji<cr>",
+                    desc = "emoji",
+                },
+            },
+            config = function()
+                require("telescope").load_extension("emoji")
+            end,
+        },
     },
 
     keys = {

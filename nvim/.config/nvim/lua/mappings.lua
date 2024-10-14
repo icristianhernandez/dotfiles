@@ -62,8 +62,8 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", create_opts("Move focus to the lower 
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", create_opts("Move focus to the upper window"))
 
 -- Move the visual selection up and down
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", create_opts("Move the visual selection down"))
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", create_opts("Move the visual selection up"))
+-- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", create_opts("Move the visual selection down"))
+-- vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", create_opts("Move the visual selection up"))
 
 -- Move between wrapped lines but limited to only normal jk, not change behavior of other mappings
 vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, noremap = true, silent = true })
