@@ -4,9 +4,10 @@ return {
         "nvim-lua/plenary.nvim", -- required
         "nvim-tree/nvim-web-devicons", -- optional
     },
-    -- keys = {
-    --     { "<leader>ee", ":Triptych<CR>", { noremap = true, silent = true, desc = "File Explorer" } },
-    -- },
+    keys = {
+        -- { "<leader>ee", ":Triptych<CR>", { noremap = true, silent = true, desc = "File Explorer" } },
+        { "<leader>eE", ":Triptych<CR>", { noremap = true, silent = true, desc = "File Explorer" } },
+    },
     config = function()
         require("triptych").setup({
             mappings = {

@@ -15,9 +15,10 @@ vim.o.mouse = "a"
 vim.g.have_nerd_font = true
 
 -- change identation to 4 spaces
-vim.opt.tabstop = 4
+vim.opt.tabstop = 8
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
+vim.opt.shiftround = true
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.autoindent = true

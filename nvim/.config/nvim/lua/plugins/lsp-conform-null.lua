@@ -4,6 +4,7 @@ local lsp_servers = {
     "taplo", -- for TOML
     "pyright", -- for Python
     "clangd", -- for C/C++
+    "harper_ls", -- English Spell Checker, comments, and markdown
 }
 
 local formatters = {

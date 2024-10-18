@@ -42,6 +42,12 @@ return {
             desc = "Find files (all)",
             silent = true,
         },
+        {
+            "<leader>gb",
+            ":Telescope git_branches<CR>",
+            desc = "Git branches",
+            silent = true,
+        },
     },
 
     config = function()
