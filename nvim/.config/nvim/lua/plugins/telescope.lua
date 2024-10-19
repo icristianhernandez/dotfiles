@@ -69,25 +69,7 @@ return {
                     },
                 },
 
-                layout_strategy = "vertical",
-                layout_config = {
-                    prompt_position = "top",
-                    preview_cutoff = 0,
-                    -- center = { width = 0.7, height = 0.45, anchor = "N", },
-                    -- vertical = { mirror = true, },
-                },
-
-                sorting_strategy = "ascending",
                 initial_mode = "insert",
-
-                path_display = { "truncate", truncate = 5 },
-
-                prompt_prefix = " ",
-                -- selection_caret = "  ",
-                selection_caret = "  ",
-
-                entry_prefix = " ",
-                borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
             },
         })
     end,
