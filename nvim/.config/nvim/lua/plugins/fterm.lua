@@ -1,4 +1,5 @@
 return {
+    -- FTerm: create a terminal in a floating window
     "numToStr/FTerm.nvim",
     keys = {
         { "<leader>tt", "<cmd>FTermToggle<CR>", mode = "n", desc = "Toggle FTerm" },

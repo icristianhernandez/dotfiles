@@ -1,5 +1,6 @@
 return {
     {
+        -- auto-dark-mode: detect the OS theme and switch between light and dark mode
         "f-person/auto-dark-mode.nvim",
         lazy = false,
         priority = 1010,
@@ -14,6 +15,7 @@ return {
             })
         end,
     },
+    -- colorschemes
     {
         "catppuccin/nvim",
         name = "catppuccin",

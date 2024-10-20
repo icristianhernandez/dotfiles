@@ -1,3 +1,8 @@
+-- all lsp setups including formatters and null-ls setups
+-- with conform for autosave formatting in filetypes
+-- with autoinstall of lsp servers and formatters
+-- and auto assignation of lsp servers
+
 local lsp_servers = {
     -- "typos_lsp", -- code-spell checker
     "lua_ls",

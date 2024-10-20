@@ -1,4 +1,6 @@
 return {
+    -- nvim-cmp: autocompletion
+
     -- "hrsh7th/nvim-cmp",
     -- changed for a better performance fork
     "iguanacucumber/magazine.nvim",

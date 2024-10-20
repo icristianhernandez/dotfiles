@@ -1,4 +1,6 @@
 return {
+    -- highlight the current {}, [], level.
+    -- not work for other delimiters like function() end
     "utilyre/sentiment.nvim",
     version = "*",
     event = "BufRead",

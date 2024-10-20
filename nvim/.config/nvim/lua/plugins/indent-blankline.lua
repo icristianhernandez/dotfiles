@@ -1,4 +1,6 @@
 return {
+    -- indent-blankline: show vertical lines to indicate indentation levels and
+    -- highlight the current indent depth.
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     event = "BufReadPre",

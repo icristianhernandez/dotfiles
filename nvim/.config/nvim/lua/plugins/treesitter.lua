@@ -1,4 +1,5 @@
 return {
+    -- nvim-treesitter: An incremental parsing system for programming tools (create a tree of the code nodes, etc)
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = "BufRead",

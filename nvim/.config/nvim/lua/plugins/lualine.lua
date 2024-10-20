@@ -1,4 +1,5 @@
 return {
+    -- lualine: statusline done in lua
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = false,
