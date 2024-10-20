@@ -21,5 +21,8 @@ return {
     },
     config = function()
         require("nvchad")
+
+        -- keymap to color picker (call :Telescope themes)
+        vim.api.nvim_set_keymap("n", "<leader>ft", ":Telescope themes<CR>", { noremap = true, silent = true })
     end,
 }
