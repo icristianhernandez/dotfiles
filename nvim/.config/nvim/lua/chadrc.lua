@@ -3,11 +3,16 @@
 --  - Add colors to the [+] in the lualine
 --  - Create a new module for the tabline that show only the [1] [2], not the
 --      buttons
+--  - or view what to do with the tabline, for example not use tabs
+--  - Light/dark auto toggle (changed based of background color)
+--  - add terminals
+
+-- takes: not replaced vim.ui.select / input hooks
 local M = {}
 
 M.base46 = {
-    theme = "ayu_light",
-    theme_toggle = { "ayu_light", "ayu_light" },
+    theme = "one_light",
+    theme_toggle = { "one_light", "one_light" },
 }
 
 M.ui = {
@@ -41,7 +46,6 @@ M.ui = {
     },
 
     cmp = {
-        -- style = "atom",
         style = "atom_colored",
     },
 }
