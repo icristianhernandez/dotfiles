@@ -63,6 +63,8 @@ return {
                 "vim",
                 "vimdoc",
                 "yaml",
+                "ninja",
+                "rst",
             },
         })
     end,
