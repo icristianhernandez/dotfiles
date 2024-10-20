@@ -4,28 +4,17 @@ return {
     config = function()
         require("modes").setup({
             line_opacity = 0.20,
-            set_number = true,
             colors = {
-                bg = "", -- Optional bg param, defaults to Normal hl group
                 copy = "#f5c359",
                 delete = "#c75c6a",
                 insert = "#70CF67",
-                visual = "#AD6FF7",
-                --         colors = {
-                --             normal = "#00BFFF",
-                --             insert = "#70CF67",
-                --             visual = "#AD6FF7",
-                --             command = "#EB788B",
-                --             operator = "#FF8F40",
-                --             replace = "#E66767",
-                --             select = "#AD6FF7",
-                --             terminal = "#4CD4BD",
-                --             terminal_n = "#00BBCC",
-                --         },
+                visual = "#9745be",
             },
         })
     end,
 }
+
+-- return {}
 
 -- return {
 --     "svampkorg/moody.nvim",
@@ -69,7 +58,7 @@ return {
 --         -- registry number at the end of the CursorLine, for when you are
 --         -- recording a macro! Default is false.
 --         recording = {
---             enabled = false,
+--             enabled = true,
 --             icon = "󰑋",
 --             -- you can set some text to surround the recording registry char with
 --             -- or just set one to empty to maybe have just one letter, an arrow

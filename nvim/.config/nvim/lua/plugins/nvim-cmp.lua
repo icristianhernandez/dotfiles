@@ -31,14 +31,14 @@ return {
         local luasnip = require("luasnip")
         local lspkind = require("lspkind")
 
-        cmp.setup({
-            sources = cmp.config.sources({
+        local cmp_config = {
+            sources = {
                 { name = "nvim_lsp" },
                 { name = "luasnip" },
                 { name = "buffer", keyword_length = 3 },
                 { name = "nvim_lua" },
                 { name = "path" },
-            }),
+            },
 
             snippet = {
                 expand = function(args)
@@ -95,7 +95,15 @@ return {
                     end
                 end, { "i", "s" }),
             }),
-        })
+        }
+
+        if not pcall(require, "nvchad.cmp") then
+            print("nvchad.cmp not found, using default cmp config")
+        else
+            cmp_config = vim.tbl_deep_extend("force", cmp_config, require("nvchad.cmp"))
+        end
+
+        cmp.setup(cmp_config)
 
         cmp.setup.cmdline({ "/", "?" }, {
             mapping = cmp.mapping.preset.cmdline(),

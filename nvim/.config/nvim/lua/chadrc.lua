@@ -6,8 +6,8 @@
 local M = {}
 
 M.base46 = {
-    theme = "rosepine",
-    theme_toggle = { "rosepine", "one_light" },
+    theme = "ayu_light",
+    theme_toggle = { "ayu_light", "ayu_light" },
 }
 
 M.ui = {
@@ -32,8 +32,8 @@ M.ui = {
     },
 
     tabufline = {
-        enabled = true,
-        order = { "tabs" },
+        enabled = false,
+        order = { "treeOffset", "tabs" },
     },
 
     telescope = {
@@ -41,7 +41,7 @@ M.ui = {
     },
 
     cmp = {
-        icons_left = true,
+        -- style = "atom",
         style = "atom_colored",
     },
 }
@@ -51,29 +51,3 @@ M.colorify = {
 }
 
 return M
-
--- return {
---     ui = {
---         statusline = {
---             theme = "minimal",
---             order = { "mode", "file", "modified", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
---             modules = {
---                 modified = " %m ",
---             },
---         },
---
---         tabufline = {
---             enabled = true,
---             order = { "tabs" },
---         },
---
---         telescope = {
---             style = "bordered",
---         },
---
---         cmp = {
---             icons_left = true,
---             style = "atom_colored",
---         },
---     },
--- }

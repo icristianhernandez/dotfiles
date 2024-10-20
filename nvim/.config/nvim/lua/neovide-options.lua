@@ -44,5 +44,5 @@ vim.keymap.set("n", "<C-'>", function()
     vim.g.neovide_scale_factor = 1
 end)
 
-vim.g.neovide_scroll_animation_far_lines = 0
--- vim.g.neovide_scroll_animation_length = 0
+vim.g.neovide_scroll_animation_far_lines = 1
+-- vim.g.neovide_scroll_animation_length = 0.1
