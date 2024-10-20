@@ -70,6 +70,20 @@ return {
                 },
 
                 initial_mode = "insert",
+
+                layout_config = {
+                    prompt_position = "top",
+                    preview_cutoff = 0,
+                },
+                layout_strategy = "vertical",
+                sorting_strategy = "ascending",
+
+                path_display = { "truncate", truncate = 5 },
+
+                prompt_prefix = " ",
+                selection_caret = "  ",
+
+                entry_prefix = " ",
             },
         })
     end,
