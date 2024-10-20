@@ -13,15 +13,15 @@ return {
 
         vim.api.nvim_set_keymap(
             "n",
-            "<leader>un",
+            "<leader>uc",
             "<cmd>lua require('no-neck-pain').toggle()<cr>",
-            { noremap = true, silent = true }
+            { noremap = true, silent = true, desc = "Center the buffer" }
         )
         vim.api.nvim_set_keymap(
             "n",
-            "<leader>uN",
+            "<leader>uC",
             "<cmd>lua require('no-neck-pain').resize(90)<cr>",
-            { noremap = true, silent = true }
+            { noremap = true, silent = true, desc = "Center the buffer" }
         )
     end,
 }
