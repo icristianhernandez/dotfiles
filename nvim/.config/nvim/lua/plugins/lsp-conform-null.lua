@@ -6,14 +6,20 @@
 local lsp_servers = {
     -- "typos_lsp", -- code-spell checker
     "lua_ls",
-    "taplo", -- for TOML
-    "pyright", -- for Python
-    "clangd", -- for C/C++
+    -- for TOML:
+    "taplo",
+    -- for Python:
+    "pyright",
+    -- for C/C++:
+    "clangd",
+    -- for Markdown:
+    "marksman",
 }
 
 local formatters = {
     lua = { "stylua" },
     python = { "black" },
+    markdown = { "prettier" },
 }
 
 local formatters_table = {}

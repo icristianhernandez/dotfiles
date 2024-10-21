@@ -1,6 +1,9 @@
 return {
     "ray-x/lsp_signature.nvim",
     event = "VeryLazy",
+    dependencies = {
+        "neovim/nvim-lspconfig",
+    },
     config = function()
         require("lsp_signature").setup({
             doc_lines = 0,

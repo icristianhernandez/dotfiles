@@ -3,6 +3,7 @@ return {
     "SuperAPPKid/global-note.nvim",
     cmd = { "GlobalNote", "ProjectPrivateNote" },
     keys = {
+        { "<C-n>", "<CMD>GlobalNote<CR>", mode = "t", desc = "Global Notes" },
         { "<C-n>", "<CMD>GlobalNote<CR>", desc = "Global Notes" },
         { "<leader>un", "<CMD>GlobalNote<CR>", desc = "Global Notes" },
         { "<C-ñ>", "<CMD>ProjectPrivateNote<CR>", desc = "Private Notes" },
@@ -45,7 +46,6 @@ return {
         end
 
         local note_name = function()
-            -- implement with: project_parent + _ + project_name + .md
             return get_project_parent_name() .. "_" .. get_project_name() .. ".md"
         end
 
@@ -65,15 +65,13 @@ return {
                 end
 
                 vim.api.nvim_buf_set_keymap(note_buffer_id, "n", "q", cmd, { noremap = true, silent = false })
+                vim.api.nvim_buf_set_keymap(note_buffer_id, "n", "<leader>un", cmd, { noremap = true, silent = false })
+                vim.api.nvim_buf_set_keymap(note_buffer_id, "n", "<C-n>", cmd, { noremap = true, silent = false })
             end,
 
             additional_presets = {
                 project_local = {
                     command_name = "ProjectPrivateNote",
-
-                    -- filename = function()
-                    --     return get_project_name() .. ".md"
-                    -- end,
 
                     filename = note_name,
 
