@@ -1,6 +1,6 @@
 return {
     -- global-note: easy to use global and extensible markdown notes
-    "SuperAPPKid/global-note.nvim",
+    "backdround/global-note.nvim",
     cmd = { "GlobalNote", "ProjectPrivateNote" },
     keys = {
         { "<C-n>", "<CMD>GlobalNote<CR>", mode = "t", desc = "Global Notes" },

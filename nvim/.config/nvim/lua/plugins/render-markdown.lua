@@ -4,9 +4,11 @@ return {
         "nvim-treesitter/nvim-treesitter",
         "echasnovski/mini.nvim",
     },
-    ft = "markdown",
+    ft = { "markdown", "Avante" },
 
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
-    opts = {},
+    opts = {
+        file_types = { "markdown", "Avante" },
+    },
 }
