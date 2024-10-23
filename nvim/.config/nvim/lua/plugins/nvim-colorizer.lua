@@ -3,7 +3,7 @@ return {
     -- "norcalli/nvim-colorizer.lua",
     -- none of these are well maintaned
     "NvChad/nvim-colorizer.lua",
-    event = "VeryLazy",
+    event = "BufReadPre",
     config = function()
         require("colorizer").setup({
             user_default_options = {

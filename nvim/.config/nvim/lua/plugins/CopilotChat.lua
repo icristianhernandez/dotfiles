@@ -8,7 +8,13 @@ return {
         },
         build = "make tiktoken", -- Only on MacOS or Linux
         keys = {
-            { "<leader>ac", ":CopilotChatOpen<CR>", desc = "Open Copilot Chat" },
+            {
+                "<leader>ac",
+                ":CopilotChatOpen<CR>",
+                mode = { "n", "v" },
+                desc = "Open Copilot Chat",
+            },
+
             {
                 "<leader>aE",
                 function()
@@ -36,7 +42,7 @@ return {
             --     { desc = "CopilotChat - Help actions" },
             -- },
             {
-                "<leader>aI",
+                "<leader>aC",
                 function()
                     local actions = require("CopilotChat.actions")
                     require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
@@ -48,9 +54,20 @@ return {
         config = function()
             require("CopilotChat").setup({
                 debug = true, -- Enable debugging
-                auto_insert_mode = false,
+                auto_insert_mode = true,
                 insert_at_end = true,
                 window = { layout = "float", width = 0.75, height = 0.75 },
+
+                mappings = {
+                    submit_prompt = {
+                        normal = "<CR>",
+                        insert = "<CR>",
+                    },
+                    reset = {
+                        normal = "<leader>ar",
+                        -- insert = "<leader>ar",
+                    },
+                },
             })
             require("CopilotChat.integrations.cmp").setup()
         end,

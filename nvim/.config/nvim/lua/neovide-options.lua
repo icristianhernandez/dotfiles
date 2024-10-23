@@ -4,7 +4,7 @@ if not vim.g.neovide then
 end
 
 -- font settings
-vim.o.guifont = "JetBrainsMonoNL Nerd Font:h14"
+vim.o.guifont = "JetBrainsMonoNL Nerd Font:h13"
 
 -- neovide settings
 vim.g.neovide_cursor_antialiasing = true

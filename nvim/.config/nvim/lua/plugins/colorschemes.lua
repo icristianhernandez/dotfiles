@@ -29,6 +29,12 @@ return {
                 },
 
                 term_colors = true,
+
+                custom_highlights = function(colors)
+                    return {
+                        NonText = { fg = colors.red },
+                    }
+                end,
             })
 
             vim.cmd("colorscheme catppuccin")

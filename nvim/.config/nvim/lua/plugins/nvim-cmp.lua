@@ -33,6 +33,8 @@ return {
         local luasnip = require("luasnip")
         local lspkind = require("lspkind")
 
+        vim.keymap.set("s", "<BS>", "<C-O>s")
+
         cmp.setup({
             sources = cmp.config.sources({
                 { name = "nvim_lsp" },
