@@ -1,4 +1,6 @@
 return {
+    -- nvim-cmp: autocompletion
+
     -- "hrsh7th/nvim-cmp",
     -- changed for a better performance fork
     "iguanacucumber/magazine.nvim",
@@ -30,6 +32,8 @@ return {
         local cmp = require("cmp")
         local luasnip = require("luasnip")
         local lspkind = require("lspkind")
+
+        vim.keymap.set("s", "<BS>", "<C-O>s")
 
         local cmp_config = {
             sources = {

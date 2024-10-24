@@ -1,4 +1,5 @@
 return {
+    -- modes: highlight the cursorline based on the mode
     "mvllow/modes.nvim",
     event = { "ModeChanged", "BufWinEnter", "WinEnter" },
     config = function()

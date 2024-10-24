@@ -1,4 +1,5 @@
 return {
+    -- which-key: cheatsheet for keybindings when pressing a key
     "folke/which-key.nvim",
     event = "VeryLazy",
     keys = {

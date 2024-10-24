@@ -1,14 +1,25 @@
+-- all lsp setups including formatters and null-ls setups
+-- with conform for autosave formatting in filetypes
+-- with autoinstall of lsp servers and formatters
+-- and auto assignation of lsp servers
+
 local lsp_servers = {
     -- "typos_lsp", -- code-spell checker
     "lua_ls",
-    "taplo", -- for TOML
-    "pyright", -- for Python
-    "clangd", -- for C/C++
+    -- for TOML:
+    "taplo",
+    -- for Python:
+    "pyright",
+    -- for C/C++:
+    "clangd",
+    -- for Markdown:
+    "marksman",
 }
 
 local formatters = {
     lua = { "stylua" },
     python = { "black" },
+    markdown = { "prettier" },
 }
 
 local formatters_table = {}
