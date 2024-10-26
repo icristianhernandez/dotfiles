@@ -5,7 +5,8 @@ return {
     "NvChad/nvim-colorizer.lua",
     event = "BufReadPre",
     config = function()
-        require("colorizer").setup({
+        local colorizer = require("colorizer")
+        colorizer.setup({
             user_default_options = {
                 RGB = true, -- #RGB hex codes
                 RRGGBB = true, -- #RRGGBB hex codes

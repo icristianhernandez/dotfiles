@@ -18,6 +18,11 @@ return {
                     dismiss = "<C-}>",
                 },
             },
+
+            filetypes = {
+                markdown = true,
+                gitcommit = true,
+            },
         })
     end,
 }

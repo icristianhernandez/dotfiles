@@ -83,8 +83,8 @@ vim.opt.linebreak = true
 vim.opt.formatoptions = "jqlnt"
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:0,min:0"
--- vim.opt.showbreak = " ╰─ "
-vim.opt.showbreak = "↪ "
+vim.opt.showbreak = " ╰─ "
+-- vim.opt.showbreak = " ··↪:"
 -- vim.opt.showbreak = "······"
 -- test:
 

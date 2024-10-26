@@ -6,12 +6,51 @@ end
 vim.keymap.set({ "n", "v" }, "t", "<C-u>zz", create_opts("Scroll the screen up and keep the cursor in the center"))
 vim.keymap.set({ "n", "v" }, "r", "<C-d>zz", create_opts("Scroll the screen down and keep the cursor in the center"))
 
--- mapping the save and exit
-vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", create_opts("File Save"))
-vim.keymap.set("n", "<leader>W", "<cmd>conf qa<CR>", create_opts("File Save and Exit"))
-vim.keymap.set("n", "<leader>q", "<cmd>bd<CR>", create_opts("Close buffer"))
+-- nvim exit mappings
 vim.keymap.set("n", "<leader>x", "<cmd>qall<CR>", create_opts("Exit Nvim"))
 vim.keymap.set("n", "<leader>X", "<cmd>qall!<CR>", create_opts("Exit Nvim in Group"))
+
+-- save mappings
+vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", create_opts("Save file"))
+vim.keymap.set("n", "<leader>W", "<cmd>conf qa<CR>", create_opts("Save and Exit"))
+
+-- -- close windows
+vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", create_opts("Close buffer"))
+vim.keymap.set("n", "<leader>Q", "<C-w>o<CR>", create_opts("Close all other windows"))
+-- vim.keymap.set("n", "<leader>q", function()
+--     local actual_tab_windows = vim.api.nvim_tabpage_list_wins(0)
+--     local non_empty_windows_count = 0
+--
+--     for _, win in ipairs(actual_tab_windows) do
+--         local buf = vim.api.nvim_win_get_buf(win)
+--         local buf_lines = vim.api.nvim_buf_line_count(buf)
+--         local is_empty = true
+--
+--         for i = 1, buf_lines do
+--             local line = vim.api.nvim_buf_get_lines(buf, i - 1, i, false)[1]
+--
+--             if i == 1 then
+--                 print("line: ", line)
+--                 -- print("line: ", line, "sss")
+--             end
+--
+--             if line ~= "" then
+--                 is_empty = false
+--                 break
+--             end
+--         end
+--
+--         if not is_empty then
+--             non_empty_windows_count = non_empty_windows_count + 1
+--         end
+--     end
+--
+--     -- print("non_empty_windows_count", non_empty_windows_count)
+--
+--     -- if non_empty_windows_count > 1 then
+--     --     vim.cmd("q")
+--     -- end
+-- end, create_opts("Close windows"))
 
 -- system clipboard mappings
 vim.keymap.set({ "n", "v", "x" }, "<C-c>", '"+y', { noremap = false, silent = true, desc = "Yank to clipboard" })
@@ -35,14 +74,14 @@ vim.keymap.set("n", "<C-a>", "ggVG", create_opts("Select all"))
 vim.keymap.set("n", "<Esc>", ":noh<CR>", create_opts("Clear search highlights"))
 
 -- centered after motion commands
-vim.keymap.set("n", "n", "nzzzv", create_opts("Move to next find"))
-vim.keymap.set("n", "N", "Nzzzv", create_opts("Move to previous find"))
-vim.keymap.set("n", "*", "*zzzv", create_opts("Move to next find"))
-vim.keymap.set("n", "#", "#zzzv", create_opts("Move to previous find"))
-vim.keymap.set("n", "{", "{zzzv", create_opts("Center the screen"))
-vim.keymap.set("n", "}", "}zzzv", create_opts("Center the screen"))
-vim.keymap.set("n", "<C-i>", "<C-i>zzzv", create_opts("Center the screen"))
-vim.keymap.set("n", "<C-o>", "<C-o>zzzv", create_opts("Center the screen"))
+vim.keymap.set("n", "n", "nzz", create_opts("Move to next find"))
+vim.keymap.set("n", "N", "Nzz", create_opts("Move to previous find"))
+vim.keymap.set("n", "*", "*zz", create_opts("Move to next find"))
+vim.keymap.set("n", "#", "#zz", create_opts("Move to previous find"))
+vim.keymap.set("n", "{", "{zz", create_opts("Center the screen"))
+vim.keymap.set("n", "}", "}zz", create_opts("Center the screen"))
+vim.keymap.set("n", "<C-i>", "<C-i>zz", create_opts("Center the screen"))
+vim.keymap.set("n", "<C-o>", "<C-o>zz", create_opts("Center the screen"))
 
 -- reload the current buffer
 vim.keymap.set("n", "<leader>r", "<cmd>edit!<CR>", create_opts("Reload the current buffer"))
