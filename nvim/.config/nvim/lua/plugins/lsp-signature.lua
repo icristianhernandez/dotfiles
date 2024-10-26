@@ -1,14 +1,14 @@
 return {
     "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
+    event = "InsertEnter",
     dependencies = {
         "neovim/nvim-lspconfig",
     },
     config = function()
         require("lsp_signature").setup({
-            doc_lines = 0,
+            doc_lines = 1,
             floating_window = true,
-            hint_enable = false,
+            hint_enable = true,
 
             timer_interval = 50,
             always_trigger = true,

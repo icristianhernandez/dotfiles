@@ -1,3 +1,23 @@
+--[[
+- Cheat sheet for mapmode
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│  Str  │  Help page   │  Affected modes                           │  VimL   │
+│────────────────────────────────────────────────────────────────────────────│
+│  ''   │  mapmode-nvo │  Normal, Visual, Select, Operator-pending │  :map   │
+│  'n'  │  mapmode-n   │  Normal                                   │  :nmap  │
+│  'v'  │  mapmode-v   │  Visual and Select                        │  :vmap  │
+│  's'  │  mapmode-s   │  Select                                   │  :smap  │
+│  'x'  │  mapmode-x   │  Visual                                   │  :xmap  │
+│  'o'  │  mapmode-o   │  Operator-pending                         │  :omap  │
+│  '!'  │  mapmode-ic  │  Insert and Command-line                  │  :map!  │
+│  'i'  │  mapmode-i   │  Insert                                   │  :imap  │
+│  'l'  │  mapmode-l   │  Insert, Command-line, Lang-Arg           │  :lmap  │
+│  'c'  │  mapmode-c   │  Command-line                             │  :cmap  │
+│  't'  │  mapmode-t   │  Terminal                                 │  :tmap  │
+╰────────────────────────────────────────────────────────────────────────────╯
+--]]
+
 local function create_opts(keymap_desc)
     return { noremap = true, silent = true, desc = keymap_desc }
 end
@@ -115,24 +135,26 @@ vim.api.nvim_set_keymap("i", "<C-k>", "<Up>", create_opts("Move up with ctrl+k")
 vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", create_opts("Move right with ctrl+l"))
 
 -- tabs
-vim.keymap.set("n", "<Tab>", "<cmd>tabnext<CR>", create_opts("Next tab"))
-vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<CR>", create_opts("Previous tab"))
-vim.keymap.set("n", "<leader><Tab>n", "<cmd>tabnew<CR>", create_opts("New tab"))
-vim.keymap.set("n", "<leader><Tab>o", "<cmd>tabonly<CR>", create_opts("Close all other tabs"))
-vim.keymap.set("n", "<leader><Tab>q", "<cmd>tabclose<CR>", create_opts("Close tab"))
-vim.keymap.set("n", "<leader>1", "1gt", create_opts("Go to tab 1"))
-vim.keymap.set("n", "<leader>2", "2gt", create_opts("Go to tab 2"))
-vim.keymap.set("n", "<leader>3", "3gt", create_opts("Go to tab 3"))
-vim.keymap.set("n", "<leader>4", "4gt", create_opts("Go to tab 4"))
-vim.keymap.set("n", "<leader>5", "5gt", create_opts("Go to tab 5"))
-vim.keymap.set("n", "<leader>6", "6gt", create_opts("Go to tab 6"))
-vim.keymap.set("n", "<leader>7", "7gt", create_opts("Go to tab 7"))
-vim.keymap.set("n", "<leader>8", "8gt", create_opts("Go to tab 8"))
-vim.keymap.set("n", "<leader>9", "9gt", create_opts("Go to tab 9"))
-vim.api.nvim_set_keymap("n", "<leader><Tab>h", ":-tabmove<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader><Tab>l", ":+tabmove<CR>", { noremap = true })
+-- vim.keymap.set("n", "<Tab>", "<cmd>tabnext<CR>", create_opts("Next tab"))
+-- vim.keymap.set("n", "<S-Tab>", "<cmd>tabprevious<CR>", create_opts("Previous tab"))
+-- vim.keymap.set("n", "<leader><Tab>n", "<cmd>tabnew<CR>", create_opts("New tab"))
+-- vim.keymap.set("n", "<leader><Tab>o", "<cmd>tabonly<CR>", create_opts("Close all other tabs"))
+-- vim.keymap.set("n", "<leader><Tab>q", "<cmd>tabclose<CR>", create_opts("Close tab"))
+-- vim.keymap.set("n", "<leader>1", "1gt", create_opts("Go to tab 1"))
+-- vim.keymap.set("n", "<leader>2", "2gt", create_opts("Go to tab 2"))
+-- vim.keymap.set("n", "<leader>3", "3gt", create_opts("Go to tab 3"))
+-- vim.keymap.set("n", "<leader>4", "4gt", create_opts("Go to tab 4"))
+-- vim.keymap.set("n", "<leader>5", "5gt", create_opts("Go to tab 5"))
+-- vim.keymap.set("n", "<leader>6", "6gt", create_opts("Go to tab 6"))
+-- vim.keymap.set("n", "<leader>7", "7gt", create_opts("Go to tab 7"))
+-- vim.keymap.set("n", "<leader>8", "8gt", create_opts("Go to tab 8"))
+-- vim.keymap.set("n", "<leader>9", "9gt", create_opts("Go to tab 9"))
+-- vim.api.nvim_set_keymap("n", "<leader><Tab>h", ":-tabmove<CR>", { noremap = true })
+-- vim.api.nvim_set_keymap("n", "<leader><Tab>l", ":+tabmove<CR>", { noremap = true })
 -- vim.keymap.set("n", "<leader>te", "<cmd>tabedit ", create_opts("Edit tab"))
 -- vim.keymap.set("n", "<leader>tm", "<cmd>tabmove ", create_opts("Move tab"))
+-- -- open a new tab with the current buffer
+-- --
 
 -- windows resize with arrows
 vim.keymap.set("n", "<Up>", ":resize +4<CR>", create_opts("Resize window up"))
@@ -147,3 +169,6 @@ vim.keymap.set("n", "^", "0", create_opts("Change ^ to 0"))
 -- remap { and } to [ and ]
 vim.keymap.set("n", "{", "[", { remap = true, silent = true, desc = "Remap { to [" })
 vim.keymap.set("n", "}", "]", { remap = true, silent = true, desc = "Remap } to ]" })
+
+-- try new things:
+vim.keymap.set("n", "<leader><leader>", "<C-^>", create_opts("Go to Alternate Buffer"))

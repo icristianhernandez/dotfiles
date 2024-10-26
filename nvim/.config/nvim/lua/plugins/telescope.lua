@@ -44,6 +44,12 @@ return {
             silent = true,
         },
         {
+            "<leader>fr",
+            ":Telescope resume<CR>",
+            desc = "Resume last telescope session",
+            silent = true,
+        },
+        {
             "<leader>gb",
             ":Telescope git_branches<CR>",
             desc = "Git branches",

@@ -1,20 +1,4 @@
 return {
-    {
-        -- auto-dark-mode: detect the OS theme and switch between light and dark mode
-        "f-person/auto-dark-mode.nvim",
-        lazy = false,
-        priority = 1010,
-        config = function()
-            require("auto-dark-mode").setup({
-                set_dark_mode = function()
-                    vim.api.nvim_set_option_value("background", "dark", {})
-                end,
-                set_light_mode = function()
-                    vim.api.nvim_set_option_value("background", "light", {})
-                end,
-            })
-        end,
-    },
     -- colorschemes
     {
         "catppuccin/nvim",
@@ -30,48 +14,22 @@ return {
 
                 term_colors = true,
 
-                custom_highlights = function(colors)
-                    return {
-                        NonText = { fg = colors.red },
-                    }
-                end,
+                -- custom_highlights = function(colors)
+                --     return {
+                --         NonText = { fg = colors.red },
+                --     }
+                -- end,
             })
 
             vim.cmd("colorscheme catppuccin")
         end,
     },
-    -- {
-    --     -- tokyonight
-    --     "folke/tokyonight.nvim",
-    --     lazy = false,
-    --     priority = 1001,
-    --     config = function()
-    --         vim.cmd("colorscheme tokyonight")
-    --     end,
-    -- },
-    -- {
-    --     "rose-pine/neovim",
-    --     name = "rose-pine",
-    --     lazy = false,
-    --     priority = 1001,
-    --     config = function()
-    --         vim.cmd("colorscheme rose-pine")
-    --     end,
-    -- },
-    -- {
-    --     "olimorris/onedarkpro.nvim",
-    --     lazy = false,
-    --     priority = 1001,
-    --     config = function()
-    --         vim.cmd("colorscheme onedark")
-    --     end
-    -- },
-    -- {
-    --     "sainnhe/edge",
-    --     lazy = false,
-    --     priority = 1001,
-    --     config = function()
-    --         vim.cmd("colorscheme edge")
-    --     end,
-    -- },
+    -- list of colorschemes to try:
+    { "sainnhe/sonokai", lazy = false },
+    { "sainnhe/everforest", lazy = false },
+    { "sainnhe/gruvbox-material", lazy = false },
+    { "folke/tokyonight.nvim", lazy = false },
+    { "rose-pine/neovim", lazy = false },
+    { "olimorris/onedarkpro.nvim", lazy = false },
+    { "sainnhe/edge", lazy = false },
 }

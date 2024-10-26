@@ -112,6 +112,7 @@ return {
             nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
             nmap("gD", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Open Definition in Vertical Split")
             nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+            -- nmap("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
             nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
             nmap("<leader>li", vim.lsp.buf.incoming_calls, "[I]ncoming [C]alls")
             nmap("<leader>la", vim.lsp.buf.code_action, "[C]ode [A]ction")

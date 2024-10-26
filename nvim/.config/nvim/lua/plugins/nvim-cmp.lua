@@ -71,7 +71,7 @@ return {
                 debounce = 0,
                 fetching_timeout = 0,
                 -- async_budget = 1000,
-                max_view_entries = 10,
+                -- max_view_entries = 10,
             },
 
             formatting = {
