@@ -3,6 +3,24 @@ return {
     "rmagatti/auto-session",
     lazy = false,
     dependencies = { "nvim-telescope/telescope.nvim" },
+    keys = {
+        -- {
+        --     "<leader>fs",
+        --     require("auto-session.session-lens").search_session,
+        --     { noremap = true, desc = "Search session" },
+        -- },
+
+        {
+            "<leader>fs",
+            "<cmd>lua require('auto-session.session-lens').search_session()<CR>",
+            { noremap = true, desc = "Search session" },
+        },
+
+        { "<leader>fS", "<cmd>Autosession delete<CR>", { noremap = true, desc = "Delete session" } },
+
+        { "<leader>us", "<cmd>SessionSave<CR>", { noremap = true, desc = "Save session" } },
+    },
+
     config = function()
         vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
         -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
@@ -22,21 +40,6 @@ return {
                     border = true,
                 },
             },
-        })
-
-        vim.keymap.set("n", "<leader>ss", require("auto-session.session-lens").search_session, {
-            noremap = true,
-            desc = "Search session",
-        })
-
-        vim.keymap.set("n", "<leader>sd", "<cmd>Autosession delete<CR>", {
-            noremap = true,
-            desc = "Delete session",
-        })
-
-        vim.keymap.set("n", "<leader>sc", "<cmd>SessionSave<CR>", {
-            noremap = true,
-            desc = "Save session",
         })
 
         -- vim.cmd("Autosession search")
