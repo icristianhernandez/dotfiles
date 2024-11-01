@@ -92,8 +92,8 @@ vim.opt.showbreak = " ╰─ "
 vim.opt.undofile = true
 
 -- disable swap files
-vim.opt.hidden = false
-vim.opt.swapfile = false
+vim.opt.hidden = true
+vim.opt.swapfile = true
 
 -- sync buffers automatically between different neovim sessions
 vim.opt.autoread = true
@@ -108,5 +108,19 @@ vim.opt.fileformats = { "unix", "dos", "mac" }
 vim.opt.encoding = "utf-8"
 -- vim.opt.fileencoding = "utf-8"
 
--- instead of splits, open in tabs
-vim.opt.switchbuf = "newtab"
+-- instead of splits, open in tabs when opening through quickfix
+-- vim.opt.switchbuf = "newtab"
+
+-- set the title of the terminal to the name of the file
+vim.opt.title = true
+
+-- reduce command line msgs
+vim.opt.shortmess:append("WcC")
+
+-- Reduce scroll during window split
+vim.o.splitkeep = "screen"
+
+-- set syntax highlighting if not already set
+if vim.fn.exists("syntax_on") ~= 1 then
+    vim.cmd([[syntax enable]])
+end
