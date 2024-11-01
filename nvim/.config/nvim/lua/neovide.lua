@@ -13,13 +13,6 @@ vim.g.neovide_refresh_rate = 60
 -- vim.g.neovide_transparency = 0.95
 vim.g.neovide_fullscreen = true
 
--- if neovide open in exe directory, change to a desired initial directory
-local desired_initial_dir = "~/"
-local neovide_exe_path = "/mnt/c/Program Files/Neovide"
-if vim.fn.getcwd() == neovide_exe_path then
-    vim.cmd("cd " .. desired_initial_dir)
-end
-
 ---- neovide keymaps
 -- toggle fullscreen
 vim.api.nvim_set_keymap(
