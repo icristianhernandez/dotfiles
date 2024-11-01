@@ -22,6 +22,7 @@ return {
             filetypes = {
                 markdown = true,
                 gitcommit = true,
+                ["*"] = true,
             },
         })
     end,

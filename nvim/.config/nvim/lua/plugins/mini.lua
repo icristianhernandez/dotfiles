@@ -10,11 +10,13 @@ return {
 
     config = function()
         require("mini.trailspace").setup()
+
         require("mini.files").setup({
             windows = {
                 preview = true,
             },
         })
+
         require("mini.move").setup({
             mappings = {
                 up = "K",
@@ -23,6 +25,8 @@ return {
                 right = "L",
             },
         })
+
+        require("mini.cursorword").setup()
     end,
 
     keys = {

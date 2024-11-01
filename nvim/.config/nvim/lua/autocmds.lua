@@ -79,12 +79,39 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     desc = "remember last cursor place",
     callback = function()
         local mark = vim.api.nvim_buf_get_mark(0, '"')
-        local lcount = vim.api.nvim_buf_line_count(0)
+        local lines_count = vim.api.nvim_buf_line_count(0)
+        local ft_exclude = { "gitcommit", "gitrebase", "svn", "hgcommit" }
 
-        if mark[1] > 0 and mark[1] <= lcount then
-            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+        if vim.tbl_contains(ft_exclude, vim.bo.filetype) then
+            return
         end
 
+        local row_exist = mark[1] > 0 and mark[1] <= lines_count
+        if not row_exist then
+            return
+        end
+
+        local line_columns = #vim.api.nvim_buf_get_lines(0, mark[1] - 1, mark[1], false)[1]
+        local column_exist = mark[2] >= 0 and mark[2] <= line_columns
+        if not column_exist then
+            return
+        end
+
+        pcall(vim.api.nvim_win_set_cursor, 0, mark)
         vim.cmd("normal! zz")
     end,
 })
+
+-- maximize split when focus on it
+-- vim.api.nvim_create_autocmd("FocusGained", {
+--     pattern = { "*" },
+--     callback = function()
+--         vim.cmd("wincmd _")
+--     end,
+-- })
+-- vim.api.nvim_create_autocmd("FocusLost", {
+--     pattern = { "*" },
+--     callback = function()
+--         vim.cmd("wincmd =")
+--     end,
+-- })

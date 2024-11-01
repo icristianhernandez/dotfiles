@@ -11,6 +11,7 @@ vim.g.neovide_cursor_antialiasing = true
 vim.opt.linespace = -1
 vim.g.neovide_refresh_rate = 60
 -- vim.g.neovide_transparency = 0.95
+vim.g.neovide_fullscreen = true
 
 -- if neovide open in exe directory, change to a desired initial directory
 local desired_initial_dir = "~/"

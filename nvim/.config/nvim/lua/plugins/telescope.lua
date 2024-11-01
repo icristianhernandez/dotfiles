@@ -35,7 +35,12 @@ return {
     keys = {
         { "<leader>ff", ":Telescope find_files<CR>", desc = "Find files", silent = true },
         { "<leader>fg", ":Telescope live_grep<CR>", desc = "Live grep", silent = true },
-        { "<leader>fb", ":Telescope buffers<CR>", desc = "Buffers", silent = true },
+        {
+            "<leader>fb",
+            ":Telescope buffers<CR>",
+            desc = "Unsaved Buffers",
+            silent = true,
+        },
         { "<leader>fh", ":Telescope help_tags<CR>", desc = "Help tags", silent = true },
         {
             "<leader>fa",
