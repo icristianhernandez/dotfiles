@@ -18,7 +18,7 @@ return {
 
         { "<leader>fS", "<cmd>Autosession delete<CR>", { noremap = true, desc = "Delete session" } },
 
-        { "<leader>us", "<cmd>SessionSave<CR>", { noremap = true, desc = "Save session" } },
+        { "<leader>uw", "<cmd>SessionSave<CR>", { noremap = true, desc = "Save session" } },
     },
 
     config = function()
