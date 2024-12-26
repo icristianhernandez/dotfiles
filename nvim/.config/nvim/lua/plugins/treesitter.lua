@@ -24,7 +24,9 @@ return {
 
             highlight = {
                 enable = true,
-                use_languagetree = true,
+
+                -- -- May slow down:
+                -- additional_vim_regex_highlighting = true,
             },
             indent = {
                 enable = true,
@@ -43,6 +45,7 @@ return {
                 "bash",
                 "c",
                 "cpp",
+                "doxygen",
                 "fish",
                 "gitcommit",
                 "html",

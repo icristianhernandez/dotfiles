@@ -23,7 +23,7 @@ return {
 
     config = function()
         vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
-        -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
+        -- vim.o.sessionoptions = "curdir,folds,help,tabpages,terminal,"
         local is_cwd_home = vim.fn.getcwd() == vim.loop.os_homedir()
 
         require("auto-session").setup({

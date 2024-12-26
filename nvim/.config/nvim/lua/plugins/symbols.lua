@@ -7,8 +7,8 @@ return {
         local r = require("symbols.recipes")
 
         require("symbols").setup(r.DefaultFilters, r.AsciiSymbols, {
-            hide_cursor = false,
             sidebar = {
+                hide_cursor = false,
                 open_direction = "left",
                 close_on_goto = true,
 

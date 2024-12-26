@@ -6,6 +6,7 @@ return {
         { "<C-n>", "<CMD>GlobalNote<CR>", mode = "t", desc = "Global Notes" },
         { "<C-n>", "<CMD>GlobalNote<CR>", desc = "Global Notes" },
         { "<leader>un", "<CMD>GlobalNote<CR>", desc = "Global Notes" },
+        { "<C-ñ>", "<CMD>ProjectPrivateNote", mode = "t", desc = "Global Notes" },
         { "<C-ñ>", "<CMD>ProjectPrivateNote<CR>", desc = "Private Notes" },
         { "<leader>uN", "<CMD>ProjectPrivateNote<CR>", desc = "Private Notes" },
     },

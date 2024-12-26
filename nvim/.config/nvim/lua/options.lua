@@ -42,6 +42,9 @@ vim.opt.inccommand = "split"
 -- remain visible even when scrolling
 vim.opt.scrolloff = 7
 
+-- blink cursor
+vim.o.guicursor = "i-ci:ver25-blinkwait250-blinkon500-blinkoff450,r-cr-o:hor20"
+
 -- character used to visually represent whitespace inserted by Vim
 -- to automatically fill lines to a specific width
 vim.opt.fillchars = { eob = " " }

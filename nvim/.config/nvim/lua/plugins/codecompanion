@@ -1,0 +1,55 @@
+return {
+    "olimorris/codecompanion.nvim",
+
+    lazy = false,
+
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-telescope/telescope.nvim", -- Optional: For using slash commands
+        {
+            "MeanderingProgrammer/render-markdown.nvim",
+            ft = { "markdown", "codecompanion" }, -- Optional: For prettier markdown rendering
+            { "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
+        },
+        config = true,
+    },
+
+    cmd = {
+        "CodeCompanion",
+        "CodeCompanionChat",
+        "CodeCompanionActions",
+    },
+
+    keys = {
+        { "<leader>ac", ":CodeCompanionChat Toggle<CR>", mode = { "n", "v" }, { noremap = true, silent = true } },
+        { "<leader>aa", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, noremap = true, silent = true },
+    },
+
+    config = function()
+        vim.cmd([[cab cc CodeCompanion]])
+
+        require("codecompanion").setup({
+            display = {
+                chat = {
+                    render_headers = true,
+                    window = {
+                        layout = "float",
+                    },
+                },
+            },
+            strategies = {
+                chat = {
+                    adapter = "copilot",
+                },
+                inline = {
+                    adapter = "copilot",
+                },
+                agent = {
+                    adapter = "copilot",
+                },
+            },
+            log_level = "DEBUG",
+        })
+    end,
+}

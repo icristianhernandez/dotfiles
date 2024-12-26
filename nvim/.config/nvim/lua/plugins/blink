@@ -1,0 +1,54 @@
+return {
+    "saghen/blink.cmp",
+    lazy = false,
+    version = "v0.*",
+    dependencies = { "rafamadriz/friendly-snippets", "neovim/nvim-lspconfig" },
+
+    config = function()
+        -- require("extras.cmp_completion_hl")
+
+        -- That keymap break the snippet sequences.
+        -- Maybe the fix is change the tab/shift-tab logic.
+        vim.keymap.set("s", "<BS>", "<C-O>s")
+
+        require("blink.cmp").setup({
+            keymap = {
+                preset = "enter",
+                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+            },
+
+            windows = {
+                autocomplete = {
+                    -- auto_insert doesn't select the first item, and fake insert when tabbing the menu
+                    -- manual doesn't insert first item and doesn't fake insert when tabbing the menu
+                    selection = "manual",
+                    min_width = 30,
+                    draw = {
+                        -- align_to_component = "none",
+                        columns = {
+                            { "kind_icon" },
+                            { "label", "label_description", gap = 10 },
+                            { "kind" },
+                        },
+                    },
+                },
+                documentation = {
+                    auto_show = true,
+                    border = "single",
+                },
+            },
+
+            -- experimental auto-brackets support
+            accept = { auto_brackets = { enabled = true } },
+
+            -- experimental signature help support
+            trigger = { signature_help = { enabled = true } },
+
+            highlight = {
+                use_nvim_cmp_as_default = true,
+            },
+            nerd_font_variant = "mono",
+        })
+    end,
+}

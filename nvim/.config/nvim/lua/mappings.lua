@@ -106,6 +106,9 @@ vim.keymap.set("n", "<C-o>", "<C-o>zz", create_opts("Center the screen"))
 -- reload the current buffer
 vim.keymap.set("n", "<leader>r", "<cmd>edit!<CR>", create_opts("Reload the current buffer"))
 
+-- reload the vimrc
+vim.keymap.set("n", "<leader>R", "<cmd>source $MYVIMRC<CR>", create_opts("Reload the vimrc"))
+
 -- Show all diagnostics on current line in floating window
 vim.api.nvim_set_keymap(
     "n",
@@ -119,6 +122,13 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", create_opts("Move focus to the left w
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", create_opts("Move focus to the right window"))
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", create_opts("Move focus to the lower window"))
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", create_opts("Move focus to the upper window"))
+vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w><C-h>", create_opts("Move focus to the left window in terminal"))
+vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w><C-l>", create_opts("Move focus to the right window in terminal"))
+vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w><C-j>", create_opts("Move focus to the lower window in terminal"))
+vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w><C-k>", create_opts("Move focus to the upper window in terminal"))
+
+-- Terminal leave commands
+vim.keymap.set("t", "<Esc>", "<C-\\><C-N>", create_opts("Leave terminal mode"))
 
 -- Move the visual selection up and down
 -- vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", create_opts("Move the visual selection down"))

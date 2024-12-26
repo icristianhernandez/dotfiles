@@ -4,16 +4,13 @@
 -- and auto assignation of lsp servers
 
 local lsp_servers = {
-    -- "typos_lsp", -- code-spell checker
-    "lua_ls",
-    -- for TOML:
-    "taplo",
-    -- for Python:
-    "pyright",
-    -- for C/C++:
-    "clangd",
-    -- for Markdown:
-    "marksman",
+    lua_ls = {},
+    -- TOML:
+    taplo = {},
+    pyright = {},
+    clangd = {},
+    -- Markdown:
+    marksman = {},
 }
 
 local formatters = {
@@ -86,14 +83,7 @@ return {
 
     config = function()
         local lspconfig = require("lspconfig")
-        local capabilities
-        if vim.fn.exists(":CmpNvimLsp") == 2 then
-            capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
-        else
-            capabilities = vim.lsp.protocol.make_client_capabilities()
-            -- report that cmp is not installed
-            print("cmp_nvim_lsp is not installed")
-        end
+
         local on_attach_keymaps = function(_, bufnr)
             local nmap = function(keys, func, desc)
                 if desc then
@@ -135,12 +125,20 @@ return {
             -- nmap("<leader>br", require("dap").toggle_breakpoint, "Toggle Breakpoint")
         end
 
-        for _, server in ipairs(lsp_servers) do
-            lspconfig[server].setup({
-                capabilities = capabilities,
-                on_attach = on_attach_keymaps,
-                -- on_init = on_init,
-            })
+        for server, config in pairs(lsp_servers) do
+            local capabilities
+            if pcall(require, "blink") then
+                capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+            elseif pcall(require, "cmp") then
+                capabilities = require("cmp_nvim_lsp").default_capabilities()
+            else
+                capabilities = config.capabilities
+            end
+
+            config.capabilities = capabilities
+            config.on_attach = on_attach_keymaps
+
+            lspconfig[server].setup(config)
         end
 
         local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }

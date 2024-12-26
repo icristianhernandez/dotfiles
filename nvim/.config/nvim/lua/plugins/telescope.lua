@@ -35,10 +35,17 @@ return {
     keys = {
         { "<leader>ff", ":Telescope find_files<CR>", desc = "Find files", silent = true },
         { "<leader>fg", ":Telescope live_grep<CR>", desc = "Live grep", silent = true },
+        -- grep in current directory
+        {
+            "<leader>fG",
+            ":Telescope live_grep cwd=<c-r>=expand('%:p:h')<cr><CR>",
+            desc = "Live grep in current directory",
+            silent = true,
+        },
         {
             "<leader>fb",
             ":Telescope buffers<CR>",
-            desc = "Unsaved Buffers",
+            desc = "Telescope Buffers",
             silent = true,
         },
         { "<leader>fh", ":Telescope help_tags<CR>", desc = "Help tags", silent = true },

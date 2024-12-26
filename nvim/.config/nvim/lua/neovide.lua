@@ -4,14 +4,28 @@ if not vim.g.neovide then
 end
 
 -- font settings
+-- function to set font with proper fallbacks
+local set_font = function(font)
+    vim.o.guifont = font .. ",JetBrainsMonoNL Nerd Font:h14, Symbols Nerd Font:h14, Noto Color Emoji:h14"
+end
+
 vim.o.guifont = "JetBrainsMonoNL Nerd Font:h14"
+-- set_font("FiraMono Nerd Font:h14")
+-- set_font("Monocraft Nerd Font:h14")
+-- set_font("Cascadia Mono:h14")
 
 -- neovide settings
 vim.g.neovide_cursor_antialiasing = true
-vim.opt.linespace = -1
+vim.opt.linespace = 0
 vim.g.neovide_refresh_rate = 60
 -- vim.g.neovide_transparency = 0.95
 vim.g.neovide_fullscreen = true
+-- vim.g.neovide_underline_stroke_scale = 3
+vim.g.neovide_cursor_smooth_blink = true
+-- little centering padding
+local centering_padding = 1
+vim.g.neovide_padding_right = centering_padding
+vim.g.neovide_padding_left = centering_padding
 
 ---- neovide keymaps
 -- toggle fullscreen
