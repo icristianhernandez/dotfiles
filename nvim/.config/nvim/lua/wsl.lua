@@ -1,6 +1,9 @@
 local desired_initial_dir = "~/"
+
 local windows_default_paths = {
     "/mnt/c/Program Files/Neovide",
+    "/mnt/c/Users/crist/OneDrive/Escritorio",
+    "/mnt/c/Users/crist/Desktop",
     "/mnt/d/windows-app/Neovim/",
 }
 

@@ -1,4 +1,5 @@
 return {
+    -- arrow: an harpoon like plugin with a noob friendly interface
     "otavioschwanck/arrow.nvim",
     dependencies = {
         { "nvim-tree/nvim-web-devicons" },
