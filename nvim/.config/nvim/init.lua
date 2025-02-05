@@ -1,28 +1,16 @@
 local uname = vim.loop.os_uname()
 _G.OS = uname.sysname
-_G.IS_MAC = OS == "Darwin"
-_G.IS_LINUX = OS == "Linux"
-_G.IS_WINDOWS = OS:find("Windows") and true or false
-_G.IS_WSL = IS_LINUX and uname.release:lower():find("microsoft") and true or false
-
-require("options")
-
-vim.schedule(function()
-    require("mappings")
-end)
-
-vim.schedule(function()
-    require("user_commands")
-end)
-
-require("autocmds")
+_G.IS_MAC = _G.OS == "Darwin"
+_G.IS_LINUX = _G.OS == "Linux"
+_G.IS_WINDOWS = string.find(_G.OS, "Windows") and true or false
+_G.IS_WSL = _G.IS_LINUX and string.find(uname.release:lower(), "microsoft") and true or false
 
 if vim.g.neovide then
-    require("neovide")
+  require("config.neovide")
 end
 
 if _G.IS_WSL then
-    require("wsl")
+  require("config.wsl")
 end
 
-require("lazyload")
+require("config.lazy")
