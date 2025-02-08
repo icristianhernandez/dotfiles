@@ -1,5 +1,5 @@
 if not vim.g.neovide then
-  return
+    return
 end
 
 local centered_padding = 1
@@ -21,23 +21,23 @@ vim.g.neovide_scroll_animation_far_lines = 0
 ---- neovide keymaps
 -- toggle fullscreen
 vim.api.nvim_set_keymap(
-  "n",
-  "<F11>",
-  ":lua vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen<CR>",
-  { noremap = true, silent = true }
+    "n",
+    "<F11>",
+    ":lua vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen<CR>",
+    { noremap = true, silent = true }
 )
 
 -- change font scale
 local change_scale_factor = function(delta)
-  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
 end
 
 vim.keymap.set("n", "<C-+>", function()
-  change_scale_factor(1 + scale_delta)
+    change_scale_factor(1 + scale_delta)
 end)
 vim.keymap.set("n", "<C-->", function()
-  change_scale_factor(1 / (1 + scale_delta))
+    change_scale_factor(1 / (1 + scale_delta))
 end)
 vim.keymap.set("n", "<C-'>", function()
-  vim.g.neovide_scale_factor = 1
+    vim.g.neovide_scale_factor = 1
 end)
