@@ -1,12 +1,9 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
 -- leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- use independent clipboard for neovim
--- vim.opt.clipboard = ""
+vim.opt.clipboard = ""
 
 -- True color
 vim.o.termguicolors = true
@@ -16,6 +13,14 @@ vim.o.mouse = "a"
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
+
+-- set shell to fish if available
+if vim.fn.executable("fish") == 1 then
+    vim.o.shell = "fish"
+end
+
+-- lazyvim configs:
+vim.g.ai_cmp = false
 
 -- change identation to 4 spaces
 vim.opt.tabstop = 8
@@ -30,6 +35,10 @@ vim.opt.autoindent = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- Show the current document symbols location from Trouble in lualine
+-- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
+vim.g.trouble_lualine = false
+
 -- show line numbers
 vim.opt.number = true
 vim.opt.numberwidth = 4
@@ -37,9 +46,6 @@ vim.opt.numberwidth = 4
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
--- Incremental live completion
-vim.opt.inccommand = "split"
 
 -- determines the number of lines above and below the cursor that
 -- remain visible even when scrolling
@@ -78,6 +84,9 @@ vim.o.signcolumn = "yes"
 vim.o.splitbelow = true
 vim.o.splitright = true
 
+-- I don't like that very much...
+vim.opt.relativenumber = false
+
 -- show matching brackets
 vim.o.showmatch = true
 
@@ -85,14 +94,14 @@ vim.o.showmatch = true
 vim.opt.textwidth = 80
 vim.opt.wrap = true
 vim.opt.smoothscroll = true
-vim.opt.linebreak = true
+vim.opt.linebreak = true -- Wrap lines at convenient points
 vim.opt.formatoptions = "jqlnt"
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:0,min:0"
 vim.opt.showbreak = " ╰─ "
 -- vim.opt.showbreak = " ··↪:"
 -- vim.opt.showbreak = "······"
--- test:
+-- test: ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 
 -- store undo history
 vim.opt.undofile = true

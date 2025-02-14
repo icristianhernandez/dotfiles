@@ -7,6 +7,10 @@ local scale_delta = 0.1
 
 vim.o.guifont = "JetBrainsMonoNL Nerd Font:h14"
 
+if vim.g.neovide then
+    vim.g.snacks_animate = false
+end
+
 vim.g.neovide_cursor_antialiasing = true
 vim.opt.linespace = 0
 vim.g.neovide_refresh_rate = 120
