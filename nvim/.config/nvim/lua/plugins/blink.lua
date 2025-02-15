@@ -2,6 +2,7 @@ vim.keymap.set("s", "<BS>", "<C-O>s")
 
 return {
     "saghen/blink.cmp",
+    enabled = false,
 
     opts = {
         signature = { enabled = true },
