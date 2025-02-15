@@ -3,7 +3,25 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- use independent clipboard for neovim
-vim.opt.clipboard = ""
+local uname = vim.loop.os_uname()
+_G.OS = uname.sysname
+_G.IS_LINUX = _G.OS == "Linux"
+_G.IS_WSL = _G.IS_LINUX and string.find(uname.release:lower(), "microsoft") and true or false
+
+if _G.IS_WSL then
+    vim.g.clipboard = {
+        name = "WslClipboard",
+        copy = {
+            ["+"] = "clip.exe",
+        },
+        paste = {
+            ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        cache_enabled = 0,
+    }
+else
+    vim.opt.clipboard = ""
+end
 
 -- True color
 vim.o.termguicolors = true

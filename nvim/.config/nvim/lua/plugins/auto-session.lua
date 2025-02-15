@@ -4,16 +4,20 @@ return {
     "rmagatti/auto-session",
     lazy = false,
 
-    ---@module "auto-session"
-    ---@type AutoSession.Config
-    opts = {
-        bypass_save_filetypes = { "alpha", "dashboard" },
-        use_git_branch = true,
-        auto_restore_last_session = vim.loop.cwd() == vim.loop.os_homedir()
-            and vim.fn.argc() == 0
-            and (#vim.api.nvim_list_uis() > 0),
-        cwd_change_handling = true,
-    },
+    opts = function()
+        vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+        ---@module "auto-session"
+        ---@type AutoSession.Config
+        return {
+            bypass_save_filetypes = { "alpha", "dashboard" },
+            use_git_branch = true,
+            auto_restore_last_session = vim.loop.cwd() == vim.loop.os_homedir()
+                and vim.fn.argc() == 0
+                and (#vim.api.nvim_list_uis() > 0),
+            cwd_change_handling = true,
+        }
+    end,
 
     keys = {
         {
@@ -27,10 +31,4 @@ return {
             { noremap = true, desc = "Delete sessions" },
         },
     },
-
-    config = function(_, opts)
-        vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
-        require("auto-session").setup(opts)
-    end,
 }

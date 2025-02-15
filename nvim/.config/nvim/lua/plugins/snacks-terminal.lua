@@ -1,10 +1,12 @@
 return {
     "folke/snacks.nvim",
+
     opts = {
         terminal = {
             win = { style = "float" },
         },
     },
+
     keys = {
         {
             "<c-space>",
