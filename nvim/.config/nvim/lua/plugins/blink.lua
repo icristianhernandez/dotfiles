@@ -2,7 +2,7 @@ vim.keymap.set("s", "<BS>", "<C-O>s")
 
 return {
     "saghen/blink.cmp",
-    enabled = false,
+    enabled = true,
 
     opts = {
         signature = { enabled = true },
@@ -26,8 +26,9 @@ return {
             trigger = { show_on_blocked_trigger_characters = {} },
         },
 
-        sources = {
-            cmdline = function()
+        cmdline = {
+            enabled = true,
+            sources = function()
                 local type = vim.fn.getcmdtype()
                 -- Search forward and backward
                 if type == "/" or type == "?" then
@@ -39,7 +40,9 @@ return {
                 end
                 return {}
             end,
+        },
 
+        sources = {
             -- add newline, tab and space to LSP source trigger characters
             providers = {
                 lsp = {
