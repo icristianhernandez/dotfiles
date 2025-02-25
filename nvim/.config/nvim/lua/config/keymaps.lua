@@ -43,5 +43,12 @@ vim.keymap.set("n", "^", "0", create_opts("Change ^ to 0"))
 vim.keymap.set("n", "{", "[", { remap = true, silent = true, desc = "Remap { to [" })
 vim.keymap.set("n", "}", "]", { remap = true, silent = true, desc = "Remap } to ]" })
 
+-- ctrl+bs to delete word
+vim.keymap.set({ "i" }, "<C-BS>", "<C-w>", create_opts("Delete word backward"))
+vim.keymap.set({ "i" }, "<C-h>", "<C-w>", create_opts("Delete word backward"))
+
 -- try new things:
 vim.keymap.set("n", "<leader><leader>", "<C-^>", create_opts("Go to Alternate Buffer"))
+
+-- select recently pasted, yanked or changed text
+vim.keymap.set("n", "gp", "`[v`]", { desc = "Select recently pasted, yanked or changed text" })
