@@ -79,6 +79,7 @@ vim.o.cursorlineopt = "line,number"
 
 -- sign column always displayed
 vim.o.signcolumn = "yes"
+vim.opt.statuscolumn = ""
 
 -- news panes are displayed right or under the actual pane
 vim.o.splitbelow = true
@@ -98,7 +99,9 @@ vim.opt.linebreak = true -- Wrap lines at convenient points
 vim.opt.formatoptions = "jqlnt"
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:0,min:0"
-vim.opt.showbreak = " ╰─ "
+vim.opt.showbreak = " └─▶ "
+-- vim.opt.showbreak = "↪↪"
+-- vim.opt.showbreak = " ↪↪↪ "
 -- vim.opt.showbreak = " ··↪:"
 -- vim.opt.showbreak = "······"
 -- test: ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
@@ -134,8 +137,3 @@ vim.opt.shortmess:append("WcC")
 
 -- Reduce scroll during window split
 vim.o.splitkeep = "screen"
-
--- set syntax highlighting if not already set
-if vim.fn.exists("syntax_on") ~= 1 then
-    vim.cmd([[syntax enable]])
-end

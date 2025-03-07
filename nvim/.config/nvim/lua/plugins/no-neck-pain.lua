@@ -1,7 +1,6 @@
 return {
     -- no-neck-pain: center the buffer
     "shortcuts/no-neck-pain.nvim",
-    lazy = true,
     event = "BufReadPre",
 
     opts = function()

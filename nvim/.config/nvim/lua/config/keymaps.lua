@@ -9,12 +9,12 @@ vim.keymap.set({ "n", "v", "x" }, "<C-v>", '"+p', { noremap = false, silent = tr
 -- system clipboard mappings, insert mode
 -- in cmd line, has the problem that insert the clipboard content but not auto
 -- render the content
+-- update: seems to be fixed in the new neovim version or with noice cmdline
 vim.keymap.set({ "i", "c" }, "<C-v>", "<C-r><C-o>+", { noremap = false, silent = true, desc = "Paste from clipboard" })
 
 -- delete single character without copying into register
 vim.keymap.set("n", "x", '"_x', create_opts("Delete single character without copying into register"))
 
--- Keep last yanked when pasting
 vim.keymap.set("v", "p", '"_dP', create_opts("Keep last yanked when pasting"))
 
 -- ctrl + a to select all
@@ -22,12 +22,6 @@ vim.keymap.set("n", "<C-a>", "ggVG", create_opts("Select all"))
 
 -- reload the current buffer
 vim.keymap.set("n", "<leader>wr", "<cmd>edit!<CR>", create_opts("Reload the current buffer"))
-
--- reload the vimrc
-vim.keymap.set("n", "<leader>wR", "<cmd>source $MYVIMRC<CR>", create_opts("Reload the vimrc"))
-
--- -- Terminal leave commands
--- vim.keymap.set("t", "<Esc>", "<C-\\><C-N>", create_opts("Leave terminal mode"))
 
 -- In insert mode, arrow move with ctrl+hjkl
 vim.api.nvim_set_keymap("i", "<C-h>", "<Left>", create_opts("Move left with ctrl+h"))
@@ -43,12 +37,30 @@ vim.keymap.set("n", "^", "0", create_opts("Change ^ to 0"))
 vim.keymap.set("n", "{", "[", { remap = true, silent = true, desc = "Remap { to [" })
 vim.keymap.set("n", "}", "]", { remap = true, silent = true, desc = "Remap } to ]" })
 
--- ctrl+bs to delete word
-vim.keymap.set({ "i" }, "<C-BS>", "<C-w>", create_opts("Delete word backward"))
-vim.keymap.set({ "i" }, "<C-h>", "<C-w>", create_opts("Delete word backward"))
-
 -- try new things:
 vim.keymap.set("n", "<leader><leader>", "<C-^>", create_opts("Go to Alternate Buffer"))
 
 -- select recently pasted, yanked or changed text
 vim.keymap.set("n", "gp", "`[v`]", { desc = "Select recently pasted, yanked or changed text" })
+
+-- disable native ctrl+w
+vim.keymap.set({ "i", "c" }, "<C-w>", "<Nop>", { noremap = true, silent = true, desc = "Disable native ctrl+w" })
+
+-- ctrl+bs and ctrl+h to delete word in insert mode
+-- the array of keys is trying to debug a bug when doing c-bs in snacks.picker
+vim.keymap.set({ "i", "l", "o", "s" }, "<C-BS>", "<C-w>", create_opts("Delete word backward"))
+vim.keymap.set({ "i", "l", "o", "s" }, "<C-h>", "<C-w>", create_opts("Delete word backward"))
+
+-- ctrl+bs and ctrl+h to delete word in command-line mode with immediate redraw
+-- (don't auto redraw with the prior keymaps)
+vim.keymap.set("c", "<C-BS>", function()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-w>", true, false, true), "n", true)
+    -- that redraw probably causes bugs
+    vim.cmd("redraw")
+end, { noremap = true, silent = true, desc = "Delete word backward" })
+
+vim.keymap.set("c", "<C-h>", function()
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-w>", true, false, true), "n", true)
+    -- that redraw probably causes bugs
+    vim.cmd("redraw")
+end, { noremap = true, silent = true, desc = "Delete word backward" })

@@ -1,18 +1,38 @@
+-- To remove an snippet placeholder that doesn't go away when typing
 vim.keymap.set("s", "<BS>", "<C-O>s")
+
+if vim.fn.has("nvim-0.11") == 1 then
+    -- Ensure that forced and not configurable `<Tab>` and `<S-Tab>`
+    -- buffer-local mappings don't override already present ones
+    local expand_orig = vim.snippet.expand
+    vim.snippet.expand = function(...)
+        local tab_map = vim.fn.maparg("<Tab>", "i", false, true)
+        local stab_map = vim.fn.maparg("<S-Tab>", "i", false, true)
+        expand_orig(...)
+        vim.schedule(function()
+            tab_map.buffer, stab_map.buffer = 1, 1
+            -- Override temporarily forced buffer-local mappings
+            vim.fn.mapset("i", false, tab_map)
+            vim.fn.mapset("i", false, stab_map)
+        end)
+    end
+else
+    -- report message than an cmp patch is being used and only enabled in nvim 0.11
+    -- vim.notify_once("cmp patch is being used and only enabled in nvim 0.11", "warn")
+    vim.notify_once("cmp patch is being used and only enabled in nvim 0.11", "info")
+end
 
 return {
     "saghen/blink.cmp",
-    enabled = true,
 
     opts = {
         signature = { enabled = true },
 
         keymap = {
-            -- preset = "super-tab",
             preset = "none",
-            ["<CR>"] = { "accept", "fallback" },
             ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
             ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+            ["<CR>"] = { "accept", "fallback" },
         },
 
         completion = {
@@ -28,6 +48,19 @@ return {
 
         cmdline = {
             enabled = true,
+            completion = {
+                list = { selection = { preselect = false, auto_insert = true } },
+                ghost_text = { enabled = false },
+                menu = { auto_show = true },
+            },
+
+            keymap = {
+                preset = "none",
+                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+                ["<CR>"] = { "accept", "fallback" },
+            },
+
             sources = function()
                 local type = vim.fn.getcmdtype()
                 -- Search forward and backward

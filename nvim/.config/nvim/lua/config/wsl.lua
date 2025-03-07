@@ -5,6 +5,8 @@ local windows_default_paths = {
     "/mnt/c/Users/crist/OneDrive/Escritorio",
     "/mnt/c/Users/crist/Desktop",
     "/mnt/d/windows-app/Neovim/",
+    "/mnt/d/windows-app/",
+    "/mnt/d/windows-app",
 }
 
 for _, default_path in ipairs(windows_default_paths) do
