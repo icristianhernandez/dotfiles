@@ -64,3 +64,8 @@ vim.keymap.set("c", "<C-h>", function()
     -- that redraw probably causes bugs
     vim.cmd("redraw")
 end, { noremap = true, silent = true, desc = "Delete word backward" })
+
+-- duplicate selection and comment the initial
+-- vim.keymap.set("v", "gy", "ygvgc`>p", { remap = true, desc = "[C]opy to a comment above" })
+-- to the above commands, also add that restore the prior yank register
+vim.keymap.set("v", "gy", "ygvgc`>p`[", { remap = true, desc = "[C]opy to a comment above" })
