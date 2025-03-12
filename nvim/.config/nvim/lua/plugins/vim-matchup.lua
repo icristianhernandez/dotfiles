@@ -7,7 +7,7 @@ return {
         vim.g.matchup_matchparen_stopline = vim.o.lines * 3
         vim.g.matchup_matchparen_deferred = 1
 
-        vim.g.matchup_matchparen_hi_surround_always = 1
+        vim.g.matchup_matchparen_hi_surround_always = 0
         Snacks.toggle({
             name = "Matchup Hi Surround",
             get = function()
