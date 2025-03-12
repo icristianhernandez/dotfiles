@@ -7,9 +7,18 @@ return {
         vim.g.matchup_matchparen_stopline = vim.o.lines * 3
         vim.g.matchup_matchparen_deferred = 1
 
-        -- use one of both
         vim.g.matchup_matchparen_hi_surround_always = 1
-        -- vim.keymap.set("n", "<leader>ci", "<plug>(matchup-hi-surround)", { silent = true })
+        Snacks.toggle({
+            name = "Matchup Hi Surround",
+            get = function()
+                return vim.g.matchup_matchparen_hi_surround_always == 1
+            end,
+            set = function(state)
+                vim.g.matchup_matchparen_hi_surround_always = state and 1 or 0
+            end,
+        }):map("<leader>uH")
+
+        vim.keymap.set("n", "<leader>ci", "<plug>(matchup-hi-surround)", { silent = true })
 
         return opts
     end,
