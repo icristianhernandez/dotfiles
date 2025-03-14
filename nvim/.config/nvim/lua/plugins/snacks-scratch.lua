@@ -4,8 +4,6 @@ return {
     opts = {
         styles = {
             scratch = {
-                -- height = 25,
-
                 height = function()
                     return vim.o.lines - 3
                 end,
@@ -22,14 +20,13 @@ return {
         },
     },
 
-    -- keys = {
-    --     {
-    --         "<c-space>",
-    --         function()
-    --             Snacks.terminal()
-    --         end,
-    --         desc = "Terminal (cwd)",
-    --         mode = { "n", "t" },
-    --     },
-    -- },
+    keys = {
+        {
+            "<C-n>",
+            function()
+                Snacks.scratch()
+            end,
+            desc = "Toggle Scratch Buffer",
+        },
+    },
 }
