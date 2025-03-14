@@ -19,14 +19,20 @@ if vim.fn.has("nvim-0.11") == 1 then
 else
     -- report message than an cmp patch is being used and only enabled in nvim 0.11
     -- vim.notify_once("cmp patch is being used and only enabled in nvim 0.11", "warn")
-    vim.notify_once("cmp patch is being used and only enabled in nvim 0.11", "info")
+    vim.notify_once("cmp patch is being used and only enabled in nvim 0.11", vim.log.levels.INFO)
 end
 
 return {
     "saghen/blink.cmp",
 
     opts = {
-        signature = { enabled = true },
+        signature = {
+            enabled = true,
+            trigger = {
+                show_on_keyword = true,
+                show_on_insert = true,
+            },
+        },
 
         keymap = {
             preset = "none",
@@ -73,6 +79,10 @@ return {
                 end
                 return {}
             end,
+        },
+
+        term = {
+            enabled = true,
         },
 
         sources = {

@@ -7,8 +7,8 @@ return {
     opts = function()
         -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
         -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
-        -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
-        vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
+        vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
+        -- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
 
         ---@module "auto-session"
         ---@type AutoSession.Config
@@ -19,6 +19,7 @@ return {
                 and vim.fn.argc() == 0
                 and (#vim.api.nvim_list_uis() > 0),
             cwd_change_handling = true,
+            continue_restore_on_error = true,
         }
     end,
 

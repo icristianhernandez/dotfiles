@@ -22,6 +22,7 @@ return {
             local default_bg = colors_helpers.get_bg_color_hex(base)
             local cursor_bg = colors_helpers.get_bg_color_hex(base .. "CursorLine")
             local blended = colors_helpers.blend_colors_hex(default_bg, cursor_bg, blend_rate)
+            -- local hl_target = target_hl or (base .. "CursorLineNr")
             local hl_target = target_hl or (base .. "CursorLineNr")
             vim.api.nvim_set_hl(0, hl_target, { bg = blended })
             vim.api.nvim_set_hl(0, base .. "CursorLineSign", { bg = blended })
@@ -34,8 +35,10 @@ return {
             end
             if vim.o.background == "dark" then
                 applyBlendedHighlight("ModesVisual", blend_rate_visual_dark, "ModesVisualVisual")
+                applyBlendedHighlight("ModesVisual", blend_rate_visual_dark)
             elseif vim.o.background == "light" then
                 applyBlendedHighlight("ModesVisual", blend_rate_visual_light, "ModesVisualVisual")
+                applyBlendedHighlight("ModesVisual", blend_rate_visual_dark)
                 applyBlendedHighlight("ModesInsert", blend_rate_insert_light)
             end
         end
