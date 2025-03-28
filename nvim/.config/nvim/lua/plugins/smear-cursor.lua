@@ -6,5 +6,7 @@ return {
         stiffness = 0.6,
         trailing_stiffness = 0.3,
         distance_stop_animating = 0.4,
+        -- never_draw_over_target = false,
+        never_draw_over_target = true,
     },
 }
