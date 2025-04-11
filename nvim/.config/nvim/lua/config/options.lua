@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- use independent clipboard for neovim
-vim.opt.clipboard = ""
+vim.g.clipboard = ""
 
 -- True color
 vim.o.termguicolors = true
@@ -23,7 +23,7 @@ end
 vim.g.ai_cmp = false
 
 -- change identation to 4 spaces
-vim.opt.tabstop = 8
+vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftround = true

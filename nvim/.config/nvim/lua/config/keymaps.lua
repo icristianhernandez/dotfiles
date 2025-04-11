@@ -23,11 +23,11 @@ vim.keymap.set("n", "<C-a>", "ggVG", create_opts("Select all"))
 -- reload the current buffer
 vim.keymap.set("n", "<leader>wr", "<cmd>edit!<CR>", create_opts("Reload the current buffer"))
 
--- In insert mode, arrow move with ctrl+hjkl
-vim.api.nvim_set_keymap("i", "<C-h>", "<Left>", create_opts("Move left with ctrl+h"))
-vim.api.nvim_set_keymap("i", "<C-j>", "<Down>", create_opts("Move down with ctrl+j"))
-vim.api.nvim_set_keymap("i", "<C-k>", "<Up>", create_opts("Move up with ctrl+k"))
-vim.api.nvim_set_keymap("i", "<C-l>", "<Right>", create_opts("Move right with ctrl+l"))
+-- Move between windows in insert mode
+vim.api.nvim_set_keymap("i", "<C-h>", "<Esc><C-w>h", create_opts("Move to left window with ctrl+h"))
+vim.api.nvim_set_keymap("i", "<C-j>", "<Esc><C-w>j", create_opts("Move to window below with ctrl+j"))
+vim.api.nvim_set_keymap("i", "<C-k>", "<Esc><C-w>k", create_opts("Move to window above with ctrl+k"))
+vim.api.nvim_set_keymap("i", "<C-l>", "<Esc><C-w>l", create_opts("Move to right window with ctrl+l"))
 
 -- change 0 to ^, ^ to 0
 vim.keymap.set("n", "0", "^", create_opts("Change 0 to ^"))
@@ -68,4 +68,4 @@ end, { noremap = true, silent = true, desc = "Delete word backward" })
 -- duplicate selection and comment the initial
 -- vim.keymap.set("v", "gy", "ygvgc`>p", { remap = true, desc = "[C]opy to a comment above" })
 -- to the above commands, also add that restore the prior yank register
-vim.keymap.set("v", "gy", "ygvgc`>p`[", { remap = true, desc = "[C]opy to a comment above" })
+vim.keymap.set("v", "<leader>cy", "ygvgc`>p`[", { remap = true, desc = "[C]opy to a comment above" })

@@ -52,6 +52,7 @@ return {
     },
 
     keys = {
+        { "<leader>e", "", desc = "+file explorer", mode = { "n", "v" } },
         {
             "<leader>ee",
             function()
