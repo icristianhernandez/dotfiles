@@ -1,17 +1,52 @@
+local lsp_util = require("lspconfig.util")
+
 vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.lazyvim_prettier_needs_config = true
 
 return {
     "neovim/nvim-lspconfig",
     opts = {
         diagnostics = {
             virtual_text = false,
-            inlay_hints = {
-                enabled = false,
+        },
+        -- inlay_hints = {
+        --     enabled = false,
+        -- },
+
+        servers = {
+            -- web dev front:
+            html = {},
+            cssls = {},
+            biome = {
+                root_dir = function(fname)
+                    local root_files = { "biome.json", "biome.jsonc" }
+                    local biome_package_config_files = lsp_util.insert_package_json(root_files, "biome", fname)
+                    local found_root = lsp_util.root_pattern(unpack(biome_package_config_files))(fname)
+                    if found_root then
+                        return found_root
+                    end
+
+                    local biome_dependency_root = lsp_util.insert_package_json({}, "@biomejs/biome", fname)
+                    return lsp_util.root_pattern(unpack(biome_dependency_root))(fname)
+                end,
+            },
+
+            -- web dev back:
+            denols = {
+                root_dir = function(fname)
+                    return lsp_util.root_pattern("deno.json", "deno.jsonc", "deno.lock")(fname)
+                end,
+            },
+            ts_ls = {
+                root_dir = function(fname)
+                    if lsp_util.root_pattern("deno.json", "deno.jsonc", "deno.lock")(fname) then
+                        return nil
+                    else
+                        return lsp_util.root_pattern("package.json")(fname)
+                    end
+                end,
+                single_file_support = false,
             },
         },
-
-        -- servers = {
-        --     marksman = {},
-        -- },
     },
 }
