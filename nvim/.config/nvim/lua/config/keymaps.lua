@@ -17,9 +17,6 @@ vim.keymap.set("n", "x", '"_x', create_opts("Delete single character without cop
 
 vim.keymap.set("v", "p", '"_dP', create_opts("Keep last yanked when pasting"))
 
--- ctrl + a to select all
-vim.keymap.set("n", "<C-a>", "ggVG", create_opts("Select all"))
-
 -- reload the current buffer
 vim.keymap.set("n", "<leader>wr", "<cmd>edit!<CR>", create_opts("Reload the current buffer"))
 

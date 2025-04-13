@@ -1,0 +1,45 @@
+vim.cmd([[cab cc CodeCompanion]])
+
+return {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        "nvim-treesitter/nvim-treesitter",
+    },
+
+    opts = {
+        strategies = {
+            chat = {
+                keymaps = {
+                    send = {
+                        modes = { n = "<cr>", i = "<cr>" },
+                    },
+                },
+            },
+        },
+
+        display = {
+            chat = {
+                auto_scroll = false,
+                start_in_insert_mode = true,
+                window = {
+                    layout = "float",
+                    position = "top",
+                    width = 0.7,
+                    height = 0.9,
+                },
+            },
+
+            diff = {
+                provider = "mini_diff",
+            },
+        },
+    },
+    keys = {
+        { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "Toggle Code Companion Chat" },
+        { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr><esc>", mode = "i", desc = "Toggle Code Companion Chat" },
+        { "<leader>aa", "<cmd>CodeCompanionAction<cr>", mode = { "n", "v" }, desc = "Code Companion Action" },
+        { "<leader>ai", ":'<,'>CodeCompanion ", mode = { "n", "v" }, desc = "Insert Code Companion" },
+        { "ga", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add to Code Companion" },
+    },
+}
