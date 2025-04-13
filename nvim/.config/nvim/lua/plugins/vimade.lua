@@ -1,7 +1,7 @@
 -- disable highlights of not actual windows in the tab
 return {
     "tadaa/vimade",
-    opts = function(opts)
+    opts = function(_, opts)
         Snacks.toggle({
             name = "Vimade",
             get = function()
@@ -15,7 +15,7 @@ return {
         local my_opts = {
             recipe = { "default", { animate = true } },
         }
-        -- trying to merge the tables crash with a strange recursion bug
-        return my_opts
+
+        return vim.tbl_extend("force", opts or {}, my_opts)
     end,
 }

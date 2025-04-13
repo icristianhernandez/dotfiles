@@ -39,7 +39,10 @@ return {
         { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "Toggle Code Companion Chat" },
         { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr><esc>", mode = "i", desc = "Toggle Code Companion Chat" },
         { "<leader>aa", "<cmd>CodeCompanionAction<cr>", mode = { "n", "v" }, desc = "Code Companion Action" },
-        { "<leader>ai", ":'<,'>CodeCompanion ", mode = { "n", "v" }, desc = "Insert Code Companion" },
+        { "<leader>ai", ":CodeCompanion ", desc = "Insert Code Companion" },
+        { "<leader>ai", ":'<,'>CodeCompanion ", mode = "v", desc = "Insert Code Companion" },
+        { "<leader>ac", "<cmd>CodeCompanion /commit<cr>", desc = "Insert Code Companion" },
+        { "<leader>ac", "<cmd>'<,'>CodeCompanion /commit<cr>", mode = "v", desc = "Insert Code Companion" },
         { "ga", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add to Code Companion" },
     },
 }

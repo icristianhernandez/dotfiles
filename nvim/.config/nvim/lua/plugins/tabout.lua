@@ -4,7 +4,7 @@ return {
     lazy = false,
     event = "InsertCharPre",
 
-    opts = function(opts)
+    opts = function(_, opts)
         vim.keymap.set({ "i", "n" }, "<c-x>", "<Plug>(TaboutMulti)", { silent = true })
         vim.keymap.set({ "i", "n" }, "<c-z>", "<Plug>(TaboutBackMulti)", { silent = true })
 

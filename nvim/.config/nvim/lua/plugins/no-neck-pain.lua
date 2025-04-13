@@ -3,7 +3,7 @@ return {
     "shortcuts/no-neck-pain.nvim",
     event = "BufReadPre",
 
-    opts = function()
+    opts = function(_, opts)
         local enabled = true
         Snacks.toggle({
             name = "No Neck Pain",
@@ -20,12 +20,14 @@ return {
             end,
         }):map("<leader>uN")
 
-        return {
+        local my_opts = {
             width = 90,
             autocmds = {
                 enableOnVimEnter = true,
                 enableOnTabEnter = true,
             },
         }
+
+        return vim.tbl_extend("force", opts or {}, my_opts)
     end,
 }
