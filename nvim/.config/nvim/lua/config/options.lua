@@ -3,7 +3,38 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- use independent clipboard for neovim
-vim.g.clipboard = ""
+if vim.fn.has("wsl") == 1 then
+    -- I need to define the clipboard in both api because Lazyvim implement an
+    -- lazyload for basic nvim configs and that crash/don't init my clipboard
+    -- settings
+    -- setting culprits: https://github.com/LazyVim/LazyVim/blob/ec5981dfb1222c3bf246d9bcaa713d5cfa486fbd/lua/lazyvim/config/init.lua#L170
+    vim.g.clipboard = {
+        name = "WslClipboard",
+        copy = {
+            ["+"] = "clip.exe",
+            ["*"] = "clip.exe",
+        },
+        paste = {
+            ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ["*"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        cache_enabled = 0,
+    }
+    vim.opt.clipboard = {
+        name = "WslClipboard",
+        copy = {
+            ["+"] = "clip.exe",
+            ["*"] = "clip.exe",
+        },
+        paste = {
+            ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ["*"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        cache_enabled = 0,
+    }
+else
+    vim.g.clipboard = nil -- Ensure no clipboard override outside WSL
+end
 
 -- True color
 vim.o.termguicolors = true

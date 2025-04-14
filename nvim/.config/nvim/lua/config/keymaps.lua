@@ -4,13 +4,6 @@ end
 
 -- system clipboard mappings
 vim.keymap.set({ "n", "v", "x" }, "<C-c>", '"+y', { noremap = false, silent = true, desc = "Yank to clipboard" })
-vim.keymap.set({ "n", "v", "x" }, "<C-v>", '"+p', { noremap = false, silent = true, desc = "Paste from clipboard" })
-
--- system clipboard mappings, insert mode
--- in cmd line, has the problem that insert the clipboard content but not auto
--- render the content
--- update: seems to be fixed in the new neovim version or with noice cmdline
-vim.keymap.set({ "i", "c" }, "<C-v>", "<C-r><C-o>+", { noremap = false, silent = true, desc = "Paste from clipboard" })
 
 -- delete single character without copying into register
 vim.keymap.set("n", "x", '"_x', create_opts("Delete single character without copying into register"))
