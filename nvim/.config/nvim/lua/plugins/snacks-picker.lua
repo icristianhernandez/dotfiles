@@ -1,8 +1,17 @@
 return {
     "folke/snacks.nvim",
 
+    ---@module "snacks"
+    ---@type snacks.Config
     opts = {
         picker = {
+            layouts = {
+                vertical = {
+                    layout = {
+                        min_height = 18,
+                    },
+                },
+            },
             win = {
                 input = {
                     keys = {

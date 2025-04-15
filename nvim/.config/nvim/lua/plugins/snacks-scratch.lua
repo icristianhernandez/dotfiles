@@ -1,21 +1,15 @@
 return {
     "folke/snacks.nvim",
 
+    ---@module "snacks"
+    ---@type snacks.Config
     opts = {
         styles = {
             scratch = {
-                height = function()
-                    return vim.o.lines - 3
-                end,
-
-                -- height = (function()
-                --     local display_height = vim.o.lines
-                --     if display_height > 35 then
-                --         return 30
-                --     else
-                --         return display_height - 5
-                --     end
-                -- end)(),
+                relative = "editor",
+                min_height = 18,
+                height = 0.85,
+                width = 0.85,
             },
         },
     },
