@@ -1,6 +1,9 @@
--- disable highlights of not actual windows in the tab
 return {
+    -- disable highlights of not actual windows in the tab
     "tadaa/vimade",
+    lazy = true,
+    event = "VeryLazy",
+
     opts = function(_, opts)
         Snacks.toggle({
             name = "Vimade",
@@ -13,7 +16,8 @@ return {
         }):map("<leader>uv")
 
         local my_opts = {
-            recipe = { "default", { animate = true } },
+            recipe = { "default", { animate = false } },
+            checkinterval = 500,
         }
 
         return vim.tbl_extend("force", opts or {}, my_opts)

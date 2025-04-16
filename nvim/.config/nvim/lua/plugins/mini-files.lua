@@ -3,10 +3,10 @@ local function set_window_style(win_id)
     local config = vim.api.nvim_win_get_config(win_id)
     config.border = "rounded"
     config.title_pos = "left"
-    -- Using a dynamic height: if the available height is small, change accordingly.
     local max_height = 15
     local available_height = vim.o.lines - 10 -- account for cmd line and other UI elements
     config.height = math.min(max_height, available_height)
+
     -- Ensure title padding: add a space at both ends.
     if #config.title == 0 or config.title[1][1] ~= " " then
         table.insert(config.title, 1, { " ", "NormalFloat" })

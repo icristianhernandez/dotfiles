@@ -1,11 +1,13 @@
 return {
+    -- move a text selection between lines
     "echasnovski/mini.move",
     lazy = true,
+
     keys = {
-        { "<S-h" },
-        { "<S-l" },
-        { "<S-j" },
-        { "<S-k" },
+        { "<S-h", modes = "v" },
+        { "<S-l", modes = "v" },
+        { "<S-j", modes = "v" },
+        { "<S-k", modes = "v" },
     },
 
     opts = {
@@ -15,12 +17,6 @@ return {
             right = "<S-l>",
             down = "<S-j>",
             up = "<S-k>",
-
-            -- Move current line in Normal mode
-            line_left = "<S-h>",
-            line_right = "<S-l>",
-            line_down = "<S-j>",
-            line_up = "<S-k>",
         },
     },
 }

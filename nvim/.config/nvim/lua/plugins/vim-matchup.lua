@@ -1,5 +1,9 @@
 return {
+    -- vim-matchup: improved matchit (identify (), etc)
     "andymass/vim-matchup",
+    lazy = true,
+    event = { "CursorMoved", "CursorMovedI" },
+
     opts = function(_, opts)
         -- vim.g.matchup_matchparen_offscreen = { method = "none" }
         -- vim.g.matchup_transmute_enabled = 1

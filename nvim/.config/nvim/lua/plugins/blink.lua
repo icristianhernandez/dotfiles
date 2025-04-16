@@ -1,28 +1,9 @@
 -- To remove an snippet placeholder that doesn't go away when typing
 vim.keymap.set("s", "<BS>", "<C-O>s")
 
-if vim.fn.has("nvim-0.11") == 1 then
-    -- Ensure that forced and not configurable `<Tab>` and `<S-Tab>`
-    -- buffer-local mappings don't override already present ones
-    local expand_orig = vim.snippet.expand
-    vim.snippet.expand = function(...)
-        local tab_map = vim.fn.maparg("<Tab>", "i", false, true)
-        local stab_map = vim.fn.maparg("<S-Tab>", "i", false, true)
-        expand_orig(...)
-        vim.schedule(function()
-            tab_map.buffer, stab_map.buffer = 1, 1
-            -- Override temporarily forced buffer-local mappings
-            vim.fn.mapset("i", false, tab_map)
-            vim.fn.mapset("i", false, stab_map)
-        end)
-    end
-else
-    -- report message than an cmp patch is being used and only enabled in nvim 0.11
-    -- vim.notify_once("cmp patch is being used and only enabled in nvim 0.11", "warn")
-    vim.notify_once("cmp patch is being used and only enabled in nvim 0.11", vim.log.levels.INFO)
-end
-
 return {
+    -- blink.nvim: a completion engine for neovim, with a focus on speeed
+    -- and simplicity
     "saghen/blink.cmp",
 
     opts = {
@@ -81,10 +62,6 @@ return {
             end,
         },
 
-        term = {
-            enabled = true,
-        },
-
         sources = {
             -- add newline, tab and space to LSP source trigger characters
             providers = {
@@ -92,7 +69,7 @@ return {
                     override = {
                         get_trigger_characters = function(self)
                             local trigger_characters = self:get_trigger_characters()
-                            vim.list_extend(trigger_characters, { "\n", "\t", " " })
+                            vim.list_extend(trigger_characters, { "\n", "\t", " ", "-" })
                             return trigger_characters
                         end,
                     },

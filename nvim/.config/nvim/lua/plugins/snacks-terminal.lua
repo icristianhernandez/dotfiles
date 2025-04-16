@@ -1,9 +1,13 @@
 return {
     "folke/snacks.nvim",
 
+    ---@module "snacks"
+    ---@type snacks.Config
     opts = {
         terminal = {
-            win = { style = "float" },
+            win = {
+                style = "float",
+            },
         },
     },
 

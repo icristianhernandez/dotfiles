@@ -1,3 +1,6 @@
+-- lazyvim configs:
+vim.g.ai_cmp = false
+
 -- leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -37,23 +40,20 @@ else
 end
 
 -- True color
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
 
 -- Enable mouse mode
-vim.o.mouse = "a"
+vim.opt.mouse = "a"
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
 -- set shell to fish if available
 if vim.fn.executable("fish") == 1 then
-    vim.o.shell = "fish"
+    vim.opt.shell = "fish"
 end
 
--- lazyvim configs:
-vim.g.ai_cmp = false
-
--- change identation to 4 spaces
+-- change indentation to 4 spaces
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
@@ -66,61 +66,52 @@ vim.opt.autoindent = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Show the current document symbols location from Trouble in lualine
--- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
-vim.g.trouble_lualine = false
-
 -- show line numbers
 vim.opt.number = true
 vim.opt.numberwidth = 4
 
 -- Case-insensitive searching UNLESS \C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
--- determines the number of lines above and below the cursor that
--- remain visible even when scrolling
+-- determines the number of lines above and below the cursor that remain visible even when scrolling
 vim.opt.scrolloff = 7
 
 -- blink cursor
-vim.o.guicursor = "i-ci:ver25-blinkwait250-blinkon500-blinkoff450,r-cr-o:hor20"
+vim.opt.guicursor = "i-ci:ver25-blinkwait250-blinkon500-blinkoff450,r-cr-o:hor20"
+
+-- cmp ui (no)transparency
+vim.opt.pumblend = 1
 
 -- character used to visually represent whitespace inserted by Vim
--- to automatically fill lines to a specific width
 vim.opt.fillchars = { eob = " " }
 
--- show trailing whitespace
--- vim.opt.list = true
--- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣'}
-
--- go to previous/next line with h,l,left arrow and right arrow
--- when cursor reaches end/beginning of line
+-- go to previous/next line with h,l,left arrow and right arrow when cursor reaches end/beginning of line
 vim.opt.whichwrap:append("<>[]hl")
 
--- dont show mode (insert, visual, etc) in the status line
-vim.o.showmode = false
+-- don't show mode (insert, visual, etc) in the status line
+vim.opt.showmode = false
 
 -- always show status line but only of the actual buffer
-vim.o.laststatus = 3
+vim.opt.laststatus = 3
 
 -- highlight the current line
-vim.o.cursorline = true
-vim.o.cursorlineopt = "line,number"
--- vim.o.cursorlineopt = "number"
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = { "line", "number" }
 
 -- sign column always displayed
-vim.o.signcolumn = "yes"
+vim.opt.signcolumn = "yes"
 vim.opt.statuscolumn = ""
 
--- news panes are displayed right or under the actual pane
-vim.o.splitbelow = true
-vim.o.splitright = true
+-- new panes are displayed right or under the actual pane
+vim.opt.splitbelow = true
+vim.opt.splitright = true
 
--- I don't like that very much...
+-- disable relative numbers
 vim.opt.relativenumber = false
 
 -- show matching brackets
-vim.o.showmatch = true
+vim.opt.showmatch = true
 
 -- text wrapping at 80 characters without breaking words
 vim.opt.textwidth = 80
@@ -130,12 +121,7 @@ vim.opt.linebreak = true -- Wrap lines at convenient points
 vim.opt.formatoptions = "jqlnt"
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:0,min:0"
-vim.opt.showbreak = " └─▶ "
--- vim.opt.showbreak = "↪↪"
--- vim.opt.showbreak = " ↪↪↪ "
--- vim.opt.showbreak = " ··↪:"
--- vim.opt.showbreak = "······"
--- test: ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+vim.opt.showbreak = " >"
 
 -- store undo history
 vim.opt.undofile = true
@@ -153,12 +139,8 @@ vim.opt.updatetime = 200
 -- unix line endings
 vim.opt.fileformat = "unix"
 vim.opt.fileformats = { "unix", "dos", "mac" }
--- vim.opt.fileformats = { "unix" }
 vim.opt.encoding = "utf-8"
--- vim.opt.fileencoding = "utf-8"
-
--- instead of splits, open in tabs when opening through quickfix
--- vim.opt.switchbuf = "newtab"
+vim.opt.fileencoding = "utf-8"
 
 -- set the title of the terminal to the name of the file
 vim.opt.title = true
@@ -167,4 +149,4 @@ vim.opt.title = true
 vim.opt.shortmess:append("WcC")
 
 -- Reduce scroll during window split
-vim.o.splitkeep = "screen"
+vim.opt.splitkeep = "screen"

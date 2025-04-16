@@ -14,5 +14,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 return {
     "folke/snacks.nvim",
 
+    ---@module "snacks"
+    ---@type snacks.Config
     opts = { words = { debounce = 100 } },
 }

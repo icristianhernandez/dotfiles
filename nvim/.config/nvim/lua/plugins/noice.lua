@@ -1,4 +1,5 @@
 return {
+    -- noice: UI for messages, cmdline and popupmenu
     "folke/noice.nvim",
     opts = {
         lsp = {
@@ -18,8 +19,8 @@ return {
         views = {
             cmdline_popup = {
                 border = {
-                    style = "none",
-                    padding = { 1, 2 },
+                    style = "single",
+                    padding = { 0, 2 },
                 },
                 filter_options = {},
                 win_options = {

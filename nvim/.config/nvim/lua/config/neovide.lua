@@ -13,7 +13,7 @@ end
 
 vim.g.neovide_cursor_antialiasing = true
 vim.opt.linespace = 0
-vim.g.neovide_refresh_rate = 60
+vim.g.neovide_refresh_rate = 120
 vim.g.neovide_fullscreen = true
 -- vim.g.neovide_underline_stroke_scale = 3
 vim.g.neovide_cursor_smooth_blink = true

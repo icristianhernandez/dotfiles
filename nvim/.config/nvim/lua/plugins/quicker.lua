@@ -1,4 +1,6 @@
 return {
+    -- quicker: improves the quickfix window with context-aware folding, style
+    -- and add functionalities
     "stevearc/quicker.nvim",
     event = "FileType qf",
 

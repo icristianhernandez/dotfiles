@@ -1,4 +1,5 @@
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
+-- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
 
 return {
     -- auto-session: auto save and restore sessions, with a custom auto restore
@@ -6,6 +7,8 @@ return {
     "rmagatti/auto-session",
     lazy = false,
 
+    ---@module "auto-session"
+    ---@type AutoSession.Config
     opts = {
         bypass_save_filetypes = { "alpha", "dashboard" },
         use_git_branch = true,
