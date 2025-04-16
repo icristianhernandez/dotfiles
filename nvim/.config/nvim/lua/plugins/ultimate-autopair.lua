@@ -1,4 +1,5 @@
 return {
+    -- Auto-pairing brackets, quotes, etc.
     "altermo/ultimate-autopair.nvim",
     event = { "InsertEnter", "CmdlineEnter" },
     opts = {
