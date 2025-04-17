@@ -1,47 +1,34 @@
+-- vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
+
 return {
-    -- auto-session: Auto save and restore sessions and last session
+    -- auto-session: auto save and restore sessions, with a custom auto restore
+    -- at start
     "rmagatti/auto-session",
     lazy = false,
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    keys = {
-        -- {
-        --     "<leader>fs",
-        --     require("auto-session.session-lens").search_session,
-        --     { noremap = true, desc = "Search session" },
-        -- },
 
-        {
-            "<leader>fs",
-            "<cmd>lua require('auto-session.session-lens').search_session()<CR>",
-            { noremap = true, desc = "Search session" },
-        },
-
-        { "<leader>fS", "<cmd>Autosession delete<CR>", { noremap = true, desc = "Delete session" } },
-
-        { "<leader>uw", "<cmd>SessionSave<CR>", { noremap = true, desc = "Save session" } },
+    ---@module "auto-session"
+    ---@type AutoSession.Config
+    opts = {
+        bypass_save_filetypes = { "alpha", "dashboard" },
+        use_git_branch = true,
+        auto_restore_last_session = vim.loop.cwd() == vim.loop.os_homedir()
+            and vim.fn.argc() == 0
+            and (#vim.api.nvim_list_uis() > 0),
+        cwd_change_handling = true,
+        continue_restore_on_error = true,
     },
 
-    config = function()
-        vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions,"
-        -- vim.o.sessionoptions = "curdir,folds,help,tabpages,terminal,"
-        local is_cwd_home = vim.fn.getcwd() == vim.loop.os_homedir()
-
-        require("auto-session").setup({
-            auto_restore = true,
-            auto_restore_last_session = is_cwd_home,
-            auto_save = true,
-            auto_create = false,
-
-            session_lens = {
-                buftypes_to_ignore = {},
-                load_on_setup = true,
-                previewer = false,
-                theme_conf = {
-                    border = true,
-                },
-            },
-        })
-
-        -- vim.cmd("Autosession search")
-    end,
+    keys = {
+        {
+            "<leader>fs",
+            "<cmd>Autosession search<CR>",
+            { noremap = true, desc = "Search session" },
+        },
+        {
+            "<leader>fS",
+            "<cmd>Autosession delete<CR>",
+            { noremap = true, desc = "Delete sessions" },
+        },
+    },
 }

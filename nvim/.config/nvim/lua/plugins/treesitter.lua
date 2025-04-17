@@ -1,8 +1,6 @@
 return {
     -- nvim-treesitter: An incremental parsing system for programming tools (create a tree of the code nodes, etc)
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    event = "BufRead",
     dependencies = {
         {
             "nvim-treesitter/nvim-treesitter-context",
@@ -17,59 +15,23 @@ return {
         },
     },
 
-    config = function()
-        require("nvim-treesitter.configs").setup({
-            auto_install = true,
-            sync_install = true,
+    opts = {
+        auto_install = true,
+        sync_install = true,
 
-            highlight = {
-                enable = true,
+        incremental_selection = {
+            enable = true,
+            keymaps = {
+                init_selection = "<CR>",
+                node_incremental = "<CR>",
+                node_decremental = "<bs>",
+            },
+        },
+    },
 
-                -- -- May slow down:
-                -- additional_vim_regex_highlighting = true,
-            },
-            indent = {
-                enable = true,
-            },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    -- selection with enter
-                    init_selection = "<CR>",
-                    node_incremental = "<CR>",
-                    node_decremental = "<bs>",
-                },
-            },
-
-            ensure_installed = {
-                "bash",
-                "c",
-                "cpp",
-                "doxygen",
-                "fish",
-                "gitcommit",
-                "html",
-                "javascript",
-                "json",
-                "json5",
-                "jsonc",
-                "lua",
-                "markdown",
-                "markdown_inline",
-                "python",
-                "query",
-                "regex",
-                "rust",
-                "scss",
-                "toml",
-                "tsx",
-                "typescript",
-                "vim",
-                "vimdoc",
-                "yaml",
-                "ninja",
-                "rst",
-            },
-        })
-    end,
+    keys = {
+        { "<c-space>", false },
+        { "<CR>", desc = "Increment Selection", mode = { "x", "n" } },
+        { "<bs>", desc = "Decrement Selection", mode = "x" },
+    },
 }

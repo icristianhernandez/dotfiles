@@ -1,29 +1,15 @@
 return {
     -- copilot: IA autocompletion
     "zbirenbaum/copilot.lua",
-    event = "InsertEnter",
 
-    config = function()
-        require("copilot").setup({
-            suggestion = {
-                enabled = true,
-                auto_trigger = true,
-                debounce = 50,
-                keymap = {
-                    accept = "<C-f>",
-                    accept_word = false,
-                    -- accept_line = "<C-F>",
-                    next = "<M-}>",
-                    prev = "<M-{>",
-                    dismiss = "<C-}>",
-                },
+    opts = {
+        copilot_model = "gpt-4o-copilot",
+        suggestion = {
+            auto_trigger = false,
+            debounce = 20,
+            keymap = {
+                accept = "<C-r>",
             },
-
-            filetypes = {
-                markdown = true,
-                gitcommit = true,
-                ["*"] = true,
-            },
-        })
-    end,
+        },
+    },
 }

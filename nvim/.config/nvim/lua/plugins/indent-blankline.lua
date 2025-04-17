@@ -1,23 +1,16 @@
 return {
-    -- indent-blankline: show vertical lines to indicate indentation levels and
-    -- highlight the current indent depth.
+    -- indent-blankline: indent guides
     "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    event = "BufReadPre",
-    config = function()
-        require("ibl").setup({
-            indent = {
-                char = "▏",
-                smart_indent_cap = true,
-            },
-            scope = {
-                enabled = true,
-                show_start = true,
-                show_end = true,
-            },
-            exclude = {
-                buftypes = { "terminal" },
-            },
-        })
-    end,
+
+    opts = {
+        indent = {
+            char = "▏",
+            tab_char = "▏",
+            smart_indent_cap = true,
+            repeat_linebreak = true,
+        },
+        scope = {
+            enabled = true,
+        },
+    },
 }
