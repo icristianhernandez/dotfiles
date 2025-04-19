@@ -61,3 +61,28 @@ create_keymap("v", "<leader>cy", "ygvgc`>p`[", "[C]opy to a comment above", { re
 
 -- maximize the most possible actual window
 create_keymap("n", "<leader>wa", "<C-w>_<C-w>|", "Maximize the most possible actual window")
+
+-- send the current buffer to a new tab
+create_keymap("n", "<leader><Tab>n", function()
+    local current_buf_number = vim.fn.bufnr("%")
+    local prior_tab_id = vim.api.nvim_get_current_tabpage()
+
+    vim.cmd("tabnew %")
+    local new_tab_id = vim.api.nvim_get_current_tabpage()
+
+    vim.api.nvim_set_current_tabpage(prior_tab_id)
+    local windows_in_prior_tab = vim.api.nvim_tabpage_list_wins(prior_tab_id)
+    for _, win_id in ipairs(windows_in_prior_tab) do
+        if vim.api.nvim_win_get_buf(win_id) == current_buf_number then
+            vim.api.nvim_win_close(win_id, true) -- Force close the window
+            break -- Exit the loop after closing the relevant window
+        end
+    end
+
+    vim.api.nvim_set_current_tabpage(new_tab_id)
+end, "Send the current buffer to a new tab and close it in the prior tab")
+
+-- go to an specific numbered tab
+for i = 1, 9 do
+    create_keymap("n", "<leader><Tab>" .. i, "<cmd>tabn " .. i .. "<CR>", "Go to tab " .. i)
+end
