@@ -33,10 +33,6 @@ return {
                     height = 0.9,
                 },
             },
-
-            diff = {
-                provider = "mini_diff",
-            },
         },
     },
 
