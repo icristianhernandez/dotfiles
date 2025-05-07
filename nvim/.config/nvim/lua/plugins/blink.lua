@@ -6,6 +6,8 @@ return {
     -- and simplicity
     "saghen/blink.cmp",
 
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
     opts = {
         signature = {
             enabled = true,
@@ -20,6 +22,7 @@ return {
             ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
             ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
             ["<CR>"] = { "accept", "fallback" },
+            ["<C-e>"] = { "show", "hide" },
         },
 
         completion = {
