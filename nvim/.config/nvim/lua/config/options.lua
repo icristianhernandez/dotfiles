@@ -1,5 +1,6 @@
 -- lazyvim configs:
 vim.g.ai_cmp = false
+vim.g.trouble_lualine = false
 
 -- leader key
 vim.g.mapleader = " "

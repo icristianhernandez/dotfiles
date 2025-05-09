@@ -10,13 +10,14 @@ local function set_default_dir()
         "/mnt/d/windows-app",
     }
 
+    local current_dir = vim.fn.getcwd()
+
     for _, path in ipairs(default_windows_paths) do
-        if vim.fn.getcwd() == path then
-            vim.cmd(string.format("cd %s", target_dir))
+        if current_dir == path then
+            vim.cmd("cd " .. target_dir)
             break
         end
     end
 end
 
--- Execute the function
 set_default_dir()
