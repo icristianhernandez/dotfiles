@@ -3,8 +3,8 @@ vim.g.ai_cmp = false
 vim.g.trouble_lualine = false
 
 -- leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = vim.keycode("<space>")
+vim.g.maplocalleader = vim.keycode("<space>")
 
 -- use independent clipboard for neovim
 if vim.fn.has("wsl") == 1 then

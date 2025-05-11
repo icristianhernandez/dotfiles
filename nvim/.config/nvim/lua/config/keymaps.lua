@@ -45,16 +45,21 @@ create_keymap({ "i", "c" }, "<C-w>", "<Nop>", "Disable native ctrl+w")
 create_keymap({ "i", "l", "o", "s" }, "<C-BS>", "<C-w>", "Delete word backward")
 create_keymap({ "i", "l", "o", "s" }, "<C-h>", "<C-w>", "Delete word backward")
 
--- ctrl+bs and ctrl+h to delete word in command-line mode with immediate redraw
-create_keymap("c", "<C-BS>", function()
-    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-w>", true, false, true), "n", true)
-    vim.cmd("redraw")
-end, "Delete word backward")
+-- Check if <C-BS> and <C-h> are treated as the same key
+local cbs_equals_ch = vim.fn.keytrans("<C-BS>") == vim.fn.keytrans("<C-h>")
 
-create_keymap("c", "<C-h>", function()
+local function delete_word_backward()
     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-w>", true, false, true), "n", true)
     vim.cmd("redraw")
-end, "Delete word backward")
+end
+
+-- Map <C-BS> to delete word backward with immediate redraw
+create_keymap("c", "<C-BS>", delete_word_backward, "Delete word backward")
+
+-- Only map <C-h> if it is not the same as <C-BS>
+if not cbs_equals_ch then
+    create_keymap("c", "<C-h>", delete_word_backward, "Delete word backward")
+end
 
 -- duplicate selection and comment the initial
 create_keymap("v", "<leader>cy", "ygvgc`>p`[", "[C]opy to a comment above", { remap = true })
