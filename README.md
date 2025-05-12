@@ -22,7 +22,7 @@ Welcome to my personal dotfiles repository. These are the exact configurations I
 If you want to pipe it directly from GitHub:
 
 ```bash
-curl -fsSL https://github.com/icristianhernandez/dotfiles/raw/main/dotfiles-bootstrap.sh | bash | bash
+curl -fsSL https://github.com/icristianhernandez/dotfiles/raw/main/dotfiles-bootstrap.sh | bash
 ```
 
 ## After Setup
