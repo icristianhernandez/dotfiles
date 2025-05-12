@@ -43,6 +43,8 @@ vim.g.have_nerd_font = true
 -- set shell to fish if available
 if vim.fn.executable("fish") == 1 then
     vim.opt.shell = "fish"
+else
+    vim.opt.shell = vim.o.shell or "sh"
 end
 
 -- change indentation to 4 spaces
