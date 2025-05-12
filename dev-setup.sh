@@ -12,19 +12,43 @@ set -x # Debug mode
 email="cristianhernandez9007@gmail.com"
 name="cristian"
 repo_url="git@github.com:icristianhernandez/dotfiles.git"
+packages=(
+    wget
+    unzip
+    nodejs
+    npm
+    git
+    python
+    python-pip
+    openssh
+    stow
+    starship
+    fish
+    ripgrep
+    curl
+    tar
+    fd
+    yazi
+    tree-sitter
+    neovim
+    inotify-tools
+)
 
 read -rsp "Enter passphrase for SSH key: " passphrase
-echo # Add a newline for better formatting
+echo
 
 # System Updates and Package Installation
 echo "Updating system and installing packages..."
 sudo pacman -Syu --noconfirm
-sudo pacman -S --noconfirm wget unzip nodejs npm git python python-pip openssh stow starship fish ripgrep curl tar fd yazi tree-sitter neovim inotify-tools
+sudo pacman -S --noconfirm --needed "${packages[@]}"
 
 # Set Locale
 echo "Setting locale..."
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+echo "en_US.UTF-8 UTF-8" | sudo tee -a /etc/locale.gen
+sudo locale-gen
+sudo localectl set-locale LANG=en_US.UTF-8
 
 # Change default shell to fish
 echo "Changing default shell to fish"
@@ -77,8 +101,5 @@ else
 fi
 cd ~/dotfiles || exit
 stow -- */
-# stow nvim
-# stow fish
-# stow starship
 
 echo "Setup complete!"
