@@ -29,5 +29,11 @@ if status is-interactive
         g++ -std=c++17 -o $argv[1] $argv[1].cpp && ./$argv[1]
     end
 
+    if test -S "$XDG_RUNTIME_DIR/ssh-agent.socket"
+        set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/ssh-agent.socket"
+    else if test -S "$TMPDIR/ssh-$UID/agent.socket"
+        set -gx SSH_AUTH_SOCK "$TMPDIR/ssh-$UID/agent.socket"
+    end
+
     starship init fish | source
 end
