@@ -5,13 +5,16 @@ Welcome to my personal dotfiles repository. These are the exact configurations I
 ## Quick Start
 
 1. Clone the repo or update your local copy:
+
    ```bash
    git clone git@github.com:icristianhernandez/dotfiles.git ~/dotfiles || \
    (cd ~/dotfiles && git pull)
    ```
+
 2. Run the setup script:
+
    ```bash
-   sh ~/dotfiles/dev-setup.sh
+   sh ~/dotfiles/dotfiles-bootstrap.sh
    ```
 
 ### One-liner via curl
@@ -19,7 +22,7 @@ Welcome to my personal dotfiles repository. These are the exact configurations I
 If you want to pipe it directly from GitHub:
 
 ```bash
-curl -fsSL https://github.com/icristianhernandez/dotfiles/raw/main/dev-setup.sh | bash
+curl -fsSL https://github.com/icristianhernandez/dotfiles/raw/main/dotfiles-bootstrap.sh | bash | bash
 ```
 
 ## After Setup
@@ -40,3 +43,4 @@ I’m always tweaking these configs:
 ---
 
 *Last updated: May 11, 2025*
+
