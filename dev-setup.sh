@@ -80,6 +80,8 @@ if ! grep -q "AddKeysToAgent" ~/.ssh/config 2>/dev/null; then
     mkdir -p ~/.ssh
     echo -e "Host *\n  AddKeysToAgent yes\n  IdentityFile ~/.ssh/id_ed25519" >>~/.ssh/config
 fi
+systemctl --user enable ssh-agent.service
+systemctl --user start ssh-agent.service
 
 # Clone and Setup Dotfiles
 ## Display public key and wait for user confirmation
