@@ -133,7 +133,8 @@ vim.opt.updatetime = 200
 
 -- unix line endings
 vim.opt.fileformat = "unix"
-vim.opt.fileformats = { "unix", "dos", "mac" }
+-- vim.opt.fileformats = { "unix", "dos", "mac" }
+vim.opt.fileformats = { "unix" }
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
