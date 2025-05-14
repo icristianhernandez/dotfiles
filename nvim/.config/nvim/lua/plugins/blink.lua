@@ -1,8 +1,28 @@
--- To remove an snippet placeholder that doesn't go away when typing
+-- To remove a snippet placeholder that doesn't go away when typing
 vim.keymap.set("s", "<BS>", "<C-O>s")
 
+--- Shared keymap configuration
+---@module 'blink.cmp'
+---@type blink.cmp.KeymapConfig
+local blink_keymaps = {
+    preset = "none",
+    ["<Tab>"] = {
+        function(cmp)
+            if #cmp.get_items() == 1 then
+                return cmp.select_and_accept()
+            end
+        end,
+        "select_next",
+        "snippet_forward",
+        "fallback",
+    },
+    ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+    ["<CR>"] = { "accept", "fallback" },
+    ["<C-e>"] = { "show", "hide" },
+}
+
 return {
-    -- blink.nvim: a completion engine for neovim, with a focus on speeed
+    -- blink.nvim: a completion engine for neovim, with a focus on speed
     -- and simplicity
     "saghen/blink.cmp",
 
@@ -17,13 +37,7 @@ return {
             },
         },
 
-        keymap = {
-            preset = "none",
-            ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-            ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-            ["<CR>"] = { "accept", "fallback" },
-            ["<C-e>"] = { "show", "hide" },
-        },
+        keymap = blink_keymaps,
 
         completion = {
             list = { selection = { preselect = false, auto_insert = true } },
@@ -44,12 +58,7 @@ return {
                 menu = { auto_show = true },
             },
 
-            keymap = {
-                preset = "none",
-                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-                ["<CR>"] = { "accept", "fallback" },
-            },
+            keymap = blink_keymaps,
         },
 
         sources = {
