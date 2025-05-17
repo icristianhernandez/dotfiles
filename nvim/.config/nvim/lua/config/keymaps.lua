@@ -89,5 +89,5 @@ end, "Send the current buffer to a new tab and close it in the prior tab")
 
 -- go to an specific numbered tab
 for i = 1, 9 do
-    create_keymap("n", "<leader><Tab>" .. i, "<cmd>tabn " .. i .. "<CR>", "Go to tab " .. i)
+    create_keymap("n", "<Tab>" .. i, "<cmd>tabn " .. i .. "<CR>", "Go to tab " .. i)
 end

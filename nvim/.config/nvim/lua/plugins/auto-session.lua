@@ -11,14 +11,13 @@ return {
     ---@type AutoSession.Config
     opts = {
         bypass_save_filetypes = { "alpha", "dashboard" },
-        use_git_branch = true,
+        git_use_branch_name = true,
         auto_restore_last_session = vim.loop.cwd() == vim.loop.os_homedir()
             and vim.fn.argc() == 0
             and (#vim.api.nvim_list_uis() > 0),
         cwd_change_handling = true,
         continue_restore_on_error = true,
     },
-
     keys = {
         {
             "<leader>fs",
