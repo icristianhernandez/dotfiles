@@ -1,7 +1,6 @@
 -- To remove a snippet placeholder that doesn't go away when typing
 vim.keymap.set("s", "<BS>", "<C-O>s")
 
---- Shared keymap configuration
 ---@module 'blink.cmp'
 ---@type blink.cmp.KeymapConfig
 local blink_keymaps = {
