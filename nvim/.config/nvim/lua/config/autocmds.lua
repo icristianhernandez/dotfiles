@@ -27,3 +27,32 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
         end
     end,
 })
+
+-- Toggle for auto diagnostic floating window
+local toggle_auto_diagnostics = true
+local diagnostic_augroup = vim.api.nvim_create_augroup("CursorHoldDiagnostics", { clear = true })
+
+local function enable_auto_diagnostics()
+    vim.api.nvim_create_autocmd("CursorHold", {
+        group = diagnostic_augroup,
+        callback = function()
+            vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" })
+        end,
+    })
+end
+
+local function disable_auto_diagnostics()
+    vim.api.nvim_clear_autocmds({ group = diagnostic_augroup })
+end
+
+enable_auto_diagnostics()
+
+---- Keymap to toggle diagnostics
+vim.keymap.set("n", "<leader>cD", function()
+    toggle_auto_diagnostics = not toggle_auto_diagnostics
+    if toggle_auto_diagnostics then
+        enable_auto_diagnostics()
+    else
+        disable_auto_diagnostics()
+    end
+end, { desc = "Toggle diagnostics on CursorHold" })

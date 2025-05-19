@@ -67,7 +67,7 @@ return {
                     override = {
                         get_trigger_characters = function(self)
                             local trigger_characters = self:get_trigger_characters()
-                            vim.list_extend(trigger_characters, { "\n", "\t", " ", "-" })
+                            vim.list_extend(trigger_characters, { "\n", "\r\n", "\t", " ", "-" })
                             return trigger_characters
                         end,
                     },
