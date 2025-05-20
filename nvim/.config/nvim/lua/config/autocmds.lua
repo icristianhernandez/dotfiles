@@ -36,7 +36,19 @@ local function enable_auto_diagnostics()
     vim.api.nvim_create_autocmd("CursorHold", {
         group = diagnostic_augroup,
         callback = function()
-            vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" })
+            vim.diagnostic.open_float(nil, {
+                focusable = false,
+                source = "if_many",
+                close_events = {
+                    "CursorMoved",
+                    "CursorMovedI",
+                    "BufHidden",
+                    "InsertCharPre",
+                    "WinLeave",
+                    "BufWrite",
+                    "BufDelete",
+                },
+            })
         end,
     })
 end
