@@ -91,3 +91,7 @@ end, "Send the current buffer to a new tab and close it in the prior tab")
 for i = 1, 9 do
     create_keymap("n", "<Tab>" .. i, "<cmd>tabn " .. i .. "<CR>", "Go to tab " .. i)
 end
+
+-- Search inside visually highlighted text. Use `silent = false` for it to
+-- make effect immediately.
+create_keymap("x", "g/", "<esc>/\\%V", "Search inside visual selection")
