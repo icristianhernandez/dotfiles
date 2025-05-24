@@ -1,0 +1,213 @@
+{
+  "algoritmo": {
+    "prefix": [
+      "algo",
+      "algoritmo"
+    ],
+    "body": [
+      "Algoritmo ${1:sin_titulo}",
+      "\t$0",
+      "FinAlgoritmo"
+    ],
+    "description": "Basic PSeInt algorithm structure"
+  },
+  "escribir": {
+    "prefix": [
+      "escribir",
+      "write"
+    ],
+    "body": [
+      "Escribir ${1:\"mensaje\"}"
+    ],
+    "description": "Write/print statement"
+  },
+  "leer": {
+    "prefix": [
+      "leer",
+      "read"
+    ],
+    "body": [
+      "Leer ${1:variable}"
+    ],
+    "description": "Read input statement"
+  },
+  "si": {
+    "prefix": [
+      "si",
+      "if"
+    ],
+    "body": [
+      "Si ${1:condicion} Entonces",
+      "\t$0",
+      "FinSi"
+    ],
+    "description": "If statement"
+  },
+  "mientras": {
+    "prefix": [
+      "mientras",
+      "while"
+    ],
+    "body": [
+      "Mientras ${1:condicion} Hacer",
+      "\t$0",
+      "FinMientras"
+    ],
+    "description": "While loop"
+  },
+  "para": {
+    "prefix": [
+      "para",
+      "for"
+    ],
+    "body": [
+      "Para ${1:variable} <- ${2:inicio} Hasta ${3:fin} Con Paso ${4:1} Hacer",
+      "\t$0",
+      "FinPara"
+    ],
+    "description": "For loop"
+  },
+  "definir": {
+    "prefix": [
+      "definir",
+      "def"
+    ],
+    "body": [
+      "Definir ${1:variable} Como ${2:Entero}"
+    ],
+    "description": "Variable definition"
+  },
+  "sino": {
+    "prefix": [
+      "sino",
+      "elseif"
+    ],
+    "body": [
+      "Si ${1:condicion} Entonces",
+      "\t${2:// código si verdadero}",
+      "Sino",
+      "\t${3:// código si falso}",
+      "FinSi",
+      "$0"
+    ],
+    "description": "If-else statement"
+  },
+  "segun": {
+    "prefix": [
+      "segun",
+      "switch"
+    ],
+    "body": [
+      "Segun ${1:variable} Hacer",
+      "\t${2:valor1}:",
+      "\t\t${3:// código}",
+      "\t${4:valor2}:",
+      "\t\t${5:// código}",
+      "\tDe Otro Modo:",
+      "\t\t$0",
+      "FinSegun"
+    ],
+    "description": "Switch statement"
+  },
+  "repetir": {
+    "prefix": [
+      "repetir",
+      "dowhile"
+    ],
+    "body": [
+      "Repetir",
+      "\t$0",
+      "Hasta Que ${1:condicion}"
+    ],
+    "description": "Repeat-until loop"
+  },
+  "funcion": {
+    "prefix": [
+      "funcion",
+      "function"
+    ],
+    "body": [
+      "Funcion ${1:resultado} <- ${2:nombreFuncion}(${3:parametros})",
+      "\t$0",
+      "FinFuncion"
+    ],
+    "description": "Function definition"
+  },
+  "proceso": {
+    "prefix": [
+      "proceso",
+      "subproceso"
+    ],
+    "body": [
+      "SubProceso ${1:nombreProceso}(${2:parametros})",
+      "\t$0",
+      "FinSubProceso"
+    ],
+    "description": "Subprocess definition"
+  },
+  "dimension": {
+    "prefix": [
+      "dimension",
+      "dim",
+      "array",
+      "matriz"
+    ],
+    "body": [
+      "Dimension ${1:array}[${2:tamaño}]"
+    ],
+    "description": "Array dimension declaration"
+  },
+  "escribirSinSaltar": {
+    "prefix": [
+      "escribirsin",
+      "writenosalt"
+    ],
+    "body": [
+      "Escribir Sin Saltar ${1:\"mensaje\"}"
+    ],
+    "description": "Write without line break"
+  },
+  "comentario": {
+    "prefix": [
+      "//",
+      "comentario"
+    ],
+    "body": [
+      "// ${1:comentario}"
+    ],
+    "description": "Single line comment"
+  },
+  "comentarioBloque": {
+    "prefix": [
+      "/*",
+      "comentariobloque"
+    ],
+    "body": [
+      "/*",
+      " * ${1:comentario}",
+      " */"
+    ],
+    "description": "Block comment"
+  },
+  "leerMultiple": {
+    "prefix": [
+      "leervar",
+      "readmultiple"
+    ],
+    "body": [
+      "Escribir \"Ingrese ${1:descripción}: \"",
+      "Leer ${2:variable}"
+    ],
+    "description": "Read with prompt"
+  },
+  "mostrar": {
+    "prefix": [
+      "mostrar",
+      "show"
+    ],
+    "body": [
+      "Escribir \"${1:etiqueta}: \", ${2:variable}"
+    ],
+    "description": "Show variable with label"
+  }
+}
