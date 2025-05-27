@@ -1,8 +1,0 @@
-{
-  "name": "personal-snippets",
-  "contributes": {
-    "snippets": [
-      { "language": "pseint", "path": "./pseint.json" }
-    ]
-  }
-}

@@ -3,6 +3,14 @@ local lsp_util = require("lspconfig.util")
 vim.g.lazyvim_python_lsp = "basedpyright"
 vim.g.lazyvim_prettier_needs_config = true
 
+vim.lsp.config("pseint-lsp", {
+    cmd = { "/home/crisarch/pseint-lsp/.venv/bin/python", "/home/crisarch/pseint-lsp/launch.py" },
+    filetypes = { "pseint" },
+    root_markers = { ".git", "proyecto.psc" },
+    name = "pseint-lsp",
+})
+vim.lsp.enable("pseint-lsp")
+
 return {
     "neovim/nvim-lspconfig",
     opts = {
