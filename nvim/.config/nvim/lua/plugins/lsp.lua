@@ -4,7 +4,7 @@ vim.g.lazyvim_python_lsp = "basedpyright"
 vim.g.lazyvim_prettier_needs_config = true
 
 vim.lsp.config("pseint-lsp", {
-    cmd = { "/home/crisarch/pseint-lsp/.venv/bin/python", "/home/crisarch/pseint-lsp/launch.py" },
+    cmd = { "/home/crisarch/pseint-lsp/.venv/bin/pseint-lsp" },
     filetypes = { "pseint" },
     root_markers = { ".git", "proyecto.psc" },
     name = "pseint-lsp",
