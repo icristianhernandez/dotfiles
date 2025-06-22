@@ -17,7 +17,6 @@ return {
 
         local my_opts = {
             recipe = { "default", { animate = false } },
-            checkinterval = 500,
         }
 
         return vim.tbl_extend("force", opts or {}, my_opts)
