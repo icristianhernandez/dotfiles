@@ -1,4 +1,4 @@
-local uname = vim.loop.os_uname()
+local uname = vim.uv.os_uname()
 local sysname = uname.sysname:lower()
 
 _G.OS = sysname
