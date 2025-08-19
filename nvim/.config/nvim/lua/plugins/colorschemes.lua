@@ -6,7 +6,7 @@ return {
                 light = "latte",
                 dark = "macchiato",
             },
-            term_colors = true,
+            -- term_colors = true,
         },
     },
 
