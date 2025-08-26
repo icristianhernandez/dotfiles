@@ -1,5 +1,5 @@
 #!/bin/bash
-# arch in wsl development setup using nvim as editor
+# arch in wsl development setup using nvim as edito
 
 # For that wsl enviroment, I previously need to:
 # a) Install wsl: wsl --install --no-distributions
@@ -28,19 +28,19 @@ packages=(
     fish
     ripgrep
     curl
-    tar
+    ta
     fd
     yazi
-    tree-sitter
+    tree-sitte
     neovim
     inotify-tools
     keychain
     base-devel
     sudo
-    reflector
+    reflecto
     mesa
     vulkan-dzn
-    vulkan-icd-loader
+    vulkan-icd-loade
 )
 
 # Error handling and recovery functions
@@ -109,7 +109,7 @@ if command -v reflector &> /dev/null; then
     sudo reflector --country US,CA --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 fi
 
-# Create non-root user
+# Create non-root use
 echo "Creating non-root user '$name'..."
 if ! id "$name" &>/dev/null; then
     # Ensure fish shell is in /etc/shells for PAM compatibility
@@ -194,7 +194,7 @@ else
     echo "yay is already installed."
 fi
 
-# Change default shell to fish for the new user
+# Change default shell to fish for the new use
 echo "Changing default shell to fish for user '$name'..."
 # Note: Shell already set during user creation, but verify it's in /etc/shells
 if ! grep -q "/usr/bin/fish" /etc/shells; then
