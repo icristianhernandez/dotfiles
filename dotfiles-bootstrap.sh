@@ -2,12 +2,55 @@
 # arch in wsl development setup using nvim as editor
 
 # For that wsl enviroment, I previously need to:
-# a) Install wsl: wsl --install --no-distribution
-# b) Install arch distro in wsl
-# c) Download and set a nerd font in the terminal
+# a) Install wsl:
+# wsl --install --no-distribution
+# wsl --install archlinux
+# b) Download and set a nerd font in the terminal
 
-set -e # Exit on errors
-set -x # Debug mode
+set -e 
+
+if [[ $EUID -eq 0 ]]; then
+    echo "User Creation"
+    
+
+    read -p "Enter a new username: " username
+    if [ -z "$username" ]; then
+        echo "Username cannot be empty. Exiting."
+        exit 1
+    fi
+
+    pacman -Syu --noconfirm
+    pacman -S --noconfirm fish
+    pacman -S --noconfirm sudo
+
+    echo "Configuring sudo for wheel group..."
+    # Uncomment the wheel line in /etc/sudoers to allow sudo for users in wheel
+    sed -i -E 's/^[[:space:]]*#([[:space:]]*%wheel[[:space:]]+ALL=\(ALL:ALL\)[[:space:]]+ALL)/\1/' /etc/sudoers
+
+    useradd -m -G wheel -s /usr/bin/fish "$username"
+
+    echo "Configuring locale (en_US.UTF-8)..."
+    sed -i 's/^#\s*en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+    locale-gen
+    echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+
+    echo "Setting password for user '$username'..."
+    passwd "$username"
+
+    echo "Setting password for root..."
+    passwd root
+
+    echo "Setting default user in /etc/wsl.conf to '$username'..."
+    cat > /etc/wsl.conf <<EOF
+[user]
+default = $username
+
+[boot]
+systemd=true
+EOF
+
+    exit 0
+fi
 
 email="cristianhernandez9007@gmail.com"
 name="cristian"
@@ -21,6 +64,7 @@ packages=(
     python
     python-pip
     openssh
+    keychain
     stow
     starship
     fish
@@ -32,30 +76,20 @@ packages=(
     tree-sitter
     neovim
     inotify-tools
+    base-devel
 )
 
 read -rsp "Enter passphrase for SSH key: " passphrase
 echo
 
+# Ensure a sane locale for this session to avoid Perl/locale warnings
+export LANG=${LANG:-en_US.UTF-8}
+export LC_ALL=${LC_ALL:-en_US.UTF-8}
+
 # System Updates and Package Installation
 echo "Updating system and installing packages..."
 sudo pacman -Syu --noconfirm
 sudo pacman -S --noconfirm --needed "${packages[@]}"
-
-# Set Locale
-echo "Setting locale..."
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-echo "en_US.UTF-8 UTF-8" | sudo tee -a /etc/locale.gen
-sudo locale-gen
-sudo localectl set-locale LANG=en_US.UTF-8
-
-# Change default shell to fish
-echo "Changing default shell to fish"
-if ! grep -q "/usr/bin/fish" /etc/shells; then
-    echo "/usr/bin/fish" | sudo tee -a /etc/shells
-fi
-chsh -s /usr/bin/fish
 
 # Configure Git
 echo "Configuring Git..."
@@ -72,16 +106,23 @@ else
 fi
 unset passphrase
 
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
+# Start keychain for this session so git clone works (will prompt for passphrase once)
+# Force bash-compatible output even if user's default SHELL is fish
+eval "$(SHELL=/bin/bash keychain --eval --quiet id_ed25519)"
 
-## Persist SSH agent
-if ! grep -q "AddKeysToAgent" ~/.ssh/config 2>/dev/null; then
+## Ensure SSH config has IdentityFile (keychain manages the agent; no AddKeysToAgent needed)
+if ! grep -q "IdentityFile ~/.ssh/id_ed25519" ~/.ssh/config 2>/dev/null; then
     mkdir -p ~/.ssh
-    echo -e "Host *\n  AddKeysToAgent yes\n  IdentityFile ~/.ssh/id_ed25519" >>~/.ssh/config
+    echo -e "Host *\n  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
 fi
-systemctl --user enable ssh-agent.service
-systemctl --user start ssh-agent.service
+
+## Shell integration notes (not applied automatically)
+echo
+echo "To auto-load your SSH key with keychain in future shells, add one of these to your shell config:"
+echo "- Bash (~/.bashrc):"
+echo '    eval "$(keychain --quiet --eval id_ed25519)"'
+echo "- Fish (~/.config/fish/config.fish):"
+echo '    keychain --quiet --eval id_ed25519 | source'
 
 # Clone and Setup Dotfiles
 ## Display public key and wait for user confirmation
@@ -94,7 +135,7 @@ echo
 echo "Cloning and setting up dotfiles..."
 cd ~ || exit
 if [ ! -d ~/dotfiles ]; then
-    if ! git clone "$repo_url"; then
+    if ! GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=accept-new" git clone "$repo_url"; then
         echo "Failed to clone repository. Please check your network or SSH configuration."
         exit 1
     fi
@@ -102,6 +143,14 @@ else
     echo "Dotfiles repository already exists. Skipping clone."
 fi
 cd ~/dotfiles || exit
-stow -- */
+echo "Stowing dotfiles..."
+base_dir="$HOME/dotfiles"
+# Build package list from top-level directories using find (robust against globbing issues)
+mapfile -d '' -t pkgs < <(find "$base_dir" -mindepth 1 -maxdepth 1 -type d -printf '%f\0')
+if [ ${#pkgs[@]} -eq 0 ]; then
+    echo "No packages to stow. Skipping."
+else
+    stow -d "$base_dir" -t "$HOME" -- "${pkgs[@]}"
+fi
 
 echo "Setup complete!"

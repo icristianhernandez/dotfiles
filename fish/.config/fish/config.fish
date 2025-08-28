@@ -3,8 +3,8 @@ set -U fish_greeting
 set -x LANG en_US.UTF-8
 set -x LC_ALL en_US.UTF-8
 
-if status is-login and status is-interactive
-    if command -v keychain >/dev/null 2>&1
+if status is-login; and status is-interactive
+    if type -q keychain
         keychain --quiet --eval id_ed25519 | source
     end
 end
