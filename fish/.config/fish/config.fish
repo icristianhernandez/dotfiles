@@ -3,6 +3,12 @@ set -U fish_greeting
 set -x LANG en_US.UTF-8
 set -x LC_ALL en_US.UTF-8
 
+if status is-login and status is-interactive
+    if command -v keychain >/dev/null 2>&1
+        keychain --quiet --eval id_ed25519 | source
+    end
+end
+
 if status is-interactive
     alias aur="yay"
 
@@ -27,11 +33,6 @@ if status is-interactive
 
     function cpps
         g++ -std=c++17 -o $argv[1] $argv[1].cpp && ./$argv[1]
-    end
-
-    # SSH agent management with keychain
-    if command -v keychain >/dev/null 2>&1
-        eval (keychain --eval --quiet --inherit any-once id_ed25519)
     end
 
     starship init fish | source
