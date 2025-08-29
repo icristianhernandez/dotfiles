@@ -12,6 +12,7 @@ return {
     opts = {
         bypass_save_filetypes = { "alpha", "dashboard" },
         git_use_branch_name = true,
+        git_auto_restore_on_branch_change = true,
         auto_restore_last_session = vim.fn.getcwd() == vim.fn.expand("~")
             and vim.fn.argc() == 0
             and (#vim.api.nvim_list_uis() > 0),
