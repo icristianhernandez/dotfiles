@@ -22,12 +22,12 @@ return {
     keys = {
         {
             "<leader>fs",
-            "<cmd>Autosession search<CR>",
+            "<cmd>AutoSession search<CR>",
             { noremap = true, desc = "Search session" },
         },
         {
             "<leader>fS",
-            "<cmd>Autosession delete<CR>",
+            "<cmd>AutoSession deletePicker<CR>",
             { noremap = true, desc = "Delete sessions" },
         },
     },
