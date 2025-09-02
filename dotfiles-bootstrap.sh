@@ -7,11 +7,10 @@
 # wsl --install archlinux
 # b) Download and set a nerd font in the terminal
 
-set -e 
+set -e
 
 if [[ $EUID -eq 0 ]]; then
     echo "User Creation"
-    
 
     read -p "Enter a new username: " username
     if [ -z "$username" ]; then
@@ -32,7 +31,7 @@ if [[ $EUID -eq 0 ]]; then
     echo "Configuring locale (en_US.UTF-8)..."
     sed -i 's/^#\s*en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
     locale-gen
-    echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+    echo 'LANG=en_US.UTF-8' >/etc/locale.conf
 
     echo "Setting password for user '$username'..."
     passwd "$username"
@@ -41,7 +40,7 @@ if [[ $EUID -eq 0 ]]; then
     passwd root
 
     echo "Setting default user in /etc/wsl.conf to '$username'..."
-    cat > /etc/wsl.conf <<EOF
+    cat >/etc/wsl.conf <<EOF
 [user]
 default = $username
 
@@ -113,7 +112,7 @@ eval "$(SHELL=/bin/bash keychain --eval --quiet id_ed25519)"
 ## Ensure SSH config has IdentityFile (keychain manages the agent; no AddKeysToAgent needed)
 if ! grep -q "IdentityFile ~/.ssh/id_ed25519" ~/.ssh/config 2>/dev/null; then
     mkdir -p ~/.ssh
-    echo -e "Host *\n  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
+    echo -e "Host *\n  IdentityFile ~/.ssh/id_ed25519" >>~/.ssh/config
 fi
 
 ## Shell integration notes (not applied automatically)
@@ -123,6 +122,11 @@ echo "- Bash (~/.bashrc):"
 echo '    eval "$(keychain --quiet --eval id_ed25519)"'
 echo "- Fish (~/.config/fish/config.fish):"
 echo '    keychain --quiet --eval id_ed25519 | source'
+
+# Aur helper
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+makepkg -si --noconfirm
 
 # Clone and Setup Dotfiles
 ## Display public key and wait for user confirmation
