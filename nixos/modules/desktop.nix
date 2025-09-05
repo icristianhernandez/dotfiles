@@ -4,13 +4,17 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  # Set keyboard layout to Spanish and disable mouse acceleration.
+  services.xserver.layout = "es";
+  services.xserver.libinput.mouse.accelProfile = "flat";
+
   # Enable the SDDM Display Manager.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.displayManager.sddm.theme = "catppuccin-mocha";
 
 
-  # Enable the KDE Plasma 5 Desktop Environment.
-  services.xserver.desktopManager.plasma5.enable = true;
+  # Enable the KDE Plasma 6 Desktop Environment.
+  services.xserver.desktopManager.plasma6.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;

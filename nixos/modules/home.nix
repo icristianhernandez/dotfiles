@@ -55,6 +55,13 @@
     programs.starship.enable = true;
     # Starship is configured by the TOML file we linked above.
 
+    # Set KDE animations to be instant.
+    kdeglobals = {
+      "KDE" = {
+        "AnimationDurationFactor" = 0;
+      };
+    };
+
     # Placeholder for declarative KDE Plasma configuration.
     # This shows how you could manage DE settings in the future.
     # For example, to set the look and feel package:
