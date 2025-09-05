@@ -1,45 +1,74 @@
-# My Personal Dotfiles
+# My Personal NixOS Configuration
 
-Welcome to my personal dotfiles repository. These are the exact configurations I use on my Arch Linux WSL setup with Fish shell, Neovim, and Starship prompt. This is tailored for my own workflow—feel free to browse, but it’s primarily for my own convenience.
+Welcome to my personal NixOS dotfiles. This repository contains the complete, declarative configuration for my NixOS systems, managed using Nix Flakes and Home Manager.
 
-## Quick Start
+## Quick Start: Automated Install
 
-1. Clone the repo or update your local copy:
+On a fresh NixOS installation, you can use the following one-liner to link the system configuration. This script will back up any existing `/etc/nixos` and create a symbolic link to the configuration within this repository.
 
-   ```bash
-   git clone git@github.com:icristianhernandez/dotfiles.git ~/dotfiles || \
-   (cd ~/dotfiles && git pull)
-   ```
-
-2. Run the setup script:
-
-   ```bash
-   sh ~/dotfiles/dotfiles-bootstrap.sh
-   ```
-
-### One-liner via curl
-
-If you want to pipe it directly from GitHub:
+> **Warning:** Always review scripts from the internet before running them with `sudo`.
 
 ```bash
-curl -fsSL https://github.com/icristianhernandez/dotfiles/raw/main/dotfiles-bootstrap.sh | bash
+curl -fsSL https://raw.githubusercontent.com/icristianhernandez/dotfiles/main/install.sh | sudo bash
 ```
 
-## After Setup
+After running the script, you still need to generate your hardware configuration (see Step 2 below) and then proceed to the "First Time Build" section.
 
-- Launch a new Fish session to enjoy the Starship prompt.
-- Open `nvim` or `neovide` to load LazyVim with my custom plugins and keymaps.
-- Explore the keybindings under `<leader>` in Neovim (space bar by default).
+## Manual Installation
 
-## Customization & Maintenance
+If you prefer to perform the setup manually, follow these steps.
 
-I’m always tweaking these configs:
+### 1. Clone the Repository
 
-- Update Neovim plugins from `nvim/` by running `:Lazy update` inside Neovim.
-- Modify shell functions or aliases in `fish/config.fish`.
-- Tune prompt segments in `starship/starship.toml`.
-- Track tasks and ideas in `notes/global.md`.
+Clone this repository to your preferred location, for example, `~/dotfiles`.
+
+```bash
+git clone https://github.com/icristianhernandez/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
+
+### 2. Generate Hardware Configuration
+
+A NixOS configuration needs a file that describes the specific hardware of the machine it's running on.
+
+From the root of this repository, run the following command. It will automatically place the generated hardware profile into the correct location.
+
+```bash
+sudo nixos-generate-config --show-hardware-config > nixos/hardware-configuration.nix
+```
+
+### 3. Link the Configuration
+
+Link the `nixos` directory from this repository to `/etc/nixos`. You can do this manually, or by using the provided `install.sh` script.
+
+```bash
+sudo ./install.sh
+```
+
+### 4. First Time Build
+
+Now you are ready to build the system for the first time. The hostname defined in the flake is `nixos`.
+
+```bash
+cd nixos/
+sudo nixos-rebuild switch --flake .#nixos
+```
+
+Your system is now fully managed by this configuration.
+
+## Usage and Maintenance
+
+To apply any future changes you make to this configuration, simply run the build command again from within the `nixos/` directory:
+
+```bash
+sudo nixos-rebuild switch --flake .#nixos
+```
+
+To update all your flake inputs (like `nixpkgs` and `home-manager`) to their latest versions, run:
+
+```bash
+nix flake update
+```
 
 ---
-
-*Last updated: May 12, 2025*
+*This repository is a living configuration and is always a work in progress.*
