@@ -1,5 +1,9 @@
-{ config, pkgs, username, ... }:
+{ config, pkgs, ... }:
 
+let
+  # Import global settings from our centralized config file.
+  globals = import ./config/globals.nix;
+in
 {
   imports = [
     # Import the hardware-specific configuration for this machine.
@@ -8,16 +12,15 @@
     # Import our modular configuration files.
     ./modules/system.nix
     ./modules/desktop.nix
-    ./modules/home.nix
+    # Note: home.nix is now imported via the decoupled flake structure
+    # and does not need to be listed here.
   ];
 
   # This is a required setting.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Or whatever version you originally installed.
+  system.stateVersion = "23.11";
 
-  # Define your user account.
-  users.users.${username} = {
+  # Define your user account using the username from globals.nix.
+  users.users.${globals.username} = {
     isNormalUser = true;
     description = "Cristian Hernandez";
     extraGroups = [ "wheel" ]; # Enable sudo.

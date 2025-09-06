@@ -1,30 +1,29 @@
 { config, pkgs, ... }:
 
 let
-  # Define the locale to be used for regional settings.
-  # This avoids repeating the same string multiple times.
-  regionalLocale = "nl_NL.UTF-8";
+  # Import global settings from our centralized config file.
+  globals = import ../config/globals.nix;
 in
 {
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  # Set time zone from globals.
+  time.timeZone = globals.timeZone;
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  # Select internationalisation properties from globals.
+  i18n.defaultLocale = globals.locale;
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = regionalLocale;
-    LC_IDENTIFICATION = regionalLocale;
-    LC_MEASUREMENT = regionalLocale;
-    LC_MONETARY = regionalLocale;
-    LC_NAME = regionalLocale;
-    LC_NUMERIC = regionalLocale;
-    LC_PAPER = regionalLocale;
-    LC_TELEPHONE = regionalLocale;
-    LC_TIME = regionalLocale;
+    LC_ADDRESS = globals.regionalLocale;
+    LC_IDENTIFICATION = globals.regionalLocale;
+    LC_MEASUREMENT = globals.regionalLocale;
+    LC_MONETARY = globals.regionalLocale;
+    LC_NAME = globals.regionalLocale;
+    LC_NUMERIC = globals.regionalLocale;
+    LC_PAPER = globals.regionalLocale;
+    LC_TELEPHONE = globals.regionalLocale;
+    LC_TIME = globals.regionalLocale;
   };
 
-  # Set your hostname.
-  networking.hostName = "nixos";
+  # Set hostname from globals.
+  networking.hostName = globals.hostname;
 
   # Enable networking.
   networking.networkmanager.enable = true;

@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 
+let
+  # Import global settings from our centralized config file.
+  globals = import ../config/globals.nix;
+in
 {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -10,7 +14,7 @@
 
   # Enable the SDDM Display Manager.
   services.xserver.displayManager.sddm.enable = true;
-  services.xserver.displayManager.sddm.theme = "catppuccin-mocha";
+  services.xserver.displayManager.sddm.theme = globals.sddmTheme;
 
 
   # Enable the KDE Plasma 6 Desktop Environment.
