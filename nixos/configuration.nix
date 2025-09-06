@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 {
   imports = [
@@ -17,7 +17,7 @@
   system.stateVersion = "23.11"; # Or whatever version you originally installed.
 
   # Define your user account.
-  users.users.icristianhernandez = {
+  users.users.${username} = {
     isNormalUser = true;
     description = "Cristian Hernandez";
     extraGroups = [ "wheel" ]; # Enable sudo.

@@ -1,14 +1,14 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 {
   # This enables the Home Manager module for the user defined in configuration.nix.
-  home-manager.users.icristianhernandez = {
+  home-manager.users.${username} = {
     # Home Manager needs a state version.
     # It's recommended to start with the same version as your NixOS installation.
     home.stateVersion = "23.11";
 
-    home.username = "icristianhernandez";
-    home.homeDirectory = "/home/icristianhernandez";
+    home.username = username;
+    home.homeDirectory = "/home/${username}";
 
     # Packages to install in the user's profile.
     home.packages = with pkgs; [
@@ -27,19 +27,19 @@
 
     # This is the core of linking your existing dotfiles.
     # The paths are relative to this home.nix file.
-    home.file.".config/nvim" = {
-      source = ../../nvim/.config/nvim;
-      recursive = true; # Make sure to copy the directory recursively
-    };
-
-    home.file.".config/fish" = {
-      source = ../../fish/.config/fish;
-      recursive = true;
-    };
-
-    home.file.".config/starship.toml" = {
-      source = ../../starship/.config/starship.toml;
-    };
+    home.file = let
+      # Directories to be linked recursively.
+      recursiveDotfiles = {
+        ".config/nvim" = ../../nvim/.config/nvim;
+        ".config/fish" = ../../fish/.config/fish;
+      };
+      # Single files to be linked.
+      singleDotfiles = {
+        ".config/starship.toml" = ../../starship/.config/starship.toml;
+      };
+    in
+      (pkgs.lib.mapAttrs (target: source: { inherit source; recursive = true; }) recursiveDotfiles) //
+      (pkgs.lib.mapAttrs (target: source: { inherit source; }) singleDotfiles);
 
     # Enable and configure programs using Home Manager options.
     programs.git.enable = true;

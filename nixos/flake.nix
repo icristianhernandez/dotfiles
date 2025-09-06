@@ -13,9 +13,7 @@
   outputs = { self, nixpkgs, home-manager, ... }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = {
-        # You can pass special arguments to your modules here, if needed.
-      };
+      specialArgs = { username = "icristianhernandez"; };
       modules = [
         # The main configuration file
         ./configuration.nix

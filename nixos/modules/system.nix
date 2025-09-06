@@ -1,5 +1,10 @@
 { config, pkgs, ... }:
 
+let
+  # Define the locale to be used for regional settings.
+  # This avoids repeating the same string multiple times.
+  regionalLocale = "nl_NL.UTF-8";
+in
 {
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -7,15 +12,15 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
-    LC_ADDRESS = "nl_NL.UTF-8";
-    LC_IDENTIFICATION = "nl_NL.UTF-8";
-    LC_MEASUREMENT = "nl_NL.UTF-8";
-    LC_MONETARY = "nl_NL.UTF-8";
-    LC_NAME = "nl_NL.UTF-8";
-    LC_NUMERIC = "nl_NL.UTF-8";
-    LC_PAPER = "nl_NL.UTF-8";
-    LC_TELEPHONE = "nl_NL.UTF-8";
-    LC_TIME = "nl_NL.UTF-8";
+    LC_ADDRESS = regionalLocale;
+    LC_IDENTIFICATION = regionalLocale;
+    LC_MEASUREMENT = regionalLocale;
+    LC_MONETARY = regionalLocale;
+    LC_NAME = regionalLocale;
+    LC_NUMERIC = regionalLocale;
+    LC_PAPER = regionalLocale;
+    LC_TELEPHONE = regionalLocale;
+    LC_TIME = regionalLocale;
   };
 
   # Set your hostname.
