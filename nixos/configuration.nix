@@ -1,16 +1,17 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
+
+  nixpkgs.config.allowUnfree = true;
 
   networking.networkmanager.enable = true;
 
@@ -32,29 +33,25 @@
     LC_TIME = "es_VE.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  # services.xserver.enable = true;
-  services.xserver = {
-      enable = true;
-      autoRepeatDelay = 155;
-      autoRepeatInterval = 20;
+  services.xserver.enable = true;
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = pkgs.steam-run.args.multiPkgs pkgs;
   };
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
   services.desktopManager.plasma6.enable = true;
 
-  # Configure keymap in X11
   services.xserver.xkb = {
     layout = "latam";
     variant = "";
   };
-
-  # Configure console keymap
   console.keyMap = "la-latin1";
 
-  # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
@@ -74,47 +71,71 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.cristianh = {
     isNormalUser = true;
     description = "cristian hernandez";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "games"
+    ];
     packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
     ];
   };
-
-  programs.neovim = {
-      enable = true;
-      defaultEditor = true;
-  };
-
-  programs.git.enable = true;
-
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-       google-chrome
-       kitty
-       wget
-       curl
-       kitty
+    google-chrome
+    wget
+    curl
+    kitty
+    alacritty
+    wezterm
+    ghostty
+    nodePackages_latest.nodejs
+    gcc
+    python313
+    python313Packages.pip
+    ripgrep
+    fd
+    gnutar
+    unzip
+    temurin-bin
+    ntfs3g
+    kdePackages.ksshaskpass
+
+    unstable.neovim
+    unstable.neovide
+    unstable.opencode
+    steam
   ];
+
+  # Graphics settings (enable, hardware acceleration, quick sync video)
+  services.xserver.videoDrivers = [ "modesetting" ];
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      # For modern Intel CPU's
+      intel-media-driver # Enable Hardware Acceleration
+      vpl-gpu-rt # Enable QSV
+    ];
+  };
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -143,10 +164,25 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
+  # Enable Steam module for FHS and compatibility
+  programs.steam.enable = true;
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-generations +3";
   };
 
+  fileSystems."/media/storage" = {
+    device = "/dev/disk/by-uuid/01D9F19C3789CBF0";
+    fsType = "ntfs-3g";
+    options = [
+      "uid=1000" # cristianh's UID
+      "gid=100" # users group GID
+      "dmask=027" # Directories: rwxr-x---
+      "fmask=137" # Files: rw-r-----
+      "windows_names"
+      "locale=en_US.UTF-8"
+    ];
+  };
 }
