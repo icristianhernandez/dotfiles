@@ -38,8 +38,8 @@ return {
 
     keys = {
         { "<leader>a", "", desc = "+IA actions", mode = { "n", "v" } },
-        { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "Toggle Code Companion Chat" },
-        { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr><esc>", mode = "i", desc = "Toggle Code Companion Chat" },
+        -- { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr>", mode = "n", desc = "Toggle Code Companion Chat" },
+        -- { "<c-a>", "<cmd>CodeCompanionChat Toggle<cr><esc>", mode = "i", desc = "Toggle Code Companion Chat" },
         { "<leader>aa", "<cmd>CodeCompanionAction<cr>", mode = { "n", "v" }, desc = "Code Companion Action" },
         { "<leader>ai", ":CodeCompanion ", desc = "Insert Code Companion" },
         { "<leader>ai", ":'<,'>CodeCompanion ", mode = "v", desc = "Insert Code Companion" },
