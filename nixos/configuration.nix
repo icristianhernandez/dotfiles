@@ -107,21 +107,34 @@
     temurin-bin
     ntfs3g
     kdePackages.ksshaskpass
+    heroic
+    lutris
+    webcamoid
+    gparted
 
     unstable.neovim
     unstable.neovide
     unstable.opencode
-    steam
+
+    unstable.shattered-pixel-dungeon
   ];
 
   # Graphics settings (enable, hardware acceleration, quick sync video)
   services.xserver.videoDrivers = [ "modesetting" ];
-  hardware.graphics = {
+  hardware.graphics = { 
     enable = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       # For modern Intel CPU's
       intel-media-driver # Enable Hardware Acceleration
       vpl-gpu-rt # Enable QSV
+      vulkan-loader # Vulkan ICD loader
+      vulkan-tools # Vulkan diagnostics
+      intel-compute-runtime # OpenCL (optional, not required for gaming)
+    ];
+    extraPackages32 = with pkgs.driversi686Linux; [
+      intel-media-driver
+      # intel-compute-runtime # Uncomment if you need 32-bit OpenCL
     ];
   };
   environment.sessionVariables = {
@@ -164,25 +177,18 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
-  # Enable Steam module for FHS and compatibility
-  programs.steam.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+  };
 
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-generations +3";
   };
+  nix.optimise.automatic = true;
 
-  fileSystems."/media/storage" = {
-    device = "/dev/disk/by-uuid/01D9F19C3789CBF0";
-    fsType = "ntfs-3g";
-    options = [
-      "uid=1000" # cristianh's UID
-      "gid=100" # users group GID
-      "dmask=027" # Directories: rwxr-x---
-      "fmask=137" # Files: rw-r-----
-      "windows_names"
-      "locale=en_US.UTF-8"
-    ];
-  };
 }
