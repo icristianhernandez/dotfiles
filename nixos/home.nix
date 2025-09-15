@@ -7,22 +7,22 @@
   home.homeDirectory = "/home/cristianh";
   home.stateVersion = "25.05";
 
-   home.packages = with pkgs; [
-   ];
+  home.packages = with pkgs; [
+  ];
 
-   services.ssh-agent.enable = true;
+  services.ssh-agent.enable = true;
 
-   programs.ssh = {
-     enable = true;
-     extraConfig = ''
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
        AddKeysToAgent yes
-     '';
-   };
+    '';
+  };
 
-   home.sessionVariables = {
-     SSH_ASKPASS = "/run/current-system/sw/bin/ksshaskpass";
-     SSH_ASKPASS_REQUIRE = "prefer";
-   };
+  home.sessionVariables = {
+    SSH_ASKPASS = "/run/current-system/sw/bin/ksshaskpass";
+    SSH_ASKPASS_REQUIRE = "prefer";
+  };
 
 
   xdg.configFile."nvim" = {
