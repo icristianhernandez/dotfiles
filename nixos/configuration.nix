@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./additional-hardware-conf.nix
   ];
 
   # Bootloader.
@@ -89,6 +90,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    unrar
     google-chrome
     wget
     curl
@@ -182,6 +184,9 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
+    extraCompatPackages =  with pkgs; [
+      proton-ge-bin
+    ];
   };
 
   nix.gc = {
