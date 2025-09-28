@@ -16,7 +16,7 @@
         python313Packages.pip
       ];
       dev_env = with pkgs; [
-        neovim neovide opencode
+        neovim opencode
       ];
     in
       os_base
