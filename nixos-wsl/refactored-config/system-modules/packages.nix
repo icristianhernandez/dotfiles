@@ -7,7 +7,13 @@
         openssh
       ];
       cli_utils = with pkgs; [
-        unrar wget curl ripgrep fd gnutar unzip
+        unrar
+        wget
+        curl
+        ripgrep
+        fd
+        gnutar
+        unzip
       ];
       languages = with pkgs; [
         nodePackages_latest.nodejs
@@ -16,11 +22,9 @@
         python313Packages.pip
       ];
       dev_env = with pkgs; [
-        neovim opencode
+        neovim
+        opencode
       ];
     in
-      os_base
-      ++ cli_utils
-      ++ languages
-      ++ dev_env;
+    os_base ++ cli_utils ++ languages ++ dev_env;
 }

@@ -7,7 +7,9 @@
       Host *
         AddKeysToAgent yes
     '';
-    matchBlocks = { "*" = {}; };
+    matchBlocks = {
+      "*" = { };
+    };
   };
 
   programs.keychain = {

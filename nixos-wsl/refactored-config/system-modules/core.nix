@@ -1,4 +1,9 @@
-{ config, pkgs, const, ... }:
+{
+  config,
+  pkgs,
+  const,
+  ...
+}:
 {
   nixpkgs.config.allowUnfree = true;
 
@@ -7,7 +12,10 @@
     libraries = pkgs.steam-run.args.multiPkgs pkgs;
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nix.gc = {
     automatic = true;
     dates = "weekly";

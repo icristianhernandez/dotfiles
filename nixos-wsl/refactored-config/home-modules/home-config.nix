@@ -1,4 +1,9 @@
-{ config, pkgs, const, ... }:
+{
+  config,
+  pkgs,
+  const,
+  ...
+}:
 {
   home.username = const.user;
   home.homeDirectory = const.home_dir;

@@ -1,6 +1,11 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
-  systemModules = import ./lib/import-directory.nix { dir = ./system-modules; }; 
+  systemModules = import ./lib/import-directory.nix { dir = ./system-modules; };
 in
 {
   imports = systemModules;

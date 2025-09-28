@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   homeModules = import ./lib/import-directory.nix { dir = ./home-modules; };
 in
