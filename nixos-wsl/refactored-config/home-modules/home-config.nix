@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, const, ... }:
 {
-  home.username = "cristianwslnixos";
-  home.homeDirectory = "/home/cristianwslnixos";
-  home.stateVersion = "25.05";
+  home.username = const.user;
+  home.homeDirectory = const.home_dir;
+  home.stateVersion = const.home_state;
   home.packages = with pkgs; [ ];
 }

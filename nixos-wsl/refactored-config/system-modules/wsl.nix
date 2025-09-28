@@ -1,5 +1,5 @@
-{ config, pkgs, ... }:
+{ config, pkgs, const, ... }:
 {
   wsl.enable = true;
-  wsl.defaultUser = "cristianwslnixos";
+  wsl.defaultUser = const.user;
 }

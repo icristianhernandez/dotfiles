@@ -1,9 +1,9 @@
-{ config, ... }:
+{ config, const, ... }:
 {
   programs.git = {
     enable = true;
-    userName = "cristian";
-    userEmail = "cristianhernandez9007@gmail.com";
+    userName = const.git.name;
+    userEmail = const.git.email;
     extraConfig = {
       init.defaultBranch = "main";
     };

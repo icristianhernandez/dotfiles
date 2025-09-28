@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, const, ... }:
 {
-  users.users.cristianwslnixos = {
+  users.users.${const.user} = {
     isNormalUser = true;
-    description = "cristian hernandez";
+    description = const.user_description;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [ ];
   };

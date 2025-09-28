@@ -1,13 +1,26 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    # OS related things
-    ntfs3g
-    # Utilities
-    unrar wget curl ripgrep fd gnutar unzip keychain
-    # Languages
-    nodePackages_latest.nodejs gcc python313 python313Packages.pip
-    # Dev Env
-    neovim neovide opencode
-  ];
+  environment.systemPackages =
+    let
+      os_base = with pkgs; [
+        ntfs3g
+        openssh
+      ];
+      cli_utils = with pkgs; [
+        unrar wget curl ripgrep fd gnutar unzip
+      ];
+      languages = with pkgs; [
+        nodePackages_latest.nodejs
+        gcc
+        python313
+        python313Packages.pip
+      ];
+      dev_env = with pkgs; [
+        neovim neovide opencode
+      ];
+    in
+      os_base
+      ++ cli_utils
+      ++ languages
+      ++ dev_env;
 }

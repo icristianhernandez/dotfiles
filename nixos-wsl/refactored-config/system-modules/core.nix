@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, const, ... }:
 {
   nixpkgs.config.allowUnfree = true;
 
@@ -18,5 +18,5 @@
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken.
-  system.stateVersion = "25.05";
+  system.stateVersion = const.system_state;
 }
