@@ -51,3 +51,20 @@
   prefer `with pkgs; [ ... ]` scoped locally.
 - **Changes hygiene:**
   - Run `nix fmt` and `nix flake check` before finish doing changes.
+
+## Notable Technical Decisions
+
+- **Deterministic auto-import of modules:**
+  All `.nix` files in `system-modules/` and `home-modules/` are auto-imported in lexicographic order via `lib/import-directory.nix`. To add a module, simply drop it in the directory—manual wiring is not needed, and evaluation order is stable.
+
+- **Centralized constants:**
+  Shared values (user, home_dir, state versions, locale, git identity) are defined in `lib/const.nix` and passed to all modules via `specialArgs`/`extraSpecialArgs`. Change once, propagate everywhere.
+
+- **nix-ld for binary compatibility:**
+  `programs.nix-ld` is enabled with a broad set of libraries, allowing foreign dynamically linked binaries (e.g., prebuilt tools) to run out-of-the-box. This increases compatibility at the cost of a larger runtime surface.
+
+- **Dotfiles (Neovim) managed outside the Nix store:**
+  Neovim config is symlinked from `~/dotfiles/nvim/.config/nvim/` using `mkOutOfStoreSymlink`, so it remains editable and version-controlled outside the Nix store. Home Manager only manages the link.
+
+- **Global developer toolset:**
+  A rich set of developer tools (compilers, Python, Node, Neovim, opencode, etc.) is globally installed for all users, resulting in a larger closure but a ready-to-use dev environment.

@@ -9,7 +9,7 @@
 
   programs.nix-ld = {
     enable = true;
-    libraries = pkgs.steam-run.args.multiPkgs pkgs;
+    libraries = (pkgs.steam-run.args.multiPkgs pkgs) ++ [ pkgs.icu ];
   };
 
   nix.settings.experimental-features = [
