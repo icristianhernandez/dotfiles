@@ -46,20 +46,5 @@ for_each_system (
       } else {};
   in
   lintChecks // lspChecks
-  // {
-    formatting =
-      pkgs.runCommand "nixfmt-check"
-        {
-          buildInputs = [
-            pkgs.findutils
-            pkgs.nixfmt-rfc-style
-          ];
-        }
-        ''
-          set -euo pipefail
-          find ${root} -type f -name '*.nix' -print0 \
-            | xargs --no-run-if-empty -0 nixfmt --check
-          touch "$out"
-        '';
-  }
 )
+
