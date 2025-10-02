@@ -1,4 +1,3 @@
-{ config, ... }:
-{
+_: {
   programs.yazi.enable = true;
 }

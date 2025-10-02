@@ -5,7 +5,7 @@
 ### Build, Lint, Check
 
 - Never rebuild the NixOS config.
-- Formatting: `nix fmt` (treefmt using `nixfmt`).
+- Formatting: `nix fmt` (runs `nixfmt` across all `.nix` files).
 - Checks: `nix flake check`; linting is also checked using statix and deadnix.
 - No unit tests are defined.
 

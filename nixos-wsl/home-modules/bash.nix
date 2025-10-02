@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+_: {
   programs.bash = {
     enable = true;
   };

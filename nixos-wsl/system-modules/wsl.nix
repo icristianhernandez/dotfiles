@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  const,
-  ...
-}:
+{ const, ... }:
 {
   wsl.enable = true;
   wsl.defaultUser = const.user;

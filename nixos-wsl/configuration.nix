@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+_:
 let
   systemModules = import ./lib/import-directory.nix { dir = ./system-modules; };
 in

@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  const,
-  ...
-}:
+{ pkgs, const, ... }:
 {
   users.users.${const.user} = {
     isNormalUser = true;

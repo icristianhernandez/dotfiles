@@ -1,4 +1,4 @@
-{ config, const, ... }:
+{ const, ... }:
 {
   programs.git = {
     enable = true;

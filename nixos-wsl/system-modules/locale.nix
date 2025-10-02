@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  const,
-  ...
-}:
+{ const, ... }:
 let
   loc = const.locale;
 in

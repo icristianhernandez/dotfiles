@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  const,
-  ...
-}:
+{ pkgs, const, ... }:
 {
   nixpkgs.config.allowUnfree = true;
 
@@ -12,16 +7,18 @@
     libraries = (pkgs.steam-run.args.multiPkgs pkgs) ++ [ pkgs.icu ];
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-generations +3";
+  nix = {
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-generations +3";
+    };
+    optimise.automatic = true;
   };
-  nix.optimise.automatic = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
