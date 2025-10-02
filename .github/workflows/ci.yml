@@ -23,7 +23,7 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Format check
-        run: nix run ./nixos-wsl#formatter.x86_64-linux -- treefmt --check
+        run: nix run ./nixos-wsl#formatter.x86_64-linux -- --ci
 
       - name: Run flake checks
         run: nix flake check ./nixos-wsl -L
