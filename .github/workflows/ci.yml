@@ -22,16 +22,8 @@ jobs:
       - name: Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
-      - name: Deprecated workflow notice
-        run: |
-          echo "This workflow has been moved to the repository root: .github/workflows/ci.yml"
-          echo "Please update or remove duplicate workflow files to avoid confusion."
+      - name: Format check
+        run: nix run ./nixos-wsl#formatter.x86_64-linux -- treefmt --check
 
-      - name: Format check (no-op)
-        if: false
-        run: nix run .#formatter.x86_64-linux -- treefmt --check
-
-      - name: Run flake checks (no-op)
-        if: false
-        run: nix flake check -L
-
+      - name: Run flake checks
+        run: nix flake check ./nixos-wsl -L
