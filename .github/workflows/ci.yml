@@ -1,3 +1,4 @@
+---
 name: CI
 
 on:
@@ -114,10 +115,28 @@ jobs:
 
       - name: Run actionlint (GitHub Actions linter)
         run: |
-          echo "Running actionlint against workflow files"
-          nix run nixpkgs#actionlint -- .github/workflows || { echo "actionlint failed"; exit 1; }
+          echo "Finding workflow files..."
+          shopt -s nullglob
+          files=( .github/workflows/*.yml .github/workflows/*.yaml )
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No workflow files found; skipping actionlint"
+          else
+            echo "Workflow files:"
+            printf '%s\n' "${files[@]}"
+            echo "Running actionlint against workflow files"
+            nix run nixpkgs#actionlint -- "${files[@]}" || { echo "actionlint failed"; exit 1; }
+          fi
 
       - name: Run yamllint (YAML syntax and style)
         run: |
-          echo "Running yamllint against workflow files"
-          nix run nixpkgs#yamllint -- .github/workflows || { echo "yamllint failed"; exit 1; }
+          echo "Finding workflow files..."
+          shopt -s nullglob
+          files=( .github/workflows/*.yml .github/workflows/*.yaml )
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No workflow files found; skipping yamllint"
+          else
+            echo "Workflow files:"
+            printf '%s\n' "${files[@]}"
+            echo "Running yamllint against workflow files"
+            nix run nixpkgs#yamllint -- "${files[@]}" || { echo "yamllint failed"; exit 1; }
+          fi
