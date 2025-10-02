@@ -1,10 +1,7 @@
 ---
 name: CI
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+'on': [push, pull_request, workflow_dispatch]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -62,10 +59,22 @@ jobs:
         run: |
           if [ -f nvim/.config/nvim/.stylua.toml ]; then
             echo "Using repository Stylua config"
-            nix run nixpkgs#stylua -- --check --output-format=unified --config-path nvim/.config/nvim/.stylua.toml nvim/.config/nvim
+            stylua_args=(
+              --check
+              --output-format=unified
+              --config-path
+              nvim/.config/nvim/.stylua.toml
+              nvim/.config/nvim
+            )
+            nix run nixpkgs#stylua -- "${stylua_args[@]}"
           else
             echo "No repository Stylua config found; using Stylua defaults"
-            nix run nixpkgs#stylua -- --check --output-format=unified nvim/.config/nvim
+            stylua_args=(
+              --check
+              --output-format=unified
+              nvim/.config/nvim
+            )
+            nix run nixpkgs#stylua -- "${stylua_args[@]}"
           fi
 
   nixos-check:
@@ -124,7 +133,9 @@ jobs:
             echo "Workflow files:"
             printf '%s\n' "${files[@]}"
             echo "Running actionlint against workflow files"
-            nix run nixpkgs#actionlint -- "${files[@]}" || { echo "actionlint failed"; exit 1; }
+            actionlint_args=("${files[@]}")
+            nix run nixpkgs#actionlint -- "${actionlint_args[@]}" \
+              || { echo "actionlint failed"; exit 1; }
           fi
 
       - name: Run yamllint (YAML syntax and style)
@@ -138,5 +149,7 @@ jobs:
             echo "Workflow files:"
             printf '%s\n' "${files[@]}"
             echo "Running yamllint against workflow files"
-            nix run nixpkgs#yamllint -- "${files[@]}" || { echo "yamllint failed"; exit 1; }
+            yamllint_args=("${files[@]}")
+            nix run nixpkgs#yamllint -- "${yamllint_args[@]}" \
+              || { echo "yamllint failed"; exit 1; }
           fi
