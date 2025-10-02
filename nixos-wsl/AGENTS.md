@@ -1,70 +1,41 @@
 # AGENTS.md
 
-## Build, Lint, and Check
+## Repository Conventions
 
-- **Build system:**
-  - Never rebuild the config, even if the user ask for it.
-- **Format/lint:**
-  - `nix fmt` (treefmt wrapper; uses `nixfmt`)
-- **Checks:**
-  - `nix flake check` (runs formatting check, plus advisory statix/deadnix)
-  - Style: `nix run nixpkgs#statix -- check .` and `nix run nixpkgs#deadnix -- .`
-- **Unit tests:** None present.
+### Build, Lint, Check
 
-## Code Style & Structure
+- Never rebuild the NixOS config.
+- Formatting: `nix fmt` (treefmt using `nixfmt`).
+- Checks: `nix flake check`; linting is also checked using statix and deadnix.
+- No unit tests are defined.
 
-- **File layout:**
-  - Nix modules: `system-modules/`, `home-modules/`. All auto imported in
-  `configuration.nix` and `home.nix`.  
-  - Constants: `lib/const.nix`
-  - Deterministic imports: `lib/import-directory.nix`
-  - Entry points in: `configuration.nix`, `home.nix`, `flake.nix`
-- **Formatting:**
-  - Use `nixfmt` via treefmt; run `nix fmt` before commits.
-- **Imports:**
-  - Prefer `import ./lib/import-directory.nix { dir = ./<dir>; }`
-  - Keep `.nix` files sorted deterministically.
-- **Types:**
-  - Write idiomatic Nix; avoid implicit strings.
-  - Use `rec` and attribute sets for shared constants.
-- **Naming:**
-  - kebab-case filenames; lower_snake_case for attrs (e.g., `home_dir`)
-- **Module args:**
-  - Use `{ config, pkgs, const, ... }:`; pass `const` via `specialArgs`/`extraSpecialArgs`.
-- **Options:**
-  - Set NixOS/Home Manager options declaratively; avoid imperative commands.
-- **Error handling:**
-  - Validate options at eval time; avoid dynamic `builtins.getEnv` or side effects.
-  - Use `lib.mkDefault` for defaults.
-- **Git:**
-  - Default branch: `main`.
-  - Don't commit.
-  - Don't push.
-  - Don't add staged. You probably are going to need add files to run checks,
-  ask the user.
-- **WSL:**
-  - System enables `wsl` module; default user from `const.user`.
-- **Performance:**
-  - Keep modules small; reuse `const` for shared values; avoid repeated eval work.
-- **Conventions:**
-  - One option group per file when reasonable; lists: one item per line;
-  prefer `with pkgs; [ ... ]` scoped locally.
-- **Changes hygiene:**
-  - Run `nix fmt` and `nix flake check` before finish doing changes.
+### Structure & Style
 
-## Notable Technical Decisions
+- Modules live in `system-modules/` and `home-modules/`, auto-imported by
+  `lib/import-directory.nix`.
+- `lib/import-directory.nix` keep module imports deterministic and sorted.
+- Shared constants reside in `lib/const.nix`; update once to propagate
+  everywhere.
+- Entry points: `configuration.nix`, `home.nix`, and `flake.nix`.
+- `programs.nix-ld` is enabled to support foreign binaries and the dev
+  toolset is global. That is intended and any related changes need to
+  comply with that schema.
+- (Neovim, Starship) config lives out of store via
+  `mkOutOfStoreSymlink`.
+- Format with `nixfmt`.
+- Module Arguments: Only bind arguments that are actually used. If no
+  argument is used, use `_:`.
+- Write idiomatic Nix — use explicit strings. For example, use `rec` sets
+  for shared data, and `lib.mkDefault` for defaults.
+- File names use kebab-case; attributes use lower_snake_case; lists are one
+  item per line with locally scoped `with pkgs; [ ... ]` when needed.
+- Configure options declaratively; avoid side-effects and imperative
+  commands. Avoid using dynamic `builtins.getEnv` where possible.
 
-- **Deterministic auto-import of modules:**
-  All `.nix` files in `system-modules/` and `home-modules/` are auto-imported in lexicographic order via `lib/import-directory.nix`. To add a module, simply drop it in the directory—manual wiring is not needed, and evaluation order is stable.
+### Workflow Hygiene
 
-- **Centralized constants:**
-  Shared values (user, home_dir, state versions, locale, git identity) are defined in `lib/const.nix` and passed to all modules via `specialArgs`/`extraSpecialArgs`. Change once, propagate everywhere.
-
-- **nix-ld for binary compatibility:**
-  `programs.nix-ld` is enabled with a broad set of libraries, allowing foreign dynamically linked binaries (e.g., prebuilt tools) to run out-of-the-box. This increases compatibility at the cost of a larger runtime surface.
-
-- **Dotfiles (Neovim) managed outside the Nix store:**
-  Neovim config is symlinked from `~/dotfiles/nvim/.config/nvim/` using `mkOutOfStoreSymlink`, so it remains editable and version-controlled outside the Nix store. Home Manager only manages the link.
-
-- **Global developer toolset:**
-  A rich set of developer tools (compilers, Python, Node, Neovim, opencode, etc.) is globally installed for all users, resulting in a larger closure but a ready-to-use dev environment.
+- Default branch is `main`; never commit, push, or stage files unless
+  instructed by the user.
+- Reuse `const` to keep modules lean and evaluation deterministic.
+- Always finish by running `nix fmt` and `nix flake check` before
+  claiming the task is complete.
