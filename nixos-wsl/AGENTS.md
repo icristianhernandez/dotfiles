@@ -34,8 +34,8 @@
 
 ### Workflow Hygiene
 
-- Default branch is `main`; never commit, push, or stage files unless
-  instructed by the user.
+- The default branch is `main`; never commit, push, or stage files,
+  nor suggest doing so, unless instructed by the user.
 - Reuse `const` to keep modules lean and evaluation deterministic.
 - Always finish by running `nix fmt` and `nix flake check` before
   claiming the task is complete.

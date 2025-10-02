@@ -45,9 +45,7 @@
           ];
         };
       };
-       formatter = nixpkgs.lib.genAttrs systems (system:
-         nixpkgs.legacyPackages.${system}.nixfmt-tree
-       );
+      formatter = nixpkgs.lib.genAttrs systems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
 
       checks = import ./lib/checks.nix {
         inherit nixpkgs systems;

@@ -37,14 +37,16 @@ for_each_system (
 
     # Only check for the user-preferred `nixd` LSP; do not fall back to other LSPs.
     lspChecks =
-      if builtins.hasAttr "nixd" pkgs then {
-        "nixd-available" = pkgs.runCommand "nixd-available" { buildInputs = [ pkgs.nixd ]; } ''
-          set -eu
-          nixd --help >/dev/null 2>&1
-          touch "$out"
-        '';
-      } else {};
+      if builtins.hasAttr "nixd" pkgs then
+        {
+          "nixd-available" = pkgs.runCommand "nixd-available" { buildInputs = [ pkgs.nixd ]; } ''
+            set -eu
+            nixd --help >/dev/null 2>&1
+            touch "$out"
+          '';
+        }
+      else
+        { };
   in
   lintChecks // lspChecks
 )
-
