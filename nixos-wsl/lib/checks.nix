@@ -34,9 +34,9 @@ for_each_system (
         touch "$out"
       '';
 
-      "format-check" = pkgs.runCommand "format-check" { buildInputs = [ pkgs.nix ]; } ''
+      "format-check" = pkgs.runCommand "format-check" { buildInputs = [ pkgs.nixfmt-tree ]; } ''
         set -eu
-        nix run "${root}#formatter.${system}" -- --ci
+        ${pkgs.nixfmt-tree}/bin/treefmt --ci ${root}
         touch "$out"
       '';
     };

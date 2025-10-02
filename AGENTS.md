@@ -35,3 +35,17 @@ Manager, plus curated Neovim, shell, and developer tooling configs
 - Checks: `nix flake check ./nixos-wsl -L`
 - Format: `nix run ./nixos-wsl#formatter.x86_64-linux -- --ci`
   (local: `nix run ./nixos-wsl#formatter.x86_64-linux`)
+- Workflow lint (actionlint): `nix run nixpkgs#actionlint -- .github/workflows`
+- Workflow YAML lint (yamllint): `nix run nixpkgs#yamllint -- .github/workflows`
+  (no dedicated `.yamllint.yml` rules provided in this repo)
+
+## Agent Conventions
+
+- The default branch is `main`; never commit, push, or stage files,
+  nor suggest doing so, unless instructed by the user.
+
+- Subconfig agent guidance: For changes in NixOS or Neovim subconfigs, follow their AGENTS instructions:
+  - `nixos-wsl/AGENTS.md` for `nixos-wsl/**`
+  - `nvim/.config/nvim/AGENTS.md` for `nvim/.config/nvim/**`
+
+  These files define conventions and rules for their areas.
