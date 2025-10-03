@@ -122,14 +122,33 @@ jobs:
       - name: Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
-      - name: Run actionlint (GitHub Actions linter)
+      - name: Find workflow files
+        id: find_workflows
         run: |
           echo "Finding workflow files..."
           shopt -s nullglob
           files=( .github/workflows/*.yml .github/workflows/*.yaml )
           if [ ${#files[@]} -eq 0 ]; then
+            echo "No workflow files found"
+            # ensure output is set even when empty
+            echo "files=" >> "$GITHUB_OUTPUT"
+          else
+            printf '%s\n' "${files[@]}"
+            # Join files by comma for single-line output
+            IFS=","; joined="${files[*]}"; unset IFS
+            # export output for later steps
+            echo "files=${joined}" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GITHUB_OUTPUT: ${{ github.output }}
+
+      - name: Run actionlint (GitHub Actions linter)
+        run: |
+          files_str="${{ steps.find_workflows.outputs.files }}"
+          if [ -z "$files_str" ]; then
             echo "No workflow files found; skipping actionlint"
           else
+            IFS=","; read -r -a files <<< "$files_str"; unset IFS
             echo "Workflow files:"
             printf '%s\n' "${files[@]}"
             echo "Running actionlint against workflow files"
@@ -140,12 +159,11 @@ jobs:
 
       - name: Run yamllint (YAML syntax and style)
         run: |
-          echo "Finding workflow files..."
-          shopt -s nullglob
-          files=( .github/workflows/*.yml .github/workflows/*.yaml )
-          if [ ${#files[@]} -eq 0 ]; then
+          files_str="${{ steps.find_workflows.outputs.files }}"
+          if [ -z "$files_str" ]; then
             echo "No workflow files found; skipping yamllint"
           else
+            IFS=","; read -r -a files <<< "$files_str"; unset IFS
             echo "Workflow files:"
             printf '%s\n' "${files[@]}"
             echo "Running yamllint against workflow files"
