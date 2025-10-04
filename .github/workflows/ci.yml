@@ -1,7 +1,7 @@
 ---
 name: CI
 
-'on': [push, pull_request, workflow_dispatch]
+"on": [push, pull_request, workflow_dispatch]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -34,51 +34,8 @@ jobs:
               - '.github/workflows/*.yml'
               - '.github/workflows/*.yaml'
 
-  nvim-format:
-    name: "Neovim: Stylua format check"
-    runs-on: ubuntu-latest
-    needs: filter
-    if: ${{ needs.filter.outputs.nvim == 'true' }}
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v20
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v13
-
-      - name: Stylua format check
-        run: |
-          if [ -f nvim/.config/nvim/.stylua.toml ]; then
-            echo "Using repository Stylua config"
-            stylua_args=(
-              --check
-              --output-format=unified
-              --config-path
-              nvim/.config/nvim/.stylua.toml
-              nvim/.config/nvim
-            )
-            nix run nixpkgs#stylua -- "${stylua_args[@]}"
-          else
-            echo "No repository Stylua config found; using Stylua defaults"
-            stylua_args=(
-              --check
-              --output-format=unified
-              nvim/.config/nvim
-            )
-            nix run nixpkgs#stylua -- "${stylua_args[@]}"
-          fi
-
-  nixos-check:
-    name: "NixOS: flake format & checks"
+  nixos-ci:
+    name: "NixOS: fmt-check + lint + flake check"
     runs-on: ubuntu-latest
     needs: filter
     if: ${{ needs.filter.outputs.nixos == 'true' }}
@@ -98,11 +55,35 @@ jobs:
       - name: Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
-      - name: Run flake checks
-        run: nix flake check ./nixos-wsl -L
+      - name: Run NixOS CI
+        run: nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci
 
-  github-workflows-lint:
-    name: "GitHub Workflows: Actionlint & yamllint"
+  nvim-ci:
+    name: "Neovim: stylua --check"
+    runs-on: ubuntu-latest
+    needs: filter
+    if: ${{ needs.filter.outputs.nvim == 'true' }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v20
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v13
+
+      - name: Run Neovim CI
+        run: nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci
+
+  workflows-ci:
+    name: "GitHub Workflows: actionlint + yamllint"
     runs-on: ubuntu-latest
     needs: filter
     if: ${{ needs.filter.outputs.github_workflows == 'true' }}
@@ -122,52 +103,5 @@ jobs:
       - name: Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
-      - name: Find workflow files
-        id: find_workflows
-        run: |
-          echo "Finding workflow files..."
-          shopt -s nullglob
-          files=( .github/workflows/*.yml .github/workflows/*.yaml )
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No workflow files found"
-            # ensure output is set even when empty
-            echo "files=" >> "$GITHUB_OUTPUT"
-          else
-            printf '%s\n' "${files[@]}"
-            # Join files by comma for single-line output
-            IFS=","; joined="${files[*]}"; unset IFS
-            # export output for later steps
-            echo "files=${joined}" >> "$GITHUB_OUTPUT"
-          fi
-        env:
-          GITHUB_OUTPUT: ${{ github.output }}
-
-      - name: Run actionlint (GitHub Actions linter)
-        run: |
-          files_str="${{ steps.find_workflows.outputs.files }}"
-          if [ -z "$files_str" ]; then
-            echo "No workflow files found; skipping actionlint"
-          else
-            IFS=","; read -r -a files <<< "$files_str"; unset IFS
-            echo "Workflow files:"
-            printf '%s\n' "${files[@]}"
-            echo "Running actionlint against workflow files"
-            actionlint_args=("${files[@]}")
-            nix run nixpkgs#actionlint -- "${actionlint_args[@]}" \
-              || { echo "actionlint failed"; exit 1; }
-          fi
-
-      - name: Run yamllint (YAML syntax and style)
-        run: |
-          files_str="${{ steps.find_workflows.outputs.files }}"
-          if [ -z "$files_str" ]; then
-            echo "No workflow files found; skipping yamllint"
-          else
-            IFS=","; read -r -a files <<< "$files_str"; unset IFS
-            echo "Workflow files:"
-            printf '%s\n' "${files[@]}"
-            echo "Running yamllint against workflow files"
-            yamllint_args=("${files[@]}")
-            nix run nixpkgs#yamllint -- "${yamllint_args[@]}" \
-              || { echo "yamllint failed"; exit 1; }
-          fi
+      - name: Run Workflows CI
+        run: nix run ./nixos-wsl#apps.x86_64-linux.workflows-ci

@@ -4,39 +4,33 @@
 
 ### Build, Lint, Check
 
-- Never rebuild the NixOS config.
-- Formatting: `nix fmt` (runs `nixfmt`/`treefmt` across all `.nix` files;
-  the flake `formatter` is set to `nixfmt-tree`).
-- Checks: `nix flake check`; linting is also checked using statix and deadnix.
-- No unit tests are defined.
+- Do not rebuild NixOS runtime here.
+- NixOS format (fix): `nix run ./nixos-wsl#apps.x86_64-linux.nixos-fmt`
+- NixOS CI: `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
+- Orchestrator (all domains): `nix run ./nixos-wsl#apps.x86_64-linux.ci`
 
 ### Structure & Style
 
-- Modules live in `system-modules/` and `home-modules/`, auto-imported by
+- Shared constants: `lib/const.nix`.
+- Modules: `system-modules/` and `home-modules/` auto-imported via
   `lib/import-directory.nix`.
-- `lib/import-directory.nix` keep module imports deterministic and sorted.
-- Shared constants reside in `lib/const.nix`; update once to propagate
-  everywhere.
-- Entry points: `configuration.nix`, `home.nix`, and `flake.nix`.
-- `programs.nix-ld` is enabled to support foreign binaries and the dev
-  toolset is global. That is intended and any related changes need to
-  comply with that schema.
-- (Neovim, Starship) config lives out of store via
-  `mkOutOfStoreSymlink`.
-- Format with `nixfmt`.
-- Module Arguments: Only bind arguments that are actually used. If no
-  argument is used, use `_:`.
-- Write idiomatic Nix — use explicit strings. For example, use `rec` sets
-  for shared data, and `lib.mkDefault` for defaults.
-- File names use kebab-case; attributes use lower_snake_case; lists are one
-  item per line with locally scoped `with pkgs; [ ... ]` when needed.
-- Configure options declaratively; avoid side-effects and imperative
-  commands. Avoid using dynamic `builtins.getEnv` where possible.
+- Apps location: `nixos-wsl/apps/` (app modules such as `fmt.nix`, `lint.nix`, `ci.nix`)
+- Entry points: `configuration.nix`, `home.nix`, `flake.nix`.
+- `programs.nix-ld` is enabled; keep changes compatible with schema.
+- Neovim, Fish, Starship out-of-store via `mkOutOfStoreSymlink`.
+- Use kebab-case for filenames; `lower_snake_case` for attributes.
+- Keep lists one-item-per-line when needed.
+- Configure declaratively; avoid `builtins.getEnv` for secrets.
 
 ### Workflow Hygiene
 
-- The default branch is `main`; never commit, push, or stage files,
-  nor suggest doing so, unless instructed by the user.
-- Reuse `const` to keep modules lean and evaluation deterministic.
-- Always finish by running `nix fmt` and `nix flake check` before
-  claiming the task is complete.
+- Reuse `lib/const.nix` for shared values.
+- Run format, next ci after edits.
+- If flake checks need staged files, ask user to prepare the repo (important).
+
+### Agent Operational Rules
+
+- Never run/suggest VCS operations; ask user to prepare repo state.
+- Run checks after edits; do not conclude until passing or user
+  accepts failures (first format, next ci).
+- Do not update `nixos-wsl/flake.lock`.

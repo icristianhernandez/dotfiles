@@ -1,51 +1,48 @@
 # Dotfiles for a NixOS-on-WSL setup using Nix flakes and Home
 
-Manager, plus curated Neovim, shell, and developer tooling configs
+Manager, plus curated Neovim, shell, and dev tooling configs
 
 ## Technologies
 
-- Nix/NixOS/WSL: Nix flake (`flake.nix/lock`); NixOS on WSL;
-  Home Manager modules.
-- Neovim: Lua config with Lazy.nvim/LazyVim.
-  Notable plugins: Treesitter, LSP, Lualine, Copilot, Noice,
-  Blink, Snacks (picker/terminal/words), mini.files,
-  indent-blankline, vim-matchup, rainbow-delimiters,
-  smart-splits, hardtime, nvim-surround.
-- Shell & Terminal: fish config; Starship prompt.
-- Tooling & Utilities: yazi, git config, SSH agent.
-- CI & Lint/Format: GitHub Actions; statix + deadnix; nixfmt RFC;
-  Stylua.
-- Other languages/tools: none detected (no Node/TypeScript, Rust,
-  Python/Flask, Docker, Go).
+- Nix/NixOS/WSL: flake, NixOS on WSL, Home Manager modules.
+- Neovim: Lua config with Lazy.nvim and LazyVim.
+- Shell: fish config; Starship prompt.
+- Tools: yazi, SSH agent.
+- CI: GitHub Actions, statix, deadnix, nixfmt, Stylua.
 
 ## Paths
 
-- NixOS + Home Manager: `nixos-wsl/system-modules/*`,
-  `nixos-wsl/home-modules/*`, plus `configuration.nix`, `home.nix`,
-  `nixos-wsl/lib/*`.
+- NixOS + Home: `nixos-wsl/system-modules/*`,
+  `nixos-wsl/home-modules/*`, `configuration.nix`, `home.nix`,
+  `nixos-wsl/lib/*`, `nixos-wsl/apps/`.
 - Neovim: `nvim/.config/nvim/*` (plugins in `lua/plugins/*.lua`,
-  settings in `lua/config/*.lua`, Stylua at `.stylua.toml`).
-- Shell: `fish/.config/fish/*`; Prompt:
-  `starship/.config/starship.toml`.
-- CI: `.github/workflows/ci.yml`; Lint/format config:
-  `nixos-wsl/lib/checks.nix`, `statix.toml`.
+  settings in `lua/config/*.lua`).
+- Shell: `fish/.config/fish/*`.
+- CI: `.github/workflows/ci.yml`.
 
 ## Commands
 
-- Checks: `nix flake check ./nixos-wsl -L`
-- Format: `nix run ./nixos-wsl#formatter.x86_64-linux -- --ci`
-  (local: `nix run ./nixos-wsl#formatter.x86_64-linux`)
-- Workflow lint (actionlint): `nix run nixpkgs#actionlint -- .github/workflows`
-- Workflow YAML lint (yamllint): `nix run nixpkgs#yamllint -- .github/workflows`
-  (no dedicated `.yamllint.yml` rules provided in this repo)
+- NixOS format (fix): `nix run ./nixos-wsl#apps.x86_64-linux.nixos-fmt`
+- NixOS CI: `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
+- Neovim format (fix): `nix run ./nixos-wsl#apps.x86_64-linux.nvim-fmt`
+- Neovim CI: `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
+- Workflows CI: `nix run ./nixos-wsl#apps.x86_64-linux.workflows-ci`
+- Orchestrator (all): `nix run ./nixos-wsl#apps.x86_64-linux.ci`
 
 ## Agent Conventions
 
-- The default branch is `main`; never commit, push, or stage files,
-  nor suggest doing so, unless instructed by the user.
+- Nearest `AGENTS.md` wins; root is fallback.
+- Security: no secrets in repo; avoid `builtins.getEnv`.
+- Make declarative changes; avoid side effects.
+- Never run or suggest VCS (git) commands.
+- Run checks after edits and fix failures.
+- Do not update `nixos-wsl/flake.lock`.
 
-- Subconfig agent guidance: For changes in NixOS or Neovim subconfigs, follow their AGENTS instructions:
-  - `nixos-wsl/AGENTS.md` for `nixos-wsl/**`
-  - `nvim/.config/nvim/AGENTS.md` for `nvim/.config/nvim/**`
+## Subconfig Guidelines
 
-  These files define conventions and rules for their areas.
+Read and follow the subconfig agents guidelines when performing any actions
+related to these guidelines.
+
+- See `nixos-wsl/AGENTS.md` for Nix subconfig.
+- See `nvim/.config/nvim/AGENTS.md` for Neovim subconfig.
+- Read and follow the required AGENTS.md before editing.

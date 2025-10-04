@@ -26,6 +26,10 @@
         opencode
       ];
     in
-    pkgs.lib.concatLists [ os_base cli_utils languages dev_env ];
+    pkgs.lib.concatLists [
+      os_base
+      cli_utils
+      languages
+      dev_env
+    ];
 }
-
