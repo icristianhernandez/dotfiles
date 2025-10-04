@@ -6,9 +6,12 @@
 let
   script = pkgs.writeShellApplication {
     name = "nvim-ci";
-    runtimeInputs = [ pkgs.nix ];
+    runtimeInputs = [
+      pkgs.nix
+      pkgs.coreutils
+    ];
     text = ''
-      set -euo pipefail
+      set -eo pipefail
       # Format (apply fixes), then run checks
       ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos-wsl#apps.${pkgs.system}.nvim-fmt
       ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos-wsl#apps.${pkgs.system}.nvim-fmt -- --check

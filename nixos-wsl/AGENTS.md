@@ -25,8 +25,7 @@
 
 - Run the subdomain CI (apply fmt and runs checks) after every change:
   - `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
-- Fix all issues before finishing, unless the user explicitly accepts outstanding failures.
-
+- Fix all issues before finishing, so always run the CI.
 - Reuse `lib/const.nix` for shared values.
 - If flake checks need staged files, ask user to prepare the repo (important).
 

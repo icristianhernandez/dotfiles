@@ -58,6 +58,38 @@ jobs:
       - name: Run NixOS CI
         run: nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci
 
+  nixos-build:
+    name: "NixOS: build toplevel"
+    runs-on: ubuntu-latest
+    needs: [filter, nixos-ci]
+    if: ${{ needs.filter.outputs.nixos == 'true' }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v20
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v13
+
+      - name: Show flake
+        run: nix flake show ./nixos-wsl
+
+      - name: Build NixOS toplevel
+        run: |
+          nix build \
+            ./nixos-wsl#nixosConfigurations.nixos.config.system.build.toplevel \
+            --print-build-logs \
+            --no-link \
+            -L
+
   nvim-ci:
     name: "Neovim: stylua --check"
     runs-on: ubuntu-latest

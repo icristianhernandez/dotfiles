@@ -26,7 +26,8 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 - Neovim CI: `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
 - Workflows CI: `nix run ./nixos-wsl#apps.x86_64-linux.workflows-ci`
 - Orchestrator (all): `nix run ./nixos-wsl#apps.x86_64-linux.ci`
-* All CI's format and next run checks.
+
+- All CI's format and next run checks.
 
 ## Agent Conventions
 

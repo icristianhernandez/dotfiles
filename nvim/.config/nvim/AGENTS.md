@@ -18,7 +18,7 @@
 
 ### Workflow Hygiene
 
-- Run the unified CI which applies formatting in each subdomain CI and then runs checks:
+- Run the subdomain CI after every change:
   - `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
 - Fix all issues before finishing, unless the user explicitly accepts outstanding failures.
 
