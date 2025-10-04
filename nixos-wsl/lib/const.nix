@@ -1,6 +1,7 @@
 rec {
   user = "cristianwslnixos";
   home_dir = "/home/${user}";
+  dotfiles_dir = "${home_dir}/dotfiles";
   system_state = "25.05";
   home_state = "25.05";
   locale = "en_US.UTF-8";

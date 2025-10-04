@@ -22,12 +22,11 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 
 ## Commands
 
-- NixOS CI: `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
-- Neovim CI: `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
-- Workflows CI: `nix run ./nixos-wsl#apps.x86_64-linux.workflows-ci`
-- Orchestrator (all): `nix run ./nixos-wsl#apps.x86_64-linux.ci`
-
-- All CI's format and next run checks.
+- CI command: `nix run ./nixos-wsl#apps.x86_64-linux.ci`
+  - That CI unify handle fmt, lints, checks, etc., in all the repo.
+  - As a agent, always use that command for related actions and NEVER do
+        alternatives.
+  - That command is safe to run in any mode.
 
 ## Agent Conventions
 

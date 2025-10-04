@@ -4,8 +4,11 @@
 
 ### Build, Lint, Check
 
-- Neovim CI (stylua): `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
-- The CI format the config and run checks.
+- Neovim CI: `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
+  - That CI unify handle fmt, lints, checks, etc., in all the config.
+  - As a agent, always use that command for related actions and NEVER do
+        alternatives.
+  - That command is safe to run in any mode.
 
 ### Structure & Style
 
@@ -20,7 +23,7 @@
 
 - Run the subdomain CI after every change:
   - `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
-- Fix all issues before finishing, unless the user explicitly accepts outstanding failures.
+- Fix all issues before finishing.
 
 ### Agent Operational Rules
 

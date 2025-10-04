@@ -4,9 +4,12 @@
 
 ### Build, Lint, Check
 
-- Do not rebuild NixOS runtime here.
+- As a agent, you are forbidden of do any build or rebuild.
 - NixOS CI: `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
-- The CI format the config and run checks.
+  - That CI unify handle fmt, lints, checks, etc., in all the config.
+  - As a agent, always use that command for related actions and NEVER do
+        alternatives.
+  - That command is safe to run in any mode.
 
 ### Structure & Style
 
@@ -28,6 +31,7 @@
 - Fix all issues before finishing, so always run the CI.
 - Reuse `lib/const.nix` for shared values.
 - If flake checks need staged files, ask user to prepare the repo (important).
+- Never do adds or commits by yourself, always ask the user and await for it.
 
 ### Agent Operational Rules
 

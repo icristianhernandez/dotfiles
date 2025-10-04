@@ -16,5 +16,6 @@ _: {
     keys = [ "id_ed25519" ];
     extraFlags = [ "--quiet" ];
     enableBashIntegration = true;
+    enableFishIntegration = true;
   };
 }
