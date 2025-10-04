@@ -5,9 +5,8 @@
 ### Build, Lint, Check
 
 - Do not rebuild NixOS runtime here.
-- NixOS format (fix): `nix run ./nixos-wsl#apps.x86_64-linux.nixos-fmt`
 - NixOS CI: `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
-- Orchestrator (all domains): `nix run ./nixos-wsl#apps.x86_64-linux.ci`
+- The CI format the config and run checks.
 
 ### Structure & Style
 
@@ -24,8 +23,11 @@
 
 ### Workflow Hygiene
 
+- Run the subdomain CI (apply fmt and runs checks) after every change:
+  - `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
+- Fix all issues before finishing, unless the user explicitly accepts outstanding failures.
+
 - Reuse `lib/const.nix` for shared values.
-- Run format, next ci after edits.
 - If flake checks need staged files, ask user to prepare the repo (important).
 
 ### Agent Operational Rules

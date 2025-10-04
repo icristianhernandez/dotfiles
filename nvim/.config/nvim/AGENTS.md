@@ -4,11 +4,13 @@
 
 ### Build, Lint, Check
 
-- Neovim format (fix): `nix run ./nixos-wsl#apps.x86_64-linux.nvim-fmt`
-- Neovim CI (stylua --check): `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
+- Neovim CI (stylua): `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
+- The CI format the config and run checks.
 
 ### Structure & Style
 
+- Neovim config: `nvim/.config/nvim/` with Lua in `lua/`.
+- Stylua config: `nvim/.config/nvim/.stylua.toml`.
 - Plugins: follow `lazy.nvim` spec under `lua/plugins/`.
 - Use `snake_case` for locals; keep kebab-case filenames.
 - Return a table or function from modules; avoid globals.
@@ -16,9 +18,9 @@
 
 ### Workflow Hygiene
 
-- Neovim config: `nvim/.config/nvim/` with Lua in `lua/`.
-- Stylua config: `nvim/.config/nvim/.stylua.toml`.
-- Run formatting for changed Lua files before finishing.
+- Run the unified CI which applies formatting in each subdomain CI and then runs checks:
+  - `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
+- Fix all issues before finishing, unless the user explicitly accepts outstanding failures.
 
 ### Agent Operational Rules
 

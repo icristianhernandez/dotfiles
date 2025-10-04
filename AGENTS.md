@@ -22,12 +22,11 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 
 ## Commands
 
-- NixOS format (fix): `nix run ./nixos-wsl#apps.x86_64-linux.nixos-fmt`
 - NixOS CI: `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
-- Neovim format (fix): `nix run ./nixos-wsl#apps.x86_64-linux.nvim-fmt`
 - Neovim CI: `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
 - Workflows CI: `nix run ./nixos-wsl#apps.x86_64-linux.workflows-ci`
 - Orchestrator (all): `nix run ./nixos-wsl#apps.x86_64-linux.ci`
+* All CI's format and next run checks.
 
 ## Agent Conventions
 
@@ -35,8 +34,14 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 - Security: no secrets in repo; avoid `builtins.getEnv`.
 - Make declarative changes; avoid side effects.
 - Never run or suggest VCS (git) commands.
-- Run checks after edits and fix failures.
-- Do not update `nixos-wsl/flake.lock`.
+
+## Workflow Hygiene
+
+- Run the unified CI (apply fmt and runs checks):
+  - `nix run ./nixos-wsl#apps.x86_64-linux.ci`
+- Fix all formatting and CI issues before finishing; do not conclude until
+  checks pass or the user explicitly accepts outstanding failures.
+- Do not update locks files.
 
 ## Subconfig Guidelines
 

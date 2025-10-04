@@ -9,6 +9,8 @@ let
     runtimeInputs = [ pkgs.nix ];
     text = ''
       set -euo pipefail
+      # Format (apply fixes), then run checks
+      ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos-wsl#apps.${pkgs.system}.nvim-fmt
       ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos-wsl#apps.${pkgs.system}.nvim-fmt -- --check
     '';
   };
@@ -16,6 +18,6 @@ in
 mkApp {
   program = "${script}/bin/nvim-ci";
   meta = {
-    description = "Neovim: run stylua --check over config";
+    description = "Neovim: format (fix) then stylua checks";
   };
 }
