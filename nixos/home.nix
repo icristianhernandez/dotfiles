@@ -1,6 +1,7 @@
-_:
+{ lib, ... }:
 let
-  homeModules = import ./lib/import-directory.nix { dir = ./home-modules; };
+  dir = ./home-modules;
+  homeModules = import ./lib/import-modules.nix { inherit lib dir; };
 in
 {
   imports = homeModules;

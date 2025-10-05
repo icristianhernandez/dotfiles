@@ -1,6 +1,7 @@
-_:
+{ lib, ... }:
 let
-  systemModules = import ./lib/import-directory.nix { dir = ./system-modules; };
+  dir = ./system-modules;
+  systemModules = import ./lib/import-modules.nix { inherit lib dir; };
 in
 {
   imports = systemModules;

@@ -14,8 +14,7 @@
 ### Structure & Style
 
 - Shared constants: `lib/const.nix`.
-- Modules: `system-modules/` and `home-modules/` auto-imported via
-  `lib/import-directory.nix`.
+- Modules: `system-modules/` and `home-modules/` auto-imported via `lib.filesystem.listFilesRecursive` and filtered for `.nix` files.
 - Apps location: `nixos/apps/` (app modules such as `fmt.nix`, `lint.nix`, `ci.nix`)
 - Entry points: `configuration.nix`, `home.nix`, `flake.nix`.
 - `programs.nix-ld` is enabled; keep changes compatible with schema.
