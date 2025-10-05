@@ -20,10 +20,10 @@ let
       if [ $# -gt 0 ] && [ "$1" = "--check" ]; then mode="check"; shift || true; fi
 
       if [ "$mode" = check ]; then
-        find nixos-wsl -type f -name '*.nix' -print0 \
+        find nixos -type f -name '*.nix' -print0 \
           | xargs -0 -r ${nixfmt}/bin/nixfmt --check
       else
-        find nixos-wsl -type f -name '*.nix' -print0 \
+        find nixos -type f -name '*.nix' -print0 \
           | xargs -0 -r ${nixfmt}/bin/nixfmt
       fi
     '';
@@ -32,6 +32,6 @@ in
 mkApp {
   program = "${script}/bin/nixos-fmt";
   meta = {
-    description = "Format Nix files in nixos-wsl (nixfmt)";
+    description = "Format Nix files in nixos (nixfmt)";
   };
 }

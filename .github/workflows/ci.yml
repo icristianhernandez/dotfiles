@@ -28,7 +28,7 @@ jobs:
             nvim:
               - 'nvim/**'
             nixos:
-              - 'nixos-wsl/**'
+              - 'nixos/**'
             github_workflows:
               - '.github/workflows/**'
               - '.github/workflows/*.yml'
@@ -56,7 +56,7 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Run NixOS CI
-        run: nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci
+        run: nix run ./nixos#apps.x86_64-linux.nixos-ci
 
   nixos-build:
     name: "NixOS: build toplevel"
@@ -80,12 +80,12 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Show flake
-        run: nix flake show ./nixos-wsl
+        run: nix flake show ./nixos
 
       - name: Build NixOS toplevel
         run: |
           nix build \
-            ./nixos-wsl#nixosConfigurations.nixos.config.system.build.toplevel \
+            ./nixos#nixosConfigurations.nixos.config.system.build.toplevel \
             --print-build-logs \
             --no-link \
             -L
@@ -112,7 +112,7 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Run Neovim CI
-        run: nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci
+        run: nix run ./nixos#apps.x86_64-linux.nvim-ci
 
   workflows-ci:
     name: "GitHub Workflows: actionlint + yamllint"
@@ -136,4 +136,4 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Run Workflows CI
-        run: nix run ./nixos-wsl#apps.x86_64-linux.workflows-ci
+        run: nix run ./nixos#apps.x86_64-linux.workflows-ci

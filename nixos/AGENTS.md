@@ -5,7 +5,7 @@
 ### Build, Lint, Check
 
 - As a agent, you are forbidden of do any build or rebuild.
-- NixOS CI: `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
+- NixOS CI: `nix run ./nixos#apps.x86_64-linux.nixos-ci`
   - That CI unify handle fmt, lints, checks, etc., in all the config.
   - As a agent, always use that command for related actions and NEVER do
         alternatives.
@@ -16,7 +16,7 @@
 - Shared constants: `lib/const.nix`.
 - Modules: `system-modules/` and `home-modules/` auto-imported via
   `lib/import-directory.nix`.
-- Apps location: `nixos-wsl/apps/` (app modules such as `fmt.nix`, `lint.nix`, `ci.nix`)
+- Apps location: `nixos/apps/` (app modules such as `fmt.nix`, `lint.nix`, `ci.nix`)
 - Entry points: `configuration.nix`, `home.nix`, `flake.nix`.
 - `programs.nix-ld` is enabled; keep changes compatible with schema.
 - Neovim, Fish, Starship out-of-store via `mkOutOfStoreSymlink`.
@@ -27,7 +27,7 @@
 ### Workflow Hygiene
 
 - Run the subdomain CI (apply fmt and runs checks) after every change:
-  - `nix run ./nixos-wsl#apps.x86_64-linux.nixos-ci`
+  - `nix run ./nixos#apps.x86_64-linux.nixos-ci`
 - Fix all issues before finishing, so always run the CI.
 - Reuse `lib/const.nix` for shared values.
 - If flake checks need staged files, ask user to prepare the repo (important).
@@ -38,4 +38,4 @@
 - Never run/suggest VCS operations; ask user to prepare repo state.
 - Run checks after edits; do not conclude until passing or user
   accepts failures (first format, next ci).
-- Do not update `nixos-wsl/flake.lock`.
+- Do not update `nixos/flake.lock`.

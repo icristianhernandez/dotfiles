@@ -13,8 +13,8 @@ let
     text = ''
       set -eo pipefail
       # Format (apply fixes), then run checks
-      ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos-wsl#apps.${pkgs.system}.nvim-fmt
-      ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos-wsl#apps.${pkgs.system}.nvim-fmt -- --check
+      ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos#apps.${pkgs.system}.nvim-fmt
+      ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos#apps.${pkgs.system}.nvim-fmt -- --check
     '';
   };
 in

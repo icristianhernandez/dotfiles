@@ -22,12 +22,12 @@ let
       mode="fix"
       if [ $# -gt 0 ] && [ "$1" = "--check" ]; then mode="check"; shift || true; fi
 
-      # Nix files under nixos-wsl
+      # Nix files under nixos
       if [ "$mode" = check ]; then
-        find nixos-wsl -type f -name '*.nix' -print0 \
+        find nixos -type f -name '*.nix' -print0 \
           | xargs -0 -r ${nixfmt}/bin/nixfmt --check
       else
-        find nixos-wsl -type f -name '*.nix' -print0 \
+        find nixos -type f -name '*.nix' -print0 \
           | xargs -0 -r ${nixfmt}/bin/nixfmt
       fi
 

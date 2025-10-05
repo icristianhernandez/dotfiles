@@ -20,7 +20,7 @@ let
       run_subci() {
         name="$1"
         log "starting $name"
-        "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' run "./nixos-wsl#apps.${pkgs.system}.$name" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
+        "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' run "./nixos#apps.${pkgs.system}.$name" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
         log "finished $name"
       }
 

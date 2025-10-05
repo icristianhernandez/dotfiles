@@ -16,7 +16,7 @@ let
       log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[workflows-ci] $1" >&2; }
 
       log "starting workflows-lint"
-      "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' run "./nixos-wsl#apps.${pkgs.system}.workflows-lint" || { rc=$?; log "workflows-lint failed (exit $rc)"; exit $rc; }
+      "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' run "./nixos#apps.${pkgs.system}.workflows-lint" || { rc=$?; log "workflows-lint failed (exit $rc)"; exit $rc; }
       log "finished workflows-lint"
     '';
   };

@@ -6,7 +6,7 @@
 let
   inherit (pkgs) statix deadnix;
   script = pkgs.writeShellApplication {
-    name = "nixos-lint";
+    name = "lint";
     runtimeInputs = [
       statix
       deadnix
@@ -14,21 +14,21 @@ let
     ];
     text = ''
       set -euo pipefail
-      if [ -f nixos-wsl/statix.toml ]; then
-        statix_cfg=(--config nixos-wsl/statix.toml)
+      if [ -f nixos/statix.toml ]; then
+        statix_cfg=(--config nixos/statix.toml)
       else
         statix_cfg=()
       fi
-      ${statix}/bin/statix check "''${statix_cfg[@]}" nixos-wsl
+      ${statix}/bin/statix check "''${statix_cfg[@]}" nixos
       ${deadnix}/bin/deadnix --fail --hidden \
         --exclude .git .direnv result dist node_modules .terraform .venv \
-        nixos-wsl
+        nixos
     '';
   };
 in
 mkApp {
-  program = "${script}/bin/nixos-lint";
+  program = "${script}/bin/lint";
   meta = {
-    description = "Run statix and deadnix over nixos-wsl";
+    description = "Run statix and deadnix over nixos";
   };
 }

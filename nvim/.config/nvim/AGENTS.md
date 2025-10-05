@@ -4,7 +4,7 @@
 
 ### Build, Lint, Check
 
-- Neovim CI: `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
+- Neovim CI: `nix run ./nixos#apps.x86_64-linux.nvim-ci`
   - That CI unify handle fmt, lints, checks, etc., in all the config.
   - As a agent, always use that command for related actions and NEVER do
         alternatives.
@@ -22,7 +22,7 @@
 ### Workflow Hygiene
 
 - Run the subdomain CI after every change:
-  - `nix run ./nixos-wsl#apps.x86_64-linux.nvim-ci`
+  - `nix run ./nixos#apps.x86_64-linux.nvim-ci`
 - Fix all issues before finishing.
 
 ### Agent Operational Rules

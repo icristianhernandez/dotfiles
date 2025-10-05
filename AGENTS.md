@@ -12,9 +12,9 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 
 ## Paths
 
-- NixOS + Home: `nixos-wsl/system-modules/*`,
-  `nixos-wsl/home-modules/*`, `configuration.nix`, `home.nix`,
-  `nixos-wsl/lib/*`, `nixos-wsl/apps/`.
+- NixOS + Home: `nixos/system-modules/*`,
+  `nixos/home-modules/*`, `configuration.nix`, `home.nix`,
+  `nixos/lib/*`, `nixos/apps/`.
 - Neovim: `nvim/.config/nvim/*` (plugins in `lua/plugins/*.lua`,
   settings in `lua/config/*.lua`).
 - Shell: `fish/.config/fish/*`.
@@ -22,7 +22,7 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 
 ## Commands
 
-- CI command: `nix run ./nixos-wsl#apps.x86_64-linux.ci`
+- CI command: `nix run ./nixos#apps.x86_64-linux.ci`
   - That CI unify handle fmt, lints, checks, etc., in all the repo.
   - As a agent, always use that command for related actions and NEVER do
         alternatives.
@@ -38,7 +38,7 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 ## Workflow Hygiene
 
 - Run the unified CI (apply fmt and runs checks):
-  - `nix run ./nixos-wsl#apps.x86_64-linux.ci`
+  - `nix run ./nixos#apps.x86_64-linux.ci`
 - Fix all formatting and CI issues before finishing; do not conclude until
   checks pass or the user explicitly accepts outstanding failures.
 - Do not update locks files.
@@ -48,6 +48,6 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 Read and follow the subconfig agents guidelines when performing any actions
 related to these guidelines.
 
-- See `nixos-wsl/AGENTS.md` for Nix subconfig.
+- See `nixos/AGENTS.md` for Nix subconfig.
 - See `nvim/.config/nvim/AGENTS.md` for Neovim subconfig.
 - Read and follow the required AGENTS.md before editing.
