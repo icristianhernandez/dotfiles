@@ -5,7 +5,7 @@
 
     starship = {
       enable = true;
-      presets = [ "Bracketed Segments" ];
+      presets = [ "bracketed-segments" ];
     };
 
     bash = {

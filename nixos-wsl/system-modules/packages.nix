@@ -24,6 +24,7 @@
       dev_env = with pkgs; [
         neovim
         opencode
+        nvimpager
       ];
     in
     pkgs.lib.concatLists [

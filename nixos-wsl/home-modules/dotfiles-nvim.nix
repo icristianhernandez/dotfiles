@@ -13,8 +13,9 @@
   };
 
   home.sessionVariables = {
-    MANPAGER = "nvim +Man! -";
-    PAGER = "nvim -";
+    MANPAGER = "nvim +Man!";
+    PAGER = "nvimpager";
+    GIT_PAGER = "nvimpager";
   };
 
   xdg.configFile."nvim" = {
