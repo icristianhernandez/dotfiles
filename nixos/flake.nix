@@ -22,28 +22,26 @@
       systems = [ "x86_64-linux" ];
     in
     {
-      nixosConfigurations = {
-        nixos = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit const; };
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit const; };
 
-          modules = [
-            ./configuration.nix
-            nixos-wsl.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupFileExtension = "backup";
-                extraSpecialArgs = { inherit const; };
-                users = {
-                  "${const.user}" = ./home.nix;
-                };
+        modules = [
+          ./configuration.nix
+          nixos-wsl.nixosModules.default
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+              extraSpecialArgs = { inherit const; };
+              users = {
+                "${const.user}" = ./home.nix;
               };
-            }
-          ];
-        };
+            };
+          }
+        ];
       };
 
       formatter = nixpkgs.lib.genAttrs systems (
