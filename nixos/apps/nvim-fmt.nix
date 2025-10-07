@@ -1,7 +1,7 @@
 {
   pkgs,
-  lib,
   mkApp,
+  ...
 }:
 let
   inherit (pkgs) stylua;
@@ -9,12 +9,13 @@ let
     name = "nvim-fmt";
     runtimeInputs = [
       stylua
-      pkgs.coreutils
     ];
     text = ''
       set -euo pipefail
       mode="fix"
-      if [ $# -gt 0 ] && [ "$1" = "--check" ]; then mode="check"; shift || true; fi
+      case "''${1-}" in
+        --check) mode="check"; shift ;;
+      esac
 
       if [ -d nvim/.config/nvim ]; then
         if [ -f nvim/.config/nvim/.stylua.toml ]; then
@@ -22,7 +23,7 @@ let
         else
           cfg=()
         fi
-        if [ "$mode" = check ]; then
+        if [ "$mode" = "check" ]; then
           ${stylua}/bin/stylua --check "''${cfg[@]}" nvim/.config/nvim
         else
           ${stylua}/bin/stylua "''${cfg[@]}" nvim/.config/nvim

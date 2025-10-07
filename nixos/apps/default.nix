@@ -10,31 +10,32 @@ for_each_system (
   let
     pkgs = nixpkgs.legacyPackages.${system};
     inherit (pkgs) lib;
-    mkApp = import ../lib/mk-app.nix { inherit lib; };
+    mkApp = import ../lib/mk-app.nix { };
+    call =
+      file:
+      import file {
+        inherit pkgs mkApp;
+        _lib = lib;
+      };
 
-    # Legacy aggregate apps (kept for convenience)
-    fmtApp = import ./fmt.nix { inherit pkgs lib mkApp; };
-    lintApp = import ./lint.nix { inherit pkgs lib mkApp; };
-    # Orchestrator will be redefined to call domain-specific apps
-    ciApp = import ./ci.nix { inherit pkgs lib mkApp; };
+    fmtApp = call ./fmt.nix;
+    lintApp = call ./lint.nix;
+    ciApp = call ./ci.nix;
 
-    # Domain-specific apps
-    nixosFmt = import ./nixos-fmt.nix { inherit pkgs lib mkApp; };
-    nixosLint = import ./nixos-lint.nix { inherit pkgs lib mkApp; };
-    nixosCi = import ./nixos-ci.nix { inherit pkgs lib mkApp; };
+    nixosFmt = call ./nixos-fmt.nix;
+    nixosLint = call ./nixos-lint.nix;
+    nixosCi = call ./nixos-ci.nix;
 
-    nvimFmt = import ./nvim-fmt.nix { inherit pkgs lib mkApp; };
-    nvimCi = import ./nvim-ci.nix { inherit pkgs lib mkApp; };
+    nvimFmt = call ./nvim-fmt.nix;
+    nvimCi = call ./nvim-ci.nix;
 
-    workflowsLint = import ./workflows-lint.nix { inherit pkgs lib mkApp; };
-    workflowsCi = import ./workflows-ci.nix { inherit pkgs lib mkApp; };
+    workflowsLint = call ./workflows-lint.nix;
+    workflowsCi = call ./workflows-ci.nix;
   in
   {
-    # Legacy
     fmt = fmtApp;
     lint = lintApp;
 
-    # New per-domain apps
     "nixos-fmt" = nixosFmt;
     "nixos-lint" = nixosLint;
     "nixos-ci" = nixosCi;
@@ -45,7 +46,6 @@ for_each_system (
     "workflows-lint" = workflowsLint;
     "workflows-ci" = workflowsCi;
 
-    # Orchestrator
     ci = ciApp;
   }
 )

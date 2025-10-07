@@ -5,10 +5,9 @@
 ### Build, Lint, Check
 
 - As a agent, you are forbidden of do any build or rebuild.
-- NixOS CI: `nix run ./nixos#apps.x86_64-linux.nixos-ci`
+- NixOS CI: `nix run ./nixos#nixos-ci`
   - That CI unify handle fmt, lints, checks, etc., in all the config.
-  - As a agent, always use that command for related actions and NEVER do
-        alternatives.
+  - As a agent, always use that command for related actions; never use another.
   - That command is safe to run in any mode.
 
 ### Structure & Style
@@ -26,7 +25,7 @@
 ### Workflow Hygiene
 
 - Run the subdomain CI (apply fmt and runs checks) after every change:
-  - `nix run ./nixos#apps.x86_64-linux.nixos-ci`
+  - `nix run ./nixos#nixos-ci`
 - Fix all issues before finishing, so always run the CI.
 - Reuse `lib/const.nix` for shared values.
 - If flake checks need staged files, ask user to prepare the repo (important).

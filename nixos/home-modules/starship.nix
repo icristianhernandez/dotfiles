@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  const,
-  ...
-}:
+_:
 
 {
   programs.starship = {

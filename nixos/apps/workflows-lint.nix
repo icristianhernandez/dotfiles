@@ -1,7 +1,7 @@
 {
   pkgs,
-  lib,
   mkApp,
+  ...
 }:
 let
   script = pkgs.writeShellApplication {
@@ -9,12 +9,12 @@ let
     runtimeInputs = [
       pkgs.actionlint
       pkgs.yamllint
-      pkgs.coreutils
     ];
     text = ''
       set -euo pipefail
+      WORKFLOWS_DIR=".github/workflows"
       ${pkgs.actionlint}/bin/actionlint
-      ${pkgs.yamllint}/bin/yamllint .github/workflows
+      ${pkgs.yamllint}/bin/yamllint "$WORKFLOWS_DIR"
     '';
   };
 in

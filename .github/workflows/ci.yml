@@ -56,7 +56,7 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Run NixOS CI
-        run: nix run ./nixos#apps.x86_64-linux.nixos-ci
+        run: nix run ./nixos#nixos-ci
 
   nixos-build:
     name: "NixOS: build toplevel"
@@ -112,7 +112,7 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Run Neovim CI
-        run: nix run ./nixos#apps.x86_64-linux.nvim-ci
+        run: nix run ./nixos#nvim-ci
 
   workflows-ci:
     name: "GitHub Workflows: actionlint + yamllint"
@@ -136,4 +136,4 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@v13
 
       - name: Run Workflows CI
-        run: nix run ./nixos#apps.x86_64-linux.workflows-ci
+        run: nix run ./nixos#workflows-ci

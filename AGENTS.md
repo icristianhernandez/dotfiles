@@ -22,10 +22,9 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 
 ## Commands
 
-- CI command: `nix run ./nixos#apps.x86_64-linux.ci`
+- CI command: `nix run ./nixos#ci`
   - That CI unify handle fmt, lints, checks, etc., in all the repo.
-  - As a agent, always use that command for related actions and NEVER do
-        alternatives.
+  - As a agent, always use that command for related actions; never use another.
   - That command is safe to run in any mode.
 
 ## Agent Conventions
@@ -38,7 +37,7 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 ## Workflow Hygiene
 
 - Run the unified CI (apply fmt and runs checks):
-  - `nix run ./nixos#apps.x86_64-linux.ci`
+  - `nix run ./nixos#ci`
 - Fix all formatting and CI issues before finishing; do not conclude until
   checks pass or the user explicitly accepts outstanding failures.
 - Do not update locks files.

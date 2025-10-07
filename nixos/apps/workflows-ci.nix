@@ -1,7 +1,7 @@
 {
   pkgs,
-  lib,
   mkApp,
+  ...
 }:
 let
   script = pkgs.writeShellApplication {
@@ -11,13 +11,25 @@ let
       pkgs.coreutils
     ];
     text = ''
-      set -eo pipefail
+      set -euo pipefail
+
+      NIX="${pkgs.nix}/bin/nix"
+      APP_PREFIX="./nixos#apps.${pkgs.system}"
+      NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
 
       log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[workflows-ci] $1" >&2; }
 
-      log "starting workflows-lint"
-      "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' run "./nixos#apps.${pkgs.system}.workflows-lint" || { rc=$?; log "workflows-lint failed (exit $rc)"; exit $rc; }
-      log "finished workflows-lint"
+      run_sub() {
+        name="$1"; shift || true
+        log "start $name"
+        "''${NIX_RUN[@]}" "''${APP_PREFIX}.$name" -- "$@" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
+        log "done $name"
+      }
+
+      SUBCIS=( workflows-lint )
+      for name in "''${SUBCIS[@]}"; do
+        run_sub "$name" "$@"
+      done
     '';
   };
 in

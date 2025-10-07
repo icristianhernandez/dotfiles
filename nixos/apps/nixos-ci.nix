@@ -1,7 +1,7 @@
 {
   pkgs,
-  lib,
   mkApp,
+  ...
 }:
 let
   script = pkgs.writeShellApplication {
@@ -11,21 +11,29 @@ let
       pkgs.coreutils
     ];
     text = ''
-      set -eo pipefail
+      set -euo pipefail
 
+      NIX="${pkgs.nix}/bin/nix"
+      APP_PREFIX="./nixos#apps.${pkgs.system}"
+      NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
       log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[nixos-ci] $1" >&2; }
 
-      log "starting formatter (apply fixes)"
-      "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' run "./nixos#apps.${pkgs.system}.nixos-fmt" || { rc=$?; log "ERROR: formatter failed (exit $rc)"; exit $rc; }
-      log "formatter finished"
+      run_app() {
+        name="$1"; shift || true
+        log "start $name"
+        "''${NIX_RUN[@]}" "''${APP_PREFIX}.$name" -- "$@" || { rc=$?; log "ERROR: $name failed (exit $rc)"; exit $rc; }
+        log "done $name"
+      }
 
-      log "running nixos lint"
-      "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' run "./nixos#apps.${pkgs.system}.nixos-lint" || { rc=$?; log "ERROR: lint failed (exit $rc)"; exit $rc; }
+      log "format (apply fixes)"
+      run_app nixos-fmt
+      log "lint"
+      run_app nixos-lint
 
-      log "running flake check"
-      "${pkgs.nix}/bin/nix" --extra-experimental-features 'nix-command flakes' flake check ./nixos -L || { rc=$?; log "ERROR: flake check failed (exit $rc)"; exit $rc; }
+      log "flake check"
+      "$NIX" --extra-experimental-features "nix-command flakes" flake check ./nixos -L || { rc=$?; log "ERROR: flake check failed (exit $rc)"; exit $rc; }
 
-      log "nixos-ci completed successfully"
+      log "completed successfully"
     '';
   };
 in

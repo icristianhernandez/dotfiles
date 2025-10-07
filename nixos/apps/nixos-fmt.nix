@@ -1,7 +1,7 @@
 {
   pkgs,
-  lib,
   mkApp,
+  ...
 }:
 let
   nixfmt = pkgs.nixfmt-rfc-style;
@@ -9,22 +9,20 @@ let
     name = "nixos-fmt";
     runtimeInputs = [
       nixfmt
-      pkgs.coreutils
       pkgs.findutils
-      pkgs.gnugrep
-      pkgs.gawk
     ];
     text = ''
       set -euo pipefail
       mode="fix"
-      if [ $# -gt 0 ] && [ "$1" = "--check" ]; then mode="check"; shift || true; fi
+      case "''${1-}" in
+        --check) mode="check"; shift ;;
+      esac
 
-      if [ "$mode" = check ]; then
-        find nixos -type f -name '*.nix' -print0 \
-          | xargs -0 -r ${nixfmt}/bin/nixfmt --check
+      FIND_CMD=( find nixos -type f -name '*.nix' -print0 )
+      if [ "$mode" = "check" ]; then
+        "''${FIND_CMD[@]}" | xargs -0 -r ${nixfmt}/bin/nixfmt --check
       else
-        find nixos -type f -name '*.nix' -print0 \
-          | xargs -0 -r ${nixfmt}/bin/nixfmt
+        "''${FIND_CMD[@]}" | xargs -0 -r ${nixfmt}/bin/nixfmt
       fi
     '';
   };

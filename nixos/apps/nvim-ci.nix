@@ -1,7 +1,7 @@
 {
   pkgs,
-  lib,
   mkApp,
+  ...
 }:
 let
   script = pkgs.writeShellApplication {
@@ -11,10 +11,18 @@ let
       pkgs.coreutils
     ];
     text = ''
-      set -eo pipefail
-      # Format (apply fixes), then run checks
-      ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos#apps.${pkgs.system}.nvim-fmt
-      ${pkgs.nix}/bin/nix --extra-experimental-features 'nix-command flakes' run ./nixos#apps.${pkgs.system}.nvim-fmt -- --check
+      set -euo pipefail
+
+      NIX="${pkgs.nix}/bin/nix"
+      APP_PREFIX="./nixos#apps.${pkgs.system}"
+      NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
+      log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[nvim-ci] $1" >&2; }
+
+      log "format (apply fixes)"
+      "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- "$@"
+
+      log "stylua check"
+      "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- --check "$@"
     '';
   };
 in

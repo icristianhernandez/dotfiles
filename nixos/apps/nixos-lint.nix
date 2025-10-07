@@ -1,7 +1,7 @@
 {
   pkgs,
-  lib,
   mkApp,
+  ...
 }:
 let
   inherit (pkgs) statix deadnix;
@@ -10,19 +10,28 @@ let
     runtimeInputs = [
       statix
       deadnix
-      pkgs.coreutils
     ];
     text = ''
       set -euo pipefail
+      STATIX_ARGS=( check )
       if [ -f nixos/statix.toml ]; then
-        statix_cfg=(--config nixos/statix.toml)
-      else
-        statix_cfg=()
+        STATIX_ARGS+=( --config nixos/statix.toml )
       fi
-      ${statix}/bin/statix check "''${statix_cfg[@]}" nixos
-      ${deadnix}/bin/deadnix --fail --hidden \
-        --exclude .git .direnv result dist node_modules .terraform .venv \
-        nixos
+      ${statix}/bin/statix "''${STATIX_ARGS[@]}" nixos
+
+      DEADNIX_ARGS=(
+        --fail --hidden
+      )
+      DEADNIX_EXCLUDES=(
+        .git
+        .direnv
+        result
+        dist
+        node_modules
+        .terraform
+        .venv
+      )
+      ${deadnix}/bin/deadnix "''${DEADNIX_ARGS[@]}" --exclude "''${DEADNIX_EXCLUDES[@]}" -- nixos
     '';
   };
 in
