@@ -9,13 +9,11 @@ for_each_system (
   system:
   let
     pkgs = nixpkgs.legacyPackages.${system};
-    inherit (pkgs) lib;
     mkApp = import ../lib/mk-app.nix { };
     call =
       file:
       import file {
         inherit pkgs mkApp;
-        _lib = lib;
       };
 
     fmtApp = call ./fmt.nix;

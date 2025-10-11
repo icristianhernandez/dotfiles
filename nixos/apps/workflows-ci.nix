@@ -4,34 +4,36 @@
   ...
 }:
 let
-  script = pkgs.writeShellApplication {
-    name = "workflows-ci";
-    runtimeInputs = [
-      pkgs.nix
-      pkgs.coreutils
-    ];
-    text = ''
-      set -euo pipefail
+  script =
+    let
+      helpers = import ../lib/app-helpers.nix { inherit pkgs; };
+    in
+    pkgs.writeShellApplication {
+      name = "workflows-ci";
+      runtimeInputs = [
+        pkgs.coreutils
+        pkgs.nix
+      ];
+      text = ''
+        ${helpers.prelude {
+          name = "workflows-ci";
+          withNix = true;
+          appPrefixAttr = true;
+        }}
 
-      NIX="${pkgs.nix}/bin/nix"
-      APP_PREFIX="./nixos#apps.${pkgs.system}"
-      NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
+        run_sub() {
+          name="$1"; shift || true
+          log "start $name"
+          "''${NIX_RUN[@]}" "''${APP_PREFIX}.$name" -- "$@" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
+          log "done $name"
+        }
 
-      log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[workflows-ci] $1" >&2; }
-
-      run_sub() {
-        name="$1"; shift || true
-        log "start $name"
-        "''${NIX_RUN[@]}" "''${APP_PREFIX}.$name" -- "$@" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
-        log "done $name"
-      }
-
-      SUBCIS=( workflows-lint )
-      for name in "''${SUBCIS[@]}"; do
-        run_sub "$name" "$@"
-      done
-    '';
-  };
+        SUBCIS=( workflows-lint )
+        for name in "''${SUBCIS[@]}"; do
+          run_sub "$name" "$@"
+        done
+      '';
+    };
 in
 mkApp {
   program = "${script}/bin/workflows-ci";

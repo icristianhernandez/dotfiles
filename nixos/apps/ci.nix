@@ -4,36 +4,38 @@
   ...
 }:
 let
-  script = pkgs.writeShellApplication {
-    name = "ci";
-    runtimeInputs = [
-      pkgs.nix
-      pkgs.coreutils
-    ];
-    text = ''
-      set -euo pipefail
+  script =
+    let
+      helpers = import ../lib/app-helpers.nix { inherit pkgs; };
+    in
+    pkgs.writeShellApplication {
+      name = "ci";
+      runtimeInputs = [
+        pkgs.coreutils
+        pkgs.nix
+      ];
+      text = ''
+        ${helpers.prelude {
+          name = "ci";
+          withNix = true;
+          appPrefixAttr = false;
+        }}
 
-      NIX="${pkgs.nix}/bin/nix"
-      APP_PREFIX="./nixos#"
-      NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
+        run_subci() {
+          name="$1"; shift || true
+          log "starting $name"
+          "''${NIX_RUN[@]}" "''${APP_PREFIX}$name" -- "$@" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
+          log "finished $name"
+        }
 
-      log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[ci] $1" >&2; }
+        SUBCIS=( nixos-ci nvim-ci workflows-ci )
+        for name in "''${SUBCIS[@]}"; do
+          run_subci "$name" "$@"
+        done
 
-      run_subci() {
-        name="$1"; shift || true
-        log "starting $name"
-        "''${NIX_RUN[@]}" "''${APP_PREFIX}$name" -- "$@" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
-        log "finished $name"
-      }
-
-      SUBCIS=( nixos-ci nvim-ci workflows-ci )
-      for name in "''${SUBCIS[@]}"; do
-        run_subci "$name" "$@"
-      done
-
-      log "CI: completed all domains"
-    '';
-  };
+        log "CI: completed all domains"
+      '';
+    };
 in
 mkApp {
   program = "${script}/bin/ci";

@@ -4,27 +4,30 @@
   ...
 }:
 let
-  script = pkgs.writeShellApplication {
-    name = "nvim-ci";
-    runtimeInputs = [
-      pkgs.nix
-      pkgs.coreutils
-    ];
-    text = ''
-      set -euo pipefail
+  script =
+    let
+      helpers = import ../lib/app-helpers.nix { inherit pkgs; };
+    in
+    pkgs.writeShellApplication {
+      name = "nvim-ci";
+      runtimeInputs = [
+        pkgs.coreutils
+        pkgs.nix
+      ];
+      text = ''
+        ${helpers.prelude {
+          name = "nvim-ci";
+          withNix = true;
+          appPrefixAttr = true;
+        }}
 
-      NIX="${pkgs.nix}/bin/nix"
-      APP_PREFIX="./nixos#apps.${pkgs.system}"
-      NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
-      log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[nvim-ci] $1" >&2; }
+        log "format (apply fixes)"
+        "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- "$@"
 
-      log "format (apply fixes)"
-      "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- "$@"
-
-      log "stylua check"
-      "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- --check "$@"
-    '';
-  };
+        log "stylua check"
+        "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- --check "$@"
+      '';
+    };
 in
 mkApp {
   program = "${script}/bin/nvim-ci";

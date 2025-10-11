@@ -17,7 +17,7 @@
 - Apps location: `nixos/apps/` (app modules such as `fmt.nix`, `lint.nix`, `ci.nix`)
 - Entry points: `configuration.nix`, `home.nix`, `flake.nix`.
 - `programs.nix-ld` is enabled; keep changes compatible with schema.
-- Neovim, Fish, Starship out-of-store via `mkOutOfStoreSymlink`.
+- Neovim config is linked out-of-store from this repo (repo-relative symlink). Fish and Starship are managed via Home Manager modules (no repo symlinks).
 - Use kebab-case for filenames; `lower_snake_case` for attributes.
 - Keep lists one-item-per-line when needed.
 - Configure declaratively; avoid `builtins.getEnv` for secrets.

@@ -1,4 +1,4 @@
-{ config, const, ... }:
+{ config, ... }:
 
 {
   programs.neovim = {
@@ -13,7 +13,7 @@
   };
 
   xdg.configFile."nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${const.dotfiles_dir}/nvim/.config/nvim";
+    source = config.lib.file.mkOutOfStoreSymlink (toString ../../nvim/.config/nvim);
     recursive = true;
   };
 }
