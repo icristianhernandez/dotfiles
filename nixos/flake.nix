@@ -22,7 +22,7 @@
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        system = builtins.head systems;
         specialArgs = { inherit const; };
 
         modules = [

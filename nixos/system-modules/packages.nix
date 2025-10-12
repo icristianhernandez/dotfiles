@@ -16,10 +16,9 @@
         unzip
       ];
       languages = with pkgs; [
-        nodePackages_latest.nodejs
+        nodejs_20
         gcc
-        python313
-        python313Packages.pip
+        (python313.withPackages (ps: [ ps.pip ]))
       ];
       dev_env = with pkgs; [
         neovim
