@@ -27,5 +27,6 @@
 ### Agent Operational Rules
 
 - Never run/suggest VCS operations; ask user to prepare repo.
+- Never run/suggest system-altering commands; ask user to prepare and run them.
 - Run formatting after edits; do not conclude until passing.
 - Do not edit `lazy-lock.json`.

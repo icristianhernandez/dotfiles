@@ -34,6 +34,7 @@
 ### Agent Operational Rules
 
 - Never run/suggest VCS operations; ask user to prepare repo state.
+- Never run/suggest system-altering commands; ask the user to perform these actions instead.
 - Run checks after edits; do not conclude until passing or user
   accepts failures (first format, next ci).
 - Do not update `nixos/flake.lock`.

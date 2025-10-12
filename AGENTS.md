@@ -33,6 +33,7 @@ Manager, plus curated Neovim, shell, and dev tooling configs
 - Security: no secrets in repo; avoid `builtins.getEnv`.
 - Make declarative changes; avoid side effects.
 - Never run or suggest VCS (git) commands.
+- Never run or suggest system-altering commands; ask the user to perform those actions.
 
 ## Workflow Hygiene
 
