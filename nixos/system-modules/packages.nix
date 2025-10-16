@@ -16,7 +16,7 @@
         unzip
       ];
       languages = with pkgs; [
-        nodejs_20
+        nodejs_24
         gcc
         (python313.withPackages (ps: [ ps.pip ]))
       ];
