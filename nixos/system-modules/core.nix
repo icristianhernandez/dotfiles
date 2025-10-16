@@ -24,4 +24,6 @@
   # settings for stateful data, like file locations and database versions
   # on your system were taken.
   system.stateVersion = const.system_state;
+
+  time.timeZone = "America/Caracas";
 }
