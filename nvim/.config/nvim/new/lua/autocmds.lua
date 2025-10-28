@@ -102,3 +102,20 @@ end, { desc = "Toggle diagnostics on CursorHold" })
 
 -- initialize at startup if you want (enabled is false by default)
 set_auto_diagnostics(enabled)
+
+-- Ensure LSP reference highlights are underlined and survive colorscheme changes.
+local function apply_lsp_reference_hl()
+    vim.api.nvim_set_hl(0, "LspReferenceText", { underline = true })
+    vim.api.nvim_set_hl(0, "LspReferenceRead", { underline = true })
+    vim.api.nvim_set_hl(0, "LspReferenceWrite", { underline = true })
+end
+
+local lsp_ref_augroup = vim.api.nvim_create_augroup("LspReferenceHighlights", { clear = true })
+vim.api.nvim_create_autocmd("ColorScheme", {
+    group = lsp_ref_augroup,
+    pattern = "*",
+    callback = apply_lsp_reference_hl,
+})
+
+-- Apply at startup so highlights are present immediately.
+apply_lsp_reference_hl()

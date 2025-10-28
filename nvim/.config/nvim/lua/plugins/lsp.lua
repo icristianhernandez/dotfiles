@@ -72,6 +72,31 @@ return {
                 end,
                 single_file_support = false,
             },
+
+            -- nix / NixOS / Home Manager
+            nixd = {
+                settings = {
+                    nixd = {
+                        nixpkgs = {
+                            expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }",
+                        },
+                        formatting = {
+                            command = { "nixfmt" },
+                        },
+                        options = {
+                            nixos = {
+                                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.nixos.options",
+                            },
+                            ["home-manager"] = {
+                                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.nixos.options.home-manager.users.type.getSubOptions []",
+                            },
+                        },
+                    },
+                },
+                root_dir = function(fname)
+                    return lsp_util.root_pattern("flake.nix", "flake.lock", "default.nix", "shell.nix", ".git")(fname)
+                end,
+            },
         },
     },
 }

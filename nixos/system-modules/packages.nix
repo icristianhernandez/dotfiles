@@ -24,6 +24,7 @@
         neovim
         opencode
         nvimpager
+        nixd
       ];
     in
     pkgs.lib.concatLists [
