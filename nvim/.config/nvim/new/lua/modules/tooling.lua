@@ -4,6 +4,10 @@ local lsp_servers = tooling.mason.auto_install.lsp
 local tools = tooling.mason.auto_install.tools
 
 return {
+    -- Clangd extensions for enhanced C/C++ LSP features
+    { "p00f/clangd_extensions.nvim" },
+    -- JSON schema store for LSPs
+    { "b0o/schemastore.nvim" },
     -- LSP server installation and diagnostics config
     {
         "neovim/nvim-lspconfig",
