@@ -12,6 +12,14 @@ create_keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save
 -- quit
 create_keymap("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
+--  basic windows management
+--  delete, quit, close all others, split
+create_keymap("n", "<leader>wq", "<cmd>q<cr>", { desc = "Quit Window" })
+create_keymap("n", "<leader>wd", "<cmd>bd<cr>", { desc = "Delete Buffer" })
+create_keymap("n", "<leader>wo", "<cmd>only<cr>", { desc = "Close Other Windows" })
+create_keymap("n", "<leader>ws", "<cmd>split<cr>", { desc = "Horizontal Split Window" })
+create_keymap("n", "<leader>wv", "<cmd>vsplit<cr>", { desc = "Vertical Split Window" })
+
 -- system clipboard mappings
 create_keymap({ "n", "v", "x" }, "<C-c>", '"+y', "Yank to clipboard")
 create_keymap("n", "<C-v>", '"+gP', "Paste from clipboard and preserve clipboard")
@@ -107,7 +115,7 @@ end, "Send the current buffer to a new tab and close it in the prior tab")
 
 -- go to an specific numbered tab
 for i = 1, 9 do
-    create_keymap("n", "<Tab>" .. i, "<cmd>tabn " .. i .. "<CR>", "Go to tab " .. i)
+    create_keymap("n", "<leader><Tab>" .. i, "<cmd>tabn " .. i .. "<CR>", "Go to tab " .. i)
 end
 
 -- new tab

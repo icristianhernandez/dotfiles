@@ -48,21 +48,11 @@ return {
         end,
     },
 
-    -- nvim-mini/mini.comment: easy commenting with context-aware commentstring support
+    -- folke/ts-comments.nvim: toggle and manage comments using Treesitter
     {
-        "nvim-mini/mini.comment",
-        dependencies = {
-            -- JoosepAlviste/nvim-ts-context-commentstring: calculate commentstring using Treesitter context
-            { "JoosepAlviste/nvim-ts-context-commentstring", opts = { enable_autocmd = false } },
-        },
-        opts = {
-            options = {
-                custom_commentstring = function()
-                    return require("ts_context_commentstring.internal").calculate_commentstring()
-                        or vim.bo.commentstring
-                end,
-            },
-        },
+        "folke/ts-comments.nvim",
+        event = "VeryLazy",
+        opts = {},
     },
 
     -- altermo/ultimate-autopair.nvim: smart autopairs for brackets, quotes and spacing

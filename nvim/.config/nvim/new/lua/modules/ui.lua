@@ -1,11 +1,86 @@
 -- UI consolidated: noice, statusline, visuals
 return {
+    -- nvim-mini/mini.icons: customizable filetype and filename icons
+    {
+        "nvim-mini/mini.icons",
+        opts = {
+            file = {
+                [".keep"] = { glyph = "󰊢", hl = "MiniIconsGrey" },
+                ["devcontainer.json"] = { glyph = "", hl = "MiniIconsAzure" },
+            },
+            filetype = {
+                dotenv = { glyph = "", hl = "MiniIconsYellow" },
+            },
+        },
+        init = function()
+            package.preload["nvim-web-devicons"] = function()
+                require("mini.icons").mock_nvim_web_devicons()
+                return package.loaded["nvim-web-devicons"]
+            end
+        end,
+    },
 
     -- folke/noice.nvim: improved UI for messages, cmdline and popupmenus
     {
         "folke/noice.nvim",
         -- smjonas/inc-rename.nvim: incremental rename UI command helper
         dependencies = { { "smjonas/inc-rename.nvim", cmd = "IncRename", opts = {} } },
+
+        keys = {
+            { "<leader>sn", "", desc = "+noice" },
+            {
+                "<leader>snl",
+                function()
+                    require("noice").cmd("last")
+                end,
+                desc = "Noice Last Message",
+            },
+            {
+                "<leader>snh",
+                function()
+                    require("noice").cmd("history")
+                end,
+                desc = "Noice History",
+            },
+            {
+                "<leader>sna",
+                function()
+                    require("noice").cmd("all")
+                end,
+                desc = "Noice All",
+            },
+            {
+                "<leader>snd",
+                function()
+                    require("noice").cmd("dismiss")
+                end,
+                desc = "Dismiss All",
+            },
+            {
+                "<c-f>",
+                function()
+                    if not require("noice.lsp").scroll(4) then
+                        return "<c-f>"
+                    end
+                end,
+                silent = true,
+                expr = true,
+                desc = "Scroll Forward",
+                mode = { "i", "n", "s" },
+            },
+            {
+                "<c-b>",
+                function()
+                    if not require("noice.lsp").scroll(-4) then
+                        return "<c-b>"
+                    end
+                end,
+                silent = true,
+                expr = true,
+                desc = "Scroll Backward",
+                mode = { "i", "n", "s" },
+            },
+        },
 
         opts = {
             presets = {
@@ -106,6 +181,14 @@ return {
     {
         "OXY2DEV/helpview.nvim",
         lazy = false,
+        opts = {},
+    },
+    -- MeanderingProgrammer/render-markdown.nvim: render markdown files with styles and icons
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" }, -- if you use standalone mini plugins
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
         opts = {},
     },
     -- nvimdev/hlsearch.nvim: enhanced search highlighting and incremental updates

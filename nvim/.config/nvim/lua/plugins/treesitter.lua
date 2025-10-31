@@ -1,6 +1,9 @@
 return {
     -- nvim-treesitter: An incremental parsing system for programming tools (create a tree of the code nodes, etc)
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
+    build = ":TSUpdate",
+    opts_extend = { "ensure_installed" },
     dependencies = {
         {
             "nvim-treesitter/nvim-treesitter-context",
@@ -17,7 +20,6 @@ return {
 
     opts = {
         auto_install = true,
-        sync_install = true,
 
         incremental_selection = {
             enable = true,
@@ -27,6 +29,9 @@ return {
                 node_decremental = "<bs>",
             },
         },
+
+        highlight = { enable = true },
+        indent = { enable = true },
     },
 
     keys = {

@@ -6,12 +6,34 @@ return {
         cmd = "Copilot",
         build = ":Copilot auth",
         event = "BufReadPost",
-        ---@module "copilot"
-        ---@type copilot.Config
         opts = {
             suggestion = { auto_trigger = false, debounce = 0, keymap = { accept = "<C-r>" } },
             panel = { enabled = false },
             filetypes = { ["*"] = true },
+        },
+
+        dependencies = {
+            "nvim-lualine/lualine.nvim",
+            optional = true,
+            opts = function(_, opts)
+                local function copilot_component()
+                    local ok, copilot_status = pcall(require, "copilot.status")
+                    if not ok then
+                        return ""
+                    end
+                    local clients = vim.lsp.get_clients({ name = "copilot", bufnr = 0 })
+                    if #clients == 0 then
+                        return ""
+                    end
+                    local st = copilot_status.data.status
+                    local state = (st == "InProgress" and "pending") or (st == "Warning" and "error") or "ok"
+                    return "Copilot: " .. state
+                end
+
+                opts.sections = opts.sections or {}
+                opts.sections.lualine_x = opts.sections.lualine_x or {}
+                table.insert(opts.sections.lualine_x, 2, copilot_component)
+            end,
         },
     },
 

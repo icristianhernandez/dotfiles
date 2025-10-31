@@ -10,6 +10,7 @@ return {
             quickfile = { enabled = true },
             bigfile = { enabled = true },
             scroll = { enabled = true },
+            notifier = { enabled = true },
 
             terminal = {
                 win = { style = "float" },
@@ -68,6 +69,130 @@ return {
                 end,
                 mode = "i",
                 desc = "Toggle Scratch Buffer",
+            },
+            {
+                "<leader>sn",
+                function()
+                    Snacks.scratch.select()
+                end,
+                desc = "Select Scratch Buffer",
+            },
+            {
+                "<leader>/",
+                function()
+                    Snacks.picker.grep()
+                end,
+                desc = "Grep (Root Dir)",
+            },
+            {
+                "<leader>:",
+                function()
+                    Snacks.picker.command_history()
+                end,
+                desc = "Command History",
+            },
+            {
+                "<leader>n",
+                function()
+                    Snacks.picker.notifications()
+                end,
+                desc = "Notification History",
+            },
+            -- find
+            {
+                "<leader>ff",
+                function()
+                    Snacks.picker.files()
+                end,
+                desc = "Find Files (Root Dir)",
+            },
+            {
+                "<leader>fF",
+                function()
+                    Snacks.picker.files({ root = false })
+                end,
+                desc = "Find Files (cwd)",
+            },
+            {
+                "<leader>fr",
+                function()
+                    Snacks.picker.recent()
+                end,
+                desc = "Recent",
+            },
+
+            -- git
+            {
+                "<leader>gd",
+                function()
+                    Snacks.picker.git_diff()
+                end,
+                desc = "Git Diff (hunks)",
+            },
+            {
+                "<leader>gs",
+                function()
+                    Snacks.picker.git_status()
+                end,
+                desc = "Git Status",
+            },
+            {
+                "<leader>gS",
+                function()
+                    Snacks.picker.git_stash()
+                end,
+                desc = "Git Stash",
+            },
+            -- search
+            {
+                "<leader>sC",
+                function()
+                    Snacks.picker.commands()
+                end,
+                desc = "Commands",
+            },
+            {
+                "<leader>sd",
+                function()
+                    Snacks.picker.diagnostics()
+                end,
+                desc = "Diagnostics",
+            },
+            {
+                "<leader>sD",
+                function()
+                    Snacks.picker.diagnostics_buffer()
+                end,
+                desc = "Buffer Diagnostics",
+            },
+            {
+                "<leader>sk",
+                function()
+                    Snacks.picker.keymaps()
+                end,
+                desc = "Keymaps",
+            },
+            {
+                "<leader>sR",
+                function()
+                    Snacks.picker.resume()
+                end,
+                desc = "Resume",
+            },
+            {
+                "<leader>su",
+                function()
+                    Snacks.picker.undo()
+                end,
+                desc = "Undotree",
+            },
+            -- ui
+            {
+                "<leader>uC",
+                function()
+                    Snacks.picker.colorschemes()
+                end,
+                desc = "Colorschemes",
             },
         },
     },

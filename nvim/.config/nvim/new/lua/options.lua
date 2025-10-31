@@ -138,7 +138,7 @@ vim.opt.swapfile = false
 vim.opt.autoread = true
 
 -- fast update time for events
-vim.opt.updatetime = 1000
+vim.opt.updatetime = 160
 
 -- unix line endings
 vim.opt.fileformats = { "unix", "dos", "mac" }
