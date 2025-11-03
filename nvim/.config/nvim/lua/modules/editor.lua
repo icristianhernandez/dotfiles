@@ -1,4 +1,4 @@
-return{
+return {
     {
         "rmagatti/auto-session",
         lazy = false,
@@ -70,10 +70,9 @@ return{
     },
     {
         "folke/snacks.nvim",
+        event = "VeryLazy",
         ---@type snacks.Config
         opts = {
-            scroll = { enabled = true },
-
             terminal = {
                 win = { style = "float" },
             },
@@ -93,6 +92,7 @@ return{
                         },
                     },
                 },
+                sources = { files = { hidden = true } },
             },
         },
 
@@ -103,7 +103,7 @@ return{
                     Snacks.terminal()
                 end,
                 desc = "Terminal (cwd)",
-                mode = { "n", "t" },
+                mode = { "n", "t", "i" },
             },
             {
                 "<C-n>",
@@ -245,6 +245,6 @@ return{
                 end,
                 desc = "Colorschemes",
             },
-        }
+        },
     },
 }

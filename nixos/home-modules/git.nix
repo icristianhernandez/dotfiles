@@ -4,8 +4,7 @@
     enable = true;
     settings = {
       user = {
-        name = const.git.name;
-        email = const.git.email;
+        inherit (const.git) name email;
       };
       init = {
         defaultBranch = "main";

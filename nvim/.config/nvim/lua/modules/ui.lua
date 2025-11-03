@@ -26,4 +26,13 @@ return {
         lazy = true,
         event = "BufReadPre",
     },
+
+    {
+        "folke/snacks.nvim",
+        event = "VeryLazy",
+        ---@type snacks.Config
+        opts = {
+            scroll = { enabled = true },
+        },
+    },
 }
