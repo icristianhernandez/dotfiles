@@ -76,7 +76,9 @@ create_keymap("n", "<leader><leader>", "<C-^>", "Go to Alternate Buffer")
 
 -- Disable native ctrl+w in insert/cmdline if you are redefining behavior globally
 local function cmd_delete_word()
-    return "<C-w>"
+    -- Feed the raw <C-w> key into command-line mode using termcodes and feedkeys
+    local keys = vim.api.nvim_replace_termcodes("<C-w>", true, false, true)
+    vim.api.nvim_feedkeys(keys, "n", true)
 end
 create_keymap({ "i", "o", "s", "t", "c" }, "<C-w>", "<Nop>", "Disable native ctrl+w")
 

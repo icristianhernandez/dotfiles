@@ -46,3 +46,14 @@ require("lazy").setup({
         },
     },
 })
+
+-- Expose a keymap to open Lazy's UI. Use a function so the underlying API is
+-- invoked at keypress time and doesn't error if lazy isn't fully loaded yet.
+vim.keymap.set("n", "<leader>l", function()
+    local ok, lazy = pcall(require, "lazy")
+    if ok and lazy and type(lazy.home) == "function" then
+        lazy.home()
+    else
+        vim.cmd("Lazy")
+    end
+end, { desc = "Open Lazy" })

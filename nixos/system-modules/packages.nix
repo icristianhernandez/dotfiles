@@ -25,6 +25,7 @@
         opencode
         nvimpager
         nixd
+        tree-sitter
       ];
     in
     pkgs.lib.concatLists [

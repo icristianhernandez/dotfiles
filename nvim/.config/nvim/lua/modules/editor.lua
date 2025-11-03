@@ -28,7 +28,12 @@ return {
         lazy = true,
         opts = {
             options = { use_as_default_explorer = true },
-            windows = { max_number = 3, preview = true },
+            windows = { 
+                max_number = 3,
+                preview = true,
+                width_focus = 35,
+                width_preview = 35,
+            },
             mappings = {
                 go_in = "L",
                 go_in_plus = "l",
@@ -92,7 +97,11 @@ return {
                         },
                     },
                 },
-                sources = { files = { hidden = true } },
+                sources = {
+                    files = { hidden = true },
+                    search = { hidden = true },
+                    grep = { hidden = true },
+                },
             },
         },
 
