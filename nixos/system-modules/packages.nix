@@ -26,6 +26,7 @@
         nvimpager
         nixd
         tree-sitter
+        lsof
       ];
     in
     pkgs.lib.concatLists [

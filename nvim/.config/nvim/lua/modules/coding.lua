@@ -20,5 +20,5 @@ return {
                 toggle = "gs",
             },
         },
-    }
+    },
 }

@@ -27,9 +27,9 @@ return {
             default_integration = true,
             auto_integrations = true,
             dim_inactive = {
-                enabled = true,
+                enabled = false,
                 shade = "dark",
-                percentage = 0.15,
+                percentage = 1,
             },
         },
         config = function(_, opts)

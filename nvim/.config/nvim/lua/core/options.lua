@@ -70,6 +70,9 @@ vim.opt.pumblend = 0
 -- maximum number of entries in the popup menu
 vim.opt.pumheight = 5
 
+-- builtin completion menu behavior
+vim.opt.completeopt:append({ "menuone", "noselect", "popup" })
+
 -- minimum width for current window
 vim.winminwidth = 10
 
@@ -138,7 +141,7 @@ vim.opt.swapfile = false
 vim.opt.autoread = true
 
 -- fast update time for events
-vim.opt.updatetime = 160
+vim.opt.updatetime = 100
 
 -- unix line endings
 vim.opt.fileformats = { "unix", "dos", "mac" }

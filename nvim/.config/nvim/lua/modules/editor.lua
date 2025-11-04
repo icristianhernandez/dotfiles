@@ -28,7 +28,7 @@ return {
         lazy = true,
         opts = {
             options = { use_as_default_explorer = true },
-            windows = { 
+            windows = {
                 max_number = 3,
                 preview = true,
                 width_focus = 35,

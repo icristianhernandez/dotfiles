@@ -47,30 +47,90 @@ return {
     {
         "folke/noice.nvim",
         event = "VeryLazy",
+
         opts = {
             lsp = {
+                signature = { enabled = false },
                 -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
                 override = {
                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
                     ["vim.lsp.util.stylize_markdown"] = true,
                 },
             },
+
             presets = {
                 bottom_search = true, -- use a classic bottom cmdline for search
                 command_palette = true, -- position the cmdline and popupmenu together
-                inc_rename = false, -- enables an input dialog for inc-rename.nvim
+                inc_rename = true, -- enables an input dialog for inc-rename.nvim
+            },
+
+            cmdline = {
+                format = {
+                    filter = false,
+                    lua = false,
+                    help = false,
+                },
+            },
+
+            views = {
+                cmdline_popup = {
+                    border = { style = "single", padding = { 0, 2 } },
+                    -- filter_options = {},
+                    -- win_options = { winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder" },
+                },
             },
         },
         dependencies = {
             "MunifTanjim/nui.nvim",
-            -- {
-            --     "rcarriga/nvim-notify",
-            --     opts = function(_, previous_opts)
-            --         vim.notify = require("notify")
-            --
-            --         return previous_opts
-            --     end,
-            -- },
+            { "smjonas/inc-rename.nvim", cmd = "IncRename", opts = {} },
         },
+    },
+
+    {
+        "nvim-mini/mini.icons",
+        lazy = false,
+        opts = {},
+
+        config = function(_, opts)
+            local MiniIcons = require("mini.icons")
+            MiniIcons.setup(opts)
+            MiniIcons.mock_nvim_web_devicons()
+
+            -- Tweak builtin LSP kind names so completion/symbols include icons.
+            MiniIcons.tweak_lsp_kind("prepend")
+
+            -- Define diagnostic signs using mini.icons LSP/category icons.
+            local icon, hl
+
+            -- Build sign text and numhl tables keyed by diagnostic severity.
+            local signs_text = {}
+            local signs_numhl = {}
+
+            icon, hl = MiniIcons.get("lsp", "error")
+            signs_text[vim.diagnostic.severity.ERROR] = icon
+            signs_numhl[vim.diagnostic.severity.ERROR] = hl
+
+            icon, hl = MiniIcons.get("lsp", "warning")
+            signs_text[vim.diagnostic.severity.WARN] = icon
+            signs_numhl[vim.diagnostic.severity.WARN] = hl
+
+            icon, hl = MiniIcons.get("lsp", "information")
+            signs_text[vim.diagnostic.severity.INFO] = icon
+            signs_numhl[vim.diagnostic.severity.INFO] = hl
+
+            icon, hl = MiniIcons.get("lsp", "hint")
+            signs_text[vim.diagnostic.severity.HINT] = icon
+            signs_numhl[vim.diagnostic.severity.HINT] = hl
+
+            vim.diagnostic.config({
+                signs = { text = signs_text, numhl = signs_numhl },
+            })
+
+            -- Expose a tiny helper for other plugin integrations to use consistently.
+            _G.MiniIcons_format = function(category, name)
+                local glyph, glyph_hl = MiniIcons.get(category, name)
+                return { icon = glyph, hl = glyph_hl }
+            end
+        end,
     },
 }

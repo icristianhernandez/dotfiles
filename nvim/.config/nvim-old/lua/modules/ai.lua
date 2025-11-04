@@ -1,87 +1,102 @@
 -- AI assistants & ops: Copilot and opencode.nvim
 return {
-    -- zbirenbaum/copilot.lua: GitHub Copilot client for AI code suggestions
     {
+        -- zbirenbaum/copilot.lua: copilot lsp + auth + inline suggestions
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
-        build = ":Copilot auth",
-        event = "BufReadPost",
+        event = "InsertEnter",
         opts = {
-            suggestion = { auto_trigger = false, debounce = 0, keymap = { accept = "<C-r>" } },
-            panel = { enabled = false },
-            filetypes = { ["*"] = true },
-        },
-
-        dependencies = {
-            "nvim-lualine/lualine.nvim",
-            optional = true,
-            opts = function(_, opts)
-                local function copilot_component()
-                    local ok, copilot_status = pcall(require, "copilot.status")
-                    if not ok then
-                        return ""
-                    end
-                    local clients = vim.lsp.get_clients({ name = "copilot", bufnr = 0 })
-                    if #clients == 0 then
-                        return ""
-                    end
-                    local st = copilot_status.data.status
-                    local state = (st == "InProgress" and "pending") or (st == "Warning" and "error") or "ok"
-                    return "Copilot: " .. state
-                end
-
-                if type(opts.sections) == "table" and type(opts.sections.lualine_x) == "table" then
-                    table.insert(opts.sections.lualine_x, 2, copilot_component)
-                end
-            end,
-        },
+            panel = {enabled = false},
+            suggestion = {
+                hide_during_completion = false,
+                debounce = 0,
+                keymap = {accept = "<C-r>"}
+            }
+        }
     },
-
-    -- NickvanDyke/opencode.nvim: interactive AI assistant UI and workflow
+    {
+        "folke/sidekick.nvim",
+        keys = {
+            {
+                "<C-r>",
+                function()
+                    -- if there is a next edit, jump to it, otherwise apply it if any
+                    if not require("sidekick").nes_jump_or_apply() then
+                        return "<C-r>" -- fallback to normal tab
+                    end
+                end,
+                expr = true,
+                desc = "Goto/Apply Next Edit Suggestion"
+            }
+        }
+    },
     {
         "NickvanDyke/opencode.nvim",
         dependencies = {
-            -- folke/snacks.nvim: lightweight UI components and toggles
-            { "folke/snacks.nvim" },
+            -- Recommended for `ask()` and `select()`.
+            -- Required for default `toggle()` implementation.
+            {"folke/snacks.nvim", opts = {input = {}, picker = {}, terminal = {}}}
+
         },
         config = function()
-            -- Required for `opts.auto_reload`
-            vim.opt.autoread = true
-
+            ---@type opencode.Opts
             vim.g.opencode_opts = {
-                terminal = { win = { position = "float", enter = true } },
+                terminal = {win = {position = "float", enter = true}}
             }
 
-            vim.keymap.set({ "n", "i", "t" }, "<C-a>", function()
-                require("opencode").toggle()
-            end, { desc = "Toggle opencode" })
-            vim.keymap.set("n", "<leader>oA", function()
-                require("opencode").ask()
-            end, { desc = "Ask opencode" })
-            vim.keymap.set("n", "<leader>oa", function()
-                require("opencode").ask("@cursor: ")
-            end, { desc = "Ask opencode about this" })
-            vim.keymap.set("v", "<leader>oa", function()
-                require("opencode").ask("@selection: ")
-            end, { desc = "Ask opencode about selection" })
-            vim.keymap.set("n", "<leader>on", function()
-                require("opencode").command("session_new")
-            end, { desc = "New opencode session" })
-            vim.keymap.set("n", "<leader>oy", function()
-                require("opencode").command("messages_copy")
-            end, { desc = "Copy last opencode response" })
-            vim.keymap.set("n", "<S-C-u>", function()
-                require("opencode").command("messages_half_page_up")
-            end, { desc = "Messages half page up" })
-            vim.keymap.set("n", "<S-C-d>", function()
-                require("opencode").command("messages_half_page_down")
-            end, { desc = "Messages half page down" })
-            vim.keymap.set({ "n", "v" }, "<leader>os", function()
-                require("opencode").select()
-            end, { desc = "Select opencode prompt" })
-            vim.keymap.set("n", "<leader>oe", function()
-                require("opencode").prompt("Explain @cursor and its context")
-            end, { desc = "Explain this code" })
-        end,
-    },
+            -- Required for `opts.auto_reload`.
+            vim.o.autoread = true
+
+            -- Recommended/example keymaps.
+            vim.keymap.set(
+                {"n", "x"},
+                "<leader>aa",
+                function()
+                    require("opencode").ask("@this: ", {submit = true})
+                end,
+                {desc = "Ask opencode"}
+            )
+            vim.keymap.set(
+                {"n", "x"},
+                "<C-x>",
+                function()
+                    require("opencode").select()
+                end,
+                {desc = "Execute opencode action…"}
+            )
+            vim.keymap.set(
+                {"n", "x"},
+                "ga",
+                function()
+                    require("opencode").prompt("@this")
+                end,
+                {desc = "Add to opencode"}
+            )
+            vim.keymap.set(
+                {"n", "t"},
+                "<C-a>",
+                function()
+                    require("opencode").toggle()
+                end,
+                {desc = "Toggle opencode"}
+            )
+            vim.keymap.set(
+                "n",
+                "<S-C-u>",
+                function()
+                    require("opencode").command("session.half.page.up")
+                end,
+                {desc = "opencode half page up"}
+            )
+            vim.keymap.set(
+                "n",
+                "<S-C-d>",
+                function()
+                    require("opencode").command("session.half.page.down")
+                end,
+                {desc = "opencode half page down"}
+            )
+        end
+    }
 }
+
