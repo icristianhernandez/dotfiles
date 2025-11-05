@@ -256,4 +256,93 @@ return {
             },
         },
     },
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        opts = {
+            preset = "helix",
+        },
+        keys = {
+            {
+                "<leader>?",
+                function()
+                    require("which-key").show({ global = false })
+                end,
+                desc = "Buffer Local Keymaps (which-key)",
+            },
+        },
+    },
+
+    {
+        -- ThePrimeagen/harpoon: quick file bookmarking and navigation
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
+
+        opts = {
+            menu = { width = vim.api.nvim_win_get_width(0) - 4 },
+            settings = { save_on_toggle = true },
+        },
+
+        keys = function()
+            local harpoon = require("harpoon")
+
+            local keys = {
+                {
+                    "<leader>H",
+                    function()
+                        harpoon:list():add()
+                    end,
+                    desc = "Harpoon Current File",
+                },
+                {
+                    "<leader>h",
+                    function()
+                        harpoon.ui:toggle_quick_menu(harpoon:list())
+                    end,
+                    desc = "Harpoon Quick Menu",
+                },
+            }
+            for i = 1, 9 do
+                table.insert(keys, {
+                    "<leader>" .. i,
+                    function()
+                        harpoon:list():select(i)
+                    end,
+                    desc = "Harpoon to File " .. i,
+                })
+            end
+            return keys
+        end,
+
+        config = function(_, opts)
+            require("harpoon"):setup(opts)
+        end,
+    },
+
+    {
+        -- stevearc/quicker.nvim: enhance quickfix/diagnostic navigation with context expansion
+        "stevearc/quicker.nvim",
+
+        ---@module "quicker"
+        ---@type quicker.SetupOptions
+        opts = {
+            keys = {
+                {
+                    ">",
+                    function()
+                        require("quicker").expand({ before = 1, after = 2, add_to_existing = true })
+                    end,
+                    desc = "Expand quickfix context",
+                },
+                {
+                    "<",
+                    function()
+                        require("quicker").collapse()
+                    end,
+                    desc = "Collapse quickfix context",
+                },
+            },
+        },
+    },
 }

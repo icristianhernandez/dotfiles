@@ -9,7 +9,10 @@ return {
     },
     {
         "MeanderingProgrammer/treesitter-modules.nvim",
+        lazy = false,
         dependencies = { "nvim-treesitter/nvim-treesitter" },
+
+        ---@module 'treesitter-modules'
         ---@type ts.mod.UserConfig
         opts = {
             ensure_installed = {},
@@ -76,6 +79,8 @@ return {
                 desc = "Format buffer",
             },
         },
+
+        ---@module 'conform'
         ---@type conform.setupOpts
         opts = {
             formatters_by_ft = tooling.conform.formatters_by_ft,

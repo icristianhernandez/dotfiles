@@ -11,23 +11,143 @@ local stacks = {
 
     -- Web development (JS/TS/CSS/HTML/etc.)
     web_dev = {
-        lsps = { "vtsls", "eslint" },
+        lsps = { "biome", "vtsls", "eslint", "cssls", "html" },
         formatters_by_ft = {
-                javascript = { "prettierd" },
-                typescript = { "prettierd" },
-                json = { "prettierd" },
-                css = { "prettierd" },
-                html = { "prettierd" },
-                markdown = { "prettierd" },
-                yaml = { "prettierd" },
-                javascriptreact = { "prettierd" },
-                typescriptreact = { "prettierd" },
-                scss = { "prettierd" },
-                less = { "prettierd" },
-                jsonc = { "prettierd" },
-                vue = { "prettierd" },
-                svelte = { "prettierd" },
-                graphql = { "prettierd" },
+            javascript = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            typescript = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            json = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            css = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            html = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            markdown = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            yaml = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            javascriptreact = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            typescriptreact = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            scss = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            less = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            jsonc = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            vue = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            svelte = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
+            graphql = {
+                "biome",
+                "prettierd",
+                stop_after_first = true,
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "biome"
+                end,
+            },
         },
     },
 
@@ -135,13 +255,8 @@ local function resolve(stacks_arg)
     end
 
     local function apply_formatter(ft, fmt_entry)
+        -- Only register installer presence; do not mutate formatters_by_ft here.
         local e = normalize_formatter(fmt_entry)
-        local list = formatters_by_ft[ft]
-        if not list then
-            list = {}
-            formatters_by_ft[ft] = list
-        end
-        table.insert(list, e.name)
         if e.install then
             push(null_install_set, e.name)
         end
@@ -169,12 +284,36 @@ local function resolve(stacks_arg)
             end
         end
 
-        -- Formatters
-            if stack.formatters_by_ft then
-            for ft, val in pairs(stack.formatters_by_ft) do
-                local list = type(val) == "string" and { val } or val
-                for _, item in ipairs(list) do
-                    apply_formatter(ft, item)
+        -- Formatters: merge per-stack Conform-shaped tables into one, and register names.
+        if stack.formatters_by_ft then
+            for ft, ftval in pairs(stack.formatters_by_ft) do
+                local tgt = formatters_by_ft[ft]
+                if not tgt then
+                    tgt = {}
+                    formatters_by_ft[ft] = tgt
+                end
+
+                -- numeric entries: append in stack order, preserve duplicates
+                for _, v in ipairs(ftval) do
+                    local name
+                    if type(v) == "string" then
+                        name = v
+                    elseif type(v) == "table" then
+                        name = v.name or v[1]
+                    else
+                        name = tostring(v)
+                    end
+
+                    table.insert(tgt, name)
+                    -- register installer / null-ls install using original entry
+                    apply_formatter(ft, v)
+                end
+
+                -- copy non-numeric option keys (last-stack-wins)
+                for k, v in pairs(ftval) do
+                    if type(k) ~= "number" then
+                        tgt[k] = v
+                    end
                 end
             end
         end

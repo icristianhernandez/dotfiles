@@ -82,7 +82,24 @@ return {
         },
         dependencies = {
             "MunifTanjim/nui.nvim",
-            { "smjonas/inc-rename.nvim", cmd = "IncRename", opts = {} },
+            {
+                "smjonas/inc-rename.nvim",
+                cmd = "IncRename",
+                opts = {},
+                init = function()
+                    vim.api.nvim_create_autocmd("LspAttach", {
+                        group = vim.api.nvim_create_augroup("user.lsp", {}),
+                        callback = function(args)
+                            local bufnr = args.buf
+                            local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+                            if client and client:supports_method("textDocument/rename") then
+                                vim.keymap.set("n", "grn", ":IncRename ", { buffer = bufnr, desc = "IncRename (LSP)" })
+                            end
+                        end,
+                    })
+                end,
+            },
         },
     },
 

@@ -54,7 +54,10 @@ describe("tooling resolver", function()
     it("handles formatter entries as tables and strings, and multiple fts", function()
         local stacks = {
             s = {
-                formatters_by_ft = { lua = "stylua", javascript = { "prettierd", { name = "esfmt", install = false } } },
+                formatters_by_ft = {
+                    lua = { "stylua" },
+                    javascript = { "prettierd", { name = "esfmt", install = false } },
+                },
             },
         }
 
@@ -110,7 +113,29 @@ describe("tooling resolver", function()
     end)
 
     it("current in-use stacks resolve correctly", function()
-        local out = tooling.build(tooling.stacks)
+        local stacks = {
+            lua = {
+                lsps = { "lua_ls" },
+                formatters_by_ft = { lua = { "stylua" } },
+            },
+            web_dev = {
+                lsps = { "vtsls", "eslint" },
+                formatters_by_ft = {
+                    javascript = { "prettierd" },
+                    markdown = { "prettierd" },
+                },
+            },
+            nix = {
+                lsps = { { name = "nixd", install = false, enable = true } },
+                formatters_by_ft = { nix = { "nixfmt" } },
+                linters = { "statix" },
+            },
+            dotfiles = {
+                linters = { { method = "diagnostics", name = "fish", installation = false } },
+            },
+        }
+
+        local out = tooling.build(stacks)
 
         -- mason_lspconfig.ensure_installed should include lua_ls, vtsls, eslint (nixd has install=false)
         eq({ "eslint", "lua_ls", "vtsls" }, out.mason_lspconfig.ensure_installed)
@@ -141,6 +166,7 @@ describe("tooling resolver", function()
         end
         assert.is_true(found)
     end)
+
 
     -- New tests added:
     it("supports lsp installation alias field (installation)", function()
@@ -189,4 +215,36 @@ describe("tooling resolver", function()
         table.sort(out.mason_null_ls.ensure_installed)
         eq({ "statix", "stylua" }, out.mason_null_ls.ensure_installed)
     end)
+
+    -- Verify the repository stacks directly: ensure Conform options
+    it("resolves repo stacks preserving conform options and formatters", function()
+        local stacks = require("modules.extras.tooling").stacks
+        local out = tooling.build(stacks)
+
+        -- Ensure conform per-ft options preserved for javascript
+        assert.is_truthy(out.conform.formatters_by_ft.javascript)
+        assert.is_truthy(out.conform.formatters_by_ft.javascript.stop_after_first ~= nil)
+        assert.is_truthy(out.conform.formatters_by_ft.javascript.lsp_format ~= nil)
+        assert.is_truthy(type(out.conform.formatters_by_ft.javascript.filter) == "function")
+
+        -- Numeric formatter entries preserved and are strings
+        assert.is_truthy(#out.conform.formatters_by_ft.javascript >= 1)
+        for _, v in ipairs(out.conform.formatters_by_ft.javascript) do
+            assert.is_true(type(v) == "string")
+        end
+
+        -- Mason sets include representative installers
+        local mn = out.mason_null_ls.ensure_installed
+        table.sort(mn)
+        local has_prettierd = false
+        local has_stylua = false
+        local has_nixfmt = false
+        for _, n in ipairs(mn) do
+            if n == "prettierd" then has_prettierd = true end
+            if n == "stylua" then has_stylua = true end
+            if n == "nixfmt" then has_nixfmt = true end
+        end
+        assert.is_true(has_prettierd and has_stylua and has_nixfmt)
+    end)
+
 end)
