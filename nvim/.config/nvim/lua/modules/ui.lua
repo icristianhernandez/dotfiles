@@ -99,37 +99,27 @@ return {
             -- Tweak builtin LSP kind names so completion/symbols include icons.
             MiniIcons.tweak_lsp_kind("prepend")
 
-            -- Define diagnostic signs using mini.icons LSP/category icons.
-            local icon, hl
+            -- Compact, stable diagnostic sign setup using a small mapping.
+            local signs_text, signs_numhl = {}, {}
+            local severities = {
+                { key = "error", level = vim.diagnostic.severity.ERROR },
+                { key = "warning", level = vim.diagnostic.severity.WARN },
+                { key = "information", level = vim.diagnostic.severity.INFO },
+                { key = "hint", level = vim.diagnostic.severity.HINT },
+            }
 
-            -- Build sign text and numhl tables keyed by diagnostic severity.
-            local signs_text = {}
-            local signs_numhl = {}
+            for _, s in ipairs(severities) do
+                local icon, hl = MiniIcons.get("lsp", s.key)
+                signs_text[s.level] = icon or ""
+                signs_numhl[s.level] = hl
+            end
 
-            icon, hl = MiniIcons.get("lsp", "error")
-            signs_text[vim.diagnostic.severity.ERROR] = icon
-            signs_numhl[vim.diagnostic.severity.ERROR] = hl
+            vim.diagnostic.config({ signs = { text = signs_text, numhl = signs_numhl } })
 
-            icon, hl = MiniIcons.get("lsp", "warning")
-            signs_text[vim.diagnostic.severity.WARN] = icon
-            signs_numhl[vim.diagnostic.severity.WARN] = hl
-
-            icon, hl = MiniIcons.get("lsp", "information")
-            signs_text[vim.diagnostic.severity.INFO] = icon
-            signs_numhl[vim.diagnostic.severity.INFO] = hl
-
-            icon, hl = MiniIcons.get("lsp", "hint")
-            signs_text[vim.diagnostic.severity.HINT] = icon
-            signs_numhl[vim.diagnostic.severity.HINT] = hl
-
-            vim.diagnostic.config({
-                signs = { text = signs_text, numhl = signs_numhl },
-            })
-
-            -- Expose a tiny helper for other plugin integrations to use consistently.
+            -- Small helper for other plugin integrations to use consistently.
             _G.MiniIcons_format = function(category, name)
                 local glyph, glyph_hl = MiniIcons.get(category, name)
-                return { icon = glyph, hl = glyph_hl }
+                return { icon = glyph or "", hl = glyph_hl }
             end
         end,
     },
