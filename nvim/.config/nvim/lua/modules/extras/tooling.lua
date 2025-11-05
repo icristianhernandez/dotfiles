@@ -14,7 +14,6 @@ local stacks = {
         lsps = { "biome", "vtsls", "eslint", "cssls", "html" },
         formatters_by_ft = {
             javascript = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -23,7 +22,6 @@ local stacks = {
                 end,
             },
             typescript = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -32,7 +30,6 @@ local stacks = {
                 end,
             },
             json = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -41,7 +38,6 @@ local stacks = {
                 end,
             },
             css = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -50,7 +46,6 @@ local stacks = {
                 end,
             },
             html = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -59,7 +54,6 @@ local stacks = {
                 end,
             },
             markdown = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -68,7 +62,6 @@ local stacks = {
                 end,
             },
             yaml = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -77,7 +70,6 @@ local stacks = {
                 end,
             },
             javascriptreact = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -86,7 +78,6 @@ local stacks = {
                 end,
             },
             typescriptreact = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -95,7 +86,6 @@ local stacks = {
                 end,
             },
             scss = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -104,7 +94,6 @@ local stacks = {
                 end,
             },
             less = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -113,7 +102,6 @@ local stacks = {
                 end,
             },
             jsonc = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -122,7 +110,6 @@ local stacks = {
                 end,
             },
             vue = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -131,7 +118,6 @@ local stacks = {
                 end,
             },
             svelte = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -140,7 +126,6 @@ local stacks = {
                 end,
             },
             graphql = {
-                "biome",
                 "prettierd",
                 stop_after_first = true,
                 lsp_format = "first",
@@ -254,7 +239,7 @@ local function resolve(stacks_arg)
         end
     end
 
-    local function apply_formatter(ft, fmt_entry)
+    local function apply_formatter(fmt_entry)
         -- Only register installer presence; do not mutate formatters_by_ft here.
         local e = normalize_formatter(fmt_entry)
         if e.install then
@@ -291,6 +276,12 @@ local function resolve(stacks_arg)
                 if not tgt then
                     tgt = {}
                     formatters_by_ft[ft] = tgt
+                else
+                    error(
+                        "formatters_by_ft for filetype '"
+                        .. tostring(ft)
+                        .. "' defined in multiple stacks; duplicates are not allowed"
+                    )
                 end
 
                 -- numeric entries: append in stack order, preserve duplicates
@@ -306,7 +297,7 @@ local function resolve(stacks_arg)
 
                     table.insert(tgt, name)
                     -- register installer / null-ls install using original entry
-                    apply_formatter(ft, v)
+                    apply_formatter(ft)
                 end
 
                 -- copy non-numeric option keys (last-stack-wins)

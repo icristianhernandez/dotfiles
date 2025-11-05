@@ -167,7 +167,6 @@ describe("tooling resolver", function()
         assert.is_true(found)
     end)
 
-
     -- New tests added:
     it("supports lsp installation alias field (installation)", function()
         local stacks = {
@@ -240,11 +239,86 @@ describe("tooling resolver", function()
         local has_stylua = false
         local has_nixfmt = false
         for _, n in ipairs(mn) do
-            if n == "prettierd" then has_prettierd = true end
-            if n == "stylua" then has_stylua = true end
-            if n == "nixfmt" then has_nixfmt = true end
+            if n == "prettierd" then
+                has_prettierd = true
+            end
+            if n == "stylua" then
+                has_stylua = true
+            end
+            if n == "nixfmt" then
+                has_nixfmt = true
+            end
         end
         assert.is_true(has_prettierd and has_stylua and has_nixfmt)
     end)
+    it("errors when same filetype defined in multiple stacks", function()
+        local stacks = {
+            a = { formatters_by_ft = { lua = { "stylua" } } },
+            b = { formatters_by_ft = { lua = { "anotherfmt" } } },
+        }
+        assert.has_error(function()
+            tooling.build(stacks)
+        end)
+    end)
 
+    it("excludes lsp with install=false and enable=false", function()
+        local stacks = { s = { lsps = { { name = "x", install = false, enable = false } } } }
+        local out = tooling.build(stacks)
+        eq({}, out.mason_lspconfig.ensure_installed)
+        eq({}, out.mason_lspconfig.automatic_enable)
+    end)
+
+    it("dedupes lsp names across stacks", function()
+        local stacks = {
+            a = { lsps = { "lua_ls", "lua_ls" } },
+            b = { lsps = { "lua_ls" } },
+        }
+        local out = tooling.build(stacks)
+        eq({ "lua_ls" }, out.mason_lspconfig.ensure_installed)
+        eq({ "lua_ls" }, out.mason_lspconfig.automatic_enable)
+    end)
+
+    it("install=true linters with methods do not populate null_ls.init", function()
+        local stacks = { s = { linters = { { name = "eslint_d", install = true, methods = { "diagnostics" } } } } }
+        local out = tooling.build(stacks)
+        eq({ "eslint_d" }, out.mason_null_ls.ensure_installed)
+        eq(0, #out.null_ls.init)
+    end)
+
+    it("install=false linters with multiple methods populate null_ls.init in order", function()
+        local stacks = {
+            s = { linters = { { name = "fish", installation = false, methods = { "diagnostics", "code_actions" } } } },
+        }
+        local out = tooling.build(stacks)
+        eq(2, #out.null_ls.init)
+        eq({ method = "diagnostics", name = "fish" }, out.null_ls.init[1])
+        eq({ method = "code_actions", name = "fish" }, out.null_ls.init[2])
+    end)
+
+    it("respects formatter installation alias field", function()
+        local stacks = { s = { formatters_by_ft = { lua = { { name = "stylua", installation = false } } } } }
+        local out = tooling.build(stacks)
+        eq({ lua = { "stylua" } }, out.conform.formatters_by_ft)
+        eq({}, out.mason_null_ls.ensure_installed)
+    end)
+
+    it("errors on invalid formatter numeric entry type", function()
+        local stacks = { s = { formatters_by_ft = { lua = { 123 } } } }
+        assert.has_error(function()
+            tooling.build(stacks)
+        end)
+    end)
+
+    it("errors on malformed entries missing names (lsp/formatter/linter)", function()
+        local bads = {
+            { s = { lsps = { {} } } },
+            { s = { formatters_by_ft = { lua = { {} } } } },
+            { s = { linters = { {} } } },
+        }
+        for _, st in ipairs(bads) do
+            assert.has_error(function()
+                tooling.build(st)
+            end)
+        end
+    end)
 end)
