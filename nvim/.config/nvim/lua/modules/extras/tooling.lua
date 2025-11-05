@@ -6,14 +6,13 @@ local stacks = {
     -- Lua-specific tools
     lua = {
         lsps = { "lua_ls" },
-        formatters = { by_ft = { lua = { "stylua" } } },
+        formatters_by_ft = { lua = { "stylua" } },
     },
 
     -- Web development (JS/TS/CSS/HTML/etc.)
     web_dev = {
         lsps = { "vtsls", "eslint" },
-        formatters = {
-            by_ft = {
+        formatters_by_ft = {
                 javascript = { "prettierd" },
                 typescript = { "prettierd" },
                 json = { "prettierd" },
@@ -29,14 +28,13 @@ local stacks = {
                 vue = { "prettierd" },
                 svelte = { "prettierd" },
                 graphql = { "prettierd" },
-            },
         },
     },
 
     -- Nix ecosystem
     nix = {
         lsps = { { name = "nixd", install = false, enable = true } },
-        formatters = { by_ft = { nix = { "nixfmt" } } },
+        formatters_by_ft = { nix = { "nixfmt" } },
         linters = { "statix" },
     },
 
@@ -172,9 +170,8 @@ local function resolve(stacks_arg)
         end
 
         -- Formatters
-        if stack.formatters then
-            local by_ft = stack.formatters.by_ft or stack.formatters
-            for ft, val in pairs(by_ft) do
+            if stack.formatters_by_ft then
+            for ft, val in pairs(stack.formatters_by_ft) do
                 local list = type(val) == "string" and { val } or val
                 for _, item in ipairs(list) do
                     apply_formatter(ft, item)

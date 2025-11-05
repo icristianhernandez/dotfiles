@@ -8,7 +8,7 @@ describe("tooling resolver", function()
         local stacks = {
             s = {
                 lsps = { "foo" },
-                formatters = { by_ft = { lua = { "bar" } } },
+                formatters_by_ft = { lua = { "bar" } },
                 linters = { "baz" },
             },
         }
@@ -54,9 +54,7 @@ describe("tooling resolver", function()
     it("handles formatter entries as tables and strings, and multiple fts", function()
         local stacks = {
             s = {
-                formatters = {
-                    by_ft = { lua = "stylua", javascript = { "prettierd", { name = "esfmt", install = false } } },
-                },
+                formatters_by_ft = { lua = "stylua", javascript = { "prettierd", { name = "esfmt", install = false } } },
             },
         }
 
@@ -100,7 +98,7 @@ describe("tooling resolver", function()
         local stacks = {
             s = {
                 lsps = { { "onlyname" } },
-                formatters = { by_ft = { lua = { { "fmt1" } } } },
+                formatters_by_ft = { lua = { { "fmt1" } } },
             },
         }
 
@@ -176,7 +174,7 @@ describe("tooling resolver", function()
     it("dedupes mason sets but preserves formatter duplicates", function()
         local stacks = {
             s = {
-                formatters = { by_ft = { lua = { "stylua", "stylua" } } },
+                formatters_by_ft = { lua = { "stylua", "stylua" } },
                 linters = { "statix", "statix" },
             },
         }
