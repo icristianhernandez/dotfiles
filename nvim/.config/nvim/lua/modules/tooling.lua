@@ -1,27 +1,4 @@
-local lsps_to_use_and_install = { "lua_ls", "vtsls", "eslint" }
-local lsps_to_just_use = {}
-local formatters_linters_to_install = { "stylua", "prettierd" }
-local formatters_by_ft = {
-    lua = { "stylua" },
-    javascript = { "prettierd" },
-    typescript = { "prettierd" },
-    json = { "prettierd" },
-    css = { "prettierd" },
-    html = { "prettierd" },
-    markdown = { "prettierd" },
-    yaml = { "prettierd" },
-    javascriptreact = { "prettierd" },
-    typescriptreact = { "prettierd" },
-    scss = { "prettierd" },
-    less = { "prettierd" },
-    jsonc = { "prettierd" },
-    vue = { "prettierd" },
-    svelte = { "prettierd" },
-    graphql = { "prettierd" },
-}
-local extra_nonels_initialization = {
-    { method = "diagnostics", name = "fish" },
-}
+local tooling = require("modules.extras.tooling").tooling
 
 return {
     {
@@ -33,20 +10,12 @@ return {
     {
         "MeanderingProgrammer/treesitter-modules.nvim",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
-        ---@module 'treesitter-modules'
         ---@type ts.mod.UserConfig
         opts = {
             ensure_installed = {},
             auto_install = true,
-
-            highlight = {
-                enable = true,
-            },
-
-            indent = {
-                enable = true,
-            },
-
+            highlight = { enable = true },
+            indent = { enable = true },
             incremental_selection = {
                 enable = true,
                 keymaps = {
@@ -71,10 +40,9 @@ return {
     {
         "mason-org/mason-lspconfig.nvim",
         opts = {
-            ensure_installed = lsps_to_use_and_install,
-            automatic_enable = vim.tbl_deep_extend("force", lsps_to_use_and_install, lsps_to_just_use),
+            ensure_installed = tooling.mason_lspconfig.ensure_installed,
+            automatic_enable = tooling.mason_lspconfig.automatic_enable,
         },
-
         dependencies = {
             { "mason-org/mason.nvim", opts = {} },
             "neovim/nvim-lspconfig",
@@ -88,24 +56,12 @@ return {
             "nvimtools/none-ls.nvim",
         },
         opts = {
-            ensure_installed = formatters_linters_to_install,
+            ensure_installed = tooling.mason_null_ls.ensure_installed,
             methods = {
                 formatting = false,
             },
         },
     },
-    -- {
-    --     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    --     dependencies = {
-    --         "mason-org/mason-lspconfig.nvim",
-    --     },
-    --     opts = {
-    --         ensure_installed = {
-    --             "stylua",
-    --             "prettierd",
-    --         },
-    --     },
-    -- },
     {
         "stevearc/conform.nvim",
         event = { "BufWritePre" },
@@ -120,39 +76,26 @@ return {
                 desc = "Format buffer",
             },
         },
-        ---@module "conform"
         ---@type conform.setupOpts
         opts = {
-            -- Define your formatters
-            formatters_by_ft = formatters_by_ft,
-
-            default_format_opts = {
-                lsp_format = "fallback",
-            },
-
+            formatters_by_ft = tooling.conform.formatters_by_ft,
+            default_format_opts = { lsp_format = "fallback" },
             format_on_save = { timeout_ms = 500 },
         },
-
         init = function()
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
         end,
     },
-
     {
         "nvimtools/none-ls.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
-
         config = function()
             local null_ls = require("null-ls")
-
             local sources = {}
-            for _, item in ipairs(extra_nonels_initialization) do
+            for _, item in ipairs(tooling.null_ls.init) do
                 table.insert(sources, null_ls.builtins[item.method][item.name])
             end
-
-            null_ls.setup({
-                sources = sources,
-            })
+            null_ls.setup({ sources = sources })
         end,
     },
 }
