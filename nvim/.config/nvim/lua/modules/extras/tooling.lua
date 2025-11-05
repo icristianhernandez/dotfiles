@@ -5,22 +5,13 @@ local M = {}
 local stacks = {
     -- Lua-specific tools
     lua = {
-        lsps = {
-            "lua_ls",
-        },
-        formatters = {
-            by_ft = {
-                lua = { "stylua" },
-            },
-        },
+        lsps = { "lua_ls" },
+        formatters = { by_ft = { lua = { "stylua" } } },
     },
 
     -- Web development (JS/TS/CSS/HTML/etc.)
     web_dev = {
-        lsps = {
-            "vtsls",
-            "eslint",
-        },
+        lsps = { "vtsls", "eslint" },
         formatters = {
             by_ft = {
                 javascript = { "prettierd" },
@@ -40,31 +31,18 @@ local stacks = {
                 graphql = { "prettierd" },
             },
         },
-        -- example autoinstall linters (strings) could be added here, e.g. "eslint_d"
     },
 
     -- Nix ecosystem
     nix = {
-        lsps = {
-            { name = "nixd", install = false, enable = true },
-        },
-        formatters = {
-            by_ft = {
-                nix = { "nixfmt" },
-            },
-        },
-        linters = {
-            -- statix is handled by mason-null-ls (autoinstall), so plain string
-            "statix",
-        },
+        lsps = { { name = "nixd", install = false, enable = true } },
+        formatters = { by_ft = { nix = { "nixfmt" } } },
+        linters = { "statix" },
     },
 
     -- Dotfiles and shell tooling
     dotfiles = {
-        linters = {
-            -- Non-autoinstall example: fish diagnostics via null-ls only
-            { method = "diagnostics", name = "fish", installation = false },
-        },
+        linters = { { method = "diagnostics", name = "fish", installation = false } },
     },
 }
 
@@ -81,97 +59,133 @@ local function to_list(set)
     return t
 end
 
-local function resolve()
+local function normalize_lsp(entry)
+    if type(entry) == "string" then
+        return { name = entry, install = true, enable = true }
+    end
+    local name = entry.name or entry[1]
+
+    local install = entry.install
+    if install == nil then
+        install = entry.installation
+    end
+    if install == nil then
+        install = true
+    end
+
+    local enable = entry.enable
+    if enable == nil then
+        enable = true
+    end
+
+    return { name = name, install = install, enable = enable }
+end
+
+local function normalize_formatter(entry)
+    if type(entry) == "string" then
+        return { name = entry, install = true }
+    end
+    local name = entry.name or entry[1]
+
+    local install = entry.install
+    if install == nil then
+        install = entry.installation
+    end
+    if install == nil then
+        install = true
+    end
+
+    return { name = name, install = install }
+end
+
+local function normalize_linter(entry)
+    if type(entry) == "string" then
+        return { name = entry, install = true, methods = nil }
+    end
+    local name = entry.name or entry[1]
+
+    local install = entry.install
+    if install == nil then
+        install = entry.installation
+    end
+    if install == nil then
+        install = true
+    end
+
+    local methods = entry.methods or (entry.method and { entry.method }) or nil
+
+    return { name = name, install = install, methods = methods }
+end
+
+local function resolve(stacks_arg)
+    local stacks_local = stacks_arg or stacks
+
     local lsp_enable_set, lsp_install_set = {}, {}
     local null_install_set = {}
     local nonels_init = {}
     local formatters_by_ft = {}
 
-    for _, stack in pairs(stacks) do
+    local function apply_lsp(lsp_entry)
+        local e = normalize_lsp(lsp_entry)
+        if not e.enable then
+            return
+        end
+        push(lsp_enable_set, e.name)
+        if e.install then
+            push(lsp_install_set, e.name)
+        end
+    end
+
+    local function apply_formatter(ft, fmt_entry)
+        local e = normalize_formatter(fmt_entry)
+        local list = formatters_by_ft[ft]
+        if not list then
+            list = {}
+            formatters_by_ft[ft] = list
+        end
+        table.insert(list, e.name)
+        if e.install then
+            push(null_install_set, e.name)
+        end
+    end
+
+    local function apply_linter(linter_entry)
+        local e = normalize_linter(linter_entry)
+        if e.install then
+            push(null_install_set, e.name)
+            return
+        end
+        -- non-autoinstall: register only in null-ls init
+        if e.methods then
+            for _, m in ipairs(e.methods) do
+                table.insert(nonels_init, { method = m, name = e.name })
+            end
+        end
+    end
+
+    for _, stack in pairs(stacks_local) do
+        -- LSPs
         if stack.lsps then
             for _, l in ipairs(stack.lsps) do
-                local name, install, enable
-                if type(l) == "string" then
-                    name, install, enable = l, true, true
-                else
-                    name = l.name or l[1]
-                    install = l.install
-                    if install == nil then
-                        install = l.installation
-                    end
-                    if install == nil then
-                        install = true
-                    end
-                    enable = l.enable
-                    if enable == nil then
-                        enable = true
-                    end
-                end
-                if enable then
-                    push(lsp_enable_set, name)
-                end
-                if install then
-                    push(lsp_install_set, name)
-                end
+                apply_lsp(l)
             end
         end
 
+        -- Formatters
         if stack.formatters then
             local by_ft = stack.formatters.by_ft or stack.formatters
             for ft, val in pairs(by_ft) do
                 local list = type(val) == "string" and { val } or val
-                local ft_list = {}
                 for _, item in ipairs(list) do
-                    if type(item) == "string" then
-                        table.insert(ft_list, item)
-                        push(null_install_set, item)
-                    else
-                        local n = item.name or item[1]
-                        table.insert(ft_list, n)
-                        local install = item.install
-                        if install == nil then
-                            install = item.installation
-                        end
-                        if install == nil then
-                            install = true
-                        end
-                        if install then
-                            push(null_install_set, n)
-                        end
-                    end
+                    apply_formatter(ft, item)
                 end
-                formatters_by_ft[ft] = ft_list
             end
         end
 
+        -- Linters
         if stack.linters then
             for _, e in ipairs(stack.linters) do
-                if type(e) == "string" then
-                    -- Auto-install linters (strings): mason-null-ls handles install + enable
-                    push(null_install_set, e)
-                else
-                    local n = e.name or e[1]
-                    local install = e.install
-                    if install == nil then
-                        install = e.installation
-                    end
-                    if install == nil then
-                        install = true
-                    end
-                    if install then
-                        -- If autoinstall flagged true, let mason-null-ls handle it
-                        push(null_install_set, n)
-                    else
-                        -- Non-autoinstall linters: add to manual null-ls init only
-                        if e.methods then
-                            for _, m in ipairs(e.methods) do
-                                table.insert(nonels_init, { method = m, name = n })
-                            end
-                        elseif e.method then
-                            table.insert(nonels_init, { method = e.method, name = n })
-                        end
-                    end
-                end
+                apply_linter(e)
             end
         end
     end
@@ -181,19 +195,14 @@ local function resolve()
             ensure_installed = to_list(lsp_install_set),
             automatic_enable = to_list(lsp_enable_set),
         },
-        conform = {
-            formatters_by_ft = formatters_by_ft,
-        },
-        mason_null_ls = {
-            ensure_installed = to_list(null_install_set),
-        },
-        null_ls = {
-            init = nonels_init,
-        },
+        conform = { formatters_by_ft = formatters_by_ft },
+        mason_null_ls = { ensure_installed = to_list(null_install_set) },
+        null_ls = { init = nonels_init },
     }
 end
 
 M.stacks = stacks
-M.tooling = resolve()
+M.build = resolve
+M.tooling = M.build(M.stacks)
 
 return M
