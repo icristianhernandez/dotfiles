@@ -168,7 +168,7 @@ local stacks = {
     -- Nix ecosystem
     nix = {
         lsps = { { name = "nixd", install = false, enable = true } },
-        formatters_by_ft = { nix = { "nixfmt" } },
+        formatters_by_ft = { nix = { { name = "nixfmt", install = false } } },
         linters = { "statix" },
     },
 

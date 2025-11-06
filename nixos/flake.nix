@@ -43,9 +43,7 @@
         ];
       };
 
-      formatter = nixpkgs.lib.genAttrs systems (
-        system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style
-      );
+      formatter = nixpkgs.lib.genAttrs systems (system: nixpkgs.legacyPackages.${system}.nixfmt);
 
       apps = import ./apps { inherit nixpkgs systems; };
     };

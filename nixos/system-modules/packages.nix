@@ -27,6 +27,7 @@
         nixd
         tree-sitter
         lsof
+        nixfmt
       ];
     in
     pkgs.lib.concatLists [

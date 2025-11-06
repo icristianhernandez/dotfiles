@@ -2,8 +2,9 @@ return {
     {
         "rmagatti/auto-session",
         lazy = false,
+        priority = 999,
         init = function()
-            vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,"
+            vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions"
         end,
 
         ---@module "auto-session"
@@ -11,16 +12,16 @@ return {
         opts = {
             git_use_branch_name = true,
             git_auto_restore_on_branch_change = true,
+            cwd_change_handling = true,
             auto_restore_last_session = vim.fn.getcwd() == vim.fn.expand("~")
                 and vim.fn.argc() == 0
                 and (#vim.api.nvim_list_uis() > 0),
-            cwd_change_handling = true,
             continue_restore_on_error = true,
         },
 
         keys = {
-            { "<leader>fs", "<cmd>AutoSession search<CR>", { noremap = true, desc = "Search session" } },
-            { "<leader>fS", "<cmd>AutoSession deletePicker<CR>", { noremap = true, desc = "Delete sessions" } },
+            { "<leader>ss", "<cmd>AutoSession search<CR>", { noremap = true, desc = "Search session" } },
+            { "<leader>sS", "<cmd>AutoSession deletePicker<CR>", { noremap = true, desc = "Delete sessions" } },
         },
     },
     {
@@ -274,55 +275,43 @@ return {
     },
 
     {
-        -- ThePrimeagen/harpoon: quick file bookmarking and navigation
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" },
-
-        opts = {
-            menu = { width = vim.api.nvim_win_get_width(0) - 4 },
-            settings = {
-                save_on_toggle = true,
-                sync_on_ui_close = true,
-            },
+        "cbochs/grapple.nvim",
+        dependencies = {
+            { "nvim-mini/mini.icons", lazy = true },
         },
-
+        opts = {
+            scope = "git_branch",
+        },
         keys = function()
-            local harpoon = require("harpoon")
-
-            local keys = {
+            local k = {
                 {
                     "<leader>H",
                     function()
-                        harpoon:list():add()
+                        require("grapple").toggle()
                     end,
-                    desc = "Harpoon Current File",
+                    desc = "Tag a file",
                 },
                 {
                     "<leader>h",
                     function()
-                        harpoon.ui:toggle_quick_menu(harpoon:list())
+                        require("grapple").toggle_tags()
                     end,
-                    desc = "Harpoon Quick Menu",
+                    desc = "Toggle Grapple tags window",
                 },
             }
+            -- select tag index
             for i = 1, 9 do
-                table.insert(keys, {
+                table.insert(k, {
                     "<leader>" .. i,
                     function()
-                        harpoon:list():select(i)
+                        require("grapple").select({ index = i })
                     end,
-                    desc = "Harpoon to File " .. i,
+                    desc = "Select grapple tag " .. i,
                 })
             end
-            return keys
-        end,
-
-        config = function(_, opts)
-            require("harpoon"):setup(opts)
+            return k
         end,
     },
-
     {
         -- stevearc/quicker.nvim: enhance quickfix/diagnostic navigation with context expansion
         "stevearc/quicker.nvim",
