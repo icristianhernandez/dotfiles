@@ -42,13 +42,26 @@ return {
     },
     {
         "mason-org/mason-lspconfig.nvim",
-        opts = {
-            ensure_installed = tooling.mason_lspconfig.ensure_installed,
-            automatic_enable = tooling.mason_lspconfig.automatic_enable,
-        },
+        opts = function()
+            return {
+                ensure_installed = tooling.mason_lspconfig.ensure_installed,
+                automatic_enable = tooling.mason_lspconfig.automatic_enable,
+            }
+        end,
+        config = function(_, opts)
+            local configs = require("modules.extras.tooling").tooling.mason_lspconfig.configs or {}
+            for server, cfg in pairs(configs) do
+                if type(cfg) == "function" then
+                    cfg = cfg()
+                end
+                vim.lsp.config[server] = cfg
+            end
+            require("mason-lspconfig").setup(opts)
+        end,
         dependencies = {
             { "mason-org/mason.nvim", opts = {} },
             "neovim/nvim-lspconfig",
+            "b0o/SchemaStore.nvim",
         },
     },
     {

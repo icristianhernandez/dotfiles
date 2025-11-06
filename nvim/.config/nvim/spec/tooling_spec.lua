@@ -321,4 +321,139 @@ describe("tooling resolver", function()
             end)
         end
     end)
+
+    it("repo web_dev conform filter returns true only for biome", function()
+        local stacks = require("modules.extras.tooling").stacks
+        local out = tooling.build(stacks)
+        -- pick javascript entry for options
+        local filter = out.conform.formatters_by_ft.javascript.filter
+        assert.is_truthy(type(filter) == "function")
+        assert.is_true(filter({ name = "biome" }))
+        assert.is_true(not filter({ name = "prettierd" }))
+        assert.is_true(not filter({ name = "eslint" }))
+    end)
+
+    it("per-filetype conform entries are distinct tables", function()
+        local stacks = require("modules.extras.tooling").stacks
+        local out = tooling.build(stacks)
+        local js = out.conform.formatters_by_ft.javascript
+        local ts = out.conform.formatters_by_ft.typescript
+        assert.is_truthy(js)
+        assert.is_truthy(ts)
+        assert.is_true(js ~= ts)
+    end)
+
+    -- Strict validation and edge-case tests
+    it("errors on non-string numeric lsp/formatter/linter names", function()
+        assert.has_error(function()
+            tooling.build({ s = { lsps = { { name = 123 } } } })
+        end)
+        assert.has_error(function()
+            tooling.build({ s = { formatters_by_ft = { lua = { { name = 123 } } } } })
+        end)
+        assert.has_error(function()
+            tooling.build({ s = { linters = { { name = 123 } } } })
+        end)
+    end)
+
+    it("errors on empty or whitespace-only names", function()
+        assert.has_error(function()
+            tooling.build({ s = { lsps = { { name = "" } } } })
+        end)
+        assert.has_error(function()
+            tooling.build({ s = { formatters_by_ft = { lua = { { " " } } } } })
+        end)
+    end)
+
+    it("errors when linter methods field has incorrect type", function()
+        -- methods must be a table when provided; method must be a string when provided
+        assert.has_error(function()
+            tooling.build({ s = { linters = { { name = "x", installation = false, methods = "diag" } } } })
+        end)
+        assert.has_error(function()
+            tooling.build({ s = { linters = { { name = "x", installation = false, method = 123 } } } })
+        end)
+    end)
+
+    it("preserves unknown per-filetype option keys unchanged", function()
+        local stacks = {
+            s = {
+                formatters_by_ft = {
+                    lua = { { "stylua" }, stop_after_first = "yes", foo = 42 },
+                },
+            },
+        }
+        local out = tooling.build(stacks)
+        eq("yes", out.conform.formatters_by_ft.lua.stop_after_first)
+        eq(42, out.conform.formatters_by_ft.lua.foo)
+    end)
+
+    it("mutating one per-ft table does not affect others", function()
+        local stacks = {
+            s = {
+                formatters_by_ft = {
+                    a = { { "fmt1" } },
+                    b = { { "fmt1" } },
+                },
+            },
+        }
+        local out = tooling.build(stacks)
+        local a = out.conform.formatters_by_ft.a
+        local b = out.conform.formatters_by_ft.b
+        assert.is_true(a ~= b)
+        a.extra = true
+        assert.is_nil(b.extra)
+    end)
+
+    it("handles large duplicate sets and preserves dedupe for mason lists", function()
+        local many = {}
+        for i = 1, 20 do
+            table.insert(many, "dupname")
+        end
+        local stacks = {
+            s = {
+                lsps = many,
+                formatters_by_ft = { lua = many },
+                linters = many,
+            },
+        }
+        local out = tooling.build(stacks)
+        -- mason lists dedup; ensure_installed should contain only one 'dupname'
+        table.sort(out.mason_lspconfig.ensure_installed)
+        eq({ "dupname" }, out.mason_lspconfig.ensure_installed)
+        -- formatters_by_ft should preserve duplicates
+        eq(20, #out.conform.formatters_by_ft.lua)
+    end)
+
+    it("ignores unknown keys on normalization but preserves per-ft options", function()
+        local stacks = {
+            s = {
+                lsps = { { name = "withfoo", foo = 123 } },
+                formatters_by_ft = { lua = { { name = "stylua", foo = 456 } } },
+            },
+        }
+        local out = tooling.build(stacks)
+        -- foo should not appear in mason lists (normalization ignores unknowns),
+        -- but per-ft options copied should contain foo where present
+        eq({ "withfoo" }, out.mason_lspconfig.ensure_installed)
+        assert.is_nil(out.mason_lspconfig.foo)
+        assert.is_truthy(out.conform.formatters_by_ft.lua.foo == 456)
+    end)
+
+    it("exposes per-LSP server configs", function()
+        local cfg = { settings = { yaml = { schemas = { kubernetes = "*.yaml" } } } }
+        local stacks = { a = { lsps = { { name = "yamlls", config = cfg } } } }
+        local out = tooling.build(stacks)
+        eq(cfg, out.mason_lspconfig.configs.yamlls)
+    end)
+
+    it("errors on duplicate lsp configs across stacks", function()
+        local stacks = {
+            a = { lsps = { { name = "yamlls", config = { a = 1 } } } },
+            b = { lsps = { { name = "yamlls", config = { b = 2 } } } },
+        }
+        assert.has_error(function()
+            tooling.build(stacks)
+        end)
+    end)
 end)
