@@ -1,4 +1,3 @@
---- @module modules.extras.tooling
 --- Tooling stacks for LSPs, formatters, and linters.
 --- Consumers require this module and either use `M.tooling` or call `M.build(M.stacks)`.
 local M = {}
@@ -77,7 +76,7 @@ local stacks = {
     },
 
     -- Web development (JS/TS/CSS/HTML/etc.)
-    web_dev = {
+    frontend_web = {
         lsps = { "biome", "vtsls", "eslint", "cssls", "html" },
         formatters_by_ft = (function()
             local common_opts = {
@@ -111,9 +110,11 @@ local stacks = {
         end)(),
     },
 
-    -- Data representation: JSON, YAML, Markdown
-    data_representation = {
+    -- Data and docs: JSON, YAML, Markdown, TOML
+    data_and_docs = {
         lsps = {
+            "marksman",
+            "taplo",
             {
                 name = "jsonls",
                 config = function()
@@ -142,7 +143,6 @@ local stacks = {
                     }
                 end,
             },
-            "marksman",
         },
         -- Use prettierd for all formatting of data files; do not rely on LSP formatting.
         formatters_by_ft = (function()
@@ -162,7 +162,7 @@ local stacks = {
             return map_filetypes_to_conform_entries(filetypes, prettierd_factory)
         end)(),
         -- Linters: use yamllint for YAML, markdownlint for Markdown, and jsonlint for JSON (optional validator).
-        linters = { "yamllint", "markdownlint", "jsonlint" },
+        linters = { "yamllint", "markdownlint-cli2", "jsonlint" },
     },
 
     -- Nix ecosystem
@@ -173,8 +173,57 @@ local stacks = {
     },
 
     -- Dotfiles and shell tooling
-    dotfiles = {
-        linters = { { method = "diagnostics", name = "fish", installation = false } },
+    shell = {
+        lsps = { "bashls", "fish_lsp" },
+        formatters_by_ft = { sh = { "shfmt" }, bash = { "shfmt" }, zsh = { "beautysh" }, fish = { "fish_indent" } },
+        linters = {
+            { method = "diagnostics", name = "fish", install = false },
+            { "shellcheck" },
+        },
+    },
+
+    python = {
+        lsps = { "ruff", "basedpyright" },
+        -- format python via lsp fallback with filter to ruff
+        formatters_by_ft = {
+            python = {
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "ruff"
+                end,
+            },
+        },
+    },
+
+    c_cpp = {
+        lsps = { "clangd" },
+    },
+
+    databases = {
+        -- lsps = { "sqls" },
+
+        -- Formatting: prefer a dedicated SQL formatter for SQL filetypes.
+        formatters_by_ft = (function()
+            local sql_formatter_factory = function()
+                return make_conform_filetype_entry("pg_format", {
+                    stop_after_first = true,
+                    lsp_format = "first",
+                })
+            end
+
+            local filetypes = {
+                "sql",
+                "pgsql",
+                "mysql",
+                "plsql",
+            }
+
+            return map_filetypes_to_conform_entries(filetypes, sql_formatter_factory)
+        end)(),
+
+        linters = {
+            { name = "sqlfluff", install = true },
+        },
     },
 }
 

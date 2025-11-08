@@ -2,38 +2,32 @@ return {
     {
         -- zbirenbaum/copilot.lua: copilot lsp + auth + inline suggestions
         "zbirenbaum/copilot.lua",
+        dependencies = {
+            "copilotlsp-nvim/copilot-lsp",
+        },
         cmd = "Copilot",
         event = "InsertEnter",
         opts = {
             panel = { enabled = false },
             suggestion = {
+                auto_trigger = false,
                 hide_during_completion = false,
                 debounce = 0,
-                keymap = { accept = "<C-r>" },
+                keymap = { accept = "<C-e>" },
             },
-        },
-    },
-    {
-        "folke/sidekick.nvim",
-        keys = {
-            {
-                "<C-r>",
-                function()
-                    -- if there is a next edit, jump to it, otherwise apply it if any
-                    if not require("sidekick").nes_jump_or_apply() then
-                        return "<C-r>" -- fallback to normal tab
-                    end
-                end,
-                expr = true,
-                desc = "Goto/Apply Next Edit Suggestion",
-            },
+            -- nes = {
+            --     enabled = false,
+            --     auto_trigger = true,
+            --     keymap = {
+            --         accept_and_goto = "<C-e>",
+            --         dismiss = "<Esc>",
+            --     },
+            -- },
         },
     },
     {
         "NickvanDyke/opencode.nvim",
         dependencies = {
-            -- Recommended for `ask()` and `select()`.
-            -- Required for default `toggle()` implementation.
             {
                 "folke/snacks.nvim",
                 opts = { input = {}, picker = {}, provider = { name = "snacks", snacks = { terminal = {} } } },
@@ -70,7 +64,6 @@ return {
             vim.keymap.set("n", "<S-C-d>", function()
                 require("opencode").command("session.half.page.down")
             end, { desc = "opencode half page down" })
-            -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
         end,
     },
 }

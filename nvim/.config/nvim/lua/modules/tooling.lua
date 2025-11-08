@@ -8,6 +8,12 @@ return {
         build = ":TSUpdate",
     },
     {
+        "sustech-data/wildfire.nvim",
+        event = "VeryLazy",
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        opts = {},
+    },
+    {
         "MeanderingProgrammer/treesitter-modules.nvim",
         lazy = false,
         dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -19,15 +25,15 @@ return {
             auto_install = true,
             highlight = { enable = true },
             indent = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = "<cr>",
-                    node_incremental = "<cr>",
-                    scope_incremental = false,
-                    node_decremental = "<bs>",
-                },
-            },
+            -- incremental_selection = {
+            --     enable = true,
+            --     keymaps = {
+            --         init_selection = "<cr>",
+            --         node_incremental = "<cr>",
+            --         scope_incremental = false,
+            --         node_decremental = "<bs>",
+            --     },
+            -- },
         },
     },
     {
@@ -61,6 +67,25 @@ return {
             for _, server in ipairs(to_enable) do
                 vim.lsp.enable(server)
             end
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("user.lsp", {}),
+                callback = function(args)
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    if not client then
+                        return
+                    end
+
+                    if client:supports_method("textDocument/publishDiagnostics") then
+                        vim.keymap.set(
+                            "n",
+                            "<leader>cd",
+                            vim.diagnostic.open_float,
+                            { buffer = args.buf, desc = "Open diagnostics" }
+                        )
+                    end
+                end,
+            })
 
             require("mason-lspconfig").setup(opts)
         end,

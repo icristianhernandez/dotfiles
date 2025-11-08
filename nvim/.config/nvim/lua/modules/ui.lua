@@ -1,4 +1,82 @@
 return {
+    -- nvim-lualine/lualine.nvim: statusline
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = {
+            "nvim-mini/mini.icons",
+            "AndreM222/copilot-lualine",
+        },
+        opts = {
+            sections = {
+                lualine_a = {
+                    {
+                        "filename",
+                        path = 4,
+                    },
+                },
+                lualine_b = {
+                    "diff",
+                    "diagnostics",
+                },
+                lualine_c = {
+                    {
+                        -- Show the rest of the relative path excluding parent folder + filename
+                        function()
+                            local bufname = vim.api.nvim_buf_get_name(0)
+                            if bufname == nil or bufname == "" then
+                                return ""
+                            end
+
+                            -- Get path relative to cwd, then take its directory
+                            local rel = vim.fn.fnamemodify(bufname, ":.")
+                            local rel_dir = vim.fn.fnamemodify(rel, ":h")
+
+                            if not rel_dir or rel_dir == "" or rel_dir == "." then
+                                return ""
+                            end
+
+                            -- Normalize separators
+                            rel_dir = rel_dir:gsub("\\", "/")
+
+                            -- Split into components
+                            local comps = {}
+                            for part in rel_dir:gmatch("[^/]+") do
+                                table.insert(comps, part)
+                            end
+
+                            -- If only one component, that's the parent folder — nothing else to show
+                            if #comps <= 1 then
+                                return ""
+                            end
+
+                            -- Drop the last component (the parent folder)
+                            table.remove(comps, #comps)
+
+                            -- Join remaining components
+                            return table.concat(comps, "/")
+                        end,
+                        draw_empty = false,
+                        padding = { left = 1, right = 1 },
+                    },
+                },
+                -- lualine_x = { "copilot", "encoding", "fileformat", "filetype" },
+                lualine_x = { "copilot", "lsp_status" },
+                lualine_y = { "progress" },
+                lualine_z = { { "datetime", style = "%H:%M" } },
+            },
+            tabline = {
+                lualine_b = {
+                    { "tabs", mode = 2, max_length = vim.o.columns },
+                    {
+                        function()
+                            vim.o.showtabline = 1
+                            return ""
+                        end,
+                    },
+                },
+            },
+        },
+    },
     -- lukas-reineke/indent-blankline.nvim: show indent guides and scope
     {
         "lukas-reineke/indent-blankline.nvim",

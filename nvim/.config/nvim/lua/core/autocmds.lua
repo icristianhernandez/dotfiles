@@ -94,7 +94,7 @@ local function set_auto_diagnostics(on)
     })
 end
 
-vim.keymap.set("n", "<leader>cd", function()
+vim.keymap.set("n", "<leader>cD", function()
     enabled = not enabled
     set_auto_diagnostics(enabled)
     vim.notify(("Auto diagnostics %s"):format(enabled and "enabled" or "disabled"), vim.log.levels.INFO)

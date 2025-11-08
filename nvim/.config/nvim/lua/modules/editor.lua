@@ -24,6 +24,7 @@ return {
             { "<leader>sS", "<cmd>AutoSession deletePicker<CR>", { noremap = true, desc = "Delete sessions" } },
         },
     },
+
     {
         "echasnovski/mini.files",
         lazy = true,
@@ -334,6 +335,81 @@ return {
                     end,
                     desc = "Collapse quickfix context",
                 },
+            },
+        },
+    },
+    {
+        -- nacro90/numb.nvim: show line number hints while typing commands
+        "nacro90/numb.nvim",
+        lazy = true,
+        keys = { { ":" } },
+        opts = {},
+    },
+    {
+        -- folke/flash.nvim: enhanced motion and search with labels and treesitter integration
+        "folke/flash.nvim",
+        keys = {
+            {
+                "s",
+                mode = { "n", "x", "o" },
+                function()
+                    require("flash").jump()
+                end,
+                desc = "Flash",
+            },
+            {
+                "<C-cr>",
+                mode = { "n", "o", "x" },
+                function()
+                    require("flash").treesitter()
+                end,
+                desc = "Flash Treesitter",
+            },
+            {
+                "r",
+                mode = "o",
+                function()
+                    require("flash").remote()
+                end,
+                desc = "Remote Flash",
+            },
+            {
+                "R",
+                mode = { "o", "x" },
+                function()
+                    require("flash").treesitter_search()
+                end,
+                desc = "Treesitter Search",
+            },
+            { "f", mode = { "n", "x", "o" }, desc = "Flash" },
+            { "F", mode = { "n", "x", "o" }, desc = "Flash" },
+            { "t", mode = { "n", "x", "o" }, desc = "Flash" },
+            { "T", mode = { "n", "x", "o" }, desc = "Flash" },
+            { ";", mode = { "n", "x", "o" }, desc = "Flash Next" },
+        },
+
+        opts = {
+            labels = "asdfgqwertzxcvb",
+            modes = {
+                char = {
+                    char_actions = function()
+                        return {
+                            [";"] = "next",
+                            ["f"] = "right",
+                            ["F"] = "left",
+                        }
+                    end,
+                    enabled = true,
+                    keys = { "f", "F", "t", "T", ";" },
+                    jump_labels = false,
+                    multi_line = true,
+                },
+            },
+            prompt = {
+                win_config = { border = "none" },
+            },
+            search = {
+                wrap = true,
             },
         },
     },
