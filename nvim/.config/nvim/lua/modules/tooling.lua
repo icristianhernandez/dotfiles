@@ -6,6 +6,18 @@ return {
         lazy = false,
         branch = "main",
         build = ":TSUpdate",
+        dependencies = {
+            {
+                -- nvim-treesitter/nvim-treesitter-context: show current context (function/class) at top
+                "nvim-treesitter/nvim-treesitter-context",
+                main = "treesitter-context",
+                opts = {
+                    max_lines = 1,
+                    multiline_threshold = 1,
+                    min_window_height = 20,
+                },
+            },
+        },
     },
     {
         "sustech-data/wildfire.nvim",

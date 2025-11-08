@@ -218,4 +218,35 @@ return {
             end
         end,
     },
+
+    {
+        -- catgoose/nvim-colorizer.lua: highlight color codes inline
+        "catgoose/nvim-colorizer.lua",
+        main = "colorizer",
+        event = "BufReadPre",
+        opts = {},
+    },
+    {
+        -- OXY2DEV/helpview.nvim: improved help buffer viewer
+        "OXY2DEV/helpview.nvim",
+        main = "helpview",
+        lazy = false,
+        opts = {},
+    },
+    {
+        -- MeanderingProgrammer/render-markdown.nvim: render markdown files with styles and icons
+        "MeanderingProgrammer/render-markdown.nvim",
+        main = "render-markdown",
+        dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" }, -- if you use standalone mini plugins
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {},
+    },
+    {
+        -- nvimdev/hlsearch.nvim: enhanced search highlighting and incremental updates
+        "nvimdev/hlsearch.nvim",
+        event = "BufRead",
+        main = "hlsearch",
+        opts = {},
+    },
 }

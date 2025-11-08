@@ -20,17 +20,19 @@ return {
         main = "catppuccin",
         priority = 1000,
         opts = {
+            show_end_of_buffer = true,
+            term_colors = true,
+            -- transparent_background = true,
+            float = {
+                -- transparent = true,
+                solid = true,
+            },
             background = {
                 light = "latte",
                 dark = "macchiato",
             },
             default_integration = true,
             auto_integrations = true,
-            dim_inactive = {
-                enabled = false,
-                shade = "dark",
-                percentage = 1,
-            },
         },
         config = function(_, opts)
             require("catppuccin").setup(opts)

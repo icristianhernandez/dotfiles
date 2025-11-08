@@ -47,8 +47,8 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end,
 })
 
--- go to last loc when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
+-- go to last loc when opening a buffer (use BufWinEnter + winrestview to avoid flicker)
+vim.api.nvim_create_autocmd("BufWinEnter", {
     group = vim.api.nvim_create_augroup("LastLoC", { clear = true }),
     callback = function(event)
         local exclude = { "gitcommit" }
@@ -57,11 +57,27 @@ vim.api.nvim_create_autocmd("BufReadPost", {
             return
         end
         vim.b[buf].lazyvim_last_loc = true
-        local mark = vim.api.nvim_buf_get_mark(buf, '"')
-        local lcount = vim.api.nvim_buf_line_count(buf)
-        if mark[1] > 0 and mark[1] <= lcount then
-            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+
+        local ok, mark = pcall(vim.api.nvim_buf_get_mark, buf, '"')
+        if not ok or not mark or mark[1] <= 0 then
+            return
         end
+
+        local lcount = vim.api.nvim_buf_line_count(buf)
+        if mark[1] > lcount then
+            return
+        end
+
+        -- compute a topline that places the mark roughly centered
+        local okh, win_height = pcall(vim.api.nvim_win_get_height, 0)
+        if not okh or not win_height or win_height <= 0 then
+            win_height = math.floor(vim.o.lines / 2)
+        end
+        local center_offset = math.floor(win_height / 2)
+        local topline = math.max(mark[1] - center_offset, 1)
+
+        local view = { lnum = mark[1], col = mark[2], topline = topline }
+        pcall(vim.fn.winrestview, view)
     end,
 })
 

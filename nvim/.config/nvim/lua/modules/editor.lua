@@ -85,7 +85,6 @@ return {
             },
 
             picker = {
-                layouts = { vertical = { layout = { min_height = 18 } } },
                 win = {
                     input = {
                         keys = {
@@ -263,6 +262,34 @@ return {
         event = "VeryLazy",
         opts = {
             preset = "helix",
+            spec = {
+                {
+                    mode = { "n", "x" },
+                    { "<leader><tab>", group = "tabs" },
+                    { "<leader>d", group = "debug" },
+                    { "<leader>f", group = "file/find" },
+                    { "<leader>g", group = "git" },
+                    { "<leader>gh", group = "hunks" },
+                    { "<leader>q", group = "quit/session" },
+                    { "<leader>s", group = "search" },
+                    { "<leader>u", group = "ui" },
+                    { "<leader>x", group = "diagnostics/quickfix" },
+                    { "<leader>a", group = "ai" },
+                    { "<leader>c", group = "code" },
+                    { "[", group = "prev" },
+                    { "]", group = "next" },
+                    { "g", group = "goto" },
+                    { "z", group = "fold" },
+                    {
+                        "<leader>w",
+                        group = "windows",
+                        proxy = "<c-w>",
+                        expand = function()
+                            return require("which-key.extras").expand.win()
+                        end,
+                    },
+                },
+            },
         },
         keys = {
             {
@@ -358,10 +385,10 @@ return {
                 desc = "Flash",
             },
             {
-                "<C-cr>",
+                "S",
                 mode = { "n", "o", "x" },
                 function()
-                    require("flash").treesitter()
+                    require("flash").treesitter_search()
                 end,
                 desc = "Flash Treesitter",
             },
@@ -411,6 +438,66 @@ return {
             search = {
                 wrap = true,
             },
+            label = {
+                rainbow = {
+                    enabled = true,
+                    shade = 1,
+                },
+            },
         },
+    },
+    {
+        -- m4xshen/hardtime.nvim: enforce efficient editing habits by restricting keys
+        "m4xshen/hardtime.nvim",
+        lazy = false,
+        -- MunifTanjim/nui.nvim: UI component library used by plugins
+        dependencies = { "MunifTanjim/nui.nvim" },
+        opts = {
+            disable_mouse = false,
+            restricted_keys = {
+                ["k"] = false,
+                ["j"] = false,
+            },
+            disabled_keys = {
+                ["<Up>"] = false,
+                ["<Down>"] = false,
+                ["<Left>"] = false,
+                ["<Right>"] = false,
+            },
+        },
+    },
+    {
+        -- mrjones2014/smart-splits.nvim: smart split resizing and movement
+        "mrjones2014/smart-splits.nvim",
+        lazy = true,
+        keys = {
+            {
+                "<Up>",
+                "<cmd>lua require('smart-splits').resize_up()<CR>",
+                { noremap = true, silent = true, desc = "Resize split up" },
+            },
+            {
+                "<Down>",
+                "<cmd>lua require('smart-splits').resize_down()<CR>",
+                { noremap = true, silent = true, desc = "Resize split down" },
+            },
+            {
+                "<Left>",
+                "<cmd>lua require('smart-splits').resize_left()<CR>",
+                { noremap = true, silent = true, desc = "Resize split left" },
+            },
+            {
+                "<Right>",
+                "<cmd>lua require('smart-splits').resize_right()<CR>",
+                { noremap = true, silent = true, desc = "Resize split right" },
+            },
+        },
+        opts = {},
+    },
+    {
+        -- NMAC427/guess-indent.nvim: detect indentation settings per-file automatically
+        "NMAC427/guess-indent.nvim",
+        lazy = false,
+        opts = {},
     },
 }
