@@ -36,7 +36,12 @@ Use scoped CI if you changed only one domain; use full CI if edits span multiple
 
 ## Do / Don't (Safety & Constraints)
 
-- Don’t: Run VCS operations (e.g., git add, commit, push), ask the user to stage or commit, or ever suggest that I perform these actions unless explicitly instructed by the user.
+- Don’t: Run VCS operations (e.g., `git add`, `git commit`, `git push`), ask the user to stage or commit, or ever suggest that I perform these actions unless explicitly instructed by the user.
+- Critical: OS-modifying actions require explicit confirmation. For any command that modifies repository or system state (including VCS commands, file writes, package installs, `rm`, or system configuration), agents must:
+  - Default to output-only: provide the commit message, patch, or the exact shell commands to run; do not execute commands.
+  - If the user requests execution, require one explicit single-line confirmation in the form `Confirm: <exact command>` before running anything.
+  - Require an additional explicit confirmation for destructive commands.
+  - Treat ambiguous phrases like "apply the edit", "make live", or "deploy" as requiring clarification before taking action.
 - Don’t: Edit or update package lockings files like `flake.lock`, `lazy-lock.json`, etc.
 - Don’t: Perform system changes, heavy builds (e.g. `nix build --toplevel`), or re-builds (e.g. `nixos-rebuild`).
 - Don’t: Add secrets or fetch environment secrets (`builtins.getEnv`).

@@ -46,6 +46,30 @@ return {
                     name = "snacks",
                     snacks = { win = { position = "float", enter = true } },
                 },
+                contexts = {
+                    ["@staged_diff"] = function(context)
+                        local handle = io.popen("git --no-pager diff --staged")
+                        if not handle then
+                            return nil
+                        end
+                        local result = handle:read("*a")
+                        handle:close()
+                        if result and result ~= "" then
+                            return result
+                        end
+                        return nil
+                    end,
+                },
+                prompts = {
+                    commit_from_unstaged = {
+                        prompt = "Review the current git unstaged changes: @diff\nWrite a commit msg based on Conventional Commits.\n\nDo NOT execute commands. I can (A) produce message only, (B) show exact git commands, or (C) run the commands. Reply A, B, or C. If you choose C, confirm with: Confirm: <exact command>",
+                        submit = true,
+                    },
+                    commit_from_staged = {
+                        prompt = "Review the current git staged changes: @staged_diff\nWrite a commit msg based on Conventional Commits.\n\nDo NOT execute commands. I can (A) produce message only, (B) show exact git commands, or (C) run the commands. Reply A, B, or C. If you choose C, confirm with: Confirm: <exact command>",
+                        submit = true,
+                    },
+                },
             }
 
             -- Recommended/example keymaps.
