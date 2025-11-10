@@ -15,6 +15,9 @@ return {
                 debounce = 0,
                 keymap = { accept = "<C-e>" },
             },
+            filetypes = {
+                ["*"] = true,
+            },
             -- nes = {
             --     enabled = false,
             --     auto_trigger = true,

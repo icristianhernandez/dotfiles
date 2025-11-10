@@ -1,19 +1,5 @@
 return {
     {
-        -- gisketch/triforce.nvim: Coding gamified experience in nvim
-        "gisketch/triforce.nvim",
-        dependencies = {
-            "nvzone/volt",
-        },
-        config = function()
-            require("triforce").setup({
-                keymap = {
-                    show_profile = "<leader>tp", -- Open profile with <leader>tp
-                },
-            })
-        end,
-    },
-    {
         -- tadaa/vimade: animated scrollbars for Neovim
         "tadaa/vimade",
         event = "VeryLazy",
@@ -29,6 +15,18 @@ return {
         cond = vim.g.neovide == nil,
         opts = {
             never_draw_over_target = true,
+        },
+    },
+    {
+        "shortcuts/no-neck-pain.nvim",
+        opts = {
+            width = 98,
+            autocmds = {
+                enableOnVimEnter = true,
+                enableOnTabEnter = true,
+                reloadOnColorSchemeChange = true,
+                skipEnteringNoNeckPainBuffer = true,
+            },
         },
     },
 }

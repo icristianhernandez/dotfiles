@@ -221,10 +221,16 @@ return {
 
     {
         -- catgoose/nvim-colorizer.lua: highlight color codes inline
+        -- #389812
+
         "catgoose/nvim-colorizer.lua",
         main = "colorizer",
         event = "BufReadPre",
-        opts = {},
+        opts = {
+            user_default_options = {
+                always_update = true,
+            },
+        },
     },
     {
         -- OXY2DEV/helpview.nvim: improved help buffer viewer
