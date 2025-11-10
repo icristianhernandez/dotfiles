@@ -32,11 +32,14 @@ return {
         "NickvanDyke/opencode.nvim",
         dependencies = {
             {
-                "folke/snacks.nvim",
-                opts = { input = {}, picker = {}, provider = { name = "snacks", snacks = { terminal = {} } } },
+                ---@module 'snacks'
+                { "folke/snacks.nvim" },
             },
         },
         config = function()
+            -- Required for `opts.auto_reload`.
+            vim.o.autoread = true
+
             ---@type opencode.Opts
             vim.g.opencode_opts = {
                 provider = {
@@ -44,9 +47,6 @@ return {
                     snacks = { win = { position = "float", enter = true } },
                 },
             }
-
-            -- Required for `opts.auto_reload`.
-            vim.o.autoread = true
 
             -- Recommended/example keymaps.
             vim.keymap.set({ "n", "x" }, "<leader>aa", function()
@@ -61,10 +61,10 @@ return {
             vim.keymap.set({ "n", "t" }, "<c-a>", function()
                 require("opencode").toggle()
             end, { desc = "Toggle opencode" })
-            vim.keymap.set("n", "<S-C-u>", function()
+            vim.keymap.set("n", "<leader>au", function()
                 require("opencode").command("session.half.page.up")
             end, { desc = "opencode half page up" })
-            vim.keymap.set("n", "<S-C-d>", function()
+            vim.keymap.set("n", "<leader>ad", function()
                 require("opencode").command("session.half.page.down")
             end, { desc = "opencode half page down" })
         end,

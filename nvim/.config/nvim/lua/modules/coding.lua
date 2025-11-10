@@ -24,13 +24,7 @@ return {
     {
         -- echasnovski/mini.move: move lines, blocks and selections easily
         "echasnovski/mini.move",
-        lazy = true,
-        keys = {
-            { "<S-h>", modes = "v" },
-            { "<S-l>", modes = "v" },
-            { "<S-j>", modes = "v" },
-            { "<S-k>", modes = "v" },
-        },
+        event = "VeryLazy",
         opts = {
             mappings = {
                 left = "<S-h>",

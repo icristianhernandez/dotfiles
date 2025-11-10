@@ -226,11 +226,7 @@ return {
         "catgoose/nvim-colorizer.lua",
         main = "colorizer",
         event = "BufReadPre",
-        opts = {
-            user_default_options = {
-                always_update = true,
-            },
-        },
+        opts = {},
     },
     {
         -- OXY2DEV/helpview.nvim: improved help buffer viewer

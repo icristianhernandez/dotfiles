@@ -93,6 +93,7 @@ The new instructions need to be followed by each user requirement.
 3. If external research is beneficial, identify specific sources to consult (official docs, RFCs, library API pages, changelogs) and ask the user for permission to fetch/summarize them.
 4. Perform targeted research (only after permission), synthesize findings, and produce a concise, referenced answer with options or recommendations.
 5. Offer next actions: code edits, tests, further questions, or a plan for follow-up work.
+6. Always include a short (1–2 sentence) summary at the end of the response and suggest 1–3 clear next actions the user can take.
 
 Always clarify needed context, avoid assumptions, and cite the exact source and location for all web research data based answers.
 

@@ -27,6 +27,10 @@ return {
 
     {
         "echasnovski/mini.files",
+        dependencies = {
+            "nvim-mini/mini.icons",
+            "folke/snacks.nvim",
+        },
         lazy = true,
         opts = {
             options = { use_as_default_explorer = true },
@@ -45,7 +49,31 @@ return {
         },
         config = function(_, opts)
             require("mini.files").setup(opts)
-            require("modules.extras.files").setup()
+
+            local group = vim.api.nvim_create_augroup("MiniFilesExtras", { clear = true })
+
+            vim.api.nvim_create_autocmd("User", {
+                group = group,
+                pattern = "MiniFilesWindowUpdate",
+
+                callback = function(args)
+                    local win_id = args and args.data and args.data.win_id
+                    if not win_id then
+                        return
+                    end
+                    local h = math.max(math.floor(vim.o.lines * 0.20), 14)
+                    local cfg = vim.api.nvim_win_get_config(win_id)
+                    cfg.height = h
+                    vim.api.nvim_win_set_config(win_id, cfg)
+                end,
+            })
+
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "MiniFilesActionRename",
+                callback = function(event)
+                    Snacks.rename.on_rename_file(event.data.from, event.data.to)
+                end,
+            })
         end,
         keys = {
             { "<leader>e", "", desc = "+file explorer", mode = { "n", "v" } },
@@ -74,6 +102,131 @@ return {
                 desc = "Open mini.files (CWD, Without State)",
             },
         },
+    },
+    {
+        "saghen/blink.cmp",
+        dependencies = {
+            "rafamadriz/friendly-snippets",
+            "xzbdmw/colorful-menu.nvim",
+        },
+        opts_extend = { "sources.default" },
+
+        -- use a release tag to download pre-built binaries
+        version = "1.*",
+
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            keymap = {
+                preset = "none",
+                ["<Tab>"] = {
+                    -- function(cmp)
+                    --     if #cmp.get_items() == 1 then
+                    --         return cmp.select_and_accept()
+                    --     end
+                    -- end,
+                    "select_next",
+                    "snippet_forward",
+                    "fallback",
+                },
+                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+                ["<CR>"] = { "accept", "fallback" },
+                ["<C-d>"] = { "show", "hide", "fallback" },
+                ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+                ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+                ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+            },
+
+            signature = {
+                enabled = true,
+                trigger = {
+                    show_on_keyword = true,
+                    show_on_insert = true,
+                },
+            },
+
+            completion = {
+                menu = {
+                    auto_show_delay_ms = 30,
+                    max_height = 8,
+                    draw = {
+                        columns = { { "kind_icon" }, { "label", gap = 1 } },
+                        components = {
+                            label = {
+                                text = function(ctx)
+                                    return require("colorful-menu").blink_components_text(ctx)
+                                end,
+                                highlight = function(ctx)
+                                    return require("colorful-menu").blink_components_highlight(ctx)
+                                end,
+                            },
+                        },
+                    },
+                },
+                documentation = { auto_show = true, auto_show_delay_ms = 10 },
+
+                list = { selection = { preselect = false, auto_insert = false } },
+
+                keyword = { range = "full" },
+                ghost_text = { enabled = true },
+
+                trigger = {
+                    show_on_blocked_trigger_characters = {},
+                    show_on_keyword = true,
+                    show_on_insert = true,
+                    show_on_backspace = true,
+                    show_on_backspace_after_insert_enter = true,
+                    show_on_backspace_in_keyword = true,
+                    show_on_backspace_after_accept = true,
+                    show_on_trigger_character = true,
+                    show_on_insert_on_trigger_character = true,
+                    show_on_accept_on_trigger_character = true,
+                },
+            },
+
+            sources = {
+                providers = {
+                    lsp = {
+                        name = "LSP",
+                        module = "blink.cmp.sources.lsp",
+                        transform_items = function(_, items)
+                            return vim.tbl_filter(function(item)
+                                return item.kind ~= require("blink.cmp.types").CompletionItemKind.Keyword
+                            end, items)
+                        end,
+
+                        override = {
+                            get_trigger_characters = function(self)
+                                local trigger_characters = self:get_trigger_characters()
+                                -- vim.list_extend(trigger_characters, { "\n", "\t", " ", "-" })
+                                vim.list_extend(trigger_characters, { "\n", "\t", " ", "-" })
+                                return trigger_characters
+                            end,
+                        },
+                    },
+                },
+            },
+
+            cmdline = {
+                keymap = { preset = "inherit" },
+                completion = {
+                    list = {
+                        selection = {
+                            preselect = false,
+                            auto_insert = true,
+                        },
+                    },
+                    menu = { auto_show = true },
+                },
+            },
+        },
+
+        config = function(_, opts)
+            -- make sure backspace in select mode works as expected
+            vim.keymap.set("s", "<BS>", "<C-O>s")
+
+            require("blink.cmp").setup(opts)
+        end,
     },
     {
         "folke/snacks.nvim",

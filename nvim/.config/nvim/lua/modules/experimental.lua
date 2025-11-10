@@ -18,6 +18,7 @@ return {
         },
     },
     {
+        -- shortcuts/no-neck-pain.nvim: center the text area in Neovim
         "shortcuts/no-neck-pain.nvim",
         opts = {
             width = 98,
@@ -26,6 +27,10 @@ return {
                 enableOnTabEnter = true,
                 reloadOnColorSchemeChange = true,
                 skipEnteringNoNeckPainBuffer = true,
+            },
+            mappings = {
+                enabled = true,
+                toggle = "<leader>un",
             },
         },
     },
