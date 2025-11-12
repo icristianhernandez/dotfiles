@@ -5,7 +5,7 @@ end
 local centered_padding = 1
 local scale_delta = 0.1
 
-vim.o.guifont = "JetBrainsMonoNL Nerd Font:h14"
+vim.o.guifont = "JetBrainsMonoNL Nerd Font:h12"
 
 if vim.g.neovide then
     vim.g.snacks_animate = false

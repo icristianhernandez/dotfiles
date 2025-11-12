@@ -47,7 +47,7 @@ return {
                     snacks = { win = { position = "float", enter = true } },
                 },
                 contexts = {
-                    ["@staged_diff"] = function(context)
+                    ["@staged_diff"] = function()
                         local handle = io.popen("git --no-pager diff --staged")
                         if not handle then
                             return nil

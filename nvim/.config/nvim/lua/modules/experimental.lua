@@ -14,7 +14,7 @@ return {
         event = "VeryLazy",
         cond = vim.g.neovide == nil,
         opts = {
-            never_draw_over_target = true,
+            -- never_draw_over_target = true,
         },
     },
     {

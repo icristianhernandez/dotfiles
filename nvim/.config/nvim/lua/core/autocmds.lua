@@ -17,11 +17,38 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Open all help pages in a new tab (except for the case of replacing help
 -- pages, where just replace, don't create multiple help-tab pages)
 -- ^^ the above can be changed, but really can be easily avoided if it's wanted
-vim.api.nvim_create_autocmd("BufWinEnter", {
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "help",
+    command = "wincmd T",
+})
+
+-- auto resize splits when the terminal's window is resized
+vim.api.nvim_create_autocmd("VimResized", {
+    command = "wincmd =",
+})
+
+-- syntax highlighting for dotenv files
+vim.api.nvim_create_autocmd("BufRead", {
+    group = vim.api.nvim_create_augroup("dotenv_ft", { clear = true }),
+    pattern = { ".env", ".env.*" },
     callback = function()
-        if vim.fn.getbufvar("%", "&filetype") == "help" then
-            vim.cmd("wincmd T")
-        end
+        vim.bo.filetype = "dosini"
+    end,
+})
+
+-- show cursorline only in active focused windows
+-- enable cursorline for active window
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+    group = vim.api.nvim_create_augroup("active_cursorline", { clear = true }),
+    callback = function()
+        vim.opt_local.cursorline = true
+    end,
+})
+-- disable cursorline for inactive window
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+    group = "active_cursorline",
+    callback = function()
+        vim.opt_local.cursorline = false
     end,
 })
 
@@ -42,42 +69,28 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
         if event.match:match("^%w%w+:[\\/][\\/]") then
             return
         end
-        local file = vim.uv.fs_realpath(event.match) or event.match
+        local file = vim.fn.resolve(event.match)
+        if file == nil or file == "" then
+            file = event.match
+        end
         vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
     end,
 })
 
--- go to last loc when opening a buffer (use BufWinEnter + winrestview to avoid flicker)
-vim.api.nvim_create_autocmd("BufWinEnter", {
-    group = vim.api.nvim_create_augroup("LastLoC", { clear = true }),
-    callback = function(event)
-        local exclude = { "gitcommit" }
-        local buf = event.buf
-        if vim.tbl_contains(exclude, vim.bo[buf].filetype) or vim.b[buf].lazyvim_last_loc then
-            return
+-- restore cursor to file position in previous editing session
+vim.api.nvim_create_autocmd("BufReadPost", {
+    callback = function(args)
+        local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
+        local line_count = vim.api.nvim_buf_line_count(args.buf)
+        if mark[1] > 0 and mark[1] <= line_count then
+            vim.api.nvim_win_set_cursor(0, mark)
+            -- defer centering slightly so it's applied after render
+            vim.schedule(function()
+                if vim.bo[args.buf].buftype ~= "terminal" then
+                    pcall(function() vim.cmd("normal! zz") end)
+                end
+            end)
         end
-        vim.b[buf].lazyvim_last_loc = true
-
-        local ok, mark = pcall(vim.api.nvim_buf_get_mark, buf, '"')
-        if not ok or not mark or mark[1] <= 0 then
-            return
-        end
-
-        local lcount = vim.api.nvim_buf_line_count(buf)
-        if mark[1] > lcount then
-            return
-        end
-
-        -- compute a topline that places the mark roughly centered
-        local okh, win_height = pcall(vim.api.nvim_win_get_height, 0)
-        if not okh or not win_height or win_height <= 0 then
-            win_height = math.floor(vim.o.lines / 2)
-        end
-        local center_offset = math.floor(win_height / 2)
-        local topline = math.max(mark[1] - center_offset, 1)
-
-        local view = { lnum = mark[1], col = mark[2], topline = topline }
-        pcall(vim.fn.winrestview, view)
     end,
 })
 

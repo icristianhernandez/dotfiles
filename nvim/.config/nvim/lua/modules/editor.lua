@@ -68,12 +68,13 @@ return {
                 end,
             })
 
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "MiniFilesActionRename",
-                callback = function(event)
-                    Snacks.rename.on_rename_file(event.data.from, event.data.to)
-                end,
-            })
+            -- the confirmation floating windows closes mini.files. Fix it.
+            -- vim.api.nvim_create_autocmd("User", {
+            --     pattern = "MiniFilesActionRename",
+            --     callback = function(event)
+            --         Snacks.rename.on_rename_file(event.data.from, event.data.to)
+            --     end,
+            -- })
         end,
         keys = {
             { "<leader>e", "", desc = "+file explorer", mode = { "n", "v" } },
@@ -90,14 +91,14 @@ return {
             {
                 "<leader>ec",
                 function()
-                    require("mini.files").open(vim.uv.cwd(), true)
+                    require("mini.files").open(vim.fn.getcwd(), true)
                 end,
                 desc = "Open mini.files (CWD, Save State)",
             },
             {
                 "<leader>eC",
                 function()
-                    require("mini.files").open(vim.uv.cwd(), false)
+                    require("mini.files").open(vim.fn.getcwd(), false)
                 end,
                 desc = "Open mini.files (CWD, Without State)",
             },

@@ -64,17 +64,17 @@ return {
                 lualine_y = { "progress" },
                 lualine_z = { { "datetime", style = "%H:%M" } },
             },
-            tabline = {
-                lualine_b = {
-                    { "tabs", mode = 2, max_length = vim.o.columns },
-                    {
-                        function()
-                            vim.o.showtabline = 1
-                            return ""
-                        end,
-                    },
-                },
-            },
+            -- tabline = {
+            --     lualine_b = {
+            --         { "tabs", mode = 2, max_length = vim.o.columns },
+            --         {
+            --             function()
+            --                 vim.o.showtabline = 1
+            --                 return ""
+            --             end,
+            --         },
+            --     },
+            -- },
         },
     },
     -- lukas-reineke/indent-blankline.nvim: show indent guides and scope
