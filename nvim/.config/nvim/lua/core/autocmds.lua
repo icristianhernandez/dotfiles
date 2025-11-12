@@ -87,7 +87,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
             -- defer centering slightly so it's applied after render
             vim.schedule(function()
                 if vim.bo[args.buf].buftype ~= "terminal" then
-                    pcall(function() vim.cmd("normal! zz") end)
+                    pcall(function()
+                        vim.cmd("normal! zz")
+                    end)
                 end
             end)
         end

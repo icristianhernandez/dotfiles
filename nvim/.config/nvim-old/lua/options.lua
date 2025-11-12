@@ -94,6 +94,9 @@ vim.opt.showmode = false
 -- always show status line but only of the actual buffer
 vim.opt.laststatus = 3
 
+-- only show tabline when more than one tab
+vim.opt.showtabline = 1
+
 -- highlight the current line
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = { "line", "number" }

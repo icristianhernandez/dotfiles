@@ -7,6 +7,10 @@ return {
             "AndreM222/copilot-lualine",
         },
         opts = {
+            options = {
+                always_show_tabline = false,
+            },
+
             sections = {
                 lualine_a = {
                     {
@@ -20,63 +24,33 @@ return {
                 },
                 lualine_c = {
                     {
-                        -- Show the rest of the relative path excluding parent folder + filename
+                        -- Cached parent path getter: heavy computation is performed
+                        -- in modules/extras/lualine_cache and updated via autocmds.
                         function()
-                            local bufname = vim.api.nvim_buf_get_name(0)
-                            if bufname == nil or bufname == "" then
-                                return ""
-                            end
-
-                            -- Get path relative to cwd, then take its directory
-                            local rel = vim.fn.fnamemodify(bufname, ":.")
-                            local rel_dir = vim.fn.fnamemodify(rel, ":h")
-
-                            if not rel_dir or rel_dir == "" or rel_dir == "." then
-                                return ""
-                            end
-
-                            -- Normalize separators
-                            rel_dir = rel_dir:gsub("\\", "/")
-
-                            -- Split into components
-                            local comps = {}
-                            for part in rel_dir:gmatch("[^/]+") do
-                                table.insert(comps, part)
-                            end
-
-                            -- If only one component, that's the parent folder — nothing else to show
-                            if #comps <= 1 then
-                                return ""
-                            end
-
-                            -- Drop the last component (the parent folder)
-                            table.remove(comps, #comps)
-
-                            -- Join remaining components
-                            return table.concat(comps, "/")
+                            return vim.b.lualine_cached_parent_path or ""
                         end,
-                        draw_empty = false,
-                        padding = { left = 1, right = 1 },
                     },
                 },
-                -- lualine_x = { "copilot", "encoding", "fileformat", "filetype" },
                 lualine_x = { "copilot", "lsp_status" },
                 lualine_y = { "progress" },
                 lualine_z = { { "datetime", style = "%H:%M" } },
             },
-            -- tabline = {
-            --     lualine_b = {
-            --         { "tabs", mode = 2, max_length = vim.o.columns },
-            --         {
-            --             function()
-            --                 vim.o.showtabline = 1
-            --                 return ""
-            --             end,
-            --         },
-            --     },
-            -- },
+            tabline = {
+                lualine_b = {
+                    { "tabs", mode = 2, max_length = vim.o.columns },
+                },
+            },
         },
+        config = function(_, opts)
+            local ok, cache = pcall(require, "modules.extras.lualine_cache")
+            if ok and cache and type(cache.setup) == "function" then
+                pcall(cache.setup)
+            end
+
+            require("lualine").setup(opts)
+        end,
     },
+
     -- lukas-reineke/indent-blankline.nvim: show indent guides and scope
     {
         "lukas-reineke/indent-blankline.nvim",
