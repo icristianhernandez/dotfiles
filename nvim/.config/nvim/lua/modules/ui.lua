@@ -138,7 +138,9 @@ return {
                 "smjonas/inc-rename.nvim",
                 cmd = "IncRename",
                 opts = {},
-                init = function()
+                config = function(_, opts)
+                    require("inc_rename").setup(opts)
+
                     vim.api.nvim_create_autocmd("LspAttach", {
                         group = vim.api.nvim_create_augroup("user.lsp", {}),
                         callback = function(args)

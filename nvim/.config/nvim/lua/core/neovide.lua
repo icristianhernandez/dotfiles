@@ -19,7 +19,7 @@ vim.g.neovide_fullscreen = true
 -- vim.g.neovide_cursor_smooth_blink = true
 vim.g.neovide_padding_right = centered_padding
 vim.g.neovide_padding_left = centered_padding
-vim.g.neovide_scroll_animation_far_lines = 0
+vim.g.neovide_scroll_animation_far_lines = -1
 -- vim.g.neovide_scroll_animation_length = 0
 
 ---- neovide keymaps
