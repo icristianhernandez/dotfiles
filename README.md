@@ -82,6 +82,22 @@ Opinionated NixOS-on-WSL setup managed with Nix flakes and Home Manager, plus a 
   - `nvim-ci`: Stylua check after enforcing formatting
   - `workflows-ci`: `actionlint` + `yamllint`
 
+## Configuration Review
+
+A comprehensive review of the NixOS configuration has been completed. Two documents are available:
+
+- **[Quick Summary](REVIEW_SUMMARY.md)**: Top issues, quick wins, and roadmap (5 min read)
+- **[Full Report](NIXOS_CONFIGURATION_REVIEW.md)**: Detailed analysis of 37+ findings with code examples (20 min read)
+
+The review identifies:
+- 5 critical issues (portability, state version, dependencies)
+- 15 best practice deviations (modules, documentation)
+- 7 modernization opportunities (formatter, metadata)
+- 5 security considerations (updates, hardening)
+- Actionable 4-phase improvement roadmap
+
+**Overall Assessment**: 7/10 - Strong foundation with room for improvement in documentation and flexibility.
+
 ## Contributing
 
 - Follow the agent conventions in the AGENTS docs:
