@@ -47,6 +47,7 @@ Use scoped CI for domain-limited changes.
   - Shutdowns or reboots.
   - System-level configuration changes.
   - VCS/Git operations that write changes (e.g., `git add`, `git commit`).
+  - Agents MUST NEVER run VCS/Git write operations (e.g., `git add`, `git commit`, `git push`, `git rebase`, `git reset`, `gh pr create`); they must only present diffs and proposed commit messages and request the user to run commit/push commands.
   - Exception: Agents MAY and are STRONGLY ADVISED to run domain-scoped CI commands (e.g., `nix run ./nixos#nvim-ci`) and non-mutating, read-only inspection/debugging commands without explicit authorization when validating or debugging domain-scoped changes. The list below is referential (not exhaustive); other read-only commands may be used depending on context if they respect the constraints described.
 
 ```json
