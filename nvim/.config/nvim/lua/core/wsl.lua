@@ -1,3 +1,8 @@
+local os = require("core.os")
+if not os.IS_WSL then
+    return
+end
+
 local function set_default_dir()
     local target_dir = "~/"
 

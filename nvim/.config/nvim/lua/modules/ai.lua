@@ -2,9 +2,6 @@ return {
     {
         -- zbirenbaum/copilot.lua: copilot lsp + auth + inline suggestions
         "zbirenbaum/copilot.lua",
-        dependencies = {
-            "copilotlsp-nvim/copilot-lsp",
-        },
         cmd = "Copilot",
         event = "InsertEnter",
         opts = {
@@ -18,14 +15,6 @@ return {
             filetypes = {
                 ["*"] = true,
             },
-            -- nes = {
-            --     enabled = false,
-            --     auto_trigger = true,
-            --     keymap = {
-            --         accept_and_goto = "<C-e>",
-            --         dismiss = "<Esc>",
-            --     },
-            -- },
         },
     },
     {
