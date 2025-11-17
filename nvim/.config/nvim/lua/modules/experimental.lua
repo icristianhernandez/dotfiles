@@ -22,9 +22,14 @@ return {
         "shortcuts/no-neck-pain.nvim",
         opts = {
             width = 98,
+            buffers = {
+                wo = { sidescrolloff = 0 },
+                left = { wo = { sidescrolloff = 0 } },
+                right = { wo = { sidescrolloff = 0 } },
+            },
             autocmds = {
-                enableOnVimEnter = true,
-                enableOnTabEnter = true,
+                -- enableOnVimEnter = true,
+                -- enableOnTabEnter = true,
                 reloadOnColorSchemeChange = true,
                 skipEnteringNoNeckPainBuffer = true,
             },

@@ -47,19 +47,42 @@ Use scoped CI for domain-limited changes.
   - Shutdowns or reboots.
   - System-level configuration changes.
   - VCS/Git operations that write changes (e.g., `git add`, `git commit`).
-  - Agents MUST NEVER run VCS/Git write operations (e.g., `git add`, `git commit`, `git push`, `git rebase`, `git reset`, `gh pr create`); they must only present diffs and proposed commit messages and request the user to run commit/push commands.
+  - Agents MUST NEVER run VCS/Git write operations (e.g., `git add`, `git commit`, `git push`, `git rebase`, `git reset`, `gh pr create`); not even present diffs and proposed commit messages or request the user to run commit/push commands.
   - Exception: Agents MAY and are STRONGLY ADVISED to run domain-scoped CI commands (e.g., `nix run ./nixos#nvim-ci`) and non-mutating, read-only inspection/debugging commands without explicit authorization when validating or debugging domain-scoped changes. The list below is referential (not exhaustive); other read-only commands may be used depending on context if they respect the constraints described.
 
 ```json
 {
-  "domain_ci": ["nix run ./nixos#nvim-ci", "nix run ./nixos#nixos-ci", "nix run ./nixos#workflows-ci"],
-  "git": ["git status", "git log", "git diff", "git show", "git ls-files", "git rev-parse", "git remote -v"],
+  "domain_ci": [
+    "nix run ./nixos#nvim-ci",
+    "nix run ./nixos#nixos-ci",
+    "nix run ./nixos#workflows-ci"
+  ],
+  "git": [
+    "git status",
+    "git log",
+    "git diff",
+    "git show",
+    "git ls-files",
+    "git rev-parse",
+    "git remote -v"
+  ],
   "gh": ["gh pr view", "gh repo view", "gh api GET"],
   "search": ["rg", "fd", "find", "ls", "tree"],
   "viewers": ["less", "bat", "head", "tail", "jq"],
   "network": ["curl(GET/HEAD)", "wget --spider"],
   "nix": ["nix flake show", "nix eval"],
-  "system": ["ps", "top", "df", "free", "uptime", "uname", "stat", "pwd", "id", "whoami"],
+  "system": [
+    "ps",
+    "top",
+    "df",
+    "free",
+    "uptime",
+    "uname",
+    "stat",
+    "pwd",
+    "id",
+    "whoami"
+  ],
   "docker": ["docker ps", "docker inspect"],
   "constraints": "read-only flags only; domain-scoped CI permitted; full repo CI or builds require explicit authorization"
 }
