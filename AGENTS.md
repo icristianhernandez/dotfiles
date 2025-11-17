@@ -52,10 +52,11 @@ Use scoped CI for domain-limited changes.
 
 ```json
 {
-  "domain_ci": [
+  "repo_ci": [
     "nix run ./nixos#nvim-ci",
     "nix run ./nixos#nixos-ci",
-    "nix run ./nixos#workflows-ci"
+    "nix run ./nixos#workflows-ci",
+    "nix run ./nixos#ci"
   ],
   "git": [
     "git status",
@@ -84,7 +85,7 @@ Use scoped CI for domain-limited changes.
     "whoami"
   ],
   "docker": ["docker ps", "docker inspect"],
-  "constraints": "read-only flags only; domain-scoped CI permitted; full repo CI or builds require explicit authorization"
+  "constraints": "read-only flags only; domain-scoped CI permitted"
 }
 ```
 
