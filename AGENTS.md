@@ -23,7 +23,7 @@ Use scoped CI for domain-limited changes.
 
 ### Neovim
 
-- Path: `nvim/.config/nvim/`
+- Path: `nvim/`
 - Plugin modules: `lua/modules/`
 - Core config: `lua/core/`
 
@@ -47,7 +47,7 @@ Use scoped CI for domain-limited changes.
   - Shutdowns or reboots.
   - System-level configuration changes.
   - VCS/Git operations that write changes (e.g., `git add`, `git commit`).
-  - Agents MUST NEVER run VCS/Git write operations (e.g., `git add`, `git commit`, `git push`, `git rebase`, `git reset`, `gh pr create`); not even present diffs and proposed commit messages or request the user to run commit/push commands.
+  - Agents MUST NEVER run VCS/Git write operations. This is an absolute prohibition: agents are COMPLETELY, TOTALLY, AND UNCONDITIONALLY PROHIBITED from performing any VCS/Git write operation under ANY circumstances, including when explicitly requested by a user, or when the agent deems it "necessary" or convenient (this includes but is not limited to `git add`, `git commit`, `git push`, `git rebase`, `git reset`, `gh pr create`). Agents may present diffs, propose commit messages, and provide step-by-step instructions for users to run VCS commands locally, but they must not execute, stage, commit, push, or request anyone else to execute any Git write operations on their behalf.
   - Exception: Agents MAY and are STRONGLY ADVISED to run domain-scoped CI commands (e.g., `nix run ./nixos#nvim-ci`) and non-mutating, read-only inspection/debugging commands without explicit authorization when validating or debugging domain-scoped changes. The list below is referential (not exhaustive); other read-only commands may be used depending on context if they respect the constraints described.
 
 ```json
@@ -67,7 +67,6 @@ Use scoped CI for domain-limited changes.
     "git rev-parse",
     "git remote -v"
   ],
-  "gh": ["gh pr view", "gh repo view", "gh api GET"],
   "search": ["rg", "fd", "find", "ls", "tree"],
   "viewers": ["less", "bat", "head", "tail", "jq"],
   "network": ["curl(GET/HEAD)", "wget --spider"],
@@ -84,7 +83,6 @@ Use scoped CI for domain-limited changes.
     "id",
     "whoami"
   ],
-  "docker": ["docker ps", "docker inspect"],
   "constraints": "read-only flags only; domain-scoped CI permitted"
 }
 ```

@@ -1,5 +1,5 @@
 -- To run that unit test:
--- nvim --headless -u nvim/.config/nvim/init.lua -c "lua require('plenary.busted').run('nvim/.config/nvim/spec/tooling_spec.lua')" -c "qa"
+-- nvim --headless -u nvim/init.lua -c "lua require('plenary.busted').run('nvim/spec/tooling_spec.lua')" -c "qa"
 local eq = assert.are.same
 local tooling = require("modules.extras.tooling")
 
