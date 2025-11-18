@@ -35,7 +35,7 @@ Use scoped CI for domain-limited changes.
 
 - Do: Keep changes minimal and single-responsibility. If CI reports errors outside your scope, inform the user but do not fix them.
 - Do: Run the appropriate scoped CI after every change.
-- Do: Conduct research and other read-only operations to gather context. The only exception for read-only commands are `git status` or `git log`.
+- Do: Conduct research (local and internet) and other read-only operations to gather context.
 - Do: Assess and communicate the impact of your changes.
   - Note effects on docs, performance, security, and compatibility.
   - Document user-facing changes (e.g., configuration, migrations).
@@ -105,5 +105,5 @@ Agents must perform the following steps for every user request:
 - Do: Produce a concise ordered plan of changes and await confirmation or explicit consent for state-changing operations.
 
 - Don't: Proceed without scoping, context validation, impact assessment, and a plan.
-- Don't: Perform system-level or state-changing operations (builds, installs, reboots, config mutations, VCS writes) without explicit user authorization.
+- Don't: Perform system-level or state-changing operations (builds, installs, reboots, config mutations, VCS writes) without explicit user authorization except the permitted commands.
 - Don't: Omit disclosure of required migrations, configuration changes, or CI/test impacts.
