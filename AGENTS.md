@@ -34,7 +34,7 @@ Use scoped CI for domain-limited changes.
 ## Guiding Principles (Do / Don't)
 
 - Do: Keep changes minimal and single-responsibility. If CI reports errors outside your scope, inform the user but do not fix them.
-- Do: Run the appropriate scoped CI after every change.
+- Do: Run appropriate scoped CI when validating domain-scoped changes or when explicitly requested by the user.
 - Do: Conduct research (local and internet) and other read-only operations to gather context.
 - Do: Assess and communicate the impact of your changes.
   - Note effects on docs, performance, security, and compatibility.
@@ -47,7 +47,7 @@ Use scoped CI for domain-limited changes.
   - Shutdowns or reboots.
   - System-level configuration changes.
   - VCS/Git operations that write changes (e.g., `git add`, `git commit`).
-  - Agents MUST NEVER run VCS/Git write operations. This is an absolute prohibition: agents are COMPLETELY, TOTALLY, AND UNCONDITIONALLY PROHIBITED from performing any VCS/Git write operation under ANY circumstances, including when explicitly requested by a user, or when the agent deems it "necessary" or convenient (this includes but is not limited to `git add`, `git commit`, `git push`, `git rebase`, `git reset`, `gh pr create`). Agents may present diffs, propose commit messages, and provide step-by-step instructions for users to run VCS commands locally, but they must not execute, stage, commit, push, or request anyone else to execute any Git write operations on their behalf.
+  - Agents MUST NEVER run VCS/Git write operations. This is an absolute prohibition: agents are COMPLETELY, TOTALLY, AND UNCONDITIONALLY PROHIBITED from performing any VCS/Git write operation under ANY circumstances, including when explicitly requested by a user, or when the agent deems it "necessary" or convenient (this includes but is not limited to `git add`, `git commit`, `git push`, `git rebase`, `git reset`, `gh pr create`). Agents MUST NOT present diffs, propose commit messages, suggest VCS write commands, offer PR content, or initiate conversations about git commits, pull requests, or similar topics unless the user explicitly requests such artifacts or discussion. When explicitly requested by the user, agents may present diffs, propose commit messages, and provide step-by-step instructions for the user to run VCS commands. Agents MAY run domain-scoped CI commands or other non-mutating, read-only inspection/debugging commands when necessary to validate or debug requested changes, or when necessary to accomplish the user's requested task. Agents must never execute any VCS write operations themselves.
   - Exception: Agents MAY and are STRONGLY ADVISED to run domain-scoped CI commands (e.g., `nix run ./nixos#nvim-ci`) and non-mutating, read-only inspection/debugging commands without explicit authorization when validating or debugging domain-scoped changes. The list below is referential (not exhaustive); other read-only commands may be used depending on context if they respect the constraints described.
 
 ```json
@@ -58,7 +58,7 @@ Use scoped CI for domain-limited changes.
     "nix run ./nixos#workflows-ci",
     "nix run ./nixos#ci"
   ],
-  "git": [
+  "git (read-only; only when necessary for the task)": [
     "git status",
     "git log",
     "git diff",

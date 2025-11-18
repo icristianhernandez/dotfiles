@@ -249,7 +249,7 @@ describe("tooling resolver", function()
                 has_nixfmt = true
             end
         end
-        assert.is_true(has_prettierd and has_stylua and has_nixfmt)
+        assert.is_true(has_prettierd and has_stylua and not has_nixfmt)
     end)
     it("errors when same filetype defined in multiple stacks", function()
         local stacks = {
