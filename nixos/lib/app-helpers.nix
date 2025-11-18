@@ -11,7 +11,7 @@
         if withNix then
           ''
             NIX="${pkgs.nix}/bin/nix"
-            APP_PREFIX="./nixos#${if appPrefixAttr then "apps.${pkgs.system}" else ""}"
+            APP_PREFIX="./nixos#${if appPrefixAttr then "apps.${pkgs.stdenv.hostPlatform.system}" else ""}"
             NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
           ''
         else
@@ -32,7 +32,7 @@
 
   paths = {
     nixosDir = "nixos";
-    nvimCfgDir = "nvim/.config/nvim";
+    nvimCfgDir = "nvim";
     workflowsDir = ".github/workflows";
     statixConfig = "statix.toml";
   };

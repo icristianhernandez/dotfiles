@@ -9,7 +9,7 @@ mkApp {
     "--extra-experimental-features"
     "nix-command flakes"
     "run"
-    "./nixos#apps.${pkgs.system}.nixos-fmt"
+    "./nixos#apps.${pkgs.stdenv.hostPlatform.system}.nixos-fmt"
     "--"
   ];
   meta = {
