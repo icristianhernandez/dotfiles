@@ -19,11 +19,11 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 - Document impacts (docs, tests, migrations, CI scope, security) and request approval for actions with elevated risk.
 - Don't perform system-level or state-changing operations (builds, downloads, installs, reboots, system config) without explicit authorization.
 - Don't update lockfiles (e.g., `flake.lock`, `lazy-lock.json`) or persist external state (e.g., create PRs via external services) without explicit authorization.
-- VCS policy: Agents MUST NOT execute VCS write operations (e.g., `git add`, `git commit`, `git push`, `git rebase`, `gh pr create`). Agents may propose diffs, commit messages, or PR content when explicitly requested, but must not perform write operations.
+- VCS policy: Agents MUST NOT execute VCS write operations (e.g., `git add`, `git commit`, `git push`, `git rebase`, `gh pr create`). Agents MUST NOT propose, draft, or suggest diffs, commit messages, PR titles or bodies, or commands that perform VCS writes. Agents may describe required code changes or show code snippets/unified diffs only when explicitly requested, and must never include commit/PR metadata or runnable VCS commands.
 
 ## Critical constraints (non-negotiable)
 
-- **NO VCS writes:** Agents MUST NEVER run `git add`, `git commit`, `git push`, `git rebase`, `gh pr create`; present proposals only if explicitly requested by the user.
+- **NO VCS writes:** Agents MUST NEVER run `git add`, `git commit`, `git push`, `git rebase`, `gh pr create`; Agents MUST NOT propose, draft, or suggest diffs, commit messages, PR titles or bodies, or commands that perform VCS writes, even when asked. Agents may describe required code changes or show code snippets/unified diffs only when explicitly requested, and must never include commit/PR metadata or runnable VCS commands.
 - **NO external mutation:** Do not create PRs or change external services; read-only network requests (curl/wget) are acceptable for verification.
 - **NO lockfile edits:** Never manually edit `flake.lock` or `lazy-lock.json`.
 - **NO system-level state changes without explicit consent:** no reboot, shutdown, or package installs outside of Nix declarations.
