@@ -8,6 +8,7 @@ describe("tooling resolver", function()
         local stacks = {
             s = {
                 lsps = { "foo" },
+                parsers = { "foo" },
                 formatters_by_ft = { lua = { "bar" } },
                 linters = { "baz" },
             },
@@ -20,6 +21,18 @@ describe("tooling resolver", function()
         eq({ lua = { "bar" } }, out.conform.formatters_by_ft)
         eq({ "bar", "baz" }, out.mason_null_ls.ensure_installed)
         eq({}, out.null_ls.init)
+        eq({ "foo" }, out.treesitter.ensure_installed)
+    end)
+
+    it("normalizes parser strings and defaults", function()
+        local stacks = {
+            s = {
+                parsers = { "baz" },
+            },
+        }
+
+        local out = tooling.build(stacks)
+        eq({ "baz" }, out.treesitter.ensure_installed)
     end)
 
     it("respects install=false and enable flags", function()
@@ -250,6 +263,50 @@ describe("tooling resolver", function()
             end
         end
         assert.is_true(has_prettierd and has_stylua and not has_nixfmt)
+    end)
+
+    it("resolves repo stacks parsers include representative parsers", function()
+        local stacks = require("modules.extras.tooling").stacks
+        local out = tooling.build(stacks)
+        local has_lua = false
+        local has_js = false
+        local has_python = false
+        for _, n in ipairs(out.treesitter.ensure_installed) do
+            if n == "lua" then
+                has_lua = true
+            end
+            if n == "javascript" then
+                has_js = true
+            end
+            if n == "python" then
+                has_python = true
+            end
+        end
+        assert.is_true(has_lua and has_js and has_python)
+    end)
+
+    it("respects parser install=false and installation alias", function()
+        local stacks = {
+            s = {
+                parsers = {
+                    { name = "noinst", install = false },
+                    { name = "aliasp", installation = false },
+                    "installme",
+                },
+            },
+        }
+
+        local out = tooling.build(stacks)
+        eq({ "installme" }, out.treesitter.ensure_installed)
+    end)
+
+    it("dedupes parser names across stacks", function()
+        local stacks = {
+            a = { parsers = { "bash", "bash" } },
+            b = { parsers = { "bash" } },
+        }
+        local out = tooling.build(stacks)
+        eq({ "bash" }, out.treesitter.ensure_installed)
     end)
     it("errors when same filetype defined in multiple stacks", function()
         local stacks = {

@@ -65,6 +65,7 @@ end
 -- Shape (per stack):
 -- {
 --   lsps = { <string|table>... },
+--   parsers = { <string|table>... },
 --   formatters_by_ft = { ft = { <string|table>..., opt_key = ... } },
 --   linters = { { name=string, ... }|string ... },
 -- }
@@ -72,12 +73,14 @@ local stacks = {
     -- Lua-specific tools (for Neovim, primarily)
     lua = {
         lsps = { "lua_ls" },
+        parsers = { "lua" },
         formatters_by_ft = { lua = { "stylua" } },
     },
 
     -- Web development (JS/TS/CSS/HTML/etc.)
     frontend_web = {
         lsps = { "biome", "vtsls", "eslint", "cssls", "html" },
+        parsers = { "javascript", "typescript", "tsx", "css", "html", "scss", "less", "vue", "svelte", "graphql" },
         formatters_by_ft = (function()
             local common_opts = {
                 stop_after_first = true,
@@ -112,6 +115,7 @@ local stacks = {
 
     -- Data and docs: JSON, YAML, Markdown, TOML
     data_and_docs = {
+        parsers = { "json", "yaml", "markdown", "toml" },
         lsps = {
             "marksman",
             "taplo",
@@ -175,6 +179,7 @@ local stacks = {
     -- Dotfiles and shell tooling
     shell = {
         lsps = { "bashls", "fish_lsp" },
+        parsers = { "bash", "fish", "zsh" },
         formatters_by_ft = { sh = { "shfmt" }, bash = { "shfmt" }, zsh = { "beautysh" }, fish = { "fish_indent" } },
         linters = {
             { method = "diagnostics", name = "fish", install = false },
@@ -184,6 +189,7 @@ local stacks = {
 
     python = {
         lsps = { "ruff", "basedpyright" },
+        parsers = { "python" },
         -- format python via lsp fallback with filter to ruff
         formatters_by_ft = {
             python = {
@@ -197,9 +203,11 @@ local stacks = {
 
     c_cpp = {
         lsps = { "clangd" },
+        parsers = { "c", "cpp" },
     },
 
     databases = {
+        parsers = { "sql" },
         -- lsps = { "sqls" },
 
         -- Formatting: prefer a dedicated SQL formatter for SQL filetypes.
@@ -363,6 +371,24 @@ local function normalize_linter(entry)
     return { name = name, install = install, methods = methods }
 end
 
+local function normalize_parser(entry)
+    if type(entry) == "string" then
+        return { name = entry, install = true }
+    end
+    local name = entry.name or entry[1]
+    if not is_nonempty_string(name) then
+        error("parser entry missing valid name")
+    end
+    local install = entry.install
+    if install == nil then
+        install = entry.installation
+    end
+    if install == nil then
+        install = true
+    end
+    return { name = name, install = install }
+end
+
 --- Build the tooling configuration from stacks.
 --
 -- Merges stacks and returns a table shaped for consumers:
@@ -383,6 +409,7 @@ local function build_tooling_config(stacks_arg)
     local stacks_local = stacks_arg or stacks
 
     local enabled_lsp_names_set, install_lsp_names_set = {}, {}
+    local parser_names_set = {}
     local null_ls_installer_names_set = {}
     local null_ls_manual_initializations = {}
     local formatters_by_filetype = {}
@@ -433,10 +460,23 @@ local function build_tooling_config(stacks_arg)
         -- install=false and no methods → intentionally ignored
     end
 
+    local function apply_parser(parser_entry)
+        local normalized = normalize_parser(parser_entry)
+        if normalized.install then
+            add_to_set(parser_names_set, normalized.name)
+        end
+    end
+
     for _, stack in pairs(stacks_local) do
         if stack.lsps then
             for _, lsp_entry in ipairs(stack.lsps) do
                 apply_lsp(lsp_entry)
+            end
+        end
+
+        if stack.parsers then
+            for _, parser_entry in ipairs(stack.parsers) do
+                apply_parser(parser_entry)
             end
         end
 
@@ -501,6 +541,7 @@ local function build_tooling_config(stacks_arg)
         conform = { formatters_by_ft = formatters_by_filetype },
         mason_null_ls = { ensure_installed = sorted_set_keys(null_ls_installer_names_set) },
         null_ls = { init = null_ls_manual_initializations },
+        treesitter = { ensure_installed = sorted_set_keys(parser_names_set) },
     }
 end
 
