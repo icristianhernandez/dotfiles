@@ -78,8 +78,37 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 -- restore cursor to file position in previous editing session
+local lastloc_excluded_filetypes = vim.g.lastloc_excluded_filetypes
+    or { "gitcommit", "gitrebase", "NeogitCommitMessage" }
+local lastloc_excluded_basenames = vim.g.lastloc_excluded_basenames or { "COMMIT_EDITMSG", "MERGE_MSG", "TAG_EDITMSG" }
+
+local function lastloc_is_excluded(bufnr)
+    if not bufnr or bufnr == 0 then
+        return false
+    end
+
+    local ft = vim.bo[bufnr].filetype or ""
+    if ft ~= "" and vim.tbl_contains(lastloc_excluded_filetypes, ft) then
+        return true
+    end
+    local name = vim.api.nvim_buf_get_name(bufnr) or ""
+    local base = ""
+    if name and name ~= "" then
+        base = vim.fn.fnamemodify(name, ":t")
+    end
+    if base ~= "" and (vim.tbl_contains(lastloc_excluded_basenames, base) or base:match("EDITMSG$")) then
+        return true
+    end
+    return false
+end
+
 vim.api.nvim_create_autocmd("BufReadPost", {
     callback = function(args)
+        if lastloc_is_excluded(args.buf) or vim.b[args.buf].lastloc_restored then
+            return
+        end
+        vim.b[args.buf].lastloc_restored = true
+
         local mark = vim.api.nvim_buf_get_mark(args.buf, '"')
         local line_count = vim.api.nvim_buf_line_count(args.buf)
         if mark[1] > 0 and mark[1] <= line_count then

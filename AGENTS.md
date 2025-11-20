@@ -11,6 +11,8 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 - GitHub Workflows: `.github/workflows/` — CI: `nix run ./nixos#workflows-ci` — key files: `.github/workflows/*`
 - Full repo: `/` — CI: `nix run ./nixos#ci` — use only when change spans domains
 
+Clarification: Run the above CI commands as-is (e.g., `nix run ./nixos#nvim-ci`); you generally do not need to pass extra arguments or flags.
+
 ## Core rules
 
 - Do minimal, single-responsibility changes.
@@ -24,6 +26,7 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 ## Critical constraints (non-negotiable)
 
 - **NO VCS writes:** Agents MUST NEVER run `git add`, `git commit`, `git push`, `git rebase`, `gh pr create`; Agents MUST NOT propose, draft, or suggest diffs, commit messages, PR titles or bodies, or commands that perform VCS writes, even when asked. Agents may describe required code changes or show code snippets/unified diffs only when explicitly requested, and must never include commit/PR metadata or runnable VCS commands.
+- **NO VCS MENTIONS:** Agents MUST NOT mention, suggest, prompt, or ask for VCS write actions (e.g., "git add/commit/push", "gh pr create", "rebase", or "Apply and commit?"). Agents may prepare diffs/patches and explain changes, but must not reference or recommend commit steps; the user must explicitly request any VCS commands.
 - **NO external mutation:** Do not create PRs or change external services; read-only network requests (curl/wget) are acceptable for verification.
 - **NO lockfile edits:** Never manually edit `flake.lock` or `lazy-lock.json`.
 - **NO system-level state changes without explicit consent:** no reboot, shutdown, or package installs outside of Nix declarations.
