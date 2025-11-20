@@ -251,6 +251,8 @@ describe("tooling resolver", function()
         local has_prettierd = false
         local has_stylua = false
         local has_nixfmt = false
+        local has_commitlint = false
+        local has_gitlint = false
         for _, n in ipairs(mn) do
             if n == "prettierd" then
                 has_prettierd = true
@@ -261,8 +263,14 @@ describe("tooling resolver", function()
             if n == "nixfmt" then
                 has_nixfmt = true
             end
+            if n == "commitlint" then
+                has_commitlint = true
+            end
+            if n == "gitlint" then
+                has_gitlint = true
+            end
         end
-        assert.is_true(has_prettierd and has_stylua and not has_nixfmt)
+        assert.is_true(has_prettierd and has_stylua and not has_nixfmt and has_commitlint and has_gitlint)
     end)
 
     it("resolves repo stacks parsers include representative parsers", function()
@@ -271,6 +279,14 @@ describe("tooling resolver", function()
         local has_lua = false
         local has_js = false
         local has_python = false
+        local has_nix = false
+        local has_json = false
+        local has_gitignore = false
+        local has_vim = false
+        local has_dockerfile = false
+        local has_go = false
+        local has_rust = false
+
         for _, n in ipairs(out.treesitter.ensure_installed) do
             if n == "lua" then
                 has_lua = true
@@ -281,8 +297,40 @@ describe("tooling resolver", function()
             if n == "python" then
                 has_python = true
             end
+            if n == "nix" then
+                has_nix = true
+            end
+            if n == "json" then
+                has_json = true
+            end
+            if n == "gitignore" then
+                has_gitignore = true
+            end
+            if n == "vim" then
+                has_vim = true
+            end
+            if n == "dockerfile" then
+                has_dockerfile = true
+            end
+            if n == "go" then
+                has_go = true
+            end
+            if n == "rust" then
+                has_rust = true
+            end
         end
-        assert.is_true(has_lua and has_js and has_python)
+        assert.is_true(
+            has_lua
+                and has_js
+                and has_python
+                and has_nix
+                and has_json
+                and has_gitignore
+                and has_vim
+                and has_dockerfile
+                and has_go
+                and has_rust
+        )
     end)
 
     it("respects parser install=false and installation alias", function()
@@ -512,5 +560,26 @@ describe("tooling resolver", function()
         assert.has_error(function()
             tooling.build(stacks)
         end)
+    end)
+
+    it("repo stacks include manual null-ls code_action entries for gitrebase and gitsigns", function()
+        local stacks = require("modules.extras.tooling").stacks
+        local out = tooling.build(stacks)
+        local found_gitsigns = false
+        local found_gitrebase = false
+        for _, v in ipairs(out.null_ls.init) do
+            if v.method == "code_actions" and v.name == "gitsigns" then
+                found_gitsigns = true
+            end
+            if v.method == "code_actions" and v.name == "gitrebase" then
+                found_gitrebase = true
+            end
+        end
+        assert.is_true(found_gitsigns and found_gitrebase)
+        -- Ensure they are not part of mason_null_ls.ensure_installed set (install=false)
+        for _, n in ipairs(out.mason_null_ls.ensure_installed) do
+            assert.is_true(n ~= "gitsigns")
+            assert.is_true(n ~= "gitrebase")
+        end
     end)
 end)

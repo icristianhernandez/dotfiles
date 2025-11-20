@@ -9,6 +9,8 @@ return {
         opts = {
             options = {
                 always_show_tabline = false,
+                -- component_separators = { left = "", right = "" },
+                section_separators = { left = "", right = "" },
             },
 
             sections = {
@@ -19,10 +21,6 @@ return {
                     },
                 },
                 lualine_b = {
-                    "diff",
-                    "diagnostics",
-                },
-                lualine_c = {
                     {
                         -- Cached parent path getter: heavy computation is performed
                         -- in modules/extras/lualine_cache and updated via autocmds.
@@ -31,8 +29,9 @@ return {
                         end,
                     },
                 },
-                lualine_x = { "copilot", "lsp_status" },
-                lualine_y = { "progress" },
+                lualine_c = {},
+                lualine_x = { "copilot", "progress" },
+                lualine_y = { "diff", "diagnostics" },
                 lualine_z = { { "datetime", style = "%H:%M" } },
             },
             tabline = {

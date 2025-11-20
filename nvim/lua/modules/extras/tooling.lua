@@ -80,7 +80,24 @@ local stacks = {
     -- Web development (JS/TS/CSS/HTML/etc.)
     frontend_web = {
         lsps = { "biome", "vtsls", "eslint", "cssls", "html" },
-        parsers = { "javascript", "typescript", "tsx", "css", "html", "scss", "less", "vue", "svelte", "graphql" },
+        parsers = {
+            "javascript",
+            "typescript",
+            "tsx",
+            "css",
+            "html",
+            "scss",
+            "vue",
+            "svelte",
+            "graphql",
+            "jsdoc",
+            "astro",
+            "prisma",
+            "pug",
+            "twig",
+            "mermaid",
+            "dockerfile",
+        },
         formatters_by_ft = (function()
             local common_opts = {
                 stop_after_first = true,
@@ -115,7 +132,7 @@ local stacks = {
 
     -- Data and docs: JSON, YAML, Markdown, TOML
     data_and_docs = {
-        parsers = { "json", "yaml", "markdown", "toml" },
+        parsers = { "json", "jsonc", "json5", "yaml", "markdown", "markdown_inline", "toml", "ini" },
         lsps = {
             "marksman",
             "taplo",
@@ -171,6 +188,7 @@ local stacks = {
 
     -- Nix ecosystem
     nix = {
+        parsers = { "nix" },
         lsps = { { name = "nixd", install = false, enable = true } },
         formatters_by_ft = { nix = { { name = "nixfmt", install = false } } },
         linters = { "statix" },
@@ -232,6 +250,37 @@ local stacks = {
         linters = {
             { name = "sqlfluff", install = true },
         },
+    },
+
+    -- Version control file formats and metadata
+    vcs = {
+        parsers = { "gitignore", "gitattributes", "git_rebase", "gitcommit", "git_config" },
+        linters = {
+            "commitlint",
+            "gitlint",
+            { name = "gitrebase", install = false, methods = { "code_actions" } },
+            { name = "gitsigns", install = false, methods = { "code_actions" } },
+        },
+    },
+
+    -- Editor and documentation parsers
+    editor = {
+        parsers = { "vim", "vimdoc" },
+    },
+
+    -- Build and CI configuration formats
+    build = {
+        parsers = { "cmake", "make", "meson", "ninja", "dockerfile", "nginx" },
+    },
+
+    -- Go tooling
+    go = {
+        parsers = { "go", "gomod", "gowork", "gotmpl" },
+    },
+
+    -- Rust tooling
+    rust = {
+        parsers = { "rust" },
     },
 }
 
