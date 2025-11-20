@@ -88,14 +88,12 @@ return {
                         return
                     end
 
-                    if client:supports_method("textDocument/publishDiagnostics") then
-                        vim.keymap.set(
-                            "n",
-                            "<leader>cd",
-                            vim.diagnostic.open_float,
-                            { buffer = args.buf, desc = "Open diagnostics" }
-                        )
-                    end
+                    vim.keymap.set(
+                        "n",
+                        "<leader>cd",
+                        vim.diagnostic.open_float,
+                        { buffer = args.buf, desc = "Open diagnostics" }
+                    )
                 end,
             })
 

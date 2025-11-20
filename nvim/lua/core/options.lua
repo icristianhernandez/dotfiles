@@ -62,7 +62,7 @@ vim.opt.scrolloff = 7
 vim.opt.sidescrolloff = 8
 
 -- blink cursor in insert mode
-vim.opt.guicursor = "i-ci:ver25-blinkwait250-blinkon500-blinkoff450,r-cr-o:hor20"
+vim.opt.guicursor = "i-ci-c-t:ver25-blinkwait250-blinkon500-blinkoff450,r-cr-o:hor20"
 
 -- cmp ui (no) transparency
 vim.opt.pumblend = 0
