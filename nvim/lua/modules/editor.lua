@@ -2,7 +2,7 @@ return {
     {
         "rmagatti/auto-session",
         lazy = false,
-        priority = 999,
+        priority = 998,
         init = function()
             vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions"
         end,
@@ -69,12 +69,12 @@ return {
             })
 
             -- the confirmation floating windows closes mini.files. Fix it.
-            -- vim.api.nvim_create_autocmd("User", {
-            --     pattern = "MiniFilesActionRename",
-            --     callback = function(event)
-            --         Snacks.rename.on_rename_file(event.data.from, event.data.to)
-            --     end,
-            -- })
+            vim.api.nvim_create_autocmd("User", {
+                pattern = "MiniFilesActionRename",
+                callback = function(event)
+                    Snacks.rename.on_rename_file(event.data.from, event.data.to)
+                end,
+            })
         end,
         keys = {
             { "<leader>e", "", desc = "+file explorer", mode = { "n", "v" } },
@@ -229,6 +229,7 @@ return {
         "folke/snacks.nvim",
         priority = 999,
         lazy = false,
+
         ---@type snacks.Config
         opts = {
             terminal = {
