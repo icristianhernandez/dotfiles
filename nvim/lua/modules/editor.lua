@@ -38,7 +38,7 @@ return {
                 max_number = 3,
                 preview = true,
                 width_focus = 35,
-                width_preview = 35,
+                width_preview = 60,
             },
             mappings = {
                 go_in = "L",
@@ -227,7 +227,8 @@ return {
     },
     {
         "folke/snacks.nvim",
-        event = "VeryLazy",
+        priority = 999,
+        lazy = false,
         ---@type snacks.Config
         opts = {
             terminal = {
@@ -257,6 +258,7 @@ return {
         },
 
         keys = {
+            -- terminal
             {
                 "<c-space>",
                 function()
@@ -272,6 +274,8 @@ return {
                 end,
                 desc = "Toggle Scratch Buffer",
             },
+
+            -- scratch pad
             {
                 "<C-n>",
                 function()
@@ -288,34 +292,21 @@ return {
                 end,
                 desc = "Select Scratch Buffer",
             },
-            {
-                "<leader>/",
-                function()
-                    Snacks.picker.grep()
-                end,
-                desc = "Grep (Root Dir)",
-            },
-            {
-                "<leader>:",
-                function()
-                    Snacks.picker.command_history()
-                end,
-                desc = "Command History",
-            },
-            {
-                "<leader>n",
-                function()
-                    Snacks.picker.notifications()
-                end,
-                desc = "Notification History",
-            },
+
             -- find
+            -- {
+            --     "<leader>ff",
+            --     function()
+            --         Snacks.picker.files()
+            --     end,
+            --     desc = "Find Files (Root Dir)",
+            -- },
             {
                 "<leader>ff",
                 function()
-                    Snacks.picker.files()
+                    Snacks.picker.smart()
                 end,
-                desc = "Find Files (Root Dir)",
+                desc = "Smart Find Files",
             },
             {
                 "<leader>fF",
@@ -329,10 +320,46 @@ return {
                 function()
                     Snacks.picker.recent()
                 end,
-                desc = "Recent",
+                desc = "Recent opened files",
             },
 
             -- git
+            {
+                "<leader>gx",
+                function()
+                    Snacks.gitbrowse()
+                end,
+                desc = "Git Browse",
+                mode = { "n", "v" },
+            },
+            {
+                "<leader>gb",
+                function()
+                    Snacks.picker.git_branches()
+                end,
+                desc = "Git Branches",
+            },
+            {
+                "<leader>gl",
+                function()
+                    Snacks.picker.git_log()
+                end,
+                desc = "Git Log",
+            },
+            {
+                "<leader>gL",
+                function()
+                    Snacks.picker.git_log_line()
+                end,
+                desc = "Git Log Line",
+            },
+            {
+                "<leader>gf",
+                function()
+                    Snacks.picker.git_log_file()
+                end,
+                desc = "Git Log File",
+            },
             {
                 "<leader>gd",
                 function()
@@ -354,13 +381,43 @@ return {
                 end,
                 desc = "Git Stash",
             },
+
             -- search
             {
-                "<leader>sC",
+                "<leader>/",
+                function()
+                    Snacks.picker.grep()
+                end,
+                desc = "Grep (Root Dir)",
+            },
+            {
+                "<leader>sw",
+                function()
+                    Snacks.picker.grep_word()
+                end,
+                desc = "Visual selection or word",
+                mode = { "n", "x" },
+            },
+            {
+                "<leader>sg",
+                function()
+                    Snacks.picker.grep()
+                end,
+                desc = "Grep",
+            },
+            {
+                "<leader>sc",
                 function()
                     Snacks.picker.commands()
                 end,
                 desc = "Commands",
+            },
+            {
+                "<leader>:",
+                function()
+                    Snacks.picker.command_history()
+                end,
+                desc = "Command History",
             },
             {
                 "<leader>sd",
@@ -384,7 +441,7 @@ return {
                 desc = "Keymaps",
             },
             {
-                "<leader>sR",
+                "<leader>sr",
                 function()
                     Snacks.picker.resume()
                 end,
@@ -397,13 +454,102 @@ return {
                 end,
                 desc = "Undotree",
             },
+
             -- ui
             {
-                "<leader>uC",
+                "<leader>uc",
                 function()
                     Snacks.picker.colorschemes()
                 end,
                 desc = "Colorschemes",
+            },
+            {
+                "<leader>uq",
+                function()
+                    Snacks.notifier.hide()
+                end,
+                desc = "Dismiss All Notifications",
+            },
+            -- {
+            --     "<leader>n",
+            --     function()
+            --         Snacks.picker.notifications()
+            --     end,
+            --     desc = "Notification History",
+            -- },
+            {
+                "<leader>n",
+                function()
+                    Snacks.notifier.show_history()
+                end,
+                desc = "Notification History",
+            },
+            {
+                "<leader>us",
+                function()
+                    Snacks.toggle.option("spell", { name = "Spelling" }):toggle()
+                end,
+                desc = "Toggle Spelling",
+            },
+            {
+                "<leader>uw",
+                function()
+                    Snacks.toggle.option("wrap", { name = "Wrap" }):toggle()
+                end,
+                desc = "Toggle Wrap",
+            },
+            {
+                "<leader>ul",
+                function()
+                    Snacks.toggle
+                        .option(
+                            "conceallevel",
+                            { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" }
+                        )
+                        :toggle()
+                end,
+                desc = "Toggle Conceal Level",
+            },
+            {
+                "<leader>ub",
+                function()
+                    Snacks.toggle
+                        .option("background", { off = "light", on = "dark", name = "Dark Background" })
+                        :toggle()
+                end,
+                desc = "Toggle Dark Background",
+            },
+            {
+                "<leader>uh",
+                function()
+                    Snacks.toggle.inlay_hints():toggle()
+                end,
+                desc = "Toggle Inlay Hints",
+            },
+
+            -- actions
+            {
+                "grN",
+                function()
+                    Snacks.rename.rename_file()
+                end,
+                desc = "Rename File",
+            },
+            {
+                "]]",
+                function()
+                    Snacks.words.jump(vim.v.count1)
+                end,
+                desc = "Next Reference",
+                mode = { "n", "t" },
+            },
+            {
+                "[[",
+                function()
+                    Snacks.words.jump(-vim.v.count1)
+                end,
+                desc = "Prev Reference",
+                mode = { "n", "t" },
             },
         },
     },

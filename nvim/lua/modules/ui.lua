@@ -80,7 +80,6 @@ return {
 
     {
         "folke/snacks.nvim",
-        lazy = false,
         ---@type snacks.Config
         opts = {
             scroll = { enabled = true },

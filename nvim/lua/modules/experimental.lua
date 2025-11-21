@@ -34,7 +34,7 @@ return {
                 skipEnteringNoNeckPainBuffer = true,
             },
             mappings = {
-                enabled = true,
+                enabled = false,
                 toggle = "<leader>un",
                 toggleLeftSide = false,
                 toggleRightSide = false,
@@ -109,26 +109,26 @@ return {
             },
         },
     },
-    -- {
-    --     -- andymass/vim-matchup: enhanced % matching for Vim/Neovim
-    --     "andymass/vim-matchup",
-    --     dependencies = {
-    --         { "nvim-treesitter/nvim-treesitter" },
-    --     },
-    --
-    --     init = function()
-    --         vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    --         vim.g.matchup_transmute_enabled = 1
-    --         vim.g.matchup_matchparen_deferred = 1
-    --         vim.g.matchup_delim_noskips = 2
-    --         vim.g.matchup_matchparen_stopline = 200
-    --
-    --         vim.keymap.set(
-    --             "n",
-    --             "<leader>ci",
-    --             "<plug>(matchup-hi-surround)",
-    --             { desc = "Highlight actual surround", silent = true }
-    --         )
-    --     end,
-    -- },
+    {
+        -- andymass/vim-matchup: enhanced % matching for Vim/Neovim
+        "andymass/vim-matchup",
+        dependencies = {
+            { "nvim-treesitter/nvim-treesitter" },
+        },
+
+        init = function()
+            vim.g.matchup_matchparen_offscreen = { method = "popup" }
+            vim.g.matchup_transmute_enabled = 1
+            vim.g.matchup_matchparen_deferred = 1
+            vim.g.matchup_delim_noskips = 2
+            vim.g.matchup_matchparen_stopline = 200
+
+            vim.keymap.set(
+                "n",
+                "<leader>ci",
+                "<plug>(matchup-hi-surround)",
+                { desc = "Highlight actual surround", silent = true }
+            )
+        end,
+    },
 }
