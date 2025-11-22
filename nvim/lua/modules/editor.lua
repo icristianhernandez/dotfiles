@@ -248,7 +248,17 @@ return {
             },
 
             scratch = {
+                -- win = { border = false, minimal = true, footer_keys = false, wo = { winbar = "" } },
+                win = {
+                    footer_keys = false,
+                    on_win = function(self)
+                        self:set_title("")
+                    end,
+                },
                 root = vim.fn.expand("~/dotfiles/notes"),
+                ft = function()
+                    return "markdown"
+                end,
             },
 
             picker = {

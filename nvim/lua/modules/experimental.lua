@@ -1,13 +1,13 @@
 return {
-    {
-        -- tadaa/vimade: animated scrollbars for Neovim
-        "tadaa/vimade",
-        event = "VeryLazy",
-        opts = {
-            recipe = { "default", { animate = false } },
-            fadelevel = 0.25,
-        },
-    },
+    -- {
+    --     -- tadaa/vimade: animated scrollbars for Neovim
+    --     "tadaa/vimade",
+    --     event = "VeryLazy",
+    --     opts = {
+    --         recipe = { "default", { animate = false } },
+    --         fadelevel = 0.25,
+    --     },
+    -- },
     -- {
     --     -- sphamba/smear-cursor.nvim: cursor smear animation for motion feedback
     --     "sphamba/smear-cursor.nvim",

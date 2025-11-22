@@ -32,7 +32,7 @@ return {
             ---@type opencode.Opts
             vim.g.opencode_opts = {
                 provider = {
-                    name = "snacks",
+                    enabled = "snacks",
                     snacks = { win = { position = "float", enter = true } },
                 },
                 contexts = {
