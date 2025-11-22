@@ -4,6 +4,16 @@ This document tracks functionalities present in the old Neovim configuration (`n
 
 > **Note**: This list excludes improvements, refactors, or new features in the new setup. Only missing functionalities from the old configuration are documented here.
 
+## Table of Contents
+
+- [Plugins Missing from New Configuration](#plugins-missing-from-new-configuration)
+- [Missing Keybindings](#missing-keybindings)
+- [LazyVim-Specific Features](#lazyvim-specific-features)
+- [New Features in New Configuration](#new-features-in-new-configuration-not-in-old)
+- [Summary](#summary)
+- [Next Steps](#next-steps)
+- [Final Assessment](#final-assessment)
+
 ---
 
 ## Plugins Missing from New Configuration
