@@ -8,6 +8,18 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 - 🔄 Replaced: Feature replaced with equivalent/better alternative
 - 💡 Improved: Feature reimplemented with improvements
 
+## LazyVim Framework Usage
+
+**Finding:** The old configuration does **NOT** use LazyVim as a framework. Both configs use `lazy.nvim` (the plugin manager) but are custom configurations.
+
+**Evidence:**
+- No `{ import = "lazyvim.plugins" }` or similar LazyVim imports
+- No LazyVim-specific structure or conventions
+- Only reference is a comment about a LazyVim setting
+- The `lazyvim_last_loc` flag in old config is just borrowed naming, not actual LazyVim integration
+
+**Conclusion:** No LazyVim-specific functionality to migrate.
+
 ---
 
 ## Missing Plugins & Features
@@ -74,11 +86,11 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 
 ---
 
-### 4. ❌ Linting - `mfussenegger/nvim-lint` → `nvimtools/none-ls.nvim`
+### 4. 🔄 Linting - `mfussenegger/nvim-lint` → `nvimtools/none-ls.nvim`
 **Old config location:** `nvim-old/lua/modules/tooling.lua`  
 **New config location:** `nvim/lua/modules/tooling.lua`
 
-**Status:** Linting approach changed
+**Status:** Linting approach changed and IMPROVED
 
 **Old approach (nvim-lint):**
 - Dedicated linting plugin with debouncing
@@ -86,17 +98,32 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 - Events: `BufReadPost`, `BufWritePost`, `InsertLeave`
 - Debounce: 300ms
 - Manual lint trigger: `<leader>cl`
+- Linters:
+  - JavaScript/TypeScript: `eslint_d`
+  - Markdown: `markdownlint-cli2`
 
-**New approach (none-ls):**
+**New approach (none-ls + LSP):**
 - Uses none-ls (null-ls successor) for diagnostics
 - `jay-babu/mason-null-ls.nvim` for tool installation
 - Configuration via null-ls builtins
-- Methods-based approach for diagnostics
+- ESLint as LSP (better integration than separate linter)
+- Enhanced linter coverage:
+  - JavaScript/TypeScript: ESLint LSP
+  - Markdown: `markdownlint-cli2`
+  - YAML: `yamllint`
+  - JSON: `jsonlint`
+  - Nix: `statix`
+  - Shell: `shellcheck`, `fish`
+  - SQL: `sqlfluff`
+  - Git: `commitlint`, `gitlint`, gitsigns code actions
 
-**Potential gaps:**
-- Old config had explicit linters configuration with debouncing
-- Old config had dedicated `<leader>cl` keybinding for manual linting
-- Need to verify all linters from old config are configured in new config
+**Comparison:**
+- ✅ ESLint via LSP (better than eslint_d as separate linter)
+- ✅ More comprehensive linter coverage
+- ❌ Missing manual lint trigger keybinding (`<leader>cl`)
+- ❌ No explicit debouncing configuration (relies on LSP/none-ls defaults)
+
+**Action needed:** Add manual diagnostic refresh keybinding to replace `<leader>cl`
 
 ---
 
@@ -191,12 +218,16 @@ Both configs use the same lazy.nvim setup with minor differences:
 **Old config:**
 - Complete hunk manipulation keybindings in `on_attach`
 - Keybindings: stage (`<leader>ghs`), reset (`<leader>ghr`), preview, blame, diff, etc.
+- Navigation: `]h`, `[h`, `]H`, `[H`
+- Visual mode stage/reset support
+- Hunk text objects: `ih` (select hunk)
 
 **New config:**
 - Minimal configuration, only sign definitions
-- Missing keybinding setup in `on_attach`
+- **MISSING** keybinding setup in `on_attach`
+- No git hunk manipulation keybindings configured
 
-**Impact:** Need to verify gitsigns keybindings are defined elsewhere or are missing
+**Impact:** ❌ **CRITICAL** - All gitsigns keybindings are missing in the new config. Users cannot stage, reset, preview, or navigate git hunks without adding these keybindings back.
 
 ---
 
@@ -232,33 +263,130 @@ Minor differences:
 - Showtabline: Changed from `opt` to `o` API
 
 ### Other Core Files
-- `keymaps.lua`, `autocmds.lua`, `neovide.lua`, `wsl.lua`: Need detailed comparison
-- File organization: Old uses flat structure, new uses `core/` directory
+
+#### Keymaps (`keymaps.lua` vs `core/keymaps.lua`)
+**Status:** ✅ Essentially identical (126 vs 128 lines)
+
+**Only difference:**
+- New config has improved `cmd_delete_word()` implementation using `nvim_feedkeys` for better command-line mode behavior
+
+#### Autocmds (`autocmds.lua` vs `core/autocmds.lua`)
+**Status:** 💡 New config has improvements (121 vs 181 lines)
+
+**Old config features:**
+- Basic help pages in new tab
+- Last location restore (with `lazyvim_last_loc` flag)
+- Auto-create parent directories
+- Resize splits on VimResized
+
+**New config additions (improvements):**
+- ✅ Better last location restore with more exclusions
+- ✅ Cursorline only in active windows
+- ✅ Dotenv file syntax highlighting
+- ✅ Toggle for auto-diagnostics on CursorHold (`<leader>cD`)
+- ✅ LSP reference highlight underlines
+
+**Impact:** New config has improvements, no missing functionality
+
+#### Other files
+- `neovide.lua`, `wsl.lua`: Organization change (moved to `core/`), functionality appears identical
 
 ---
 
-## Summary
+## Mini.files Window Styling
 
-### Critical Missing Features
-1. **Trouble.nvim** - No diagnostics/quickfix UI
-2. **Sidekick.nvim** - No AI edit suggestion navigation  
-3. **Manual linting trigger** - `<leader>cl` keybinding missing
-4. **Mason-tool-installer** - Automatic tool installation missing
-5. **Gitsigns keybindings** - Hunk manipulation keybindings may be missing
-6. **Mini.files window styling** - Custom window style helpers missing
+**Old config:** `nvim-old/lua/modules/extras/files.lua`
 
-### Features Replaced Successfully
-1. **Harpoon → Grapple** - File bookmarking maintained
-2. **nvim-lint → none-ls** - Linting approach changed (verify completeness)
+The old config had custom window styling for mini.files:
+- Rounded borders
+- Dynamic height calculation (max 15, min based on available space)
+- Title position: left
+- Window blend: 0
+- Autocmds for `MiniFilesWindowOpen` and `MiniFilesWindowUpdate`
 
-### Features Disabled (In Experimental)
-1. **Smear-cursor** - Cursor animation
-2. **Vim-matchup** - Enhanced % matching and surround highlighting
+**New config:** Window styling is inline in `editor.lua`
+- Height calculation: `math.max(math.floor(vim.o.lines * 0.20), 14)`
+- No border customization
+- Integrated with Snacks rename functionality
+- Different window size configuration
 
-### Next Steps
-1. Verify gitsigns keybindings in new config
-2. Compare detailed keymaps, autocmds, and other core files
-3. Check if linting configuration is complete in none-ls setup
-4. Decide on trouble.nvim migration priority
-5. Evaluate if sidekick.nvim functionality is needed
-6. Review mini.files extras for potential migration
+**Impact:** Styling approach changed but functionality exists. The old extras/files.lua module is no longer needed as the logic is inline.
+
+---
+
+## Summary & Priority Assessment
+
+### 🔴 Critical Missing Features (High Priority)
+1. **Gitsigns keybindings** - ❌ Complete hunk manipulation workflow missing
+   - Impact: Cannot stage, reset, preview, navigate, or blame hunks
+   - Action: Must add `on_attach` configuration with all keybindings
+   - Estimated effort: Low (copy from old config)
+
+2. **Trouble.nvim** - ❌ No diagnostics/quickfix UI
+   - Impact: Less efficient diagnostics and quickfix navigation
+   - Action: Decide if Trouble should be added or if Snacks picker is sufficient
+   - Estimated effort: Low (plugin already configured in old config)
+
+### 🟡 Medium Priority (Consider for Migration)
+3. **Mason-tool-installer** - ❌ Automatic tool installation
+   - Impact: Tools may not auto-install on new systems
+   - Current: Manual installation or partial coverage via mason-null-ls
+   - Action: Evaluate if manual installation is acceptable or add plugin
+   - Estimated effort: Low
+
+4. **Sidekick.nvim** - ❌ AI edit suggestion navigation
+   - Impact: Less efficient Copilot workflow
+   - Action: Evaluate if workflow needs this feature
+   - Estimated effort: Low
+
+5. **Manual linting trigger** - ❌ Missing `<leader>cl` keybinding
+   - Impact: Cannot manually trigger diagnostics refresh
+   - Action: Add keybinding for diagnostic refresh
+   - Note: Linting itself is IMPROVED in new config (ESLint LSP + more linters)
+   - Estimated effort: Minimal
+
+### 🟢 Low Priority (Optional/Experimental)
+6. **Vim-matchup** - 💡 Commented out in experimental
+   - Impact: No enhanced % matching or surround highlighting
+   - Action: Uncomment if needed, or use default Vim % matching
+   - Status: Intentionally disabled
+
+7. **Smear-cursor** - 💡 Commented out in experimental
+   - Impact: No cursor animation
+   - Action: Uncomment if visual feedback desired
+   - Status: Intentionally disabled (experimental feature)
+
+### ✅ Successfully Migrated/Replaced
+- **Harpoon → Grapple** - File bookmarking (feature parity)
+- **nvim-lint → none-ls + ESLint LSP** - Linting (IMPROVED with better coverage)
+- **Core files** - Keymaps, autocmds (improved in new config)
+- **Plugin organization** - cmp, snacks, treesitter integrated into main modules
+
+### 📊 Migration Statistics
+- **Total plugins in old config:** 45
+- **Total plugins in new config:** 57
+- **Missing plugins:** 7 (1 critical, 3 medium, 3 optional)
+- **New plugins:** 17 (improvements and additions)
+- **Replaced/Improved plugins:** 3
+
+---
+
+## Action Items & Recommendations
+
+### Immediate Actions (Required)
+1. ✅ Add gitsigns `on_attach` keybindings from old config
+2. ✅ Add manual diagnostics refresh keybinding (to replace `<leader>cl`)
+
+### Evaluation Needed
+3. Decide on Trouble.nvim migration (or document Snacks picker as replacement)
+4. Evaluate Sidekick.nvim necessity for AI workflow
+5. Review mason-tool-installer need vs manual installation
+
+### Optional/Deferred
+7. Consider uncommenting vim-matchup in experimental if % matching enhancements desired
+8. Consider uncommenting smear-cursor if animation desired
+
+### Documentation
+9. Document keybinding changes (session management: `<leader>f` → `<leader>s`)
+10. Document architectural changes (module organization)
+11. Update user guides if gitsigns keybindings are added
