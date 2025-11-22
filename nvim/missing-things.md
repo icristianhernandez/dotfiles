@@ -141,6 +141,34 @@ The new configuration has successfully migrated most functionalities from the ol
 
 ---
 
+### 7. ✅ extras/files.lua → Inlined into editor.lua
+**Status**: Refactored/inlined  
+**Old location**: `nvim-old/lua/modules/extras/files.lua` (required from `editor.lua`)  
+**New location**: Inlined into `nvim/lua/modules/editor.lua:53-76`
+
+**Functionality**: Custom window styling and autocmds for mini.files
+
+**Notable changes**:
+- Old: Separate module with border/title customization, winblend, max height of 15
+- New: Inlined autocmds with height based on 20% of screen (min 14), added MiniFilesActionRename for Snacks integration
+
+**Notes**: The new config inlines the mini.files customization and adds integration with Snacks rename functionality.
+
+---
+
+## Visual Enhancement Plugins - Location Changes
+
+### Moved to experimental.lua
+The new config has moved some visual enhancement plugins to a separate `experimental.lua` module:
+
+1. **tadaa/vimade** - Moved from `ui.lua` to `experimental.lua` (still enabled)
+2. **sphamba/smear-cursor.nvim** - Moved from `ui.lua` to `experimental.lua` (currently commented out)
+3. **andymass/vim-matchup** - Moved from `ui.lua` to `experimental.lua` (currently commented out)
+
+**Notes**: These plugins are still available in the new config but have been reorganized. The smear-cursor and vim-matchup plugins are commented out, suggesting they may be temporarily disabled or under evaluation.
+
+---
+
 ## Additional New Features in New Config
 
 The following plugins/features are present in the new config but not in the old:
@@ -150,7 +178,7 @@ The following plugins/features are present in the new config but not in the old:
 3. **sustech-data/wildfire.nvim** - Smart text object selection (replaces treesitter incremental selection)
 4. **xzbdmw/colorful-menu.nvim** - Enhanced completion menu with colors
 5. **shortcuts/no-neck-pain.nvim** - Center buffer for focused editing (in experimental.lua)
-6. **nvim-pack/nvim-spectre** - Search and replace across project
+6. **nvim-pack/nvim-spectre** - Search and replace across project (in experimental.lua)
 7. **cbochs/grapple.nvim** - File bookmarking (harpoon replacement)
 
 ---
@@ -234,7 +262,14 @@ nvim/lua/
 **Notes**: The new implementation is more correct but functionally equivalent.
 
 ### Autocmds
-Not compared in detail yet - both configs have custom autocmds that would need individual review.
+**Notable enhancements in new config**:
+1. **VimResized** - Auto-resize splits when terminal window is resized
+2. **Dotenv filetype** - Automatic filetype detection for `.env` files
+3. **Active cursorline** - Cursorline only shown in active focused windows
+4. **Enhanced lastloc** - Better cursor position restoration with more exclusions and automatic centering (`zz`)
+5. **Keybinding change** - Toggle auto-diagnostics changed from `<leader>cd` to `<leader>cD`
+
+**Notes**: The autocmds in the new config are an improvement over the old, adding quality-of-life features without removing any existing functionality.
 
 ---
 
