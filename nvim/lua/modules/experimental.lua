@@ -8,15 +8,15 @@ return {
             fadelevel = 0.25,
         },
     },
-    {
-        -- sphamba/smear-cursor.nvim: cursor smear animation for motion feedback
-        "sphamba/smear-cursor.nvim",
-        event = "VeryLazy",
-        cond = vim.g.neovide == nil,
-        opts = {
-            -- never_draw_over_target = true,
-        },
-    },
+    -- {
+    --     -- sphamba/smear-cursor.nvim: cursor smear animation for motion feedback
+    --     "sphamba/smear-cursor.nvim",
+    --     event = "VeryLazy",
+    --     cond = vim.g.neovide == nil,
+    --     opts = {
+    --         -- never_draw_over_target = true,
+    --     },
+    -- },
     {
         -- shortcuts/no-neck-pain.nvim: center the text area in Neovim
         "shortcuts/no-neck-pain.nvim",
@@ -109,26 +109,26 @@ return {
             },
         },
     },
-    {
-        -- andymass/vim-matchup: enhanced % matching for Vim/Neovim
-        "andymass/vim-matchup",
-        dependencies = {
-            { "nvim-treesitter/nvim-treesitter" },
-        },
-
-        init = function()
-            vim.g.matchup_matchparen_offscreen = { method = "popup" }
-            vim.g.matchup_transmute_enabled = 1
-            vim.g.matchup_matchparen_deferred = 1
-            vim.g.matchup_delim_noskips = 2
-            vim.g.matchup_matchparen_stopline = 200
-
-            vim.keymap.set(
-                "n",
-                "<leader>ci",
-                "<plug>(matchup-hi-surround)",
-                { desc = "Highlight actual surround", silent = true }
-            )
-        end,
-    },
+    -- {
+    --     -- andymass/vim-matchup: enhanced % matching for Vim/Neovim
+    --     "andymass/vim-matchup",
+    --     dependencies = {
+    --         { "nvim-treesitter/nvim-treesitter" },
+    --     },
+    --
+    --     init = function()
+    --         vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    --         vim.g.matchup_transmute_enabled = 1
+    --         vim.g.matchup_matchparen_deferred = 1
+    --         vim.g.matchup_delim_noskips = 2
+    --         vim.g.matchup_matchparen_stopline = 200
+    --
+    --         vim.keymap.set(
+    --             "n",
+    --             "<leader>ci",
+    --             "<plug>(matchup-hi-surround)",
+    --             { desc = "Highlight actual surround", silent = true }
+    --         )
+    --     end,
+    -- },
 }

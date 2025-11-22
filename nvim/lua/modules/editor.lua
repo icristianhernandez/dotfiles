@@ -232,11 +232,30 @@ return {
 
         ---@type snacks.Config
         opts = {
+            words = {
+                enabled = true,
+                debounce = 75,
+            },
+
+            bigfile = {
+                enabled = true,
+            },
+
             terminal = {
-                win = { style = "float" },
+                win = {
+                    style = "float",
+                },
+            },
+
+            scratch = {
+                root = vim.fn.expand("~/dotfiles/notes"),
             },
 
             picker = {
+                -- styles: "default", "dropdown", "ivy", "ivy_split", "left", "right", "select", "sidebar", "vertical", "vscode", "telescope", "top", "bottom"
+                layout = "sidebar",
+                ui_select = true,
+
                 win = {
                     input = {
                         keys = {
@@ -254,6 +273,30 @@ return {
                     files = { hidden = true },
                     search = { hidden = true },
                     grep = { hidden = true },
+                    git_diff = {
+                        win = {
+                            input = {
+                                keys = {
+                                    ["<Tab>"] = { "list_down", mode = { "i", "n" } },
+                                    ["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
+                                    ["<C-s>"] = { "git_stage", mode = { "n", "i" } },
+                                    ["<C-r>"] = { "git_restore", mode = { "n", "i" }, nowait = true },
+                                },
+                            },
+                        },
+                    },
+                    git_status = {
+                        win = {
+                            input = {
+                                keys = {
+                                    ["<Tab>"] = { "list_down", mode = { "i", "n" } },
+                                    ["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
+                                    ["<C-s>"] = { "git_stage", mode = { "n", "i" } },
+                                    ["<C-r>"] = { "git_restore", mode = { "n", "i" }, nowait = true },
+                                },
+                            },
+                        },
+                    },
                 },
             },
         },
@@ -485,6 +528,8 @@ return {
                 end,
                 desc = "Notification History",
             },
+
+            -- ui toggles
             {
                 "<leader>us",
                 function()
@@ -526,6 +571,28 @@ return {
                     Snacks.toggle.inlay_hints():toggle()
                 end,
                 desc = "Toggle Inlay Hints",
+            },
+            -- ui toggle diagnostics, scroll, treesitter
+            {
+                "<leader>ud",
+                function()
+                    Snacks.toggle.diagnostics():toggle()
+                end,
+                desc = "Toggle Diagnostics",
+            },
+            {
+                "<leader>ut",
+                function()
+                    Snacks.toggle.treesitter():toggle()
+                end,
+                desc = "Toggle Treesitter Highlights",
+            },
+            {
+                "<leader>us",
+                function()
+                    Snacks.toggle.scroll():toggle()
+                end,
+                desc = "Toggle Scrollbar",
             },
 
             -- actions
