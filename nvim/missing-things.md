@@ -2,6 +2,33 @@
 
 This document tracks missing features from the old Neovim configuration (`nvim-old/`) that have not yet been migrated to the new configuration (`nvim/`).
 
+## Executive Summary
+
+**Overall Assessment:** The new configuration is largely an **improvement** over the old one, with better linting, enhanced features, and architectural improvements. However, there is **1 critical missing feature** (gitsigns keybindings) and a few workflow changes that users should be aware of.
+
+**Critical Issue:**
+- ❌ **Gitsigns keybindings missing** - Git hunk manipulation workflow completely absent
+
+**Recommended Actions:**
+1. Add gitsigns `on_attach` keybindings (critical)
+2. Decide on Trouble.nvim (nice-to-have for diagnostics UI)
+3. Review Copilot auto-trigger setting (currently disabled)
+4. Consider adding sidekick.nvim if AI workflow needs it
+
+**Notable Improvements:**
+- ✅ Better linting (ESLint LSP + more linters)
+- ✅ Enhanced autocmds (auto-diagnostics, cursorline management)
+- ✅ Better tooling architecture
+- ✅ 17 new plugins with enhancements
+
+**Configuration Changes:**
+- Copilot accept: `<C-r>` → `<C-e>`
+- Copilot auto-trigger: enabled → **disabled**
+- Opencode actions: `<C-x>` → `<leader>ap`, `ga` → `<leader>ao`
+- Session management: `<leader>f` → `<leader>s` prefix
+
+---
+
 ## Status Legend
 - ❌ Missing: Feature is present in old config but not in new config
 - ✅ Migrated: Feature has been migrated (possibly with changes)
@@ -252,7 +279,49 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 
 ---
 
-## Configuration Differences
+## New Features & Improvements in New Config
+
+These are enhancements not present in the old config:
+
+### New Plugins (17 total)
+1. **cbochs/grapple.nvim** - Replaces Harpoon with git-branch scoping
+2. **MeanderingProgrammer/treesitter-modules.nvim** - Modern treesitter configuration
+3. **nvimtools/none-ls.nvim** - Successor to null-ls for diagnostics
+4. **jay-babu/mason-null-ls.nvim** - Mason integration for none-ls
+5. **shortcuts/no-neck-pain.nvim** - Center text area (experimental)
+6. **nvim-pack/nvim-spectre** - Project-wide find & replace (experimental)
+7. **sustech-data/wildfire.nvim** - Smart selection expansion
+8. **xzbdmw/colorful-menu.nvim** - Enhanced blink.cmp menu colors
+9. **AndreM222/copilot-lualine** - Copilot status in lualine
+10. **b0o/SchemaStore.nvim** - JSON/YAML schema store (was in old, now explicit)
+11. **p00f/clangd_extensions.nvim** - Enhanced C/C++ LSP (was in old, now explicit)
+12. **rafamadriz/friendly-snippets** - Snippet collection for blink.cmp
+13. **MunifTanjim/nui.nvim** - UI library (dependency)
+14. **nvim-lua/plenary.nvim** - Lua utilities (dependency)
+15. **NMAC427/guess-indent.nvim** - Auto-detect indentation
+16. **smjonas/inc-rename.nvim** - Incremental LSP rename with preview
+17. **mason-org/mason.nvim** - Tool installer (was implicit, now explicit)
+
+### Enhanced Features
+1. **Auto-diagnostics on CursorHold** - Toggle with `<leader>cD`
+2. **Improved last location restore** - Better exclusion logic
+3. **Cursorline only in active windows** - Visual focus indicator
+4. **LSP reference underline highlights** - Persistent across colorscheme changes
+5. **Better Copilot configuration** - Explicit filetypes, disabled auto-trigger
+6. **Enhanced opencode integration** - Custom contexts for git diffs, commit messages
+7. **Lualine parent path caching** - Performance optimization
+8. **More comprehensive linting** - YAML, JSON, Nix, Shell, SQL, Git linters
+9. **Dotenv syntax highlighting** - Auto-detect .env files
+10. **Mini.files with Snacks integration** - File rename integration
+
+### Architectural Improvements
+1. **Modular tooling configuration** - Centralized stacks system
+2. **Better plugin organization** - Related plugins grouped logically
+3. **Core directory structure** - Better separation of concerns
+4. **Improved autocmds** - More robust and feature-rich
+5. **Better LSP setup** - Using new vim.lsp.config API
+
+---
 
 ### Lazy.nvim Setup
 Both configs use the same lazy.nvim setup with minor differences:
