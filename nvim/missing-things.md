@@ -34,15 +34,28 @@ This document tracks functionalities present in the old Neovim configuration (`n
 ### Development Tools
 
 #### 3. **mfussenegger/nvim-lint**
-- **Status**: Missing - Potentially replaced by none-ls
+- **Status**: Replaced by none-ls.nvim (null-ls)
 - **Functionality**: Asynchronous linting engine
 - **Old Config Location**: `nvim-old/lua/modules/tooling.lua` (lines 138-198)
-- **Features**:
+- **Old Features**:
   - Linters by filetype configuration
-  - Debounced linting on BufReadPost, BufWritePost, InsertLeave
+  - Debounced linting on BufReadPost, BufWritePost, InsertLeave (300ms)
   - Manual lint trigger with `<leader>cl`
-  - Per-linter configuration
-- **New Alternative**: `nvimtools/none-ls.nvim` may provide linting, needs verification
+  - Per-linter configuration and conditions
+  - Supported linters: eslint_d (JS/TS), markdownlint-cli2, shellcheck, fish, statix, sqlfluff
+- **New Alternative**: `nvimtools/none-ls.nvim` provides linting via builtins
+  - Location: `nvim/lua/modules/tooling.lua` and `nvim/lua/modules/extras/tooling.lua`
+  - Linters defined in tooling stacks: yamllint, markdownlint-cli2, jsonlint, statix, fish, shellcheck, sqlfluff, commitlint, gitlint, gitrebase
+  - Integration via `mason-null-ls` for installation
+  - Diagnostics provided via none-ls builtins
+- **Key Difference**: 
+  - Old: Dedicated nvim-lint with manual debouncing and autocmds
+  - New: none-ls integrates linting with LSP diagnostics
+  - Old: `<leader>cl` to manually lint
+  - New: No manual lint trigger found (linting is automatic via LSP)
+  - Old: eslint_d as linter
+  - New: eslint as LSP server (improvement)
+- **Impact**: Different linting architecture but similar functionality. Manual lint trigger missing (`<leader>cl`). Some linters handled differently (eslint via LSP instead of standalone linter).
 
 #### 4. **WhoIsSethDaniel/mason-tool-installer.nvim**
 - **Status**: Missing - Replaced by mason-null-ls
@@ -201,6 +214,70 @@ These are improvements, not missing features.
 
 ---
 
+## Missing Keybindings
+
+These keybindings existed in the old configuration but are not present in the new one:
+
+1. **`<leader>cl`** - Manual lint trigger (nvim-lint)
+   - Old: Manually trigger linting on current buffer
+   - New: No equivalent (linting is automatic via none-ls/LSP)
+
+2. **`<leader>xx`** - Toggle Trouble diagnostics window
+   - Old: Open diagnostics in Trouble window
+   - New: No equivalent (trouble.nvim not installed)
+
+3. **`<leader>xX`** - Toggle Trouble buffer diagnostics
+   - Old: Open buffer diagnostics in Trouble window
+   - New: No equivalent (trouble.nvim not installed)
+
+4. **`]q` / `[q`** - Next/Previous Trouble item (with fallback to quickfix)
+   - Old: Smart navigation between Trouble items or quickfix
+   - New: No equivalent (trouble.nvim not installed)
+
+5. **`<C-r>` in insert mode** - Jump to or apply next edit suggestion (sidekick.nvim)
+   - Old: Navigate AI edit suggestions
+   - New: `<C-r>` is used for Copilot accept (changed from `<C-r>` to `<C-e>`)
+
+6. **`<leader>ci`** - Highlight surrounding pairs (vim-matchup)
+   - Old: Temporarily highlight matching pairs
+   - New: No equivalent (vim-matchup commented out)
+
+7. **`<leader>uv`** - Toggle Vimade (screen dimming)
+   - Old: Toggle inactive window dimming
+   - New: Vimade in experimental.lua, toggle keybinding may be different
+
+8. **`<leader>uH`** - Toggle Matchup Hi Surround (vim-matchup)
+   - Old: Toggle always-highlight surrounding pairs
+   - New: No equivalent (vim-matchup commented out)
+
+9. **Opencode Keybinding Changes**:
+   - Old: `<C-x>` → New: `<leader>ap` (Execute opencode action)
+   - Old: `ga` → New: `<leader>ao` (Add to opencode)
+   - Old: `<S-C-u>` → New: `<leader>au` (Opencode half page up)
+   - Old: `<S-C-d>` → New: `<leader>ad` (Opencode half page down)
+   - Impact: More consistent leader-key organization in new config
+
+10. **Gitsigns Keybindings Missing** (Critical)
+   - Old config has comprehensive gitsigns keybindings in `on_attach` callback
+   - New config only defines sign symbols, no keybindings
+   - Missing keybindings:
+     - `]h` / `[h` - Next/Previous hunk
+     - `]H` / `[H` - Last/First hunk
+     - `<leader>ghs` - Stage hunk (normal/visual)
+     - `<leader>ghr` - Reset hunk (normal/visual)
+     - `<leader>ghS` - Stage buffer
+     - `<leader>ghu` - Undo stage hunk
+     - `<leader>ghR` - Reset buffer
+     - `<leader>ghp` - Preview hunk inline
+     - `<leader>ghb` - Blame line (full)
+     - `<leader>ghB` - Blame buffer
+     - `<leader>ghd` - Diff this
+     - `<leader>ghD` - Diff this ~
+     - `ih` - Select hunk (operator/visual)
+   - Impact: Git workflow severely limited without these keybindings
+
+---
+
 ## LazyVim-Specific Features
 
 The old configuration did not explicitly use LazyVim as a distribution. Some references to `lazyvim_last_loc` exist but appear to be from copied autocmds rather than actual LazyVim integration.
@@ -247,19 +324,25 @@ These features are present in the new configuration but were not in the old one.
 ## Summary
 
 ### Critical Missing Features
-1. **folke/trouble.nvim** - Enhanced diagnostics viewer with dedicated window
+
+1. **lewis6991/gitsigns.nvim keybindings** - All git hunk operations missing
+   - Impact: Cannot navigate, stage, reset, preview, or blame hunks
+   - 15+ keybindings missing (see Missing Keybindings section)
+   - Status: Plugin installed but not configured with keybindings
+
+2. **folke/trouble.nvim** - Enhanced diagnostics viewer with dedicated window
    - Impact: Less convenient diagnostics navigation
    - Keybindings affected: `<leader>xx`, `<leader>xX`, `]q`, `[q`
 
-2. **Incremental selection** - Treesitter-based selection expansion
+3. **Incremental selection** - Treesitter-based selection expansion
    - Impact: Cannot expand/shrink selection with `<CR>`/`<bs>`
    - Status: Commented out, can be re-enabled
 
-3. **andymass/vim-matchup** - Enhanced % matching
+4. **andymass/vim-matchup** - Enhanced % matching
    - Impact: No offscreen match popup, no `<leader>ci` to highlight surrounds
    - Status: Commented out in experimental.lua
 
-4. **sphamba/smear-cursor.nvim** - Cursor animation
+5. **sphamba/smear-cursor.nvim** - Cursor animation
    - Impact: No visual cursor motion feedback
    - Status: Commented out in experimental.lua
 
