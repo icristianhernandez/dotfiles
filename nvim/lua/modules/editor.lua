@@ -279,6 +279,7 @@ return {
                         },
                     },
                 },
+
                 sources = {
                     files = { hidden = true },
                     search = { hidden = true },
@@ -295,6 +296,7 @@ return {
                             },
                         },
                     },
+
                     git_status = {
                         win = {
                             input = {
@@ -312,6 +314,14 @@ return {
         },
 
         keys = {
+            -- lazygit
+            {
+                "<leader>gg",
+                function()
+                    Snacks.lazygit.open()
+                end,
+                desc = "Open Lazygit",
+            },
             -- terminal
             {
                 "<c-space>",

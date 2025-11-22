@@ -28,6 +28,7 @@
         tree-sitter
         lsof
         nixfmt
+        lazygit
       ];
     in
     pkgs.lib.concatLists [
