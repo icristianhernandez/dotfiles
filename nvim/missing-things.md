@@ -59,9 +59,73 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 - Functionality for iterating through AI suggestions is missing
 - May impact workflow with AI assistants
 
+**Impact:** Users who rely on iterating through multiple Copilot suggestions will need to use default Copilot panel or find alternative workflow.
+
 ---
 
-### 3. 🔄 File Bookmarking - `ThePrimeagen/harpoon` → `cbochs/grapple.nvim`
+### 3. 💡 AI Keybinding Changes - `opencode.nvim`
+**Status:** Keybindings reorganized (not missing, just different)
+
+**Old keybindings:**
+- `<leader>aa` - Ask opencode (with @this context)
+- `<C-x>` - Execute opencode action menu
+- `ga` - Add to opencode (prompt with @this)
+- `<C-a>` - Toggle opencode terminal
+- `<S-C-u>` / `<S-C-d>` - Half page up/down in opencode
+
+**New keybindings:**
+- `<leader>aa` - Ask opencode (same)
+- `<leader>ap` - Execute opencode action (changed from `<C-x>`)
+- `<leader>ao` - Add to opencode (changed from `ga`)
+- `<c-a>` - Toggle opencode (same, lowercase)
+- `<leader>au` / `<leader>ad` - Half page navigation (changed from Shift-Ctrl)
+
+**Impact:** Users need to learn new keybindings. New approach groups all opencode commands under `<leader>a` prefix (more discoverable with which-key).
+
+---
+
+### 3. 💡 AI Keybinding Changes - `opencode.nvim`
+**Status:** Keybindings reorganized (not missing, just different)
+
+**Old keybindings:**
+- `<leader>aa` - Ask opencode (with @this context)
+- `<C-x>` - Execute opencode action menu
+- `ga` - Add to opencode (prompt with @this)
+- `<C-a>` - Toggle opencode terminal
+- `<S-C-u>` / `<S-C-d>` - Half page up/down in opencode
+
+**New keybindings:**
+- `<leader>aa` - Ask opencode (same)
+- `<leader>ap` - Execute opencode action (changed from `<C-x>`)
+- `<leader>ao` - Add to opencode (changed from `ga`)
+- `<c-a>` - Toggle opencode (same, lowercase)
+- `<leader>au` / `<leader>ad` - Half page navigation (changed from Shift-Ctrl)
+
+**Impact:** Users need to learn new keybindings. New approach groups all opencode commands under `<leader>a` prefix (more discoverable with which-key).
+
+---
+
+### 4. 💡 Copilot Configuration Changes
+
+**Old config:**
+- Accept suggestion: `<C-r>`
+- Panel: disabled
+- Auto-trigger: implicit (default true)
+
+**New config:**
+- Accept suggestion: `<C-e>`
+- Panel: disabled
+- Auto-trigger: **explicitly false**
+- Filetypes: explicitly enabled for all (`["*"] = true`)
+
+**Impact:** 
+- Changed keybinding: `<C-r>` → `<C-e>` for accepting suggestions
+- Auto-trigger disabled means Copilot won't show suggestions automatically (must trigger manually)
+- This is a significant workflow change that may or may not be intentional
+
+---
+
+### 5. 🔄 File Bookmarking - `ThePrimeagen/harpoon` → `cbochs/grapple.nvim`
 **Old config location:** `nvim-old/lua/modules/editor.lua`  
 **New config location:** `nvim/lua/modules/editor.lua`
 
@@ -86,7 +150,7 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 
 ---
 
-### 4. 🔄 Linting - `mfussenegger/nvim-lint` → `nvimtools/none-ls.nvim`
+### 6. 🔄 Linting - `mfussenegger/nvim-lint` → `nvimtools/none-ls.nvim`
 **Old config location:** `nvim-old/lua/modules/tooling.lua`  
 **New config location:** `nvim/lua/modules/tooling.lua`
 
@@ -127,7 +191,7 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 
 ---
 
-### 5. ❌ Tool Installation - `WhoIsSethDaniel/mason-tool-installer.nvim`
+### 7. ❌ Tool Installation - `WhoIsSethDaniel/mason-tool-installer.nvim`
 **Old config location:** `nvim-old/lua/modules/tooling.lua`
 
 **Description:** Automatic installation and management of external tools (formatters, linters, DAPs).
@@ -146,7 +210,7 @@ This document tracks missing features from the old Neovim configuration (`nvim-o
 
 ---
 
-### 6. 💡 Visual Effects - Commented in Experimental
+### 8. 💡 Visual Effects - Commented in Experimental
 
 #### a. `sphamba/smear-cursor.nvim`
 **Old config location:** `nvim-old/lua/modules/ui.lua`  
