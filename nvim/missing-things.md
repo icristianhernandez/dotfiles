@@ -383,11 +383,80 @@ These features are present in the new configuration but were not in the old one.
 ---
 
 ## Next Steps
-1. ✅ Initial comparison completed
-2. ✅ Document findings in missing-things.md
-3. ⏳ Test Grapple as Harpoon replacement
-4. ⏳ Verify none-ls provides equivalent linting functionality
-5. ⏳ Decide if trouble.nvim should be added back
-6. ⏳ Decide if incremental selection should be re-enabled
-7. ⏳ Decide if smear-cursor and vim-matchup should be re-enabled
-8. ⏳ Verify all mason tools are properly installed via mason-null-ls
+
+### Immediate Actions Needed
+
+1. **Add Gitsigns Keybindings** (Critical)
+   - Copy `on_attach` callback from old config to new config
+   - 15+ keybindings need to be added to enable git workflow
+
+2. **Decide on Trouble.nvim**
+   - Add if enhanced diagnostics navigation is desired
+   - Alternative: Use native quickfix or Snacks picker diagnostics
+
+3. **Enable Incremental Selection** (Easy)
+   - Uncomment in `tooling.lua` treesitter-modules config
+   - Restore `<CR>` and `<bs>` keybindings
+
+4. **Consider Re-enabling**
+   - `vim-matchup`: Enhanced % matching (commented in experimental)
+   - `smear-cursor`: Visual cursor feedback (commented in experimental)
+
+### Testing Required
+
+1. **Grapple vs Harpoon**
+   - Test file tagging and navigation
+   - Verify git_branch scope works as expected
+   - Confirm keybindings (`<leader>h`, `<leader>H`, `<leader>1-9`) work
+
+2. **none-ls Linting**
+   - Verify all linters are working (yamllint, markdownlint-cli2, etc.)
+   - Confirm eslint LSP provides equivalent functionality to eslint_d
+   - Test diagnostics appear and update correctly
+
+3. **Mason Tool Installation**
+   - Verify mason-null-ls installs all required tools
+   - Compare with old mason-tool-installer behavior
+
+### Documentation Updates
+
+1. Update README/docs to reflect new keybindings
+2. Document replaced features and migration notes
+3. Note any workflow changes (e.g., automatic vs manual linting)
+
+### Verified Complete
+
+1. ✅ Core functionality (options, autocmds, keymaps) largely preserved
+2. ✅ All major plugins accounted for (either present or replaced)
+3. ✅ Formatting configuration equivalent (conform.nvim in both)
+4. ✅ LSP configuration modernized (using vim.lsp.config + vim.lsp.enable)
+5. ✅ Completion modernized (blink.cmp with better configuration)
+6. ✅ UI plugins mostly complete (with some in experimental)
+7. ✅ AI tools preserved (Copilot + opencode.nvim with reorganized keybindings)
+
+---
+
+## Final Assessment
+
+### Migration Completeness: ~85%
+
+**Major Issues:**
+- Gitsigns keybindings completely missing (blocking for git workflow)
+
+**Minor Issues:**
+- Some visual enhancements commented out (smear-cursor, vim-matchup)
+- Incremental selection disabled
+- Manual lint trigger missing
+- Trouble.nvim not included
+
+**Improvements in New Config:**
+- Better LSP integration (vim.lsp.config, inc-rename with keybinding)
+- eslint as LSP instead of linter
+- More organized keybindings (leader groups)
+- Enhanced autocmds (cursorline management, dotenv detection, etc.)
+- Better Copilot integration in lualine
+- Project-wide find & replace (nvim-spectre)
+- No-neck-pain for centered editing
+- Colorful completion menu
+
+**Overall:** The new configuration is well-structured and includes improvements, but needs critical gitsigns keybindings restored and some decisions on commented features.
