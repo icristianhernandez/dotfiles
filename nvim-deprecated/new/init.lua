@@ -7,12 +7,16 @@ _G.IS_LINUX = sysname == "linux"
 _G.IS_WINDOWS = sysname:find("windows") ~= nil
 _G.IS_WSL = _G.IS_LINUX and uname.release:lower():find("microsoft") ~= nil
 
+require("options")
+require("keymaps")
+require("autocmd")
+
 if vim.g.neovide then
-    require("config.neovide")
+    require("neovide")
 end
 
 if _G.IS_WSL then
-    require("config.wsl")
+    require("wsl")
 end
 
-require("config.lazy")
+require("lazy")
