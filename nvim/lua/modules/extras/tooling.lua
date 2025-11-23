@@ -189,7 +189,35 @@ local stacks = {
     -- Nix ecosystem
     nix = {
         parsers = { "nix" },
-        lsps = { { name = "nixd", install = false, enable = true } },
+        lsps = {
+            {
+                name = "nixd",
+                install = false,
+                enable = true,
+                config = function()
+                    return {
+                        settings = {
+                            nixd = {
+                                nixpkgs = {
+                                    expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }",
+                                },
+                                diagnostic = {
+                                    suppress = {},
+                                },
+                                options = {
+                                    nixos = {
+                                        expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.nixos.options",
+                                    },
+                                    ["home-manager"] = {
+                                        expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.nixos.options.home-manager.users.type.getSubOptions []",
+                                    },
+                                },
+                            },
+                        },
+                    }
+                end,
+            },
+        },
         formatters_by_ft = { nix = { { name = "nixfmt", install = false } } },
         linters = { "statix" },
     },

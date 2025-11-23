@@ -18,7 +18,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- pages, where just replace, don't create multiple help-tab pages)
 -- ^^ the above can be changed, but really can be easily avoided if it's wanted
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = "help",
+    pattern = { "help", "h" },
     command = "wincmd T",
 })
 

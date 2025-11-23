@@ -1,5 +1,6 @@
 return {
     {
+        -- rmagatti/auto-session: automatic session save/restore
         "rmagatti/auto-session",
         lazy = false,
         priority = 998,
@@ -26,6 +27,7 @@ return {
     },
 
     {
+        -- echasnovski/mini.files: lightweight file explorer
         "echasnovski/mini.files",
         dependencies = {
             "nvim-mini/mini.icons",

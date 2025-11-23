@@ -552,6 +552,30 @@ describe("tooling resolver", function()
         eq(cfg, out.mason_lspconfig.configs.yamlls)
     end)
 
+    it("repo stacks include nixd LSP settings and root_dir", function()
+        local stacks = require("modules.extras.tooling").stacks
+        local out = tooling.build(stacks)
+        local nixd_cfg = out.mason_lspconfig.configs.nixd
+        -- config is a function in the repo stack; call it if so
+        if type(nixd_cfg) == "function" then
+            nixd_cfg = nixd_cfg()
+        end
+        assert.is_truthy(type(nixd_cfg) == "table")
+        assert.is_truthy(type(nixd_cfg.settings) == "table")
+        assert.is_truthy(type(nixd_cfg.settings.nixd) == "table")
+        -- formatting.command should contain nixfmt
+        eq({ "nixfmt" }, nixd_cfg.settings.nixd.formatting.command)
+        -- diagnostic.suppress exists as a table (empty by default)
+        assert.is_truthy(type(nixd_cfg.settings.nixd.diagnostic.suppress) == "table")
+        -- root_dir should be a function
+        assert.is_truthy(type(nixd_cfg.root_dir) == "function")
+        -- ensure options expr strings exist for nixos and home-manager
+        assert.is_truthy(type(nixd_cfg.settings.nixd.options.nixos.expr) == "string")
+        assert.is_truthy(nixd_cfg.settings.nixd.options.nixos.expr:find("%S") ~= nil)
+        assert.is_truthy(type(nixd_cfg.settings.nixd.options["home-manager"].expr) == "string")
+        assert.is_truthy(nixd_cfg.settings.nixd.options["home-manager"].expr:find("%S") ~= nil)
+    end)
+
     it("errors on duplicate lsp configs across stacks", function()
         local stacks = {
             a = { lsps = { { name = "yamlls", config = { a = 1 } } } },

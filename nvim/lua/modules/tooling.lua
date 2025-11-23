@@ -2,6 +2,7 @@ local tooling = require("modules.extras.tooling").tooling
 
 return {
     {
+        -- nvim-treesitter/nvim-treesitter: incremental parsing & AST features
         "nvim-treesitter/nvim-treesitter",
         lazy = false,
         branch = "main",
@@ -20,6 +21,7 @@ return {
         },
     },
     {
+        -- sustech-data/wildfire.nvim: treesitter-based incremental selection
         "sustech-data/wildfire.nvim",
         event = "VeryLazy",
         dependencies = { "nvim-treesitter/nvim-treesitter" },

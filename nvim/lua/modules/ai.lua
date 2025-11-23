@@ -18,6 +18,7 @@ return {
         },
     },
     {
+        -- NickvanDyke/opencode.nvim: AI-powered coding assistant
         "NickvanDyke/opencode.nvim",
         dependencies = {
             {
