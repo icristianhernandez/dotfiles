@@ -163,18 +163,20 @@ This document tracks functionalities from `@nvim-deprecated/` that have not yet 
 
 ---
 
-### ✅ Deno/TypeScript Root Detection
-**Status**: Migrated
+### ⚠️ Deno LSP Support
+**Status**: Missing
 
 **Old Config** (`lsp.lua`):
-- Custom `denols` and `ts_ls` root_dir configuration
+- `denols` LSP configured with custom root_dir detection
+- `ts_ls` LSP with conflict prevention (won't start if deno.json/deno.jsonc/deno.lock found)
 - Prevents conflicts between Deno and Node projects
 
-**New Config**:
-- Not explicitly visible in tooling.lua but `vtsls` is configured
-- May need verification that Deno/Node conflict resolution exists
+**New Config** (`modules/extras/tooling.lua`):
+- Only `vtsls` configured for TypeScript (no denols)
+- No Deno-specific configuration or conflict prevention
+- Deno projects will not have LSP support
 
-**Migration Status**: Needs verification
+**Migration Status**: Missing (Deno support not present)
 
 ---
 
@@ -300,16 +302,18 @@ This document tracks functionalities from `@nvim-deprecated/` that have not yet 
 ---
 
 ### ⚠️ Dot Files Support
-**Status**: Missing
+**Status**: Missing / Need Investigation
 
 **Old Config**:
 - LazyVim extra: `lazyvim.plugins.extras.util.dot`
-- Enhanced support for dotfiles
+- Enhanced support for dotfiles (GraphViz .dot files)
+- LazyVim util.dot typically provides syntax highlighting and LSP for GraphViz
 
 **New Config**:
 - Not present
+- No parsers or LSP for dot files found in tooling.lua
 
-**Migration Status**: Missing (need to verify what this extra provided)
+**Migration Status**: Missing (need to verify if GraphViz/dot file support is needed)
 
 ---
 
@@ -472,7 +476,8 @@ This document tracks functionalities from `@nvim-deprecated/` that have not yet 
 5. **Tabout** - Missing (context exit in insert mode)
 6. **PSeInt LSP** - Missing (custom language support)
 7. **SQL LSP** - Only formatters/linters, no LSP
-8. **LazyVim util.dot** - Missing (need to verify what it provided)
+8. **Deno LSP** - Missing (denols not configured, no conflict prevention with Node)
+9. **LazyVim util.dot** - Missing (GraphViz .dot file support)
 
 ### Features with Different Implementations
 1. **AI Tooling**: CodeCompanion → OpenCode
@@ -510,8 +515,95 @@ This document tracks functionalities from `@nvim-deprecated/` that have not yet 
    - Tabout (if context exit functionality is needed)
    - PSeInt LSP (if working with PSeInt is required)
    - SQL LSP (if SQL language server is needed, not just formatting)
+   - Deno LSP (if working with Deno projects)
+   - Vim-Matchup (if enhanced matching is desired)
+
+---
+
+## LazyVim Core Features Analysis
+
+### What LazyVim Provided Implicitly
+
+**Old Config**:
+- Imported `LazyVim/LazyVim` with `import = "lazyvim.plugins"`
+- This provided a base set of plugins and configurations automatically
+- Disabled some defaults: dashboard, bufferline, neo-tree, persistence, mini.pairs
+
+**Core LazyVim Plugins** (that were likely active):
+1. **folke/which-key.nvim** - Keybinding helper (✅ explicitly configured in new config)
+2. **folke/snacks.nvim** - Multiple utilities (✅ extensively configured in new config)
+3. **nvim-lualine/lualine.nvim** - Statusline (✅ configured in new config)
+4. **lewis6991/gitsigns.nvim** - Git signs (✅ configured in new config)
+5. **nvim-treesitter/nvim-treesitter** - Treesitter (✅ configured in new config)
+6. **folke/noice.nvim** - UI improvements (✅ configured in new config)
+7. **nvim-telescope/telescope.nvim** - Fuzzy finder (❌ NOT in new config, using snacks.picker instead)
+
+**LazyVim Core Keymaps** (not explicitly checked):
+- Many LazyVim keymaps may have been used but not explicitly configured
+- New config has extensive custom keymaps in `core/keymaps.lua`
+- Comparison shows similar keybindings with minor differences
+
+**LazyVim Core Autocmds**:
+- LazyVim provided various autocmds automatically
+- New config has custom autocmds in `core/autocmds.lua`
+
+**Migration Status**: Core LazyVim functionality has been reimplemented or replaced with equivalent plugins/configurations in the new setup.
+
+---
+
+### ℹ️ Telescope vs Snacks Picker
+**Status**: Different implementation (intentional)
+
+**Old Config**:
+- LazyVim used `telescope.nvim` as the default fuzzy finder
+- Not explicitly visible in plugin files (LazyVim default)
+
+**New Config**:
+- Uses `snacks.picker` instead (part of snacks.nvim)
+- More integrated with the snacks ecosystem
+- Similar functionality with different keybindings and UI
+
+**Migration Status**: Intentionally replaced (snacks.picker is newer and more integrated)
+
+---
+
+### ✅ LSP Reference Highlights
+**Status**: Migrated
+
+**Old Config** (`snacks-words.lua`):
+- Custom autocmd to set LSP reference highlights (underline)
+- Applied on ColorScheme change
+
+**New Config** (`core/autocmds.lua`):
+- Same autocmd configuration present
+- Sets `LspReferenceText`, `LspReferenceRead`, `LspReferenceWrite` to underline
+
+**Migration Status**: Migrated
+
+---
+
+## Additional Observations
+
+### Clipboard Configuration
+**Old Config**: Custom WSL clipboard provider configured with specific PowerShell commands
+**New Config**: Clipboard configuration is commented out in `core/options.lua`
+**Status**: ⚠️ Clipboard may not work properly in WSL without this configuration
+
+### Shell Configuration
+**Old Config**: Automatically sets shell to fish if available
+**New Config**: Shell configuration is commented out
+**Status**: May want to re-enable if fish shell preference is important
+
+### Python LSP
+**Old Config**: Used basedpyright with `vim.g.lazyvim_python_lsp = "basedpyright"`
+**New Config**: Uses both `ruff` and `basedpyright` in python stack
+**Status**: ✅ Improved (using both ruff for linting/formatting and basedpyright for type checking)
+
+---
 
 3. **Investigate**:
-   - LazyVim util.dot extra - what features did it provide?
-   - Verify Deno/TypeScript root detection in new config
-   - Verify LSP highlight autocmds for snacks.words
+   - LazyVim util.dot extra - GraphViz .dot file support needed?
+   - Verify LSP highlight autocmds for snacks.words (may need re-addition)
+   - Check if any LazyVim core keymaps or autocmds are missing
+   - **WSL Clipboard** - Re-enable if using WSL
+   - **Fish Shell** - Re-enable if fish is preferred shell
