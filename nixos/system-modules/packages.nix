@@ -25,6 +25,11 @@
         opencode
         nvimpager
         nixd
+        tree-sitter
+        lsof
+        nixfmt
+        lazygit
+        go
       ];
     in
     pkgs.lib.concatLists [

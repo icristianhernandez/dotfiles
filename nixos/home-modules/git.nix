@@ -2,10 +2,13 @@
 {
   programs.git = {
     enable = true;
-    userName = const.git.name;
-    userEmail = const.git.email;
-    extraConfig = {
-      init.defaultBranch = "main";
+    settings = {
+      user = {
+        inherit (const.git) name email;
+      };
+      init = {
+        defaultBranch = "main";
+      };
     };
   };
 }

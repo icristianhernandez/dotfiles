@@ -4,7 +4,7 @@
   ...
 }:
 let
-  nixfmt = pkgs.nixfmt-rfc-style;
+  inherit (pkgs) nixfmt;
   script =
     let
       helpers = import ../lib/app-helpers.nix { inherit pkgs; };
