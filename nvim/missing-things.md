@@ -2,6 +2,54 @@
 
 This document tracks functionalities from `@nvim-deprecated/` that have not yet been migrated to `@nvim/`.
 
+## Quick Summary
+
+**Methodology**: Systematically compared all plugin files, LazyVim extras, core configurations (options/keymaps/autocmds), and verified LSP/tooling setup.
+
+### Critical Missing Features (9 items)
+1. ⚠️ **Deno LSP** - denols not configured, no Node/Deno conflict resolution
+2. ⚠️ **SQL LSP** - Only formatters/linters, no language server
+3. ⚠️ **Vim-Matchup** - Enhanced % matching completely missing
+4. ⚠️ **Vimade** - Window dimming for focus
+5. ⚠️ **Tabout** - Context exit in insert mode
+6. ⚠️ **PSeInt LSP** - Custom language support
+7. ⚠️ **GraphViz/dot** - LazyVim util.dot extra
+8. 🔄 **CodeCompanion** - Replaced with opencode (different tool)
+9. 🔄 **Harpoon2** - Replaced with grapple (different tool)
+
+### Configuration Issues
+- 🔧 **WSL Clipboard** - Commented out (will break clipboard in WSL)
+- 🔧 **Fish Shell** - Commented out (won't auto-switch to fish)
+- 🔧 **Smear Cursor** - Present but disabled in experimental
+
+### Successfully Migrated (Major Items)
+✅ All major language LSPs (Python, TypeScript, C/C++, JSON, YAML, TOML, Markdown)  
+✅ All formatters and linters (prettier, biome, eslint, etc.)  
+✅ Core UI (lualine, indent-blankline, noice, treesitter-context)  
+✅ Editor plugins (auto-session, mini.files, mini.move, blink.cmp)  
+✅ Snacks modules (picker, terminal, scratch, words)  
+✅ Git integration (gitsigns)  
+✅ LSP reference highlights  
+
+### Intentional Replacements
+🔄 **Telescope** → Snacks Picker (newer, more integrated)  
+🔄 **mini.comment** → ts-comments (treesitter-based)  
+🔄 **mini.hipatterns** → nvim-colorizer (partial, color codes only)  
+
+### New Features (Not in Old Config)
+- flash.nvim - Enhanced motion with labels
+- wildfire.nvim - Treesitter selection expansion
+- render-markdown.nvim - Enhanced markdown rendering
+- no-neck-pain.nvim - Center text area
+- spectre.nvim - Project-wide find & replace
+
+### Recommendations
+**High Priority**: Add Deno LSP (if needed), SQL LSP (if needed), re-enable WSL clipboard  
+**Medium Priority**: vim-matchup, vimade, tabout, GraphViz support  
+**Low Priority**: smear-cursor (already present)
+
+---
+
 ## Status Legend
 - ⚠️ **Missing**: Functionality not present in new config
 - ✅ **Migrated**: Functionality successfully migrated
