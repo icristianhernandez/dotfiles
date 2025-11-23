@@ -201,9 +201,6 @@ local stacks = {
                                 nixpkgs = {
                                     expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }",
                                 },
-                                diagnostic = {
-                                    suppress = {},
-                                },
                                 options = {
                                     nixos = {
                                         expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.nixos.options",
@@ -254,15 +251,15 @@ local stacks = {
 
     databases = {
         parsers = { "sql" },
-        -- lsps = { "sqls" },
+        lsps = { { name = "sqls", install = true, enable = true } },
 
         -- Formatting: prefer a dedicated SQL formatter for SQL filetypes.
         formatters_by_ft = (function()
             local sql_formatter_factory = function()
-                return make_conform_filetype_entry("pg_format", {
-                    stop_after_first = true,
-                    lsp_format = "first",
-                })
+                local e = make_conform_filetype_entry("pg_format")
+                -- keep lsp_format/filetype-level opts at the filetype level; only add fallback formatter here
+                table.insert(e, { name = "sql-formatter", install = true })
+                return e
             end
 
             local filetypes = {

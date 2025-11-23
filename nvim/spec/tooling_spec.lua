@@ -606,4 +606,52 @@ describe("tooling resolver", function()
             assert.is_true(n ~= "gitrebase")
         end
     end)
+
+    it("repo stacks include database tooling (sqls/pg_format/sqlfluff)", function()
+        local stacks = require("modules.extras.tooling").stacks
+        local out = tooling.build(stacks)
+
+        -- parser 'sql' should be included in treesitter
+        local has_sql_parser = false
+        for _, p in ipairs(out.treesitter.ensure_installed) do
+            if p == "sql" then
+                has_sql_parser = true
+                break
+            end
+        end
+        assert.is_true(has_sql_parser)
+
+        -- sqls LSP should be ensured installed and enabled
+        local found_sqls = false
+        for _, s in ipairs(out.mason_lspconfig.ensure_installed) do
+            if s == "sqls" then
+                found_sqls = true
+                break
+            end
+        end
+        assert.is_true(found_sqls)
+
+        local found_sqls_auto = false
+        for _, s in ipairs(out.mason_lspconfig.automatic_enable) do
+            if s == "sqls" then
+                found_sqls_auto = true
+                break
+            end
+        end
+        assert.is_true(found_sqls_auto)
+
+        -- Conform should list the SQL formatters (pg_format and fallback sql-formatter)
+        assert.is_truthy(out.conform.formatters_by_ft.sql)
+        eq({ "pg_format", "sql-formatter" }, out.conform.formatters_by_ft.sql)
+
+        -- sqlfluff should be present in mason_null_ls.ensure_installed
+        local found_sqlfluff = false
+        for _, n in ipairs(out.mason_null_ls.ensure_installed) do
+            if n == "sqlfluff" then
+                found_sqlfluff = true
+                break
+            end
+        end
+        assert.is_true(found_sqlfluff)
+    end)
 end)

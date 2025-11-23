@@ -29,6 +29,7 @@
         lsof
         nixfmt
         lazygit
+        go
       ];
     in
     pkgs.lib.concatLists [
