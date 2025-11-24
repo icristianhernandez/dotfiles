@@ -1,0 +1,13 @@
+- Por alguna razón, opencode sigue agregándole argumentos al ci y usando otros
+  comandos para verificar la validez de la sintaxis
+- Si ningún elemento está siendo seleccionado y se está en snippet, salta al
+  siguiente snippet
+
+Missing:
+
+1. gitsigns actions (go to next hunk, etc)
+2. trouble
+3. full noice set 8. All treesitter parsers pre instaled through stacks
+   Mostly complete, but need to check with extras to ensure that all is included.
+
+Interesting: https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file
