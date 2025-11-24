@@ -79,7 +79,7 @@ return {
             })
         end,
         keys = {
-            { "<leader>e", "", desc = "+file explorer", mode = { "n", "v" } },
+            { "<leader>e", "", desc = "+file explorer", mode = { "n", "x" } },
             {
                 "<leader>ee",
                 function()
@@ -136,12 +136,13 @@ return {
             keymap = {
                 preset = "none",
                 ["<Tab>"] = {
-                    -- "show_and_insert_or_accept_single",
+                    "show_and_insert_or_accept_single",
                     "select_next",
-                    "snippet_forward",
                     "fallback",
                 },
-                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "fallback" },
+                ["<C-l>"] = { "snippet_forward", "fallback" },
+                ["<C-h>"] = { "snippet_forward", "fallback" },
                 ["<CR>"] = { "accept", "fallback" },
                 ["<C-d>"] = { "show", "hide", "fallback" },
                 ["<C-b>"] = { "scroll_documentation_up", "fallback" },
@@ -184,15 +185,17 @@ return {
 
                 trigger = {
                     show_on_blocked_trigger_characters = {},
-                    show_on_keyword = true,
-                    show_on_insert = true,
                     show_on_backspace = true,
-                    show_on_backspace_after_insert_enter = true,
-                    show_on_backspace_in_keyword = true,
-                    show_on_backspace_after_accept = true,
+                    show_on_insert = true,
                     show_on_trigger_character = true,
-                    show_on_insert_on_trigger_character = true,
                     show_on_accept_on_trigger_character = true,
+                    show_on_insert_on_trigger_character = true,
+                    -- show_on_keyword = true,
+                    -- show_on_insert = true,
+                    -- show_on_backspace = true,
+                    -- show_on_backspace_after_insert_enter = true,
+                    -- show_on_backspace_in_keyword = true,
+                    -- show_on_backspace_after_accept = true,
                 },
             },
 
@@ -224,6 +227,7 @@ return {
             cmdline = {
                 keymap = { preset = "inherit" },
                 completion = {
+                    trigger = { show_on_blocked_trigger_characters = { " ", "\n", "\t" } },
                     list = {
                         selection = {
                             preselect = false,
@@ -411,7 +415,7 @@ return {
                     Snacks.gitbrowse()
                 end,
                 desc = "Git Browse",
-                mode = { "n", "v" },
+                mode = { "n", "x" },
             },
             {
                 "<leader>gb",

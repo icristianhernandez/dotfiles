@@ -7,7 +7,7 @@ local function create_keymap(modes, key, command, desc, user_opts)
 end
 
 -- save file
-create_keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", "Save File")
+create_keymap({ "i", "x", "n" }, "<C-s>", "<cmd>w<cr><esc>", "Save File")
 
 -- quit
 create_keymap("n", "<leader>qq", "<cmd>qa<cr>", "Quit All")
@@ -21,14 +21,14 @@ create_keymap("n", "<leader>ws", "<cmd>split<cr>", "Horizontal Split Window")
 create_keymap("n", "<leader>wv", "<cmd>vsplit<cr>", "Vertical Split Window")
 
 -- system clipboard mappings
-create_keymap({ "n", "v", "x" }, "<C-c>", '"+y', "Yank to clipboard")
+create_keymap({ "n", "x" }, "<C-c>", '"+y', "Yank to clipboard")
 create_keymap("n", "<C-v>", '"+gP', "Paste from clipboard and preserve clipboard")
 create_keymap("i", "<C-v>", "<C-r>+", "Paste from clipboard")
 -- terminal mode clipboard mappings
 create_keymap("t", "<C-v>", [[<C-\><C-n>"+p]], "Paste from clipboard in terminal mode")
 
 -- keep last yanked when nvim pasting
-create_keymap("v", "p", '"_dP', "Keep last yanked when pasting", { remap = true })
+create_keymap("x", "p", '"_dP', "Keep last yanked when pasting", { remap = true })
 
 -- reload the current buffer
 create_keymap("n", "<leader>wr", "<cmd>edit!<CR>", "Reload the current buffer")
@@ -48,8 +48,8 @@ create_keymap("x", "N", "'nN'[v:searchforward]", "Prev Search Result", { expr = 
 create_keymap("o", "N", "'nN'[v:searchforward]", "Prev Search Result", { expr = true })
 
 -- better indenting
-create_keymap("v", "<", "<gv")
-create_keymap("v", ">", ">gv")
+create_keymap("x", "<", "<gv")
+create_keymap("x", ">", ">gv")
 
 -- Move between windows in insert mode
 create_keymap("i", "<C-h>", "<Esc><C-w>h", "Move to left window with ctrl+h")
@@ -80,11 +80,11 @@ local function cmd_delete_word()
     local keys = vim.api.nvim_replace_termcodes("<C-w>", true, false, true)
     vim.api.nvim_feedkeys(keys, "n", true)
 end
-create_keymap({ "i", "o", "s", "t", "c" }, "<C-w>", "<Nop>", "Disable native ctrl+w")
+create_keymap({ "i", "o", "t", "c" }, "<C-w>", "<Nop>", "Disable native ctrl+w")
 
 -- Shared deletion in insert-like modes (i, l, o, s, t) just reuse built-in <C-w>
-create_keymap({ "i", "o", "s", "t" }, "<C-BS>", "<C-w>", "Delete word backward")
-create_keymap({ "i", "o", "s", "t" }, "<C-h>", "<C-w>", "Delete word backward")
+create_keymap({ "i", "o", "t" }, "<C-BS>", "<C-w>", "Delete word backward")
+create_keymap({ "i", "o", "t" }, "<C-h>", "<C-w>", "Delete word backward")
 
 -- Map <C-BS> to delete word backward with immediate redraw
 create_keymap("c", "<C-BS>", cmd_delete_word, "Delete word backward")
@@ -96,7 +96,7 @@ create_keymap("n", "<leader>wa", "<C-w>_<C-w>|", "Maximize the most possible act
 create_keymap("n", "<leader>wd", "<C-w>c", "Delete current window")
 
 -- Search the current visual selection
-create_keymap("v", "<leader>/", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], "Search the current visual selection")
+create_keymap("x", "<leader>/", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], "Search the current visual selection")
 
 -- send the current buffer to a new tab
 create_keymap("n", "<leader><Tab>n", function()

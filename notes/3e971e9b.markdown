@@ -11,3 +11,14 @@ Missing:
    Mostly complete, but need to check with extras to ensure that all is included.
 
 Interesting: https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file
+
+
+
+
+- Things to know about supabase:
+    - How integrate RLS with my tables
+    - How create new users and link auth creation with my own users
+    - How view all triggers, rls, etc, of my db
+
+- For supabase, context loading if neccesary:
+https://supabase.com/docs/guides/getting-started/quickstarts/reactjs

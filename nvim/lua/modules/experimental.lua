@@ -96,7 +96,7 @@ return {
                 function()
                     require("spectre").open_visual({ select_word = true })
                 end,
-                mode = { "n", "v" },
+                mode = { "n", "x" },
                 desc = "Spectre: Search current word",
             },
             {
@@ -104,7 +104,7 @@ return {
                 function()
                     require("spectre").open_file_search({ select_word = false })
                 end,
-                mode = { "n", "v" },
+                mode = { "n", "x" },
                 desc = "Spectre: Search in current file",
             },
         },
