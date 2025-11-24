@@ -109,7 +109,19 @@ return {
     {
         "saghen/blink.cmp",
         dependencies = {
-            "rafamadriz/friendly-snippets",
+            {
+                "L3MON4D3/LuaSnip",
+                version = "v2.*",
+                event = "VeryLazy",
+                dependencies = { "rafamadriz/friendly-snippets" },
+                config = function()
+                    require("luasnip").setup({
+                        loaders_store_source = false,
+                        update_events = { "InsertLeave", "TextChangedI" },
+                    })
+                    require("luasnip.loaders.from_vscode").lazy_load()
+                end,
+            },
             "xzbdmw/colorful-menu.nvim",
         },
         opts_extend = { "sources.default" },
@@ -120,6 +132,7 @@ return {
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
         opts = {
+            snippets = { preset = "luasnip" },
             keymap = {
                 preset = "none",
                 ["<Tab>"] = {
@@ -189,8 +202,10 @@ return {
                         name = "LSP",
                         module = "blink.cmp.sources.lsp",
                         transform_items = function(_, items)
+                            local kinds = require("blink.cmp.types").CompletionItemKind
+
                             return vim.tbl_filter(function(item)
-                                return item.kind ~= require("blink.cmp.types").CompletionItemKind.Keyword
+                                return item.kind ~= kinds.Snippet and item.kind ~= kinds.Keyword
                             end, items)
                         end,
 
@@ -236,7 +251,7 @@ return {
         opts = {
             words = {
                 enabled = true,
-                debounce = 75,
+                modes = { "n", "c" },
             },
 
             bigfile = {
