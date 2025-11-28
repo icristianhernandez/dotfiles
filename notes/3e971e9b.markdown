@@ -5,20 +5,34 @@
 
 Missing:
 
-1. gitsigns actions (go to next hunk, etc)
-2. trouble
-3. full noice set 8. All treesitter parsers pre instaled through stacks
+1. disable cmp for a newline to being able to do a identation tab
+2. gitsigns actions (go to next hunk, etc)
+3. trouble
+4. full noice set 8. All treesitter parsers pre instaled through stacks
    Mostly complete, but need to check with extras to ensure that all is included.
 
 Interesting: https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file
 
-
-
-
 - Things to know about supabase:
-    - How integrate RLS with my tables
-    - How create new users and link auth creation with my own users
-    - How view all triggers, rls, etc, of my db
+  - How integrate RLS/CLS with my tables (and how create them and best practices)
+  - How create new users and link auth creation with my own users
+  - How view all triggers, rls, etc, of my db
 
 - For supabase, context loading if neccesary:
-https://supabase.com/docs/guides/getting-started/quickstarts/reactjs
+  - all references
+    https://supabase.com/docs/guides/getting-started/features
+  - local development
+    https://supabase.com/docs/guides/local-development/cli/getting-started
+
+  - For react integration
+    https://supabase.com/docs/guides/database/connecting-to-postgres#data-apis-and-client-libraries
+    https://supabase.com/docs/guides/getting-started/quickstarts/reactjs
+    https://supabase.com/docs/guides/getting-started/tutorials/with-react
+
+  - AI prompts for supabase:
+    https://supabase.com/docs/guides/getting-started/ai-prompts/database-rls-policies
+    https://supabase.com/docs/guides/getting-started/ai-prompts/code-format-sql
+
+  - Varies info about security rows
+    https://supabase.com/docs/guides/database/hardening-data-api
+    https://supabase.com/docs/guides/database/vault

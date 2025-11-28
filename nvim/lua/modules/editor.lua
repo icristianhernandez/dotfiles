@@ -136,7 +136,11 @@ return {
             keymap = {
                 preset = "none",
                 ["<Tab>"] = {
-                    "show_and_insert_or_accept_single",
+                    -- function(cmp)
+                    --     if #cmp.get_items() == 1 then
+                    --         return cmp.select_and_accept()
+                    --     end
+                    -- end,
                     "select_next",
                     "fallback",
                 },
