@@ -162,3 +162,7 @@ vim.opt.confirm = true
 
 -- Clean up jumplist to avoid clutter
 vim.opt.jumpoptions = "clean"
+
+-- Define what constitutes a word. Currently includes letters, numbers, underscore,
+-- and characters with ASCII values from 192 to 255, as well as the hyphen
+vim.opt.iskeyword = "@,48-57,_,192-255,-"

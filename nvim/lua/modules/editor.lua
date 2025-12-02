@@ -118,8 +118,13 @@ return {
                     require("luasnip").setup({
                         loaders_store_source = false,
                         update_events = { "InsertLeave", "TextChangedI" },
+                        history = true,
+                        delete_check_events = "TextChanged",
                     })
                     require("luasnip.loaders.from_vscode").lazy_load()
+                    require("luasnip.loaders.from_vscode").lazy_load({
+                        paths = { vim.fn.stdpath("config") .. "/snippets" },
+                    })
                 end,
             },
             "xzbdmw/colorful-menu.nvim",
@@ -830,14 +835,6 @@ return {
                     require("flash").remote()
                 end,
                 desc = "Remote Flash",
-            },
-            {
-                "R",
-                mode = { "o", "x" },
-                function()
-                    require("flash").treesitter_search()
-                end,
-                desc = "Treesitter Search",
             },
             { "f", mode = { "n", "x", "o" }, desc = "Flash" },
             { "F", mode = { "n", "x", "o" }, desc = "Flash" },

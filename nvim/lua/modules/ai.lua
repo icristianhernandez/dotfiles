@@ -19,7 +19,8 @@ return {
     },
     {
         -- NickvanDyke/opencode.nvim: AI-powered coding assistant
-        "NickvanDyke/opencode.nvim",
+        "jerome-benoit/opencode.nvim",
+        branch = "fix/detect-bun-process",
         dependencies = {
             {
                 ---@module 'snacks'

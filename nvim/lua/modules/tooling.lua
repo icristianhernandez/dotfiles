@@ -25,7 +25,9 @@ return {
         "sustech-data/wildfire.nvim",
         event = "VeryLazy",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
-        opts = {},
+        opts = {
+            surrounds = {},
+        },
     },
     {
         "MeanderingProgrammer/treesitter-modules.nvim",

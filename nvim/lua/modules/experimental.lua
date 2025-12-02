@@ -43,6 +43,15 @@ return {
                 scratchPad = false,
             },
         },
+        keys = {
+            {
+                "<leader>un",
+                function()
+                    require("no-neck-pain").toggle()
+                end,
+                desc = "Toggle NoNeckPain",
+            },
+        },
     },
     {
         -- nvim-pack/nvim-spectre: project-wide find & replace in a panel
