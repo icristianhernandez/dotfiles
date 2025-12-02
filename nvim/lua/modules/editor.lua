@@ -264,6 +264,7 @@ return {
         opts = {
             words = {
                 enabled = true,
+                debounce = 100,
                 modes = { "n", "c" },
             },
 

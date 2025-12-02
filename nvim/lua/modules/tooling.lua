@@ -54,16 +54,7 @@ return {
             }
         end,
     },
-    {
-        "folke/lazydev.nvim",
-        ft = "lua",
-        cmd = "LazyDev",
-        opts = {
-            library = {
-                { path = "snacks.nvim", words = { "Snacks" } },
-            },
-        },
-    },
+
     {
         "mason-org/mason-lspconfig.nvim",
         opts = function()
@@ -123,6 +114,16 @@ return {
             ensure_installed = tooling.mason_null_ls.ensure_installed,
             methods = {
                 formatting = false,
+            },
+        },
+    },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        cmd = "LazyDev",
+        opts = {
+            library = {
+                { path = "snacks.nvim", words = { "Snacks" } },
             },
         },
     },
