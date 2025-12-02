@@ -643,7 +643,7 @@ return {
                 function()
                     Snacks.toggle.scroll():toggle()
                 end,
-                desc = "Toggle Scrollbar",
+                desc = "Toggle Scrollbar Animation",
             },
 
             -- actions

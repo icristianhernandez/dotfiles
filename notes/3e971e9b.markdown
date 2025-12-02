@@ -1,3 +1,9 @@
+nix envolutary setup: https://aistudio.google.com/prompts/1IOBH9ldQ4aafub1nzEQJLSuCX1pGb9xn
+Every Frontend Architecture Pattern Explained in 23 Minutes
+https://www.youtube.com/watch?v=9-r0RuX0pqk
+to check: https://xata.io/blog/configuring-neovim-coding-agents
+to check: https://github.com/esmuellert/vscode-diff.nvim
+
 - Por alguna razón, opencode sigue agregándole argumentos al ci y usando otros
   comandos para verificar la validez de la sintaxis
 - Si ningún elemento está siendo seleccionado y se está en snippet, salta al
@@ -12,6 +18,7 @@ Missing:
    Mostly complete, but need to check with extras to ensure that all is included.
 
 Interesting: https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file
+https://www.promptingguide.ai/
 
 - Things to know about supabase:
   - How integrate RLS/CLS with my tables (and how create them and best practices)

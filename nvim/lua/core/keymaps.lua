@@ -15,7 +15,8 @@ create_keymap("n", "<leader>qq", "<cmd>qa<cr>", "Quit All")
 --  basic windows management
 --  delete, quit, close all others, split
 create_keymap("n", "<leader>wq", "<cmd>q<cr>", "Quit Window")
-create_keymap("n", "<leader>wd", "<cmd>bd<cr>", "Delete Buffer")
+-- create_keymap("n", "<leader>wd", "<cmd>bd<cr>", "Delete Buffer")
+create_keymap("n", "<leader>wd", "<C-w>c", "Delete current window")
 create_keymap("n", "<leader>wo", "<cmd>only<cr>", "Close Other Windows")
 create_keymap("n", "<leader>ws", "<cmd>split<cr>", "Horizontal Split Window")
 create_keymap("n", "<leader>wv", "<cmd>vsplit<cr>", "Vertical Split Window")
@@ -92,8 +93,6 @@ create_keymap("c", "<C-h>", cmd_delete_word, "Delete word backward")
 
 -- maximize the most possible actual window
 create_keymap("n", "<leader>wa", "<C-w>_<C-w>|", "Maximize the most possible actual window")
--- delete current window
-create_keymap("n", "<leader>wd", "<C-w>c", "Delete current window")
 
 -- Search the current visual selection
 create_keymap("x", "<leader>/", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], "Search the current visual selection")
