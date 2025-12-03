@@ -128,6 +128,7 @@ return {
                 end,
             },
             "xzbdmw/colorful-menu.nvim",
+            "nvim-mini/mini.icons",
         },
         opts_extend = { "sources.default" },
 
@@ -251,6 +252,44 @@ return {
         config = function(_, opts)
             -- make sure backspace in select mode works as expected
             vim.keymap.set("s", "<BS>", "<C-O>s")
+
+            -- Integrate mini.icons for completion kind icons
+            local MiniIcons = require("mini.icons")
+            local kind_icons = {}
+            -- LSP CompletionItemKind names (from LSP specification)
+            local lsp_kinds = {
+                "Text",
+                "Method",
+                "Function",
+                "Constructor",
+                "Field",
+                "Variable",
+                "Class",
+                "Interface",
+                "Module",
+                "Property",
+                "Unit",
+                "Value",
+                "Enum",
+                "Keyword",
+                "Snippet",
+                "Color",
+                "File",
+                "Reference",
+                "Folder",
+                "EnumMember",
+                "Constant",
+                "Struct",
+                "Event",
+                "Operator",
+                "TypeParameter",
+            }
+            for _, kind in ipairs(lsp_kinds) do
+                local icon = MiniIcons.get("lsp", kind:lower())
+                kind_icons[kind] = icon
+            end
+            opts.appearance = opts.appearance or {}
+            opts.appearance.kind_icons = kind_icons
 
             require("blink.cmp").setup(opts)
         end,
