@@ -62,8 +62,8 @@ This document lists all custom keymaps in this nvim configuration that have buil
 
 ### Visual Mode
 
-- `<` (visual) : `<` (Better indenting - keeps selection with `<gv`)
-- `>` (visual) : `>` (Better indenting - keeps selection with `>gv`)
+- `<` (visual) : `<gv` (Indent left and reselect - vanilla `<` exits visual mode)
+- `>` (visual) : `>gv` (Indent right and reselect - vanilla `>` exits visual mode)
 - `p` (visual) : `p` (Keep last yanked when pasting - uses black hole register)
 
 ### Bracket Remapping
@@ -74,4 +74,4 @@ This document lists all custom keymaps in this nvim configuration that have buil
 ### Insert Mode Delete Word
 
 - `<C-BS>` (insert/cmdline) : `<C-w>` (Delete word backward)
-- `<C-h>` (insert) : `<C-w>` (Delete word backward - note: also moves window in insert mode)
+- `<C-h>` (insert) : `<C-w>` (Delete word backward - vanilla `<C-h>` is backspace)
