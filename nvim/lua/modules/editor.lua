@@ -70,8 +70,9 @@ return {
                 end,
             })
 
-            -- the confirmation floating windows closes mini.files. Fix it.
+            -- Integrate with Snacks.rename to update LSP references when renaming files
             vim.api.nvim_create_autocmd("User", {
+                group = group,
                 pattern = "MiniFilesActionRename",
                 callback = function(event)
                     Snacks.rename.on_rename_file(event.data.from, event.data.to)
