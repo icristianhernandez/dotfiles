@@ -1,21 +1,17 @@
-# Custom Keymaps with Vanilla/Builtin Vim Equivalents
+# Custom Keymaps with Vanilla/Builtin Vim Keybind Equivalents
 
-This document lists all custom keymaps in this nvim configuration that have builtin/vanilla vim/neovim equivalents.
+This document lists all custom keymaps in this nvim configuration that have builtin/vanilla vim/neovim keybind equivalents (excluding command-line commands).
 
 ## Format: `{my_keymap} : {vanilla_keymap}`
 
-### File Operations
-
-- `<C-s>` : `:w<CR>` (Save file - vanilla uses the command mode)
-
 ### Window Management
 
-- `<leader>wq` : `<C-w>q` or `:q<CR>` (Quit window)
+- `<leader>wq` : `<C-w>q` (Quit window)
 - `<leader>wd` : `<C-w>c` (Close current window)
-- `<leader>wo` : `<C-w>o` or `:only<CR>` (Close other windows)
-- `<leader>ws` : `<C-w>s` or `:split<CR>` (Horizontal split)
-- `<leader>wv` : `<C-w>v` or `:vsplit<CR>` (Vertical split)
-- `<leader>wa` : `<C-w>_<C-w>|` (Maximize window - same underlying keys)
+- `<leader>wo` : `<C-w>o` (Close other windows)
+- `<leader>ws` : `<C-w>s` (Horizontal split)
+- `<leader>wv` : `<C-w>v` (Vertical split)
+- `<leader>wa` : `<C-w>_<C-w>|` (Maximize window)
 - `<C-h>` (normal) : `<C-w>h` (Move to left window)
 - `<C-j>` (normal) : `<C-w>j` (Move to window below)
 - `<C-k>` (normal) : `<C-w>k` (Move to window above)
@@ -24,20 +20,17 @@ This document lists all custom keymaps in this nvim configuration that have buil
 ### Clipboard Operations
 
 - `<C-c>` : `"+y` (Yank to system clipboard)
-- `<C-v>` (normal) : `"+p` or `"+gP` (Paste from system clipboard)
-- `<C-v>` (insert) : `<C-r>+` (Paste from clipboard in insert mode - vanilla uses `<C-r>` register insert)
+- `<C-v>` (normal) : `"+p` (Paste from system clipboard)
+- `<C-v>` (insert) : `<C-r>+` (Paste from clipboard in insert mode)
 
 ### Navigation
 
 - `0` : `^` (Swapped: go to first non-blank character)
 - `^` : `0` (Swapped: go to first column)
-- `<leader><leader>` : `<C-^>` or `<C-6>` (Go to alternate buffer)
+- `<leader><leader>` : `<C-^>` (Go to alternate buffer)
 
 ### Tab Management
 
-- `<leader><Tab><Tab>` : `:tabnew<CR>` (Open new tab)
-- `<leader><Tab>d` : `:tabclose<CR>` (Close current tab)
-- `<leader><Tab>o` : `:tabonly<CR>` (Close other tabs)
 - `<leader><Tab>1` : `1gt` (Go to tab 1)
 - `<leader><Tab>2` : `2gt` (Go to tab 2)
 - `<leader><Tab>3` : `3gt` (Go to tab 3)
