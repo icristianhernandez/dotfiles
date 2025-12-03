@@ -166,7 +166,9 @@ return {
             MiniIcons.mock_nvim_web_devicons()
 
             -- Tweak builtin LSP kind names so completion/symbols include icons.
-            MiniIcons.tweak_lsp_kind("prepend")
+            vim.defer_fn(function()
+                MiniIcons.tweak_lsp_kind("prepend")
+            end, 200)
 
             -- Compact, stable diagnostic sign setup using a small mapping.
             local signs_text, signs_numhl = {}, {}
@@ -184,12 +186,6 @@ return {
             end
 
             vim.diagnostic.config({ signs = { text = signs_text, numhl = signs_numhl } })
-
-            -- Small helper for other plugin integrations to use consistently.
-            _G.MiniIcons_format = function(category, name)
-                local glyph, glyph_hl = MiniIcons.get(category, name)
-                return { icon = glyph or "", hl = glyph_hl }
-            end
         end,
     },
 

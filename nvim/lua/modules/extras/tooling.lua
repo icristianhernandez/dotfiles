@@ -186,6 +186,21 @@ local stacks = {
         linters = { "yamllint", "markdownlint-cli2", "jsonlint" },
     },
 
+    -- Docs and misc parsers
+    docs = {
+        parsers = { "regex", "latex", "typst", "norg" },
+        lsps = { "texlab", "tinymist" },
+        formatters_by_ft = {
+            tex = { { name = "latexindent", install = true } },
+            typst = {
+                lsp_format = "first",
+                filter = function(client)
+                    return client.name == "tinymist"
+                end,
+            },
+        },
+    },
+
     -- Nix ecosystem
     nix = {
         parsers = { "nix" },
@@ -290,7 +305,7 @@ local stacks = {
 
     -- Editor and documentation parsers
     editor = {
-        parsers = { "vim", "vimdoc" },
+        parsers = { "vim", "vimdoc", "regex" },
     },
 
     -- Build and CI configuration formats

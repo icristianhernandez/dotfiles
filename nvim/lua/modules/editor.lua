@@ -70,13 +70,40 @@ return {
                 end,
             })
 
-            -- the confirmation floating windows closes mini.files. Fix it.
+            -- BUG: the confirmation floating windows of snack closes mini.files.
+            -- Potential explanation:
+            -- mini.files starts a timer every time MiniFiles.open() runs (see H.explorer_track_lost_focus in the upstream mini/files.lua). Once per second it checks the currently focused buffer’s filetype; if it isn’t minifiles/minifiles-help, it calls MiniFiles.close() proactively.
+            -- Snacks.rename.rename_file() (triggered by your grN mapping in editor.lua) collects the new filename via vim.ui.input, which Snacks overrides with its own floating “snacks_input” window. Typing in that prompt steals focus from the explorer for longer than a second, so the timer decides the explorer was “abandoned” and closes it.
             vim.api.nvim_create_autocmd("User", {
                 pattern = "MiniFilesActionRename",
                 callback = function(event)
                     Snacks.rename.on_rename_file(event.data.from, event.data.to)
                 end,
             })
+
+            local MiniFiles = require("mini.files")
+            local orig_close = MiniFiles.close
+
+            -- Workaround fix: override MiniFiles.close to ignore calls when Snacks floating windows are open.
+            ---@diagnostic disable-next-line: duplicate-set-field
+            MiniFiles.close = function(...)
+                local ft = vim.bo.filetype or ""
+
+                local function is_ignored_ft(ft)
+                    return ft == "TelescopePrompt" or ft == "noice" or ft:match("^snacks")
+                end
+
+                local function current_win_is_floating()
+                    local ok, cfg = pcall(vim.api.nvim_win_get_config, 0)
+                    return ok and cfg and cfg.relative and cfg.relative ~= ""
+                end
+
+                if is_ignored_ft(ft) and current_win_is_floating() then
+                    return false
+                end
+
+                return orig_close(...)
+            end
         end,
         keys = {
             { "<leader>e", "", desc = "+file explorer", mode = { "n", "x" } },
@@ -128,6 +155,7 @@ return {
                 end,
             },
             "xzbdmw/colorful-menu.nvim",
+            "nvim-mini/mini.icons",
         },
         opts_extend = { "sources.default" },
 
@@ -251,6 +279,44 @@ return {
         config = function(_, opts)
             -- make sure backspace in select mode works as expected
             vim.keymap.set("s", "<BS>", "<C-O>s")
+
+            -- Integrate mini.icons for completion kind icons
+            local MiniIcons = require("mini.icons")
+            local kind_icons = {}
+            -- LSP CompletionItemKind names (from LSP specification)
+            local lsp_kinds = {
+                "Text",
+                "Method",
+                "Function",
+                "Constructor",
+                "Field",
+                "Variable",
+                "Class",
+                "Interface",
+                "Module",
+                "Property",
+                "Unit",
+                "Value",
+                "Enum",
+                "Keyword",
+                "Snippet",
+                "Color",
+                "File",
+                "Reference",
+                "Folder",
+                "EnumMember",
+                "Constant",
+                "Struct",
+                "Event",
+                "Operator",
+                "TypeParameter",
+            }
+            for _, kind in ipairs(lsp_kinds) do
+                local icon = MiniIcons.get("lsp", kind:lower())
+                kind_icons[kind] = icon
+            end
+            opts.appearance = opts.appearance or {}
+            opts.appearance.kind_icons = kind_icons
 
             require("blink.cmp").setup(opts)
         end,

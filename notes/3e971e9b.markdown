@@ -1,8 +1,20 @@
+Changes to agents md:
+
+- The code added or edited need to be legible.
+
+  https://play.google.com/store/apps/details?id=com.ihgyug.arcadium2
+  https://play.google.com/store/apps/details?id=com.ihgyug.arcadium3
+
 nix envolutary setup: https://aistudio.google.com/prompts/1IOBH9ldQ4aafub1nzEQJLSuCX1pGb9xn
+https://zero-to-nix.com/
+
 Every Frontend Architecture Pattern Explained in 23 Minutes
 https://www.youtube.com/watch?v=9-r0RuX0pqk
 to check: https://xata.io/blog/configuring-neovim-coding-agents
 to check: https://github.com/esmuellert/vscode-diff.nvim
+
+prompts things:
+https://docs.google.com/document/d/1sbtPe4br9jGXccIRwiXZ7j5HRQ4EB2oeQQWBo3GA1xE/edit?tab=t.0
 
 - Por alguna razón, opencode sigue agregándole argumentos al ci y usando otros
   comandos para verificar la validez de la sintaxis
@@ -16,9 +28,15 @@ Missing:
 3. trouble
 4. full noice set 8. All treesitter parsers pre instaled through stacks
    Mostly complete, but need to check with extras to ensure that all is included.
+5. some finding in mini.files to get fast to a file/directory
+   https://github.com/nvim-mini/mini.nvim/blob/f40da50a3dfbbc53e6173beef8dc28626e1b5ebc/doc/mini-files.txt#L537-L552
+   https://github.com/nvim-mini/mini.icons/blob/main/doc/mini-icons.txt
+   https://www.reddit.com/r/neovim/comments/1jf5153/how_to_persist_bookmarks_in_minifiles/
+   To set cwd: https://www.lazyvim.org/extras/editor/mini-files
 
 Interesting: https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file
 https://www.promptingguide.ai/
+https://nixos.org/manual/nixos/stable/#sec-user-management
 
 - Things to know about supabase:
   - How integrate RLS/CLS with my tables (and how create them and best practices)
@@ -43,3 +61,17 @@ https://www.promptingguide.ai/
   - Varies info about security rows
     https://supabase.com/docs/guides/database/hardening-data-api
     https://supabase.com/docs/guides/database/vault
+
+https://www.reddit.com/r/neovim/comments/1nxzz9i/new_foldinner_fillchar/ :
+´´´ lua
+vim.o.foldcolumn = '1'
+vim.o.foldlevelstart = 99
+vim.wo.foldtext = ''
+vim.opt.fillchars = {
+fold = ' ',
+foldclose = arrows.right,
+foldopen = arrows.down,
+foldsep = ' ',
+foldinner = ' '
+}
+´´´

@@ -77,23 +77,6 @@ return {
                 vim.lsp.enable(server)
             end
 
-            vim.api.nvim_create_autocmd("LspAttach", {
-                group = vim.api.nvim_create_augroup("user.lsp", {}),
-                callback = function(args)
-                    local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    if not client then
-                        return
-                    end
-
-                    vim.keymap.set(
-                        "n",
-                        "<leader>cd",
-                        vim.diagnostic.open_float,
-                        { buffer = args.buf, desc = "Open diagnostics" }
-                    )
-                end,
-            })
-
             require("mason-lspconfig").setup(opts)
         end,
         dependencies = {
