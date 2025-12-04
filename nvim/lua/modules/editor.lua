@@ -135,6 +135,10 @@ return {
     },
     {
         "saghen/blink.cmp",
+        -- use a release tag to download pre-built binaries
+        version = "1.*",
+        opts_extend = { "sources.default", "sources.providers" },
+
         dependencies = {
             {
                 "L3MON4D3/LuaSnip",
@@ -157,10 +161,6 @@ return {
             "xzbdmw/colorful-menu.nvim",
             "nvim-mini/mini.icons",
         },
-        opts_extend = { "sources.default" },
-
-        -- use a release tag to download pre-built binaries
-        version = "1.*",
 
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
@@ -169,11 +169,6 @@ return {
             keymap = {
                 preset = "none",
                 ["<Tab>"] = {
-                    -- function(cmp)
-                    --     if #cmp.get_items() == 1 then
-                    --         return cmp.select_and_accept()
-                    --     end
-                    -- end,
                     "select_next",
                     "fallback",
                 },
@@ -237,7 +232,14 @@ return {
             },
 
             sources = {
+                default = { "fuzzy-path", "lsp", "path", "snippets", "buffer" },
+
                 providers = {
+                    ["fuzzy-path"] = {
+                        name = "Fuzzy Path",
+                        module = "blink-cmp-fuzzy-path",
+                        score_offset = 0,
+                    },
                     lsp = {
                         name = "LSP",
                         module = "blink.cmp.sources.lsp",
@@ -264,7 +266,11 @@ return {
             cmdline = {
                 keymap = { preset = "inherit" },
                 completion = {
-                    trigger = { show_on_blocked_trigger_characters = { " ", "\n", "\t" } },
+                    trigger = {
+                        -- these doesn't work for some reason
+                        show_on_x_blocked_trigger_characters = { " " },
+                        show_on_blocked_trigger_characters = { " " },
+                    },
                     list = {
                         selection = {
                             preselect = false,
@@ -272,6 +278,7 @@ return {
                         },
                     },
                     menu = { auto_show = true },
+                    ghost_text = { enabled = true },
                 },
             },
         },

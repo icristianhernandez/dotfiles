@@ -196,7 +196,9 @@ return {
         "catgoose/nvim-colorizer.lua",
         main = "colorizer",
         event = "BufReadPre",
-        opts = {},
+        opts = {
+            -- user_default_options = { mode = "virtualtext" },
+        },
     },
     {
         -- OXY2DEV/helpview.nvim: improved help buffer viewer

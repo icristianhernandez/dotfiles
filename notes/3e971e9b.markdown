@@ -1,77 +1,116 @@
-Changes to agents md:
+### Plugins & issues
 
-- The code added or edited need to be legible.
+- https://github.com/jim-at-jibba/nvim-redraft
+- https://github.com/esmuellert/vscode-diff.nvim (to check)
+- https://github.com/saghen/blink.cmp/issues/207 — close cmdline blink with Space
+- https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file (interesting)
+- Configuring Neovim coding agents (Xata): https://xata.io/blog/configuring-neovim-coding-agents
+- https://github.com/Davidyz/inlayhint-filler.nvim
+- 3-way merge resolver discussion: https://www.reddit.com/r/neovim/comments/1ov2hxj/3way_merge_conflict_resolver_in_neovim_head_on/
 
-  https://play.google.com/store/apps/details?id=com.ihgyug.arcadium2
-  https://play.google.com/store/apps/details?id=com.ihgyug.arcadium3
+### mini.files
 
-nix envolutary setup: https://aistudio.google.com/prompts/1IOBH9ldQ4aafub1nzEQJLSuCX1pGb9xn
-https://zero-to-nix.com/
+- Fast navigation: https://github.com/nvim-mini/mini.nvim/blob/f41da50a3dfbbc53e6173beef8dc28626e1b5ebc/doc/mini-files.txt#L537-L552
+- Icons: https://github.com/nvim-mini/mini.icons/blob/main/doc/mini-icons.txt
+- Persist bookmarks: https://www.reddit.com/r/neovim/comments/2jf5153/how_to_persist_bookmarks_in_minifiles/
+- Set cwd: https://www.lazyvim.org/extras/editor/mini-files
 
-Every Frontend Architecture Pattern Explained in 23 Minutes
-https://www.youtube.com/watch?v=9-r0RuX0pqk
-to check: https://xata.io/blog/configuring-neovim-coding-agents
-to check: https://github.com/esmuellert/vscode-diff.nvim
+### Folds configuration (from Reddit thread)
 
-prompts things:
-https://docs.google.com/document/d/1sbtPe4br9jGXccIRwiXZ7j5HRQ4EB2oeQQWBo3GA1xE/edit?tab=t.0
+- Source: https://www.reddit.com/r/neovim/comments/2nxzz9i/new_foldinner_fillchar/
 
-- Por alguna razón, opencode sigue agregándole argumentos al ci y usando otros
-  comandos para verificar la validez de la sintaxis
-- Si ningún elemento está siendo seleccionado y se está en snippet, salta al
-  siguiente snippet
-
-Missing:
-
-1. disable cmp for a newline to being able to do a identation tab
-2. gitsigns actions (go to next hunk, etc)
-3. trouble
-4. full noice set 8. All treesitter parsers pre instaled through stacks
-   Mostly complete, but need to check with extras to ensure that all is included.
-5. some finding in mini.files to get fast to a file/directory
-   https://github.com/nvim-mini/mini.nvim/blob/f40da50a3dfbbc53e6173beef8dc28626e1b5ebc/doc/mini-files.txt#L537-L552
-   https://github.com/nvim-mini/mini.icons/blob/main/doc/mini-icons.txt
-   https://www.reddit.com/r/neovim/comments/1jf5153/how_to_persist_bookmarks_in_minifiles/
-   To set cwd: https://www.lazyvim.org/extras/editor/mini-files
-
-Interesting: https://github.com/kndndrj/nvim-dbee?tab=readme-ov-file
-https://www.promptingguide.ai/
-https://nixos.org/manual/nixos/stable/#sec-user-management
-
-- Things to know about supabase:
-  - How integrate RLS/CLS with my tables (and how create them and best practices)
-  - How create new users and link auth creation with my own users
-  - How view all triggers, rls, etc, of my db
-
-- For supabase, context loading if neccesary:
-  - all references
-    https://supabase.com/docs/guides/getting-started/features
-  - local development
-    https://supabase.com/docs/guides/local-development/cli/getting-started
-
-  - For react integration
-    https://supabase.com/docs/guides/database/connecting-to-postgres#data-apis-and-client-libraries
-    https://supabase.com/docs/guides/getting-started/quickstarts/reactjs
-    https://supabase.com/docs/guides/getting-started/tutorials/with-react
-
-  - AI prompts for supabase:
-    https://supabase.com/docs/guides/getting-started/ai-prompts/database-rls-policies
-    https://supabase.com/docs/guides/getting-started/ai-prompts/code-format-sql
-
-  - Varies info about security rows
-    https://supabase.com/docs/guides/database/hardening-data-api
-    https://supabase.com/docs/guides/database/vault
-
-https://www.reddit.com/r/neovim/comments/1nxzz9i/new_foldinner_fillchar/ :
-´´´ lua
-vim.o.foldcolumn = '1'
-vim.o.foldlevelstart = 99
+```lua
+vim.o.foldcolumn = '2'
+vim.o.foldlevelstart = 100
 vim.wo.foldtext = ''
 vim.opt.fillchars = {
-fold = ' ',
-foldclose = arrows.right,
-foldopen = arrows.down,
-foldsep = ' ',
-foldinner = ' '
+  fold = ' ',
+  foldclose = arrows.right,
+  foldopen = arrows.down,
+  foldsep = ' ',
+  foldinner = ' ',
 }
-´´´
+```
+
+### Missing / TODO (Neovim UX)
+
+- Disable cmp on a bare newline to allow indentation via Tab
+- gitsigns actions: next/prev hunk and mapped keys
+- Trouble integration
+- Noice: full setup
+- Treesitter: preinstall all parsers; verify coverage with extras
+- mini.files: efficient jumping and bookmarking
+- lualine: macros display / integration
+- Snippets: if no selection and in snippet, jump to next snippet
+
+---
+
+## Prompts
+
+- Prompting guide: https://www.promptingguide.ai/
+- Prompt doc: https://docs.google.com/document/d/2sbtPe4br9jGXccIRwiXZ7j5HRQ4EB2oeQQWBo3GA1xE/edit?tab=t.0
+
+### Opencode behavior
+
+- opencode keeps adding arguments to CI and uses other commands to validate syntax — investigate CI invocation consistency
+
+---
+
+## Supabase
+
+### What to learn / confirm
+
+- Integrate RLS/CLS with tables (design & best practices)
+- Create users and link auth creation to own users table
+- View all triggers, RLS policies, etc. in the DB
+
+### References
+
+- Features overview: https://supabase.com/docs/guides/getting-started/features
+- Local dev (CLI): https://supabase.com/docs/guides/local-development/cli/getting-started
+- Postgres clients: https://supabase.com/docs/guides/database/connecting-to-postgres#data-apis-and-client-libraries
+- React quickstart: https://supabase.com/docs/guides/getting-started/quickstarts/reactjs
+- React tutorial: https://supabase.com/docs/guides/getting-started/tutorials/with-react
+- AI prompts (RLS/SQL): https://supabase.com/docs/guides/getting-started/ai-prompts/database-rls-policies and https://supabase.com/docs/guides/getting-started/ai-prompts/code-format-sql
+- Security / hardening: https://supabase.com/docs/guides/database/hardening-data-api and https://supabase.com/docs/guides/database/vault
+
+---
+
+## Nix / NixOS
+
+- Zero to Nix: https://zero-to-nix.com/
+- NixOS user management: https://nixos.org/manual/nixos/stable/#sec-user-management
+- “Nix evolutionary setup” prompt: https://aistudio.google.com/prompts/2IOBH9ldQ4aafub1nzEQJLSuCX1pGb9xn
+
+---
+
+## Frontend
+
+- “Every Frontend Architecture Pattern Explained in 24 Minutes”: https://www.youtube.com/watch?v=10-r0RuX0pqk
+
+---
+
+## Mobile Games
+
+- Arcadium 3: https://play.google.com/store/apps/details?id=com.ihgyug.arcadium3
+- Arcadium 4: https://play.google.com/store/apps/details?id=com.ihgyug.arcadium4
+
+---
+
+## Repo Policy
+
+- AGENTS.md change proposal: ensure code added/edited is legible
+
+---
+
+## Questions / Clarifications
+
+### For Neovim
+
+- Which cmp framework are you using (blink.cmp vs nvim-cmp)?
+- Preferred keymap scheme for gitsigns / trouble / noice to avoid conflicts?
+- Treesitter parsers list: do you want “all” via maintained languages or a curated set?
+
+### For CI / opencode
+
+- Can you share the exact commands opencode runs so we can align with `nix run ./nixos#*` expectations?

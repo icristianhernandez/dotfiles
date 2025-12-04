@@ -571,44 +571,56 @@ local function build_tooling_config(stacks_arg)
 
         if stack.formatters_by_ft then
             for filetype, filetype_spec in pairs(stack.formatters_by_ft) do
-                local merged_spec_for_filetype = formatters_by_filetype[filetype]
-                if not merged_spec_for_filetype then
-                    merged_spec_for_filetype = {}
-                    formatters_by_filetype[filetype] = merged_spec_for_filetype
-                else
-                    error(
-                        "formatters_by_ft for filetype '"
-                            .. tostring(filetype)
-                            .. "' defined in multiple stacks; duplicates are not allowed"
-                    )
-                end
-
-                -- numeric entries: append names in order; preserve duplicates
-                for _, formatter_entry in ipairs(filetype_spec) do
-                    if type(formatter_entry) ~= "string" and type(formatter_entry) ~= "table" then
-                        error("formatter numeric entry must be string or table")
+                if type(filetype_spec) == "function" then
+                    -- Preserve function-valued filetype spec directly for Conform
+                    if formatters_by_filetype[filetype] ~= nil then
+                        error(
+                            "formatters_by_ft for filetype '"
+                                .. tostring(filetype)
+                                .. "' defined in multiple stacks; duplicates are not allowed"
+                        )
                     end
-                    local normalized = normalize_formatter(formatter_entry)
-                    table.insert(merged_spec_for_filetype, normalized.name)
-                    apply_formatter(formatter_entry)
+                    formatters_by_filetype[filetype] = filetype_spec
+                else
+                    local merged_spec_for_filetype = formatters_by_filetype[filetype]
+                    if not merged_spec_for_filetype then
+                        merged_spec_for_filetype = {}
+                        formatters_by_filetype[filetype] = merged_spec_for_filetype
+                    else
+                        error(
+                            "formatters_by_ft for filetype '"
+                                .. tostring(filetype)
+                                .. "' defined in multiple stacks; duplicates are not allowed"
+                        )
+                    end
 
-                    -- if the numeric entry is a table, copy its non-numeric option keys (preserve per-entry options)
-                    if type(formatter_entry) == "table" then
-                        for k, v in pairs(formatter_entry) do
-                            if type(k) ~= "number" and k ~= "name" and k ~= "install" and k ~= "installation" then
-                                -- don't overwrite keys already set by filetype-level options
-                                if merged_spec_for_filetype[k] == nil then
-                                    merged_spec_for_filetype[k] = v
+                    -- numeric entries: append names in order; preserve duplicates
+                    for _, formatter_entry in ipairs(filetype_spec) do
+                        if type(formatter_entry) ~= "string" and type(formatter_entry) ~= "table" then
+                            error("formatter numeric entry must be string or table")
+                        end
+                        local normalized = normalize_formatter(formatter_entry)
+                        table.insert(merged_spec_for_filetype, normalized.name)
+                        apply_formatter(formatter_entry)
+
+                        -- if the numeric entry is a table, copy its non-numeric option keys (preserve per-entry options)
+                        if type(formatter_entry) == "table" then
+                            for k, v in pairs(formatter_entry) do
+                                if type(k) ~= "number" and k ~= "name" and k ~= "install" and k ~= "installation" then
+                                    -- don't overwrite keys already set by filetype-level options
+                                    if merged_spec_for_filetype[k] == nil then
+                                        merged_spec_for_filetype[k] = v
+                                    end
                                 end
                             end
                         end
                     end
-                end
 
-                -- copy non-numeric option keys from this stack's spec
-                for key, value in pairs(filetype_spec) do
-                    if type(key) ~= "number" then
-                        merged_spec_for_filetype[key] = value
+                    -- copy non-numeric option keys from this stack's spec
+                    for key, value in pairs(filetype_spec) do
+                        if type(key) ~= "number" then
+                            merged_spec_for_filetype[key] = value
+                        end
                     end
                 end
             end

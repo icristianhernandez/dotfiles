@@ -40,14 +40,6 @@ create_keymap({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", "Down", { exp
 create_keymap({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", "Up", { expr = true, silent = true })
 create_keymap({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", "Up", { expr = true, silent = true })
 
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
-create_keymap("n", "n", "'Nn'[v:searchforward].'zv'", "Next Search Result", { expr = true })
-create_keymap("x", "n", "'Nn'[v:searchforward]", "Next Search Result", { expr = true })
-create_keymap("o", "n", "'Nn'[v:searchforward]", "Next Search Result", { expr = true })
-create_keymap("n", "N", "'nN'[v:searchforward].'zv'", "Prev Search Result", { expr = true })
-create_keymap("x", "N", "'nN'[v:searchforward]", "Prev Search Result", { expr = true })
-create_keymap("o", "N", "'nN'[v:searchforward]", "Prev Search Result", { expr = true })
-
 -- better indenting
 create_keymap("x", "<", "<gv")
 create_keymap("x", ">", ">gv")

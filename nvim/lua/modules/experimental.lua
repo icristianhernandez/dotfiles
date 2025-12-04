@@ -140,4 +140,44 @@ return {
     --         )
     --     end,
     -- },
+    -- lazy.nvim
+    {
+        "chrisgrieser/nvim-recorder",
+        opts = {
+            -- lessNotifications = true,
+        },
+    },
+    {
+        "rachartier/tiny-glimmer.nvim",
+        event = "VeryLazy",
+        opts = {
+            autoreload = true,
+            overwrite = {
+                search = {
+                    enabled = true,
+                    default_animation = {
+                        name = "left_to_right",
+                        settings = {
+                            from_color = "DiffDelete",
+                            max_duration = 150,
+                            min_duration = 150,
+                        },
+                    },
+                },
+                undo = {
+                    enabled = true,
+                },
+                redo = {
+                    enabled = true,
+                },
+            },
+        },
+    },
+    {
+        -- Type @ (or a custom trigger) in configured filetypes to get intelligent file path suggestions.
+        "newtoallofthis123/blink-cmp-fuzzy-path",
+        dependencies = {
+            "saghen/blink.cmp",
+        },
+    },
 }

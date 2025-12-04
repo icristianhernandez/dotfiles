@@ -14,3 +14,10 @@ https://www.youtube.com/watch?v=4su6oCiJpCY
 
 Terraria:
 https://www.youtube.com/watch?v=ucpel6xmZ34
+https://terrariamods.wiki.gg/wiki/TRAE_Project
+https://terrariamods.fandom.com/wiki/MrPlague%27s_Authentic_Races
+https://steamcommunity.com/sharedfiles/filedetails/?id=3282694994
+https://steamcommunity.com/sharedfiles/filedetails/?id=3357778735
+https://steamcommunity.com/sharedfiles/filedetails/?id=3419141018
+https://steamcommunity.com/sharedfiles/filedetails/?id=2910253435
+https://steamcommunity.com/sharedfiles/filedetails/?id=2567580488
