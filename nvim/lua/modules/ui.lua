@@ -1,6 +1,6 @@
 return {
-    -- nvim-lualine/lualine.nvim: statusline
     {
+        -- nvim-lualine/lualine.nvim: statusline
         "nvim-lualine/lualine.nvim",
         dependencies = {
             "nvim-mini/mini.icons",
@@ -50,27 +50,44 @@ return {
         end,
     },
 
-    -- lukas-reineke/indent-blankline.nvim: show indent guides and scope
     {
-        "lukas-reineke/indent-blankline.nvim",
-        main = "ibl",
+        -- saghen/blink.indent.nvim: blink indent guides on cursor movement
+        "saghen/blink.indent",
+        --- @module 'blink.indent'
+        --- @type blink.indent.Config
         opts = {
-            indent = {
-                char = "▏",
-                tab_char = "▏",
-                smart_indent_cap = true,
-                repeat_linebreak = true,
+            static = {
+                -- char = "▏",
             },
             scope = {
-                enabled = true,
-                show_start = true,
-                show_end = true,
+                enabled = false,
+                -- char = "▏",
+                -- underline = { enabled = true },
             },
         },
     },
 
-    -- HiPhish/rainbow-delimiters.nvim: color nested delimiters by depth
+    -- {
+    -- -- lukas-reineke/indent-blankline.nvim: show indent guides and scope
+    --     "lukas-reineke/indent-blankline.nvim",
+    --     main = "ibl",
+    --     opts = {
+    --         indent = {
+    --             char = "▏",
+    --             tab_char = "▏",
+    --             smart_indent_cap = true,
+    --             repeat_linebreak = true,
+    --         },
+    --         scope = {
+    --             enabled = true,
+    --             show_start = true,
+    --             show_end = true,
+    --         },
+    --     },
+    -- },
+
     {
+        -- HiPhish/rainbow-delimiters.nvim: color nested delimiters by depth
         "HiPhish/rainbow-delimiters.nvim",
         -- nvim-treesitter/nvim-treesitter: incremental parsing and AST-based features
         dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -79,6 +96,7 @@ return {
     },
 
     {
+        -- folke/snacks.nvim: a minimal, fancy notification manager
         "folke/snacks.nvim",
         ---@type snacks.Config
         opts = {
@@ -93,8 +111,8 @@ return {
             vim.notify = Snacks.notifier
         end,
     },
-    -- lazy.nvim
     {
+        -- folke/noice.nvim: enhanced cmdline and LSP UIs
         "folke/noice.nvim",
         event = "VeryLazy",
 
@@ -156,6 +174,7 @@ return {
     },
 
     {
+        -- nvim-mini/mini.icons: icon set and API
         "nvim-mini/mini.icons",
         lazy = false,
         opts = {},
@@ -192,7 +211,6 @@ return {
     {
         -- catgoose/nvim-colorizer.lua: highlight color codes inline
         -- #389812
-
         "catgoose/nvim-colorizer.lua",
         main = "colorizer",
         event = "BufReadPre",

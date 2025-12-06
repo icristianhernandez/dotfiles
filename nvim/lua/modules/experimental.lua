@@ -142,12 +142,14 @@ return {
     -- },
     -- lazy.nvim
     {
+        -- chrisgrieser/nvim-recorder: record and replay macros with an easy-to-use UI
         "chrisgrieser/nvim-recorder",
         opts = {
             -- lessNotifications = true,
         },
     },
     {
+        -- subtle animations for Neovim actions (search, undo, redo, yank, etc.)
         "rachartier/tiny-glimmer.nvim",
         event = "VeryLazy",
         opts = {
@@ -171,13 +173,6 @@ return {
                     enabled = true,
                 },
             },
-        },
-    },
-    {
-        -- Type @ (or a custom trigger) in configured filetypes to get intelligent file path suggestions.
-        "newtoallofthis123/blink-cmp-fuzzy-path",
-        dependencies = {
-            "saghen/blink.cmp",
         },
     },
 }

@@ -17,9 +17,13 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Open all help pages in a new tab (except for the case of replacing help
 -- pages, where just replace, don't create multiple help-tab pages)
 -- ^^ the above can be changed, but really can be easily avoided if it's wanted
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "help", "h" },
-    command = "wincmd T",
+vim.api.nvim_create_autocmd("BufWinEnter", {
+    pattern = "*",
+    callback = function(args)
+        if vim.bo[args.buf].filetype == "help" then
+            vim.cmd("wincmd T")
+        end
+    end,
 })
 
 -- auto resize splits when the terminal's window is resized

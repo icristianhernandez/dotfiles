@@ -5,7 +5,8 @@ return {
         lazy = false,
         priority = 998,
         init = function()
-            vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,terminal,localoptions"
+            vim.o.sessionoptions = "blank,buffers,folds,curdir,help,tabpages,terminal,localoptions"
+            -- vim.o.sessionoptions = "blank,curdir"
         end,
 
         ---@module "auto-session"
@@ -134,6 +135,7 @@ return {
         },
     },
     {
+        -- blink.cmp: next-generation completion framework
         "saghen/blink.cmp",
         -- use a release tag to download pre-built binaries
         version = "1.*",
@@ -232,14 +234,9 @@ return {
             },
 
             sources = {
-                default = { "fuzzy-path", "lsp", "path", "snippets", "buffer" },
+                default = { "lsp", "path", "snippets", "buffer" },
 
                 providers = {
-                    ["fuzzy-path"] = {
-                        name = "Fuzzy Path",
-                        module = "blink-cmp-fuzzy-path",
-                        score_offset = 0,
-                    },
                     lsp = {
                         name = "LSP",
                         module = "blink.cmp.sources.lsp",
@@ -329,6 +326,7 @@ return {
         end,
     },
     {
+        -- Snacks: a collection of small (not so small) plugins related to nvim
         "folke/snacks.nvim",
         priority = 999,
         lazy = false,
@@ -746,6 +744,7 @@ return {
         },
     },
     {
+        -- hl git hunks/stages and keybinds for some git actions
         "lewis6991/gitsigns.nvim",
         event = { "BufReadPre", "BufNewFile" },
         opts = {
@@ -768,6 +767,7 @@ return {
     },
 
     {
+        -- folke/which-key.nvim: display available keybindings in a popup
         "folke/which-key.nvim",
         event = "VeryLazy",
         opts = {
@@ -813,6 +813,7 @@ return {
     },
 
     {
+        -- grapple.nvim: tag and quickly navigate between files using tags
         "cbochs/grapple.nvim",
         dependencies = {
             { "nvim-mini/mini.icons", lazy = true },
@@ -918,7 +919,8 @@ return {
         },
 
         opts = {
-            labels = "asdfgqwertzxcvb",
+            -- labels = "asdfgqwertzxcvb",
+            labels = "qwertasdfgzxcvb",
             modes = {
                 char = {
                     char_actions = function()

@@ -30,6 +30,7 @@ return {
         },
     },
     {
+        -- TS config and modules loader
         "MeanderingProgrammer/treesitter-modules.nvim",
         lazy = false,
         dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -56,6 +57,7 @@ return {
     },
 
     {
+        -- mason-org/mason-lspconfig.nvim: bridge between mason.nvim and nvim-lspconfig
         "mason-org/mason-lspconfig.nvim",
         opts = function()
             return {
@@ -87,6 +89,7 @@ return {
         },
     },
     {
+        -- jay-babu/mason-null-ls.nvim: bridge between mason.nvim and null-ls.nvim
         "jay-babu/mason-null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
@@ -101,6 +104,7 @@ return {
         },
     },
     {
+        -- setup lua_ls to fully and lazyly support neovim
         "folke/lazydev.nvim",
         ft = "lua",
         cmd = "LazyDev",
@@ -111,6 +115,7 @@ return {
         },
     },
     {
+        -- stevearc/conform.nvim: universal formatter plugin
         "stevearc/conform.nvim",
         event = { "BufWritePre" },
         cmd = { "ConformInfo" },
@@ -137,6 +142,7 @@ return {
         end,
     },
     {
+        -- nvimtools/none-ls.nvim: use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
         "nvimtools/none-ls.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
