@@ -90,8 +90,8 @@ return {
             MiniFiles.close = function(...)
                 local ft = vim.bo.filetype or ""
 
-                local function is_ignored_ft(ft)
-                    return ft == "TelescopePrompt" or ft == "noice" or ft:match("^snacks")
+                local function is_ignored_ft(ft_to_check)
+                    return ft_to_check == "TelescopePrompt" or ft_to_check == "noice" or ft_to_check:match("^snacks")
                 end
 
                 local function current_win_is_floating()

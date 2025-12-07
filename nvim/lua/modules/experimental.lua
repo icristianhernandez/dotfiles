@@ -151,7 +151,7 @@ return {
     {
         -- subtle animations for Neovim actions (search, undo, redo, yank, etc.)
         "rachartier/tiny-glimmer.nvim",
-        event = "VeryLazy",
+        lazy = false,
         opts = {
             autoreload = true,
             overwrite = {
