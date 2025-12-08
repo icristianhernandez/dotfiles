@@ -1,0 +1,61 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "github-copilot/oswe-vscode-prime",
+  "small_model": "github-copilot/grok-code-fast-1",
+  "disabled_providers": ["opencode"],
+  "tui": {
+    "scroll_speed": 3,
+    "scroll_acceleration": {
+      "enabled": false
+    }
+  },
+  "keybinds": {
+    "messages_half_page_up": "ctrl+u",
+    "messages_half_page_down": "ctrl+d"
+  },
+  "agent": {
+    "build": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git status *": "allow",
+          "cd *": "allow",
+          "git diff *": "allow",
+          "pwd": "allow",
+          "ls *": "allow",
+          "curl *": "allow",
+          "wget *": "allow",
+          "grep *": "allow",
+          "*git push*": "deny",
+          "*git commit*": "deny"
+        },
+        "webfetch": "allow",
+        "doom_loop": "deny",
+        "edit": "allow",
+        "external_directory": "ask"
+      }
+    },
+    "plan": {
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git status *": "allow",
+          "cd *": "allow",
+          "git diff *": "allow",
+          "pwd": "allow",
+          "ls *": "allow",
+          "curl *": "allow",
+          "wget *": "allow",
+          "grep *": "allow",
+          "*git push*": "deny",
+          "*git commit*": "deny"
+        },
+        "webfetch": "allow",
+        "doom_loop": "deny",
+        "edit": "deny",
+        "external_directory": "allow"
+      }
+    }
+  }
+}
+

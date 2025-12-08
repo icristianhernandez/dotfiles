@@ -127,9 +127,7 @@ if [ "$DEBUG_MODE" -eq 1 ]; then
 	echo "🤖 Debug files generated"
 else
 	if commit_with_pipeline; then
-		COMMIT_HASH=$(git rev-parse --short HEAD)
-		COMMIT_SUMMARY=$(git log -1 --pretty=%s)
-		echo "🤖 Auto-commit finished — $COMMIT_HASH: $COMMIT_SUMMARY"
+		echo "🤖 Doned"
 	else
 		exit 1
 	fi

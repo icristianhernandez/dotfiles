@@ -32,6 +32,11 @@ return {
 
             ---@type opencode.Opts
             vim.g.opencode_opts = {
+                events = {
+                    permissions = {
+                        enabled = false,
+                    },
+                },
                 provider = {
                     enabled = "snacks",
                     snacks = { win = { position = "float", enter = true } },

@@ -170,13 +170,8 @@ return {
             snippets = { preset = "luasnip" },
             keymap = {
                 preset = "none",
-                ["<Tab>"] = {
-                    "select_next",
-                    "fallback",
-                },
-                ["<S-Tab>"] = { "select_prev", "fallback" },
-                ["<C-l>"] = { "snippet_forward", "fallback" },
-                ["<C-h>"] = { "snippet_forward", "fallback" },
+                ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+                ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
                 ["<CR>"] = { "accept", "fallback" },
                 ["<C-d>"] = { "show", "hide", "fallback" },
                 ["<C-b>"] = { "scroll_documentation_up", "fallback" },
@@ -998,10 +993,16 @@ return {
         },
         opts = {},
     },
+    -- {
+    --     -- NMAC427/guess-indent.nvim: detect indentation settings per-file automatically
+    --     "NMAC427/guess-indent.nvim",
+    --     lazy = false,
+    --     opts = {},
+    -- },
     {
-        -- NMAC427/guess-indent.nvim: detect indentation settings per-file automatically
-        "NMAC427/guess-indent.nvim",
+        -- tpope/vim-sleuth: automatically detect and set indentation settings
+        "tpope/vim-sleuth",
         lazy = false,
-        opts = {},
+        priority = 900,
     },
 }
