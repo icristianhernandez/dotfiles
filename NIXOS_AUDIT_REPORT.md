@@ -15,6 +15,7 @@ This NixOS configuration demonstrates a well-structured foundation with clear se
 ```diff
 --- a/nixos/lib/const.nix
 +++ b/nixos/config/constants.nix
+@@ -1,13 +1,13 @@
  rec {
    user = "cristianwslnixos";
    home_dir = "/home/${user}";
@@ -30,11 +31,11 @@ This NixOS configuration demonstrates a well-structured foundation with clear se
  }
 ```
 
-### Finding: Flake Output Structure Lacks Granular System Support
+### Finding: Flake Output Structure Uses Unclear System Selection
 
-* **Location:** `nixos/flake.nix` (Lines 24-44)
-* **Issue:** The `nixosConfigurations` output hardcodes `builtins.head systems` rather than generating configurations for each supported system. While this works for single-system setups, it prevents multi-architecture support and violates the principle of declarative, system-agnostic flakes.
-* **Improvement:** Use `nixpkgs.lib.genAttrs` to generate configurations per system, or explicitly document why only `x86_64-linux` is supported.
+* **Location:** `nixos/flake.nix` (Lines 21, 25, 46, 48)
+* **Issue:** The flake defines `systems = [ "x86_64-linux" ]` as a list but then uses `builtins.head systems` to extract a single value. This is unnecessarily complex and obscures the fact that only one system is actually supported. Since this is a WSL-specific configuration, multi-system support is not needed.
+* **Improvement:** Replace the list with a single `system` variable to make the single-system intent explicit and simplify the code.
 
 ```diff
 --- a/nixos/flake.nix
@@ -44,12 +45,13 @@ This NixOS configuration demonstrates a well-structured foundation with clear se
      let
        const = import ./lib/const.nix;
 -      systems = [ "x86_64-linux" ];
-+      system = "x86_64-linux";  # Explicit single-system declaration
++      # WSL only supports x86_64-linux, so no need for multi-system
++      system = "x86_64-linux";
      in
      {
        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
 -        system = builtins.head systems;
-+        # Explicitly support only x86_64-linux for WSL target
++        # Use explicit system value instead of extracting from list
 +        inherit system;
          specialArgs = { inherit const; };
  
@@ -59,8 +61,8 @@ This NixOS configuration demonstrates a well-structured foundation with clear se
        };
  
 -      formatter = nixpkgs.lib.genAttrs systems (system: nixpkgs.legacyPackages.${system}.nixfmt);
-+      # Use explicit system list for per-system outputs
-+      formatter = nixpkgs.lib.genAttrs [ system ] (sys: nixpkgs.legacyPackages.${sys}.nixfmt);
++      # Still use genAttrs for consistency with flake schema
++      formatter = nixpkgs.lib.genAttrs [ system ] (s: nixpkgs.legacyPackages.${s}.nixfmt);
  
 -      apps = import ./apps { inherit nixpkgs systems; };
 +      apps = import ./apps { inherit nixpkgs; systems = [ system ]; };
@@ -120,79 +122,64 @@ This NixOS configuration demonstrates a well-structured foundation with clear se
 -sortedFiles
 ```
 
-### Finding: Apps Directory Organization Mixes Abstraction Levels
+### Finding: Apps Directory Organization Could Benefit from Explicit Naming
 
-* **Location:** `nixos/apps/default.nix` (Lines 1-50)
-* **Issue:** The `apps/default.nix` file manually imports each app file and assigns names, creating tight coupling between the app implementations and the aggregation layer. This pattern requires modifying two files (the app itself and `default.nix`) for each new app.
-* **Improvement:** Use a similar auto-discovery pattern as modules (but with explicit naming conventions) or move to a structured approach with subdirectories for each domain (nixos/, nvim/, workflows/).
+* **Location:** `nixos/apps/default.nix` (Lines 13-47)
+* **Issue:** The `apps/default.nix` file manually imports each app file and assigns names, creating tight coupling between app implementations and the aggregation layer. Each new app requires modifying both the app file and `default.nix`. While auto-discovery could reduce this, it would sacrifice the explicit naming and organization that aids understanding.
+* **Improvement:** Keep the current explicit approach but reorganize into logical groups with better commenting to improve maintainability.
 
 ```diff
 --- a/nixos/apps/default.nix
 +++ b/nixos/apps/default.nix
-@@ -8,44 +8,28 @@
-   system:
-   let
-     pkgs = nixpkgs.legacyPackages.${system};
-     mkApp = import ../lib/mk-app.nix { inherit pkgs; };
--    call =
--      file:
--      import file {
--        inherit pkgs mkApp;
--      };
--
+@@ -17,32 +17,34 @@
+       };
+ 
 -    fmtApp = call ./fmt.nix;
 -    lintApp = call ./lint.nix;
--    ciApp = call ./ci.nix;
--
--    nixosFmt = call ./nixos-fmt.nix;
--    nixosLint = call ./nixos-lint.nix;
--    nixosCi = call ./nixos-ci.nix;
--
--    nvimFmt = call ./nvim-fmt.nix;
--    nvimCi = call ./nvim-ci.nix;
--
--    workflowsLint = call ./workflows-lint.nix;
--    workflowsCi = call ./workflows-ci.nix;
-+    
-+    # Auto-import all app definitions from current directory
-+    # App names are derived from filename (e.g., ci.nix -> apps.ci)
-+    appFiles = nixpkgs.lib.filesystem.listFilesRecursive ./.;
-+    nixFiles = nixpkgs.lib.filter (p: 
-+      nixpkgs.lib.strings.hasSuffix ".nix" (toString p) && 
-+      (toString p) != (toString ./default.nix)
-+    ) appFiles;
-+    
-+    toAppName = path: nixpkgs.lib.removeSuffix ".nix" (baseNameOf path);
-+    mkAppEntry = path: {
-+      name = toAppName path;
-+      value = import path { inherit pkgs mkApp; };
-+    };
+     ciApp = call ./ci.nix;
+ 
++    # NixOS domain apps
+     nixosFmt = call ./nixos-fmt.nix;
+     nixosLint = call ./nixos-lint.nix;
+     nixosCi = call ./nixos-ci.nix;
+ 
++    # Neovim domain apps
+     nvimFmt = call ./nvim-fmt.nix;
+     nvimCi = call ./nvim-ci.nix;
+ 
++    # GitHub Workflows domain apps
+     workflowsLint = call ./workflows-lint.nix;
+     workflowsCi = call ./workflows-ci.nix;
    in
--  {
+   {
 -    fmt = fmtApp;
 -    lint = lintApp;
--
--    "nixos-fmt" = nixosFmt;
--    "nixos-lint" = nixosLint;
--    "nixos-ci" = nixosCi;
--
--    "nvim-fmt" = nvimFmt;
--    "nvim-ci" = nvimCi;
--
--    "workflows-lint" = workflowsLint;
--    "workflows-ci" = workflowsCi;
++    # Top-level orchestration
++    ci = ciApp;
+ 
++    # NixOS-specific apps
+     "nixos-fmt" = nixosFmt;
+     "nixos-lint" = nixosLint;
+     "nixos-ci" = nixosCi;
+ 
++    # Neovim-specific apps
+     "nvim-fmt" = nvimFmt;
+     "nvim-ci" = nvimCi;
+ 
++    # Workflow-specific apps
+     "workflows-lint" = workflowsLint;
+     "workflows-ci" = workflowsCi;
 -
 -    ci = ciApp;
--  }
-+  builtins.listToAttrs (map mkAppEntry nixFiles)
+   }
  )
 ```
 
 ### Finding: Home Manager Integration Uses Inline Module Instead of Separate File
 
 * **Location:** `nixos/flake.nix` (Lines 32-42)
-* **Issue:** Home Manager configuration is defined inline in the flake rather than in a separate module file. This violates separation of concerns and makes the flake harder to read.
-* **Improvement:** Extract Home Manager configuration to `system-modules/home-manager.nix` and import it as a proper module.
+* **Issue:** Home Manager configuration is defined inline in the flake rather than in a separate module file. This violates separation of concerns and makes the flake harder to read. For better organization, this configuration should be extracted to a dedicated module.
+* **Improvement:** Extract Home Manager configuration to a new file `system-modules/home-manager-integration.nix`. This improves modularity and makes the flake more readable.
 
 ```diff
 --- a/nixos/flake.nix
@@ -216,6 +203,23 @@ This NixOS configuration demonstrates a well-structured foundation with clear se
 +          ./system-modules/home-manager-integration.nix
          ];
        };
+```
+
+**Note:** The new file should be created as:
+```nix
+# system-modules/home-manager-integration.nix
+{ const, home-manager, ... }:
+{
+  imports = [ home-manager.nixosModules.home-manager ];
+  
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    backupFileExtension = "backup";
+    extraSpecialArgs = { inherit const; };
+    users."${const.user}" = ../home.nix;
+  };
+}
 ```
 
 ## III. Code Quality & Idiomatic Nix Review
@@ -594,20 +598,22 @@ This NixOS configuration demonstrates a well-structured foundation with clear se
 ### Finding: Git Email Exposes Personal Information
 
 * **Location:** `nixos/lib/const.nix` (Line 11)
-* **Issue:** The Git email address is hardcoded in a public repository, exposing personal contact information. While this is common, it increases spam risk and privacy concerns, especially for repositories that may be forked or shared publicly.
-* **Improvement:** Use GitHub's noreply email address (`username@users.noreply.github.com`) or document that this configuration should be customized per deployment.
+* **Issue:** The Git email address is hardcoded as a personal Gmail address in a public repository, exposing contact information. While this is common practice, it increases spam risk and privacy concerns, especially for repositories that may be forked or shared publicly.
+* **Improvement:** Consider using GitHub's privacy-protected noreply email address or document that this configuration should be customized per deployment. GitHub provides noreply addresses in the format `USERNAME@users.noreply.github.com` or with user ID.
 
 ```diff
 --- a/nixos/lib/const.nix
 +++ b/nixos/lib/const.nix
-@@ -8,6 +8,8 @@
+@@ -8,6 +8,9 @@
    user_description = "cristian hernandez";
    git = {
      name = "cristian";
 -    email = "cristianhernandez9007@gmail.com";
-+    # Use GitHub noreply email to reduce spam and protect privacy
-+    # See: https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
-+    email = "icristianhernandez@users.noreply.github.com";
++    # Option 1: Use GitHub noreply email for privacy
++    # Find your noreply address at: https://github.com/settings/emails
++    email = "USERNAME@users.noreply.github.com";  # Replace USERNAME
++    # Option 2: Keep personal email but document it's user-specific
++    # email = "cristianhernandez9007@gmail.com";
    };
  }
 ```
