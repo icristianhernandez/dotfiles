@@ -47,23 +47,51 @@ The NixOS configuration demonstrates a solid foundation with good modularization
 * **Improvement:** Move `app-helpers.nix` to `apps/helpers.nix` to maintain clean architectural boundaries.
 
 ```diff
---- a/nixos/lib/app-helpers.nix (deleted)
-+++ /dev/null
-@@ -1,40 +0,0 @@
--{ pkgs }:
--{
--  prelude =
--    ...
--}
---- /dev/null
+--- a/nixos/lib/app-helpers.nix
 +++ b/nixos/apps/helpers.nix
-@@ -0,0 +1,40 @@
-+{ pkgs }:
-+{
-+  prelude =
-+    ...
-+}
+@@ -1,40 +1,40 @@
+ { pkgs }:
+ {
+   prelude =
+     {
+       name,
+       withNix ? false,
+       appPrefixAttr ? true,
+     }:
+     let
+       nixPart =
+         if withNix then
+           ''
+             NIX="${pkgs.nix}/bin/nix"
+             APP_PREFIX="./nixos#${if appPrefixAttr then "apps.${pkgs.stdenv.hostPlatform.system}" else ""}"
+             NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
+           ''
+         else
+           '''';
+     in
+     ''
+       set -euo pipefail
+       ${nixPart}
+       log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[${name}] $1" >&2; }
+     '';
+
+   parseMode = ''
+     mode="fix"
+     case "''${1-}" in
+       --check) mode="check"; shift ;;
+     esac
+   '';
+
+   paths = {
+     nixosDir = "nixos";
+     nvimCfgDir = "nvim";
+     workflowsDir = ".github/workflows";
+     statixConfig = "statix.toml";
+   };
+ }
 ```
+
+Note: After moving this file, all references in `apps/*.nix` files need to be updated from `../lib/app-helpers.nix` to `./helpers.nix`.
 
 Then update all references in `apps/*.nix` files:
 
@@ -606,8 +634,8 @@ Example for `nixos/home-modules/nvim.nix`:
 
 ### Finding: Missing Input Follows for nixos-wsl
 * **Location:** `nixos/flake.nix` (Line 4)
-* **Issue:** The nixos-wsl input doesn't follow nixpkgs, potentially causing multiple nixpkgs instances in closure.
-* **Improvement:** Add input follows to reduce closure size.
+* **Issue:** The nixos-wsl input doesn't follow nixpkgs, potentially causing multiple nixpkgs instances in the closure. This significantly increases build times and disk usage as Nix will evaluate and build dependencies from multiple nixpkgs versions, and the system closure will contain duplicate packages.
+* **Improvement:** Add input follows to ensure all flake inputs share the same nixpkgs instance, reducing closure size by potentially hundreds of megabytes and improving evaluation speed.
 
 ```diff
 --- a/nixos/flake.nix
@@ -648,26 +676,37 @@ No immediate change needed, but document:
 
 ### Finding: nix-ld Libraries May Include Unnecessary Dependencies
 * **Location:** `nixos/system-modules/core.nix` (Lines 4-7)
-* **Issue:** Using `(pkgs.steam-run.args.multiPkgs pkgs)` includes many Steam-specific libraries that may not be needed.
-* **Improvement:** Explicitly list only required libraries to reduce closure size.
+* **Issue:** Using `(pkgs.steam-run.args.multiPkgs pkgs)` includes many Steam-specific libraries that may not be needed, significantly increasing closure size.
+* **Improvement:** Start with a minimal set of commonly needed libraries and add more only as required. Document which applications need which libraries.
 
 ```diff
 --- a/nixos/system-modules/core.nix
 +++ b/nixos/system-modules/core.nix
-@@ -3,7 +3,12 @@
+@@ -3,7 +3,22 @@
    nixpkgs.config.allowUnfree = true;
  
    programs.nix-ld = {
      enable = true;
 -    libraries = (pkgs.steam-run.args.multiPkgs pkgs) ++ [ pkgs.icu ];
-+    # TODO: Audit and minimize this list based on actual requirements
-+    # Current approach includes Steam runtime which may be excessive
++    # Minimal set of commonly needed libraries for dynamic binaries
++    # Add more libraries only as needed based on actual application requirements
 +    libraries = with pkgs; [
++      # Core C/C++ libraries
++      stdenv.cc.cc.lib
++      zlib
++      
++      # Common dependencies
 +      icu
-+      # Add other specific libraries as needed
-+    ] ++ (pkgs.steam-run.args.multiPkgs pkgs);
++      openssl
++      
++      # Uncomment if needed for specific applications:
++      # steam-run.args.multiPkgs pkgs  # For Steam and gaming
++      # Add other libraries here as discovered
++    ];
    };
 ```
+
+Note: Test applications after this change to ensure all required libraries are included. Add libraries back incrementally as needed.
 
 ### Finding: Time Zone Hardcoded Instead of Using Const
 * **Location:** `nixos/system-modules/core.nix` (Line 31)
