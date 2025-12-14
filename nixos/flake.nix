@@ -18,11 +18,11 @@
     }:
     let
       const = import ./lib/const.nix;
-      systems = [ "x86_64-linux" ];
+      system = "x86_64-linux";
     in
     {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = builtins.head systems;
+        inherit system;
         specialArgs = { inherit const; };
 
         modules = [
@@ -43,8 +43,13 @@
         ];
       };
 
-      formatter = nixpkgs.lib.genAttrs systems (system: nixpkgs.legacyPackages.${system}.nixfmt);
+      formatter = nixpkgs.lib.genAttrs [ system ] (
+        sys: nixpkgs.legacyPackages.${sys}.nixfmt
+      );
 
-      apps = import ./apps { inherit nixpkgs systems; };
+      apps = import ./apps {
+        inherit nixpkgs;
+        systems = [ system ];
+      };
     };
 }

@@ -1,5 +1,8 @@
-rec {
+let
   user = "cristianwslnixos";
+in
+{
+  inherit user;
   home_dir = "/home/${user}";
   dotfiles_dir = "${home_dir}/dotfiles";
   system_state = "25.05";

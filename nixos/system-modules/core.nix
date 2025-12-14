@@ -4,6 +4,8 @@
 
   programs.nix-ld = {
     enable = true;
+    # NOTE: steam-run.args.multiPkgs includes a large set of libraries (~2GB).
+    # This is necessary for running non-NixOS binaries that expect standard FHS paths.
     libraries = (pkgs.steam-run.args.multiPkgs pkgs) ++ [ pkgs.icu ];
   };
 

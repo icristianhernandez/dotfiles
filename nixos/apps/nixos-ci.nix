@@ -34,6 +34,10 @@ let
         run_app nixos-lint
 
         log "flake check"
+        if [ ! -d ./nixos ]; then
+          log "ERROR: ./nixos directory not found"
+          exit 1
+        fi
         "$NIX" --extra-experimental-features "nix-command flakes" flake check ./nixos -L || { rc=$?; log "ERROR: flake check failed (exit $rc)"; exit $rc; }
 
         log "completed successfully"

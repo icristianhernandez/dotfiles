@@ -2,7 +2,6 @@
 {
   programs.fish = {
     enable = true;
-    package = pkgs.fish;
 
     functions = {
       clearnvim = {

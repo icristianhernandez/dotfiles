@@ -1,18 +1,23 @@
-{ const, ... }:
+{
+  const,
+  lib,
+  ...
+}:
 let
   loc = const.locale;
+  localeCategories = [
+    "LC_ADDRESS"
+    "LC_IDENTIFICATION"
+    "LC_MEASUREMENT"
+    "LC_MONETARY"
+    "LC_NAME"
+    "LC_NUMERIC"
+    "LC_PAPER"
+    "LC_TELEPHONE"
+    "LC_TIME"
+  ];
 in
 {
   i18n.defaultLocale = loc;
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = loc;
-    LC_IDENTIFICATION = loc;
-    LC_MEASUREMENT = loc;
-    LC_MONETARY = loc;
-    LC_NAME = loc;
-    LC_NUMERIC = loc;
-    LC_PAPER = loc;
-    LC_TELEPHONE = loc;
-    LC_TIME = loc;
-  };
+  i18n.extraLocaleSettings = lib.genAttrs localeCategories (_: loc);
 }

@@ -2,7 +2,7 @@
 {
   programs.git = {
     enable = true;
-    settings = {
+    extraConfig = {
       user = {
         inherit (const.git) name email;
       };
