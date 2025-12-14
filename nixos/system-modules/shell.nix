@@ -11,7 +11,7 @@
     bash = {
       enable = true;
 
-      # bash remain as login shell but exec fish when runned interactively
+      # bash remain as login shell but exec fish when run interactively
       interactiveShellInit = ''
         # Only exec fish if we're in an interactive shell and parent is not fish
         if [[ $- == *i* ]] && [[ -z ''${BASH_EXECUTION_STRING} ]]; then
