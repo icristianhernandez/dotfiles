@@ -30,6 +30,7 @@
         nixfmt
         lazygit
         go
+        mermaid-cli
       ];
     in
     pkgs.lib.concatLists [

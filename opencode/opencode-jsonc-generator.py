@@ -72,6 +72,7 @@ core_permissions = {
         "grep *": "allow",
         "*git push*": "deny",
         "*git commit*": "deny",
+        "mmdc *": "allow",
     },
 }
 
