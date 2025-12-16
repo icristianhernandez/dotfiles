@@ -1,4 +1,9 @@
-{ const, lib, ... }:
+{
+  const,
+  lib,
+  guardRole,
+  ...
+}:
 let
   loc = const.locale;
   localeCategories = [
@@ -13,7 +18,7 @@ let
     "LC_TIME"
   ];
 in
-{
+guardRole "base" {
   i18n.defaultLocale = loc;
   i18n.extraLocaleSettings = lib.genAttrs localeCategories (_: loc);
 }

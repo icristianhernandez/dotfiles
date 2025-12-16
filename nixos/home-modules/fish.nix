@@ -1,4 +1,6 @@
-_: {
+{ guardRole, ... }:
+
+guardRole "interactive" {
   programs.fish = {
     enable = true;
 
@@ -11,7 +13,6 @@ _: {
           rm -rf ~/.cache/nvim
         '';
       };
-
     };
 
     interactiveShellInit = ''

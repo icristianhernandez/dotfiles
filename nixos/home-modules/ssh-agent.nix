@@ -1,4 +1,6 @@
-_: {
+{ guardRole, ... }:
+
+guardRole "interactive" {
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;

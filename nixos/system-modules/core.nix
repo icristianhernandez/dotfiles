@@ -1,5 +1,11 @@
-{ pkgs, const, ... }:
 {
+  pkgs,
+  const,
+  guardRole,
+  ...
+}:
+
+guardRole "base" {
   nixpkgs.config.allowUnfree = true;
 
   # hack to execute third party binaries found here:

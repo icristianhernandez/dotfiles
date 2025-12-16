@@ -1,5 +1,11 @@
-{ pkgs, const, ... }:
 {
+  pkgs,
+  const,
+  guardRole,
+  ...
+}:
+
+guardRole "base" {
   users.users.${const.user} = {
     isNormalUser = true;
     description = const.userDescription;

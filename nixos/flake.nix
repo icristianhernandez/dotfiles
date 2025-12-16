@@ -22,52 +22,88 @@
       ...
     }:
     let
+      inherit (nixpkgs) lib;
       const = import ./lib/const.nix;
+
       systems = [ "x86_64-linux" ];
       eachSystem =
         f:
-        nixpkgs.lib.genAttrs systems (
+        lib.genAttrs systems (
           system:
           f {
             inherit system;
             pkgs = nixpkgs.legacyPackages.${system};
           }
         );
+
+      rolesSpec = import ./roles.nix { inherit lib; };
+
+      hosts = {
+        nixos = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "wsl"
+            "interactive"
+            "dev"
+          ];
+        };
+      };
     in
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = builtins.head systems;
-        specialArgs = { inherit const; };
+      nixosConfigurations = lib.genAttrs (builtins.attrNames hosts) (
+        hostName:
+        let
+          host = hosts.${hostName};
+          inherit (host) roles;
+          helpers = rolesSpec.mkHelpers roles;
+        in
+        assert rolesSpec.validateRoles roles;
+        lib.nixosSystem {
+          inherit (host) system;
+          specialArgs = {
+            inherit const roles hostName;
+            inherit (helpers) hasRole mkIfRole guardRole;
+          };
 
-        modules = [
-          {
-            imports = import ./lib/import-modules.nix {
-              inherit (nixpkgs) lib;
-              dir = ./system-modules;
-            };
-          }
-          nixos-wsl.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "backup";
-              extraSpecialArgs = { inherit const; };
-              users = {
-                "${const.user}" = {
-                  imports = import ./lib/import-modules.nix {
-                    inherit (nixpkgs) lib;
-                    dir = ./home-modules;
+          modules = [
+            rolesSpec.module
+            { inherit roles; }
+
+            {
+              imports = import ./lib/import-modules.nix {
+                inherit lib;
+                dir = ./system-modules;
+              };
+            }
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                backupFileExtension = "backup";
+                extraSpecialArgs = {
+                  inherit const roles hostName;
+                  inherit (helpers) hasRole mkIfRole guardRole;
+                };
+                users = {
+                  "${const.user}" = {
+                    imports = import ./lib/import-modules.nix {
+                      inherit lib;
+                      dir = ./home-modules;
+                    };
                   };
                 };
               };
-            };
-          }
-        ];
-      };
+            }
+          ]
+          ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ];
+        }
+      );
 
       formatter = eachSystem ({ pkgs, ... }: pkgs.nixfmt);
+
       apps = import ./apps { inherit nixpkgs systems; };
     };
 }

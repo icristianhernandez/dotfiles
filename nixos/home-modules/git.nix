@@ -1,8 +1,14 @@
-{ pkgs, const, ... }:
 {
+  pkgs,
+  const,
+  guardRole,
+  ...
+}:
+
+guardRole "dev" {
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       user = {
         inherit (const.git) name email;
       };

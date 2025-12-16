@@ -79,7 +79,7 @@ local stacks = {
 
     -- Web development (JS/TS/CSS/HTML/etc.)
     frontend_web = {
-        lsps = { "biome", "vtsls", "eslint", "cssls", "html" },
+        lsps = { "biome", "tsgo", "eslint", "cssls", "html" },
         parsers = {
             "javascript",
             "typescript",

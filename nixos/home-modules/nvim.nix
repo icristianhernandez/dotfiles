@@ -2,11 +2,11 @@
   config,
   const,
   pkgs,
+  guardRole,
   ...
 }:
 
-{
-
+guardRole "dev" {
   home.sessionVariables = {
     MANPAGER = "nvim +Man!";
     PAGER = "nvim";

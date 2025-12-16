@@ -1,5 +1,5 @@
-{ pkgs, ... }:
-{
+{ pkgs, guardRole, ... }:
+guardRole "interactive" {
   programs = {
     fish.enable = true;
 

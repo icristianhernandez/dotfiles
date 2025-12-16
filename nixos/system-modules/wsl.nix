@@ -1,5 +1,5 @@
-{ const, ... }:
-{
+{ const, guardRole, ... }:
+guardRole "wsl" {
   wsl = {
     enable = true;
     defaultUser = const.user;

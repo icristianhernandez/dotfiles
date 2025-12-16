@@ -1,18 +1,7 @@
-{ pkgs, ... }:
-{
+{ pkgs, guardRole, ... }:
+guardRole "dev" {
   environment.systemPackages = with pkgs; [
-    # OS Base
-    ntfs3g
-    openssh
-
     # CLI Utils
-    unrar
-    wget
-    curl
-    ripgrep
-    fd
-    gnutar
-    unzip
     cargo
     gnumake
 
