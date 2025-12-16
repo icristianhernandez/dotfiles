@@ -1,5 +1,9 @@
 { const, ... }:
 {
-  wsl.enable = true;
-  wsl.defaultUser = const.user;
+  wsl = {
+    enable = true;
+    defaultUser = const.user;
+    # interop.register = true;
+    useWindowsDriver = true;
+  };
 }

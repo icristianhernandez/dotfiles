@@ -2,8 +2,8 @@
 {
   home = {
     username = const.user;
-    homeDirectory = const.home_dir;
-    stateVersion = const.home_state;
+    homeDirectory = const.homeDir;
+    stateVersion = const.homeState;
     packages = with pkgs; [ ];
   };
 }

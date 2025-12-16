@@ -6,6 +6,10 @@ _: {
       "*" = {
         extraOptions = {
           "AddKeysToAgent" = "ask";
+          "HashKnownHosts" = "yes";
+          "VerifyHostKeyDNS" = "yes";
+          "ForwardAgent" = "no";
+          "ForwardX11" = "no";
         };
       };
     };
@@ -14,7 +18,10 @@ _: {
   programs.keychain = {
     enable = true;
     keys = [ "id_ed25519" ];
-    extraFlags = [ "--quiet" ];
+    extraFlags = [
+      "--quiet"
+      "--timeout 180"
+    ];
     enableBashIntegration = true;
     enableFishIntegration = true;
   };

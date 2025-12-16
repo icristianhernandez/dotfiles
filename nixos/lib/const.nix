@@ -1,13 +1,18 @@
-rec {
+let
   user = "cristianwslnixos";
-  home_dir = "/home/${user}";
-  dotfiles_dir = "${home_dir}/dotfiles";
-  system_state = "25.05";
-  home_state = "25.05";
+  homeDir = "/home/${user}";
+in
+{
+  inherit user;
+  inherit homeDir;
+  dotfilesDir = "${homeDir}/dotfiles";
+  systemState = "25.05";
+  homeState = "25.05";
+  timezone = "America/Caracas";
   locale = "en_US.UTF-8";
-  user_description = "cristian hernandez";
+  userDescription = "cristian hernandez";
   git = {
     name = "cristian";
-    email = "cristianhernandez9007@gmail.com";
+    email = "129994548+icristianhernandez@users.noreply.github.com";
   };
 }

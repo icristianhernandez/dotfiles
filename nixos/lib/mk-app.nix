@@ -2,14 +2,15 @@
 attrs:
 let
   program = attrs.program or null;
-  argv = if builtins.hasAttr "argv" attrs then attrs.argv else [ ];
-  meta = if builtins.hasAttr "meta" attrs then attrs.meta else { };
+  argv = attrs.argv or [ ];
+  meta = attrs.meta or { };
+  wrapperName = "mkapp-wrapper-${builtins.substring 0 8 (builtins.hashString "sha256" program)}";
   wrapper =
     if (argv == [ ]) then
       null
     else
       pkgs.writeShellApplication {
-        name = "mkapp-wrapper";
+        name = wrapperName;
         runtimeInputs = [ ];
         text = ''
           exec ${program} ${pkgs.lib.escapeShellArgs argv} "$@"
@@ -21,6 +22,6 @@ if program == null then
 else
   {
     type = "app";
-    program = if wrapper == null then program else "${wrapper}/bin/mkapp-wrapper";
+    program = if wrapper == null then program else "${wrapper}/bin/${wrapperName}";
     inherit meta;
   }

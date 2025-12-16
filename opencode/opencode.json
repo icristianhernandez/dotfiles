@@ -18,8 +18,20 @@
     "agent": {
         "build": {
             "permission": {
+                "edit": "allow",
+                "external_directory": "ask",
                 "bash": {
                     "*": "ask",
+                    "nix run ./nixos#ci": "allow",
+                    "nix run ./nixos#nixos-ci": "allow",
+                    "nix run ./nixos#nvim-ci": "allow",
+                    "nix run ./nixos#workflows-ci": "allow",
+                    "nix run ./nixos#nixos-fmt": "allow",
+                    "nix run ./nixos#nixos-lint": "allow",
+                    "nix run ./nixos#nvim-fmt": "allow",
+                    "nix run ./nixos#nvim-lint": "allow",
+                    "nix run ./nixos#workflows-fmt": "allow",
+                    "nix run ./nixos#workflows-lint": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
                     "git diff *": "allow",
@@ -32,16 +44,26 @@
                     "*git commit*": "deny",
                     "mmdc *": "allow"
                 },
-                "doom_loop": "deny",
                 "webfetch": "allow",
-                "edit": "allow",
-                "external_directory": "ask"
+                "doom_loop": "deny"
             }
         },
         "plan": {
             "permission": {
+                "edit": "deny",
+                "external_directory": "allow",
                 "bash": {
                     "*": "ask",
+                    "nix run ./nixos#ci": "allow",
+                    "nix run ./nixos#nixos-ci": "allow",
+                    "nix run ./nixos#nvim-ci": "allow",
+                    "nix run ./nixos#workflows-ci": "allow",
+                    "nix run ./nixos#nixos-fmt": "allow",
+                    "nix run ./nixos#nixos-lint": "allow",
+                    "nix run ./nixos#nvim-fmt": "allow",
+                    "nix run ./nixos#nvim-lint": "allow",
+                    "nix run ./nixos#workflows-fmt": "allow",
+                    "nix run ./nixos#workflows-lint": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
                     "git diff *": "allow",
@@ -54,10 +76,8 @@
                     "*git commit*": "deny",
                     "mmdc *": "allow"
                 },
-                "doom_loop": "deny",
                 "webfetch": "allow",
-                "edit": "deny",
-                "external_directory": "allow"
+                "doom_loop": "deny"
             }
         }
     }

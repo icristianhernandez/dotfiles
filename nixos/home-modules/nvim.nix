@@ -1,19 +1,42 @@
-{ config, const, ... }:
+{
+  config,
+  const,
+  pkgs,
+  ...
+}:
 
 {
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
 
   home.sessionVariables = {
     MANPAGER = "nvim +Man!";
-    PAGER = "nvimpager";
-    GIT_PAGER = "nvimpager";
+    PAGER = "nvim";
+    GIT_PAGER = "nvim";
   };
 
   xdg.configFile."nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${const.dotfiles_dir}/nvim";
+    source = config.lib.file.mkOutOfStoreSymlink "${const.dotfilesDir}/nvim";
     recursive = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    withNodeJs = true;
+    withPython3 = true;
+    withRuby = true;
+
+    extraPackages = with pkgs; [
+      # Runtime dependencies
+      ripgrep
+      fd
+      tree-sitter
+      lsof
+
+      # Formatters
+      nixfmt
+
+      # LSPs
+      nixd
+    ];
   };
 }

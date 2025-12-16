@@ -6,7 +6,7 @@
 let
   script =
     let
-      helpers = import ../lib/app-helpers.nix { inherit pkgs; };
+      helpers = import ./helpers.nix { inherit pkgs; };
     in
     pkgs.writeShellApplication {
       name = "workflows-lint";

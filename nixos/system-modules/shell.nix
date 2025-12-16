@@ -12,6 +12,7 @@
       enable = true;
 
       # bash remain as login shell but exec fish when runned interactively
+      # https://wiki.nixos.org/wiki/Fish#Setting_fish_as_default_shell:~:text=Tips%20and%20tricks-,Setting%20fish%20as%20default%20shell,-Using%20fish%20as
       interactiveShellInit = ''
         if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
         then

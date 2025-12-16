@@ -1,4 +1,4 @@
 # Pin project-wide statix behaviour; adjust disables/excludes as the codebase evolves.
 disabled = []
-nix_version = "2.4"
+nix_version = "2.33"
 ignore = [".direnv"]

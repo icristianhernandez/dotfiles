@@ -2,7 +2,7 @@
 {
   users.users.${const.user} = {
     isNormalUser = true;
-    description = const.user_description;
+    description = const.userDescription;
     extraGroups = [
       "networkmanager"
       "wheel"

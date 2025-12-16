@@ -10,40 +10,22 @@ for_each_system (
   let
     pkgs = nixpkgs.legacyPackages.${system};
     mkApp = import ../lib/mk-app.nix { inherit pkgs; };
-    call =
-      file:
-      import file {
-        inherit pkgs mkApp;
-      };
+    appHelpers = import ./helpers.nix { inherit pkgs; };
 
-    fmtApp = call ./fmt.nix;
-    lintApp = call ./lint.nix;
-    ciApp = call ./ci.nix;
+    importApp = name: import (./. + "/${name}") { inherit pkgs mkApp appHelpers; };
 
-    nixosFmt = call ./nixos-fmt.nix;
-    nixosLint = call ./nixos-lint.nix;
-    nixosCi = call ./nixos-ci.nix;
+    appFiles = builtins.readDir ./.;
 
-    nvimFmt = call ./nvim-fmt.nix;
-    nvimCi = call ./nvim-ci.nix;
+    appNames = builtins.filter (
+      name: name != "default.nix" && name != "helpers.nix" && nixpkgs.lib.hasSuffix ".nix" name
+    ) (builtins.attrNames appFiles);
 
-    workflowsLint = call ./workflows-lint.nix;
-    workflowsCi = call ./workflows-ci.nix;
+    apps = builtins.listToAttrs (
+      map (name: {
+        name = nixpkgs.lib.removeSuffix ".nix" name;
+        value = importApp name;
+      }) appNames
+    );
   in
-  {
-    fmt = fmtApp;
-    lint = lintApp;
-
-    "nixos-fmt" = nixosFmt;
-    "nixos-lint" = nixosLint;
-    "nixos-ci" = nixosCi;
-
-    "nvim-fmt" = nvimFmt;
-    "nvim-ci" = nvimCi;
-
-    "workflows-lint" = workflowsLint;
-    "workflows-ci" = workflowsCi;
-
-    ci = ciApp;
-  }
+  apps
 )

@@ -9,7 +9,7 @@ A reproducible NixOS/Home Manager flake with a modular, lazy-loaded Neovim confi
   - Full CI: `nix run ./nixos#ci`
   - Neovim checks: `nix run ./nixos#nvim-ci`
   - Format Neovim code: `nix run ./nixos#nvim-fmt`
-- Home Manager: home modules expect `~/dotfiles/nvim`; `nixos/home-modules/nvim.nix` symlinks `${const.dotfiles_dir}/nvim` (see `nixos/lib/const.nix`).
+- Home Manager: home modules expect `~/dotfiles/nvim`; `nixos/home-modules/nvim.nix` symlinks `${const.dotfilesDir}/nvim` (see `nixos/lib/const.nix`).
 
 ## Quick start (Non-Nix)
 
