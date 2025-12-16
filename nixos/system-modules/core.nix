@@ -2,6 +2,7 @@
   pkgs,
   const,
   guardRole,
+  hostName,
   ...
 }:
 
@@ -33,4 +34,5 @@ guardRole "base" {
   system.stateVersion = const.systemState;
 
   time.timeZone = const.timezone;
+  networking.hostName = hostName;
 }
