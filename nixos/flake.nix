@@ -39,7 +39,7 @@
       rolesSpec = import ./roles.nix { inherit lib; };
 
       hosts = {
-        nixos = {
+        wsl = {
           system = builtins.head systems;
           roles = [
             "base"

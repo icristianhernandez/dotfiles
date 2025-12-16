@@ -210,23 +210,31 @@ local stacks = {
                 install = false,
                 enable = true,
                 config = function()
-                    return {
-                        settings = {
-                            nixd = {
-                                nixpkgs = {
-                                    expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }",
-                                },
-                                options = {
-                                    nixos = {
-                                        expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.nixos.options",
-                                    },
-                                    ["home-manager"] = {
-                                        expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.nixos.options.home-manager.users.type.getSubOptions []",
-                                    },
-                                },
+                    local host = (type(vim) == "table" and vim.env and vim.env.NIXOS_HOST)
+                            and tostring(vim.env.NIXOS_HOST)
+                        or os.getenv("NIXOS_HOST")
+                    local settings = {
+                        nixd = {
+                            nixpkgs = {
+                                expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }",
                             },
                         },
                     }
+                    if is_nonempty_string(host) then
+                        settings.nixd.options = {
+                            nixos = {
+                                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations."
+                                    .. host
+                                    .. ".options",
+                            },
+                            ["home-manager"] = {
+                                expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations."
+                                    .. host
+                                    .. ".options.home-manager.users.type.getSubOptions []",
+                            },
+                        }
+                    end
+                    return { settings = settings }
                 end,
             },
         },
@@ -648,6 +656,10 @@ end
 
 M.stacks = stacks
 M.build = build_tooling_config
+function M.reload()
+    M.tooling = M.build(M.stacks)
+    return M.tooling
+end
 M.tooling = M.build(M.stacks)
 
 return M

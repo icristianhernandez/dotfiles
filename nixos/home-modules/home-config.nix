@@ -2,6 +2,7 @@
   pkgs,
   const,
   guardRole,
+  hostName,
   ...
 }:
 
@@ -11,5 +12,9 @@ guardRole "base" {
     homeDirectory = const.homeDir;
     stateVersion = const.homeState;
     packages = with pkgs; [ ];
+
+    sessionVariables = {
+      NIXOS_HOST = hostName;
+    };
   };
 }
