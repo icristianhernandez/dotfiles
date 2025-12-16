@@ -1,9 +1,11 @@
-{ const, ... }:
+{ const, lib, hasRole, ... }:
 {
-  wsl = {
-    enable = true;
-    defaultUser = const.user;
-    # interop.register = true;
-    useWindowsDriver = true;
+  config = lib.mkIf (hasRole "wsl") {
+    wsl = {
+      enable = true;
+      defaultUser = const.user;
+      # interop.register = true;
+      useWindowsDriver = true;
+    };
   };
 }

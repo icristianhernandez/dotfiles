@@ -1,20 +1,22 @@
-{ pkgs, const, ... }:
+{ pkgs, const, lib, hasRole, ... }:
 {
-  programs.git = {
-    enable = true;
-    extraConfig = {
-      user = {
-        inherit (const.git) name email;
-      };
-      init = {
-        defaultBranch = "main";
-      };
+  config = lib.mkIf (hasRole "development") {
+    programs.git = {
+      enable = true;
+      extraConfig = {
+        user = {
+          inherit (const.git) name email;
+        };
+        init = {
+          defaultBranch = "main";
+        };
 
-      # Testing these
-      pull.rebase = true;
-      core.editor = "${pkgs.neovim}/bin/nvim";
-      fetch.prune = true;
-      diff.algorithm = "histogram";
+        # Testing these
+        pull.rebase = true;
+        core.editor = "${pkgs.neovim}/bin/nvim";
+        fetch.prune = true;
+        diff.algorithm = "histogram";
+      };
     };
   };
 }

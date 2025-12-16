@@ -1,5 +1,5 @@
 {
-  description = "Personal NixOS configuration for WSL with Home Manager";
+  description = "Personal NixOS configuration with Roles & Profiles";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -22,7 +22,6 @@
       ...
     }:
     let
-      const = import ./lib/const.nix;
       systems = [ "x86_64-linux" ];
       eachSystem =
         f:
@@ -33,38 +32,27 @@
             pkgs = nixpkgs.legacyPackages.${system};
           }
         );
+
+      # Host builder with roles support
+      mkHost = import ./lib/mkHost.nix {
+        inherit nixpkgs nixos-wsl home-manager;
+      };
     in
     {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = builtins.head systems;
-        specialArgs = { inherit const; };
+      nixosConfigurations = {
+        # Primary WSL development machine
+        nixos = mkHost {
+          hostname = "nixos";
+          system = "x86_64-linux";
+          roles = [ "base" "wsl" "development" ];
+        };
 
-        modules = [
-          {
-            imports = import ./lib/import-modules.nix {
-              inherit (nixpkgs) lib;
-              dir = ./system-modules;
-            };
-          }
-          nixos-wsl.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "backup";
-              extraSpecialArgs = { inherit const; };
-              users = {
-                "${const.user}" = {
-                  imports = import ./lib/import-modules.nix {
-                    inherit (nixpkgs) lib;
-                    dir = ./home-modules;
-                  };
-                };
-              };
-            };
-          }
-        ];
+        # Example: Future server host (commented out)
+        # server = mkHost {
+        #   hostname = "server";
+        #   system = "x86_64-linux";
+        #   roles = [ "base" "server" ];
+        # };
       };
 
       formatter = eachSystem ({ pkgs, ... }: pkgs.nixfmt);
