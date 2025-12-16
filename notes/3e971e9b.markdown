@@ -1,3 +1,4 @@
+notice what things in const need adjustments
 ### Plugins & issues
 
 - https://github.com/jim-at-jibba/nvim-redraft
@@ -78,6 +79,7 @@ vim.opt.fillchars = {
 
 ## Nix / NixOS
 
+- const.nix to a nixos module to be reused by multiple hosts?
 - Zero to Nix: https://zero-to-nix.com/
 - NixOS user management: https://nixos.org/manual/nixos/stable/#sec-user-management
 - “Nix evolutionary setup” prompt: https://aistudio.google.com/prompts/2IOBH9ldQ4aafub1nzEQJLSuCX1pGb9xn
