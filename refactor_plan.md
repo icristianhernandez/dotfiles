@@ -35,7 +35,7 @@ The current flake cleanly wires roles and hosts but has brittle module discovery
 -          };
 +          specialArgs = commonSpecialArgs;
 
-@@
+@@ -80,10 +82,8 @@
                  useGlobalPkgs = true;
                  useUserPackages = true;
                  backupFileExtension = "backup";
