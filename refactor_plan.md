@@ -16,7 +16,7 @@ The current flake cleanly wires roles and hosts but has brittle module discovery
 ```diff
 --- a/nixos/flake.nix
 +++ b/nixos/flake.nix
-@@
+@@ -56,9 +56,11 @@
          let
            host = hosts.${hostName};
            inherit (host) roles;
@@ -56,7 +56,7 @@ The current flake cleanly wires roles and hosts but has brittle module discovery
 ```diff
 --- a/nixos/lib/import-modules.nix
 +++ b/nixos/lib/import-modules.nix
-@@
+@@ -16,12 +16,17 @@
 -let
 -  dirExists = builtins.pathExists dir;
 -  foundFiles = lib.filesystem.listFilesRecursive dir;
@@ -98,7 +98,7 @@ The current flake cleanly wires roles and hosts but has brittle module discovery
 ```diff
 --- a/nixos/home-modules/ssh-agent.nix
 +++ b/nixos/home-modules/ssh-agent.nix
-@@
+@@ -4,9 +4,13 @@
    programs.ssh = {
      enable = true;
      enableDefaultConfig = false;
@@ -129,7 +129,7 @@ The current flake cleanly wires roles and hosts but has brittle module discovery
 ```diff
 --- a/nixos/system-modules/core.nix
 +++ b/nixos/system-modules/core.nix
-@@
+@@ -8,7 +8,9 @@
    programs.nix-ld = {
      enable = true;
 -    libraries = (pkgs.steam-run.args.multiPkgs pkgs) ++ [ pkgs.icu ];
