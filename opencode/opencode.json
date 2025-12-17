@@ -18,8 +18,8 @@
     "agent": {
         "build": {
             "permission": {
-                "edit": "allow",
-                "external_directory": "ask",
+                "webfetch": "allow",
+                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -32,6 +32,7 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
+                    "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
                     "git diff *": "allow",
@@ -40,18 +41,18 @@
                     "curl *": "allow",
                     "wget *": "allow",
                     "grep *": "allow",
+                    "mmdc *": "allow",
                     "*git push*": "deny",
-                    "*git commit*": "deny",
-                    "mmdc *": "allow"
+                    "*git commit*": "deny"
                 },
-                "webfetch": "allow",
-                "doom_loop": "deny"
+                "edit": "allow",
+                "external_directory": "ask"
             }
         },
         "plan": {
             "permission": {
-                "edit": "deny",
-                "external_directory": "allow",
+                "webfetch": "allow",
+                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -64,6 +65,7 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
+                    "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
                     "git diff *": "allow",
@@ -72,12 +74,12 @@
                     "curl *": "allow",
                     "wget *": "allow",
                     "grep *": "allow",
+                    "mmdc *": "allow",
                     "*git push*": "deny",
-                    "*git commit*": "deny",
-                    "mmdc *": "allow"
+                    "*git commit*": "deny"
                 },
-                "webfetch": "allow",
-                "doom_loop": "deny"
+                "edit": "deny",
+                "external_directory": "allow"
             }
         }
     }

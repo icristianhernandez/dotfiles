@@ -148,31 +148,31 @@ return {
             -- lessNotifications = true,
         },
     },
-    {
-        -- subtle animations for Neovim actions (search, undo, redo, yank, etc.)
-        "rachartier/tiny-glimmer.nvim",
-        lazy = false,
-        opts = {
-            autoreload = true,
-            overwrite = {
-                search = {
-                    enabled = true,
-                    default_animation = {
-                        name = "left_to_right",
-                        settings = {
-                            from_color = "DiffDelete",
-                            max_duration = 150,
-                            min_duration = 150,
-                        },
-                    },
-                },
-                undo = {
-                    enabled = true,
-                },
-                redo = {
-                    enabled = true,
-                },
-            },
-        },
-    },
+    -- {
+    --     -- subtle animations for Neovim actions (search, undo, redo, yank, etc.)
+    --     "rachartier/tiny-glimmer.nvim",
+    --     lazy = false,
+    --     opts = {
+    --         autoreload = true,
+    --         overwrite = {
+    --             search = {
+    --                 enabled = true,
+    --                 default_animation = {
+    --                     name = "left_to_right",
+    --                     settings = {
+    --                         from_color = "DiffDelete",
+    --                         max_duration = 150,
+    --                         min_duration = 150,
+    --                     },
+    --                 },
+    --             },
+    --             undo = {
+    --                 enabled = true,
+    --             },
+    --             redo = {
+    --                 enabled = true,
+    --             },
+    --         },
+    --     },
+    -- },
 }

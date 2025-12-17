@@ -72,6 +72,7 @@ core_permissions = {
         "nix run ./nixos#nvim-lint": "allow",
         "nix run ./nixos#workflows-fmt": "allow",
         "nix run ./nixos#workflows-lint": "allow",
+        "rg *": "allow",
         "git status *": "allow",
         "cd *": "allow",
         "git diff *": "allow",
@@ -80,9 +81,9 @@ core_permissions = {
         "curl *": "allow",
         "wget *": "allow",
         "grep *": "allow",
+        "mmdc *": "allow",
         "*git push*": "deny",
         "*git commit*": "deny",
-        "mmdc *": "allow",
     },
 }
 

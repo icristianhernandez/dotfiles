@@ -134,6 +134,7 @@ return {
             },
         },
     },
+
     {
         -- blink.cmp: next-generation completion framework
         "saghen/blink.cmp",
@@ -160,7 +161,6 @@ return {
                     })
                 end,
             },
-            "xzbdmw/colorful-menu.nvim",
             "nvim-mini/mini.icons",
         },
 
@@ -192,17 +192,7 @@ return {
                     auto_show_delay_ms = 30,
                     max_height = 8,
                     draw = {
-                        columns = { { "kind_icon" }, { "label", gap = 1 } },
-                        components = {
-                            label = {
-                                text = function(ctx)
-                                    return require("colorful-menu").blink_components_text(ctx)
-                                end,
-                                highlight = function(ctx)
-                                    return require("colorful-menu").blink_components_highlight(ctx)
-                                end,
-                            },
-                        },
+                        columns = { { "label", "label_description", gap = 1 }, { "kind_icon", gap = 1, "kind" } },
                     },
                 },
                 documentation = { auto_show = true, auto_show_delay_ms = 10 },
@@ -239,7 +229,7 @@ return {
                             local kinds = require("blink.cmp.types").CompletionItemKind
 
                             return vim.tbl_filter(function(item)
-                                return item.kind ~= kinds.Snippet and item.kind ~= kinds.Keyword
+                                return item.kind ~= kinds.Snippet
                             end, items)
                         end,
 
@@ -256,13 +246,47 @@ return {
             },
 
             cmdline = {
-                keymap = { preset = "inherit" },
-                completion = {
-                    trigger = {
-                        -- these doesn't work for some reason
-                        show_on_x_blocked_trigger_characters = { " " },
-                        show_on_blocked_trigger_characters = { " " },
+                keymap = {
+                    preset = "inherit",
+
+                    ["<Space>"] = {
+                        function(cmp)
+                            if not cmp.is_visible() then
+                                return false
+                            end
+
+                            local selected_idx = cmp.get_selected_item_idx()
+                            if selected_idx ~= nil then
+                                return cmp.accept({
+                                    callback = function()
+                                        -- or: vim.api.nvim_feedkeys(" ", "n", false)
+                                        local cmdline = vim.fn.getcmdline()
+                                        local pos = vim.fn.getcmdpos() -- 1-based
+                                        vim.fn.setcmdline(cmdline:sub(1, pos - 1) .. " " .. cmdline:sub(pos))
+                                        vim.fn.setcmdpos(pos + 1)
+                                    end,
+                                })
+                            end
+
+                            cmp.hide()
+                            return false
+                        end,
+                        "fallback",
                     },
+                },
+                trigger = {
+                    -- these are not working for some reason (checked in nvim
+                    -- 0.11.5 and blink 0.1.8)
+                    show_on_trigger_character = true,
+                    show_on_backspace = true,
+                    show_on_backspace_in_keyword = true,
+                    show_on_backspace_after_accept = true,
+                    show_on_insert_on_trigger_character = true,
+                    show_on_accept_on_trigger_character = true,
+                    show_on_blocked_trigger_characters = {},
+                    show_on_x_blocked_trigger_characters = {},
+                },
+                completion = {
                     list = {
                         selection = {
                             preselect = false,
@@ -270,7 +294,6 @@ return {
                         },
                     },
                     menu = { auto_show = true },
-                    ghost_text = { enabled = true },
                 },
             },
         },
@@ -320,6 +343,7 @@ return {
             require("blink.cmp").setup(opts)
         end,
     },
+
     {
         -- Snacks: a collection of small (not so small) plugins related to nvim
         "folke/snacks.nvim",
