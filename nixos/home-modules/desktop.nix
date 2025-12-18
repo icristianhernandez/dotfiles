@@ -33,9 +33,4 @@ guardRole "desktop" {
       below true
     }
   '';
-
-  systemd.user.services.dms = {
-    Unit.PartOf = [ "niri.service" ];
-    Install.WantedBy = [ "niri.service" ];
-  };
 }
