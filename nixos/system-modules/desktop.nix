@@ -32,8 +32,6 @@ guardRole "desktop" {
 
   hardware.graphics.enable = true;
 
-  environment.systemPackages = with pkgs; [ niri ];
-
   programs.niri.enable = true;
 
   programs.dms-shell = {
