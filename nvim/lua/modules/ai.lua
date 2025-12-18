@@ -10,7 +10,7 @@ return {
                 auto_trigger = false,
                 hide_during_completion = false,
                 debounce = 0,
-                keymap = { accept = "<C-e>" },
+                keymap = { accept = "<C-d>" },
             },
             filetypes = {
                 ["*"] = true,

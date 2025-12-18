@@ -89,7 +89,6 @@ return {
     {
         -- HiPhish/rainbow-delimiters.nvim: color nested delimiters by depth
         "HiPhish/rainbow-delimiters.nvim",
-        -- nvim-treesitter/nvim-treesitter: incremental parsing and AST-based features
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         lazy = true,
         event = "BufReadPre",
@@ -184,11 +183,6 @@ return {
             MiniIcons.setup(opts)
             MiniIcons.mock_nvim_web_devicons()
 
-            -- Tweak builtin LSP kind names so completion/symbols include icons.
-            vim.defer_fn(function()
-                MiniIcons.tweak_lsp_kind("prepend")
-            end, 200)
-
             -- Compact, stable diagnostic sign setup using a small mapping.
             local signs_text, signs_numhl = {}, {}
             local severities = {
@@ -205,6 +199,18 @@ return {
             end
 
             vim.diagnostic.config({ signs = { text = signs_text, numhl = signs_numhl } })
+        end,
+    },
+
+    {
+        -- onsails/lspkind.nvim: VS Code-like pictograms for LSP kinds
+        "onsails/lspkind.nvim",
+        lazy = false,
+        opts = {
+            preset = "default",
+        },
+        config = function(_, opts)
+            require("lspkind").init(opts)
         end,
     },
 

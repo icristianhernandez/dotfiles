@@ -136,6 +136,16 @@ return {
     },
 
     {
+        "nvim-mini/mini.cmdline",
+        version = false,
+        opts = {
+            autopeek = {
+                n_context = 3,
+            },
+        },
+    },
+
+    {
         -- blink.cmp: next-generation completion framework
         "saghen/blink.cmp",
         -- use a release tag to download pre-built binaries
@@ -161,7 +171,7 @@ return {
                     })
                 end,
             },
-            "nvim-mini/mini.icons",
+            "onsails/lspkind.nvim",
         },
 
         ---@module 'blink.cmp'
@@ -173,7 +183,7 @@ return {
                 ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
                 ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
                 ["<CR>"] = { "accept", "fallback" },
-                ["<C-d>"] = { "show", "hide", "fallback" },
+                ["<C-e>"] = { "show", "hide", "fallback" },
                 ["<C-b>"] = { "scroll_documentation_up", "fallback" },
                 ["<C-f>"] = { "scroll_documentation_down", "fallback" },
                 ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
@@ -189,10 +199,18 @@ return {
 
             completion = {
                 menu = {
-                    auto_show_delay_ms = 30,
+                    -- testing that:
+                    auto_show_delay_ms = 0,
                     max_height = 8,
                     draw = {
                         columns = { { "label", "label_description", gap = 1 }, { "kind_icon", gap = 1, "kind" } },
+                        components = {
+                            kind_icon = {
+                                text = function(ctx)
+                                    return require("lspkind").symbolic(ctx.kind, { mode = "symbol" }) .. ctx.icon_gap
+                                end,
+                            },
+                        },
                     },
                 },
                 documentation = { auto_show = true, auto_show_delay_ms = 10 },
@@ -246,99 +264,13 @@ return {
             },
 
             cmdline = {
-                keymap = {
-                    preset = "inherit",
-
-                    ["<Space>"] = {
-                        function(cmp)
-                            if not cmp.is_visible() then
-                                return false
-                            end
-
-                            local selected_idx = cmp.get_selected_item_idx()
-                            if selected_idx ~= nil then
-                                return cmp.accept({
-                                    callback = function()
-                                        -- or: vim.api.nvim_feedkeys(" ", "n", false)
-                                        local cmdline = vim.fn.getcmdline()
-                                        local pos = vim.fn.getcmdpos() -- 1-based
-                                        vim.fn.setcmdline(cmdline:sub(1, pos - 1) .. " " .. cmdline:sub(pos))
-                                        vim.fn.setcmdpos(pos + 1)
-                                    end,
-                                })
-                            end
-
-                            cmp.hide()
-                            return false
-                        end,
-                        "fallback",
-                    },
-                },
-                trigger = {
-                    -- these are not working for some reason (checked in nvim
-                    -- 0.11.5 and blink 0.1.8)
-                    show_on_trigger_character = true,
-                    show_on_backspace = true,
-                    show_on_backspace_in_keyword = true,
-                    show_on_backspace_after_accept = true,
-                    show_on_insert_on_trigger_character = true,
-                    show_on_accept_on_trigger_character = true,
-                    show_on_blocked_trigger_characters = {},
-                    show_on_x_blocked_trigger_characters = {},
-                },
-                completion = {
-                    list = {
-                        selection = {
-                            preselect = false,
-                            auto_insert = true,
-                        },
-                    },
-                    menu = { auto_show = true },
-                },
+                enabled = false,
             },
         },
 
         config = function(_, opts)
             -- make sure backspace in select mode works as expected
             vim.keymap.set("s", "<BS>", "<C-O>s")
-
-            -- Integrate mini.icons for completion kind icons
-            local MiniIcons = require("mini.icons")
-            local kind_icons = {}
-            -- LSP CompletionItemKind names (from LSP specification)
-            local lsp_kinds = {
-                "Text",
-                "Method",
-                "Function",
-                "Constructor",
-                "Field",
-                "Variable",
-                "Class",
-                "Interface",
-                "Module",
-                "Property",
-                "Unit",
-                "Value",
-                "Enum",
-                "Keyword",
-                "Snippet",
-                "Color",
-                "File",
-                "Reference",
-                "Folder",
-                "EnumMember",
-                "Constant",
-                "Struct",
-                "Event",
-                "Operator",
-                "TypeParameter",
-            }
-            for _, kind in ipairs(lsp_kinds) do
-                local icon = MiniIcons.get("lsp", kind:lower())
-                kind_icons[kind] = icon
-            end
-            opts.appearance = opts.appearance or {}
-            opts.appearance.kind_icons = kind_icons
 
             require("blink.cmp").setup(opts)
         end,
@@ -894,13 +826,6 @@ return {
                 },
             },
         },
-    },
-    {
-        -- nacro90/numb.nvim: show line number hints while typing commands
-        "nacro90/numb.nvim",
-        lazy = true,
-        keys = { { ":" } },
-        opts = {},
     },
     {
         -- folke/flash.nvim: enhanced motion and search with labels and treesitter integration
