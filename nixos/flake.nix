@@ -48,6 +48,15 @@
             "dev"
           ];
         };
+        desktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+          ];
+        };
       };
     in
     {
