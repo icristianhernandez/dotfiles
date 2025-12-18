@@ -10,5 +10,6 @@ lib.mkIf (hostName == "desktop") {
     efi.canTouchEfiVariables = true;
   };
 
+  # Desktop target assumes Intel CPU/iGPU.
   hardware.cpu.intel.updateMicrocode = true;
 }
