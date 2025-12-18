@@ -4,6 +4,7 @@ let
     "base"
     "wsl"
     "interactive"
+    "desktop"
     "dev"
   ];
 
