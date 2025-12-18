@@ -39,6 +39,16 @@
       rolesSpec = import ./roles.nix { inherit lib; };
 
       hosts = {
+        desktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+          ];
+        };
+
         wsl = {
           system = builtins.head systems;
           roles = [
