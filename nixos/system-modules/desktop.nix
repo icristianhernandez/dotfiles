@@ -29,6 +29,7 @@ guardRole "desktop" {
 
   hardware.graphics.enable = true;
 
+  # Keep niri available system-wide so DMS greeter can launch it.
   environment.systemPackages = with pkgs; [ niri ];
 
   programs.dms-shell = {

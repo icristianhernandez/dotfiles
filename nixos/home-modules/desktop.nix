@@ -10,6 +10,7 @@ guardRole "desktop" {
     nautilus
   ];
 
+  # DMS generates the included snippets under ~/.config/dms.
   xdg.configFile."niri/config.kdl".text = ''
     env {
       XDG_CURRENT_DESKTOP "niri"
