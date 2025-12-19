@@ -12,15 +12,20 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    dms = {
+      # Pinned to requested DMS commit
+      url = "github:AvengeMedia/DankMaterialShell/f2611e0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    {
-      nixpkgs,
-      nixos-wsl,
-      home-manager,
-      ...
-    }:
+  outputs = inputs@{
+    nixpkgs,
+    nixos-wsl,
+    home-manager,
+    ...
+  }:
     let
       inherit (nixpkgs) lib;
       const = import ./lib/const.nix;
@@ -48,6 +53,15 @@
             "dev"
           ];
         };
+        desktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+          ];
+        };
       };
     in
     {
@@ -62,7 +76,7 @@
         lib.nixosSystem {
           inherit (host) system;
           specialArgs = {
-            inherit const roles hostName;
+            inherit const roles hostName inputs;
             inherit (helpers) hasRole mkIfRole guardRole;
           };
 
@@ -84,7 +98,7 @@
                 useUserPackages = true;
                 backupFileExtension = "backup";
                 extraSpecialArgs = {
-                  inherit const roles hostName;
+                  inherit const roles hostName inputs;
                   inherit (helpers) hasRole mkIfRole guardRole;
                 };
                 users = {
@@ -97,6 +111,10 @@
                 };
               };
             }
+          ]
+          ++ lib.optionals (helpers.hasRole "desktop") [
+            inputs.dms.nixosModules.dank-material-shell
+            inputs.dms.nixosModules.greeter
           ]
           ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ];
         }
