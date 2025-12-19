@@ -38,5 +38,6 @@ guardRole "desktop" {
     configHome = const.homeDir;
   };
 
+  services.greetd.enable = true;
   services.greetd.settings.default_session.user = const.user;
 }

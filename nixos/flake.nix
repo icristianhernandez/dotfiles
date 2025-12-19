@@ -14,18 +14,18 @@
     };
 
     dms = {
+      # Pinned to requested DMS commit
       url = "github:AvengeMedia/DankMaterialShell/f2611e0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs =
-    inputs@{
-      nixpkgs,
-      nixos-wsl,
-      home-manager,
-      ...
-    }:
+  outputs = inputs@{
+    nixpkgs,
+    nixos-wsl,
+    home-manager,
+    ...
+  }:
     let
       inherit (nixpkgs) lib;
       const = import ./lib/const.nix;
