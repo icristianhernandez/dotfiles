@@ -28,6 +28,7 @@ guardRole "desktop" {
       xdg-desktop-portal-gtk
       xdg-desktop-portal-wlr
     ];
+    configPackages = with pkgs; [ xdg-desktop-portal-wlr ];
   };
 
   programs.niri.enable = true;
@@ -38,6 +39,7 @@ guardRole "desktop" {
     configHome = const.homeDir;
   };
 
+  # dms greeter module sets the greetd command; we only pin user here.
   services.greetd.enable = true;
   services.greetd.settings.default_session.user = const.user;
 }
