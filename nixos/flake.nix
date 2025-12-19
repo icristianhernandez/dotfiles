@@ -12,6 +12,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/f2611e0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -19,6 +24,7 @@
       nixpkgs,
       nixos-wsl,
       home-manager,
+      dms,
       ...
     }:
     let
@@ -46,6 +52,15 @@
             "wsl"
             "interactive"
             "dev"
+          ];
+        };
+        desktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
           ];
         };
       };
@@ -98,7 +113,8 @@
               };
             }
           ]
-          ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ];
+          ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ]
+          ++ lib.optionals (helpers.hasRole "desktop") [ dms.nixosModules.default ];
         }
       );
 
