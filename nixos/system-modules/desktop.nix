@@ -24,10 +24,7 @@ guardRole "desktop" {
 
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-wlr
-    ];
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
     configPackages = with pkgs; [ xdg-desktop-portal-wlr ];
   };
 
@@ -36,6 +33,7 @@ guardRole "desktop" {
   programs.dank-material-shell.greeter = {
     enable = true;
     compositor.name = "niri";
+    # Reuse user configuration to align greeter styling.
     configHome = const.homeDir;
   };
 
