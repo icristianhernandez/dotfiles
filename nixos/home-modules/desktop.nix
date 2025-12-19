@@ -22,11 +22,6 @@ guardRole "desktop" {
       XDG_SESSION_DESKTOP "niri"
     }
 
-    // DMS includes (provided by DankMaterialShell)
-    // These files are managed by DMS and contain theming and keybindings
-    // include "~/.config/niri/dms/colors.kdl"
-    // include "~/.config/niri/dms/binds.kdl"
-
     // Input configuration
     input {
       keyboard {
@@ -40,12 +35,6 @@ guardRole "desktop" {
         natural-scroll
       }
     }
-
-    // Output configuration (adjust for your monitor setup)
-    // output "eDP-1" {
-    //   mode "1920x1080@60"
-    //   scale 1.0
-    // }
 
     // Default terminal
     spawn-at-startup "kitty"
