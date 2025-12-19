@@ -5,6 +5,7 @@ let
     "wsl"
     "interactive"
     "dev"
+    "desktop"
   ];
 
   validateRoles =
