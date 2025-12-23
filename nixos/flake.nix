@@ -58,6 +58,16 @@
             "dms"
           ];
         };
+        gnomedesktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+            "gnome"
+          ];
+        };
       };
     in
     {

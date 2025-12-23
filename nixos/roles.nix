@@ -7,6 +7,7 @@ let
     "dev"
     "desktop"
     "dms"
+    "gnome"
   ];
 
   validateRoles =

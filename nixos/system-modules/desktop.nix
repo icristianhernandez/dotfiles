@@ -10,12 +10,15 @@ guardRole "desktop" {
     kitty
     nautilus
     google-chrome
+    chromium
+    firefox
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    supportedFilesystems = [ "ntfs" ];
+  };
   fileSystems."/mnt/storage" = {
     device = "/dev/disk/by-uuid/EC68C95668C92066";
     fsType = "ntfs3";
@@ -25,26 +28,6 @@ guardRole "desktop" {
       "uid=1000"
     ];
   };
-
-  services.xserver.enable = true;
-
-  services.xserver.xkb = {
-    layout = "latam";
-    variant = "";
-  };
-
-  # Configure console keymap
-  console.keyMap = "la-latin1";
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Required when Home Manager is used as a NixOS module
-  # and `home-manager.useUserPackages = true`.
-  environment.pathsToLink = lib.mkAfter [
-    "/share/applications"
-    "/share/xdg-desktop-portal"
-  ];
 
   services = {
     dbus.enable = true;
@@ -57,7 +40,26 @@ guardRole "desktop" {
       pulse.enable = true;
       wireplumber.enable = true;
     };
+
+    xserver = {
+      enable = true;
+
+      xkb = {
+        layout = "latam";
+        variant = "";
+      };
+    };
+
+    printing.enable = true;
   };
+
+  # Configure console keymap
+  console.keyMap = "la-latin1";
+
+  environment.pathsToLink = lib.mkAfter [
+    "/share/applications"
+    "/share/xdg-desktop-portal"
+  ];
 
   security = {
     polkit.enable = true;
