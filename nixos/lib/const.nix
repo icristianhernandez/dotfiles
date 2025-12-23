@@ -1,5 +1,5 @@
 let
-  user = "cristianwslnixos";
+  user = "cristiannixos";
   homeDir = "/home/${user}";
 in
 {
