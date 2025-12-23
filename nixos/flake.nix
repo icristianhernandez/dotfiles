@@ -112,32 +112,7 @@
               };
             }
           ]
-          ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ]
-          ++ lib.optionals (
-            helpers.hasRole "desktop" && builtins.pathExists /etc/nixos/hardware-configuration.nix
-          ) [ /etc/nixos/hardware-configuration.nix ]
-          ++
-            # filesystem stub so CI doesn't break in non-desktop hosts
-            lib.optionals
-              (helpers.hasRole "desktop" && !(builtins.pathExists /etc/nixos/hardware-configuration.nix))
-              [
-                (
-                  { lib, guardRole, ... }:
-                  guardRole "desktop" {
-                    fileSystems."/" = {
-                      device = "none";
-                      fsType = "tmpfs";
-                      options = [
-                        "mode=755"
-                        "size=512M"
-                      ];
-                    };
-
-                    boot.loader.grub.enable = lib.mkForce false;
-                    boot.loader.systemd-boot.enable = lib.mkForce false;
-                  }
-                )
-              ];
+          ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ];
         }
       );
 
