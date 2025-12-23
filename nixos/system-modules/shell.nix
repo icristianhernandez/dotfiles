@@ -22,4 +22,6 @@ guardRole "interactive" {
       '';
     };
   };
+
+  environment.pathsToLink = [ "/share/fish" ];
 }

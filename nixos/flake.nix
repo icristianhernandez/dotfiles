@@ -3,11 +3,11 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,7 +15,7 @@
   };
 
   outputs =
-    {
+    inputs@{
       nixpkgs,
       nixos-wsl,
       home-manager,
@@ -48,6 +48,16 @@
             "dev"
           ];
         };
+        dmsdesktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+            "dms"
+          ];
+        };
       };
     in
     {
@@ -64,6 +74,8 @@
           specialArgs = {
             inherit const roles hostName;
             inherit (helpers) hasRole mkIfRole guardRole;
+            inherit inputs;
+            input = inputs;
           };
 
           modules = [
@@ -86,6 +98,8 @@
                 extraSpecialArgs = {
                   inherit const roles hostName;
                   inherit (helpers) hasRole mkIfRole guardRole;
+                  inherit inputs;
+                  input = inputs;
                 };
                 users = {
                   "${const.user}" = {
@@ -98,7 +112,32 @@
               };
             }
           ]
-          ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ];
+          ++ lib.optionals (helpers.hasRole "wsl") [ nixos-wsl.nixosModules.default ]
+          ++ lib.optionals (
+            helpers.hasRole "desktop" && builtins.pathExists /etc/nixos/hardware-configuration.nix
+          ) [ /etc/nixos/hardware-configuration.nix ]
+          ++
+            # filesystem stub so CI doesn't break in non-desktop hosts
+            lib.optionals
+              (helpers.hasRole "desktop" && !(builtins.pathExists /etc/nixos/hardware-configuration.nix))
+              [
+                (
+                  { lib, guardRole, ... }:
+                  guardRole "desktop" {
+                    fileSystems."/" = {
+                      device = "none";
+                      fsType = "tmpfs";
+                      options = [
+                        "mode=755"
+                        "size=512M"
+                      ];
+                    };
+
+                    boot.loader.grub.enable = lib.mkForce false;
+                    boot.loader.systemd-boot.enable = lib.mkForce false;
+                  }
+                )
+              ];
         }
       );
 
