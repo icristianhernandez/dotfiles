@@ -1,13 +1,13 @@
 let
-  user = "cristiannixos";
+  user = "cristian";
   homeDir = "/home/${user}";
 in
 {
   inherit user;
   inherit homeDir;
   dotfilesDir = "${homeDir}/dotfiles";
-  systemState = "25.05";
-  homeState = "25.05";
+  systemState = "25.11";
+  homeState = "25.11";
   timezone = "America/Caracas";
   locale = "en_US.UTF-8";
   userDescription = "cristian hernandez";
