@@ -18,8 +18,10 @@
     "agent": {
         "build": {
             "permission": {
-                "webfetch": "allow",
                 "doom_loop": "deny",
+                "external_directory": "ask",
+                "webfetch": "allow",
+                "edit": "allow",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -32,6 +34,7 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
+                    "niv eval *": "allow",
                     "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
@@ -44,15 +47,15 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
-                },
-                "edit": "allow",
-                "external_directory": "ask"
+                }
             }
         },
         "plan": {
             "permission": {
-                "webfetch": "allow",
                 "doom_loop": "deny",
+                "external_directory": "allow",
+                "webfetch": "allow",
+                "edit": "deny",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -65,6 +68,7 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
+                    "niv eval *": "allow",
                     "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
@@ -77,9 +81,7 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
-                },
-                "edit": "deny",
-                "external_directory": "allow"
+                }
             }
         }
     }
