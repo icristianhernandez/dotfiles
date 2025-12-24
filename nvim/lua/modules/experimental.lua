@@ -175,4 +175,57 @@ return {
     --         },
     --     },
     -- },
+    {
+        -- stevearc/overseer.nvim: task runner for ad-hoc commands
+        "stevearc/overseer.nvim",
+        opts = function()
+            local repo_root = vim.fn.expand("~") .. "/dotfiles"
+            local script_name = "git-auto-commit-opencode.sh"
+            local script_path = (vim.fs and vim.fs.joinpath(repo_root, "scripts", script_name)) or (repo_root .. "/scripts/" .. script_name)
+
+            local overseer = require("overseer")
+
+            overseer.register_template({
+                name = "Auto commit with OpenCode",
+                builder = function()
+                    return {
+                        cmd = { "bash", script_path },
+                        cwd = repo_root,
+                        name = "auto-commit-opencode",
+                    }
+                end,
+            })
+
+            if vim.fn.filereadable(script_path) == 0 then
+                vim.notify(
+                    string.format("overseer: script not found at %s", script_path),
+                    vim.log.levels.WARN
+                )
+            end
+
+            return {}
+        end,
+        keys = {
+            {
+                "<leader>al",
+                function()
+                    vim.notify("overseer: starting auto-commit task", vim.log.levels.INFO)
+                    require("overseer").run_task({ name = "Auto commit with OpenCode" }, function(task, err)
+                        if not task then
+                            vim.notify("overseer: failed to run task: " .. tostring(err or "unknown"), vim.log.levels.ERROR)
+                            return
+                        end
+                    end)
+                end,
+                desc = "Run auto-commit script",
+            },
+            {
+                "<leader>tt",
+                function()
+                    require("overseer").toggle()
+                end,
+                desc = "Toggle Overseer task list",
+            },
+        },
+    },
 }
