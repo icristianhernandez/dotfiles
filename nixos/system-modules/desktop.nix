@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   guardRole,
   ...
 }:
@@ -10,8 +9,6 @@ guardRole "desktop" {
     kitty
     nautilus
     google-chrome
-    chromium
-    firefox
   ];
 
   boot = {
@@ -55,11 +52,6 @@ guardRole "desktop" {
 
   # Configure console keymap
   console.keyMap = "la-latin1";
-
-  environment.pathsToLink = lib.mkAfter [
-    "/share/applications"
-    "/share/xdg-desktop-portal"
-  ];
 
   security = {
     polkit.enable = true;
