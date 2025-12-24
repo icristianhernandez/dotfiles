@@ -1,0 +1,2 @@
+disable show overview on startup
+animate hovering app icons
