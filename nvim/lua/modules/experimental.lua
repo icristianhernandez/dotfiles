@@ -8,15 +8,15 @@ return {
     --         fadelevel = 0.25,
     --     },
     -- },
-    -- {
-    --     -- sphamba/smear-cursor.nvim: cursor smear animation for motion feedback
-    --     "sphamba/smear-cursor.nvim",
-    --     event = "VeryLazy",
-    --     cond = vim.g.neovide == nil,
-    --     opts = {
-    --         -- never_draw_over_target = true,
-    --     },
-    -- },
+    {
+        -- sphamba/smear-cursor.nvim: cursor smear animation for motion feedback
+        "sphamba/smear-cursor.nvim",
+        event = "VeryLazy",
+        cond = vim.g.neovide == nil,
+        opts = {
+            -- never_draw_over_target = true,
+        },
+    },
     {
         -- shortcuts/no-neck-pain.nvim: center the text area in Neovim
         "shortcuts/no-neck-pain.nvim",
