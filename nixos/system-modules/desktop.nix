@@ -11,6 +11,7 @@ guardRole "desktop" {
     google-chrome
   ];
 
+  # my storage partition
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
