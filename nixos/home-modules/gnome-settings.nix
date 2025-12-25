@@ -31,6 +31,7 @@ guardRole "gnome" {
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [ ];
+      screenshot = [ "<Alt><Super>s" ];
     };
 
     "org/gnome/desktop/interface" = {

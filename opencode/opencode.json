@@ -18,10 +18,8 @@
     "agent": {
         "build": {
             "permission": {
-                "doom_loop": "deny",
                 "external_directory": "ask",
-                "webfetch": "allow",
-                "edit": "allow",
+                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -34,7 +32,7 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
-                    "niv eval *": "allow",
+                    "nix eval *": "allow",
                     "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
@@ -47,15 +45,15 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
-                }
+                },
+                "webfetch": "allow",
+                "edit": "allow"
             }
         },
         "plan": {
             "permission": {
-                "doom_loop": "deny",
                 "external_directory": "allow",
-                "webfetch": "allow",
-                "edit": "deny",
+                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -68,7 +66,7 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
-                    "niv eval *": "allow",
+                    "nix eval *": "allow",
                     "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
@@ -81,7 +79,9 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
-                }
+                },
+                "webfetch": "allow",
+                "edit": "deny"
             }
         }
     }
