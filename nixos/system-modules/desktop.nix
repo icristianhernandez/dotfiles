@@ -6,9 +6,10 @@
 
 guardRole "desktop" {
   environment.systemPackages = with pkgs; [
-    nautilus
     google-chrome
     nerd-fonts.jetbrains-mono
+    wl-clipboard
+    xclip
   ];
 
   # my storage partition
@@ -58,8 +59,6 @@ guardRole "desktop" {
     polkit.enable = true;
     rtkit.enable = true;
   };
-
-  hardware.graphics.enable = true;
 
   networking.networkmanager.enable = true;
 }

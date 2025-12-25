@@ -1,2 +1,3 @@
 disable show overview on startup
 animate hovering app icons
+set blink buffer to 2-3 characters to triggers

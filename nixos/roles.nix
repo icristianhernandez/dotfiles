@@ -6,6 +6,7 @@ let
     "interactive"
     "dev"
     "desktop"
+    "thinkpadE14"
     "dms"
     "gnome"
   ];

@@ -55,6 +55,7 @@
             "interactive"
             "dev"
             "desktop"
+            "thinkpadE14"
             "dms"
           ];
         };
@@ -65,6 +66,7 @@
             "interactive"
             "dev"
             "desktop"
+            "thinkpadE14"
             "gnome"
           ];
         };

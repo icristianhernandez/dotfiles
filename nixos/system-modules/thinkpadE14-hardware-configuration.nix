@@ -5,10 +5,11 @@
   config,
   lib,
   modulesPath,
+  guardRole,
   ...
 }:
 
-{
+guardRole "thinkpadE14" {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];

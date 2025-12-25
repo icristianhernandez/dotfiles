@@ -14,6 +14,7 @@ guardRole "desktop" {
     themeFile = "Catppuccin-Macchiato";
     keybindings = {
       "ctrl+c" = "copy_or_interrupt";
+      "ctrl+v" = "paste_from_clipboard";
       "f11" = "toggle_fullscreen";
       "ctrl++" = "increase_font_size";
       "ctrl+-" = "decrease_font_size";
