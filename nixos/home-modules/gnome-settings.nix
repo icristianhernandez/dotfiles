@@ -1,6 +1,19 @@
-{ guardRole, lib, ... }:
+{
+  guardRole,
+  lib,
+  pkgs,
+  ...
+}:
 
 guardRole "gnome" {
+  home.packages = with pkgs; [
+    gnomeExtensions.dash-to-panel
+    gnomeExtensions.vicinae
+    gnomeExtensions.super-key
+    gnomeExtensions.gsconnect
+    gnomeExtensions.blur-my-shell
+  ];
+
   dconf.settings = {
     "org/gnome/desktop/peripherals/mouse" = {
       accel-profile = "flat";
@@ -66,6 +79,8 @@ guardRole "gnome" {
         "dash-to-panel@jderose9.github.com"
         "vicinae@dagimg-dot"
         "super-key@tommimon.github.com"
+        "gsconnect@andyholmes.github.io"
+        "blur-my-shell@aunetx"
       ];
     };
 
@@ -84,5 +99,13 @@ guardRole "gnome" {
     "org/gnome/shell/extensions/super-key" = {
       overlay-key-action = "vicinae toggle";
     };
+
+    # doesn't do anything, need fix.
+    "org/gnome/shell/extensions/blur-my-shell/applications" = {
+      blur = lib.hm.gvariant.mkBoolean true;
+    };
+
+    # GSConnect placeholder for future device config
+    "org/gnome/shell/extensions/gsconnect" = { };
   };
 }

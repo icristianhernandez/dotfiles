@@ -19,6 +19,7 @@ A reproducible NixOS/Home Manager flake with a modular, lazy-loaded Neovim confi
 ## Repo layout
 
 - `nixos/` - Nix flake (`nixos/flake.nix`), home- and system-modules, CI apps (`nixos/apps`).
+  - GNOME desktop: `nixos/system-modules/desktop.nix` enables GVFS + UDisks2 for Nautilus integration and includes File Roller + p7zip for archive actions.
 - `nvim/` - Neovim config (`init.lua`, `lua/core`, `lua/modules`, `spec/`).
 - `.github/workflows/` - CI job definitions.
 - `AGENTS.md`, `notes/`, `LICENSE`.

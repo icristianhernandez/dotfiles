@@ -1,16 +1,19 @@
 {
-  pkgs,
   guardRole,
+  pkgs,
   ...
 }:
 
 guardRole "gnome" {
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  services = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+    gvfs.enable = true;
+    udisks2.enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
-    gnomeExtensions.dash-to-panel
-    gnomeExtensions.vicinae
-    gnomeExtensions.super-key
+    file-roller
+    p7zip
   ];
 }
