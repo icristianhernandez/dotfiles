@@ -34,6 +34,11 @@ guardRole "gnome" {
       screenshot = [ "<Alt><Super>s" ];
     };
 
+    "org/gnome/desktop/default-applications/terminal" = {
+      exec = "kitty";
+      exec-arg = "-e";
+    };
+
     "org/gnome/desktop/interface" = {
       show-battery-percentage = lib.hm.gvariant.mkBoolean true;
       enable-hot-corners = lib.hm.gvariant.mkBoolean false;

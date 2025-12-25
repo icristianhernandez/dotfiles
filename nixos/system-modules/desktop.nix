@@ -6,9 +6,9 @@
 
 guardRole "desktop" {
   environment.systemPackages = with pkgs; [
-    kitty
     nautilus
     google-chrome
+    nerd-fonts.jetbrains-mono
   ];
 
   # my storage partition
