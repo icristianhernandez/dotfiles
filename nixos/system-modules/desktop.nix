@@ -12,6 +12,8 @@ guardRole "desktop" {
     xclip
   ];
 
+  hardware.enableAllFirmware = true;
+
   # my storage partition
   boot = {
     loader.systemd-boot.enable = true;

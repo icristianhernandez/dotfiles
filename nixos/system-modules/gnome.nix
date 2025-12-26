@@ -34,5 +34,8 @@ guardRole "gnome" {
     gst_all_1.gst-plugins-ugly
     gst_all_1.gst-libav # Critical: Uses FFmpeg for most common video formats
     gst_all_1.gst-vaapi # Hardware acceleration
+
+    # camera tool
+    snapshot
   ];
 }
