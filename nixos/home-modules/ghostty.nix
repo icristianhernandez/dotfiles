@@ -13,8 +13,11 @@ guardRole "desktop" {
       font-size = 14;
 
       "keybind" = [
-        "ctrl+z=toggle_visibility"
-        "ctrl+shift+c=copy_to_clipboard"
+        "performable:ctrl+c=copy_to_clipboard"
+        "performable:ctrl+v=paste_from_clipboard"
+        "f11=toggle_fullscreen"
+        "ctrl+plus=increase_font_size:1"
+        "ctrl+minus=decrease_font_size:1"
       ];
 
       window-decoration = true;
