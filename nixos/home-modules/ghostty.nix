@@ -18,6 +18,7 @@ guardRole "desktop" {
         "f11=toggle_fullscreen"
         "ctrl+plus=increase_font_size:1"
         "ctrl+minus=decrease_font_size:1"
+        "ctrl+enter=none"
       ];
 
       window-decoration = true;
