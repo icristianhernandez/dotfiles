@@ -10,8 +10,10 @@ guardRole "thinkpadE14" {
     ffmpeg
   ];
 
-  users.groups.video.members = [ const.user ];
-  users.groups.render.members = [ const.user ];
+  users.users.${const.user}.extraGroups = [
+    "video"
+    "render"
+  ];
 
   hardware = {
     graphics = {
