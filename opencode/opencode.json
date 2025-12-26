@@ -18,8 +18,9 @@
     "agent": {
         "build": {
             "permission": {
+                "webfetch": "allow",
+                "edit": "allow",
                 "external_directory": "ask",
-                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -33,6 +34,7 @@
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
                     "nix eval *": "allow",
+                    "nix search *": "allow",
                     "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
@@ -46,14 +48,14 @@
                     "*git push*": "deny",
                     "*git commit*": "deny"
                 },
-                "webfetch": "allow",
-                "edit": "allow"
+                "doom_loop": "deny"
             }
         },
         "plan": {
             "permission": {
+                "webfetch": "allow",
+                "edit": "deny",
                 "external_directory": "allow",
-                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
                     "nix run ./nixos#ci": "allow",
@@ -67,6 +69,7 @@
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
                     "nix eval *": "allow",
+                    "nix search *": "allow",
                     "rg *": "allow",
                     "git status *": "allow",
                     "cd *": "allow",
@@ -80,8 +83,7 @@
                     "*git push*": "deny",
                     "*git commit*": "deny"
                 },
-                "webfetch": "allow",
-                "edit": "deny"
+                "doom_loop": "deny"
             }
         }
     }

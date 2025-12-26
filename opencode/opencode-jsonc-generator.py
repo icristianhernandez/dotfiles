@@ -73,6 +73,7 @@ core_permissions = {
         "nix run ./nixos#workflows-fmt": "allow",
         "nix run ./nixos#workflows-lint": "allow",
         "nix eval *": "allow",
+        "nix search *": "allow",
         "rg *": "allow",
         "git status *": "allow",
         "cd *": "allow",
