@@ -113,5 +113,11 @@ guardRole "gnome" {
 
     # GSConnect placeholder for future device config
     "org/gnome/shell/extensions/gsconnect" = { };
+
+    # Nautilus default sorting: newest modified first
+    "org/gnome/nautilus/preferences" = {
+      default-sort-order = "mtime";
+      default-sort-in-reverse-order = lib.hm.gvariant.mkBoolean true;
+    };
   };
 }
