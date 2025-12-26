@@ -20,5 +20,9 @@ let
 in
 guardRole "base" {
   i18n.defaultLocale = loc;
-  i18n.extraLocaleSettings = lib.genAttrs localeCategories (_: loc);
+  i18n.extraLocaleSettings = lib.genAttrs localeCategories (_: loc) // {
+    LC_TIME = "es_ES.UTF-8";
+    LC_MEASUREMENT = "es_ES.UTF-8";
+    LC_MONETARY = "es_ES.UTF-8";
+  };
 }
