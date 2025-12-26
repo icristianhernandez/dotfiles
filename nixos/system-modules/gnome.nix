@@ -13,6 +13,20 @@ guardRole "gnome" {
     tumbler.enable = true;
   };
 
+  networking.firewall = {
+    # presumeed for wifi hotpost
+    allowedTCPPorts = [
+      53
+      80
+      443
+    ];
+    allowedUDPPorts = [
+      53
+      67
+      68
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
     # select a file and press [Space] to preview without opening
     sushi
