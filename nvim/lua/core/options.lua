@@ -1,25 +1,6 @@
 vim.g.mapleader = vim.keycode("<space>")
 vim.g.maplocalleader = vim.keycode("<space>")
 
--- -- use independent clipboard for neovim
--- if vim.fn.has("wsl") == 1 then
---     local wsl_clipboard_provider = {
---         name = "WslClipboard",
---         copy = {
---             ["+"] = "clip.exe",
---             ["*"] = "clip.exe",
---         },
---         paste = {
---             ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
---             ["*"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
---         },
---         cache_enabled = 0,
---     }
---
---     vim.g.clipboard = wsl_clipboard_provider
---     vim.opt.clipboard = "unnamedplus"
--- end
-
 -- True color
 vim.opt.termguicolors = true
 

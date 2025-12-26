@@ -22,11 +22,13 @@ create_keymap("n", "<leader>ws", "<cmd>split<cr>", "Horizontal Split Window")
 create_keymap("n", "<leader>wv", "<cmd>vsplit<cr>", "Vertical Split Window")
 
 -- system clipboard mappings
-create_keymap({ "n", "x" }, "<C-c>", '"+y', "Yank to clipboard")
-create_keymap("n", "<C-v>", '"+gP', "Paste from clipboard and preserve clipboard")
-create_keymap("i", "<C-v>", "<C-r>+", "Paste from clipboard")
+-- Keep nvim's default registers for normal y/p to avoid mixing with OS clipboard
+create_keymap("x", "<C-c>", '"+y', "Yank selection to system clipboard")
+create_keymap("n", "<C-c>", '"+yy', "Yank current line to system clipboard")
+create_keymap("n", "<C-v>", '"+gP', "Paste from system clipboard and preserve clipboard")
+create_keymap("i", "<C-v>", "<C-r>+", "Paste from system clipboard")
 -- terminal mode clipboard mappings
-create_keymap("t", "<C-v>", [[<C-\><C-n>"+p]], "Paste from clipboard in terminal mode")
+create_keymap("t", "<C-v>", [[<C-\><C-n>"+p]], "Paste from system clipboard in terminal mode")
 
 -- keep last yanked when nvim pasting
 create_keymap("x", "p", '"_dP', "Keep last yanked when pasting", { remap = true })

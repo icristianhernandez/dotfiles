@@ -26,3 +26,24 @@ local function set_default_dir()
 end
 
 set_default_dir()
+
+-- Set up WSL clipboard provider without mixing system and nvim clipboards
+local function setup_wsl_clipboard()
+    local wsl_clipboard_provider = {
+        name = "WslClipboard",
+        copy = {
+            ["+"] = "clip.exe",
+            ["*"] = "clip.exe",
+        },
+        paste = {
+            ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ["*"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        cache_enabled = 0,
+    }
+
+    vim.g.clipboard = wsl_clipboard_provider
+    -- Do NOT set vim.opt.clipboard = "unnamedplus" to avoid mixing nvim and OS clipboards
+end
+
+setup_wsl_clipboard()
