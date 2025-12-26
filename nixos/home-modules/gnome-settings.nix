@@ -15,6 +15,16 @@ guardRole "gnome" {
   ];
 
   dconf.settings = {
+    "org/gnome/shell" = {
+      enabled-extensions = [
+        "dash-to-panel@jderose9.github.com"
+        "vicinae@dagimg-dot"
+        "super-key@tommimon.github.com"
+        "gsconnect@andyholmes.github.io"
+        "blur-my-shell@aunetx"
+      ];
+    };
+
     "org/gnome/desktop/peripherals/mouse" = {
       accel-profile = "flat";
     };
@@ -43,7 +53,7 @@ guardRole "gnome" {
       show-battery-percentage = lib.hm.gvariant.mkBoolean true;
       enable-hot-corners = lib.hm.gvariant.mkBoolean false;
       enable-animations = lib.hm.gvariant.mkBoolean false;
-      cursor-size = lib.hm.gvariant.mkInt32 32;
+      cursor-size = lib.hm.gvariant.mkInt32 30;
       overlay-scrolling = lib.hm.gvariant.mkBoolean false;
     };
 
@@ -80,15 +90,6 @@ guardRole "gnome" {
     };
 
     # Dash to Panel: bottom panel showing running apps
-    "org/gnome/shell" = {
-      enabled-extensions = [
-        "dash-to-panel@jderose9.github.com"
-        "vicinae@dagimg-dot"
-        "super-key@tommimon.github.com"
-        "gsconnect@andyholmes.github.io"
-        "blur-my-shell@aunetx"
-      ];
-    };
 
     "org/gnome/shell/extensions/dash-to-panel" = {
       panel-position = "BOTTOM";
