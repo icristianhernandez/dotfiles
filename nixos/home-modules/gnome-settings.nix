@@ -22,7 +22,7 @@ guardRole "gnome" {
     "org/gnome/desktop/peripherals/keyboard" = {
       delay = lib.hm.gvariant.mkUint32 152;
 
-      repeat-interval = lib.hm.gvariant.mkUint32 40;
+      repeat-interval = lib.hm.gvariant.mkUint32 46;
     };
 
     "org/gnome/mutter" = {
