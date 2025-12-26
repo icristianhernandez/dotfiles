@@ -7,6 +7,7 @@
 guardRole "desktop" {
   environment.systemPackages = with pkgs; [
     google-chrome
+    discord
     nerd-fonts.jetbrains-mono
     wl-clipboard
     xclip
