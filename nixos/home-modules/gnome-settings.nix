@@ -81,11 +81,6 @@ guardRole "gnome" {
       experimental-features = [ "scale-monitor-framebuffer" ];
     };
 
-    "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ ];
-      screenshot = [ "<Alt><Super>s" ];
-    };
-
     "org/gnome/desktop/default-applications/terminal" = {
       exec = "kitty";
       exec-arg = "-e";
@@ -121,6 +116,10 @@ guardRole "gnome" {
       switch-applications-backward = [ ];
       switch-windows = [ "<Alt>Tab" ];
       switch-windows-backward = [ "<Shift><Alt>Tab" ];
+    };
+
+    "org/gnome/shell/keybindings" = {
+      show-screenshot-ui = [ "<Shift><Super>s" ];
     };
 
     "org/gnome/desktop/wm/preferences" = {
