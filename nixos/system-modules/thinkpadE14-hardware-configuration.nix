@@ -42,7 +42,8 @@ guardRole "thinkpadE14" {
     ];
   };
 
-  swapDevices = [ ];
+  boot.resumeDevice = "/dev/disk/by-uuid/2853ed37-6fdb-4bd7-bd2e-840b7775ee15";
+  swapDevices = [ { device = "/dev/disk/by-uuid/2853ed37-6fdb-4bd7-bd2e-840b7775ee15"; } ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
