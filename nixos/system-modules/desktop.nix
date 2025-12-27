@@ -13,6 +13,7 @@ guardRole "desktop" {
     xclip
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.enableAllFirmware = true;
 
   # my storage partition
