@@ -15,35 +15,31 @@ guardRole "thinkpadE14" {
   ];
 
   boot = {
-    initrd = {
-      availableKernelModules = [
-        "xhci_pci"
-        "thunderbolt"
-        "nvme"
-        "usb_storage"
-        "usbhid"
-        "sd_mod"
-      ];
-      kernelModules = [ ];
-    };
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "thunderbolt"
+      "nvme"
+      "usb_storage"
+      "usbhid"
+      "sd_mod"
+    ];
+    initrd.kernelModules = [ ];
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/c524470d-3431-4940-9727-952b3d8ae740";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/1285a5f5-e725-421a-a119-1a7ad156d113";
+    fsType = "ext4";
+  };
 
-    "/boot" = {
-      device = "/dev/disk/by-uuid/19F1-B8A6";
-      fsType = "vfat";
-      options = [
-        "fmask=0077"
-        "dmask=0077"
-      ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/19F1-B8A6";
+    fsType = "vfat";
+    options = [
+      "fmask=0077"
+      "dmask=0077"
+    ];
   };
 
   swapDevices = [ ];
