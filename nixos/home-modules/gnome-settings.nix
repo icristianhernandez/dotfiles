@@ -52,7 +52,7 @@ guardRole "gnome" {
       show-battery-percentage = lib.hm.gvariant.mkBoolean true;
       enable-hot-corners = lib.hm.gvariant.mkBoolean false;
       enable-animations = lib.hm.gvariant.mkBoolean false;
-      cursor-size = lib.hm.gvariant.mkInt32 30;
+      cursor-size = lib.hm.gvariant.mkInt32 28;
       overlay-scrolling = lib.hm.gvariant.mkBoolean false;
     };
 
@@ -110,9 +110,6 @@ guardRole "gnome" {
     "org/gnome/shell/extensions/blur-my-shell/applications" = {
       blur = lib.hm.gvariant.mkBoolean true;
     };
-
-    # GSConnect placeholder for future device config
-    "org/gnome/shell/extensions/gsconnect" = { };
 
     # Nautilus default sorting: newest modified first
     "org/gnome/nautilus/preferences" = {
