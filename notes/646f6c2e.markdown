@@ -2,3 +2,4 @@ disable show overview on startup
 animate hovering app icons
 set blink buffer to 2-3 characters to triggers
 disable notify for paste operations
+fuzzy finder in mini.files like zoxode
