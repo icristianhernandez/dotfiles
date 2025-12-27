@@ -10,7 +10,6 @@ guardRole "gnome" {
     gnomeExtensions.dash-to-panel
     gnomeExtensions.vicinae
     gnomeExtensions.super-key
-    gnomeExtensions.gsconnect
     gnomeExtensions.blur-my-shell
   ];
 

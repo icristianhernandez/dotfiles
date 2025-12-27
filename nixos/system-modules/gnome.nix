@@ -13,6 +13,11 @@ guardRole "gnome" {
     tumbler.enable = true;
   };
 
+  programs.kdeconnect = {
+    enable = true;
+    package = pkgs.gnomeExtensions.gsconnect;
+  };
+
   networking.firewall = {
     # presumeed for wifi hotpost
     allowedTCPPorts = [
