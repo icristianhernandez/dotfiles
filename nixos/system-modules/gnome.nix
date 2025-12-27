@@ -33,6 +33,8 @@ guardRole "gnome" {
   };
 
   environment.systemPackages = with pkgs; [
+    nautilus-python
+
     # select a file and press [Space] to preview without opening
     sushi
 

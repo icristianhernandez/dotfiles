@@ -13,6 +13,49 @@ guardRole "gnome" {
     gnomeExtensions.blur-my-shell
   ];
 
+  xdg.dataFile."nautilus-python/extensions/backspace-back.py".text = ''
+    import gi
+    gi.require_version('Gtk', '4.0')
+    from gi.repository import GObject, Nautilus, Gtk, GLib
+
+    class BackspaceBack(GObject.GObject, Nautilus.MenuProvider):
+        def __init__(self):
+            super().__init__()
+            self.app = Gtk.Application.get_default()
+            
+            # Attempt to set accelerator immediately if app is ready
+            if self.app:
+                self.setup_accels(self.app)
+            else:
+                # Retry after 100ms if Gtk Application isn't fully ready
+                GLib.timeout_add(100, self.wait_for_app)
+
+        def wait_for_app(self):
+            self.app = Gtk.Application.get_default()
+            if self.app:
+                self.setup_accels(self.app)
+                return False # Stop timeout
+            return True # Run again
+
+        def setup_accels(self, app):
+            action_name = "slot.back" # GNOME 47+ action name
+            
+            # Bind BackSpace to the action
+            app.set_accels_for_action(action_name, ["BackSpace"])
+            
+            # Ensure it persists when new windows are created
+            app.connect('window-added', lambda a, w: app.set_accels_for_action(action_name, ["BackSpace"]))
+            
+            print(">>> Backspace Extension: Accelerator set successfully <<<")
+
+        # Required MenuProvider methods (returning empty lists prevents errors)
+        def get_file_items(self, *args):
+            return []
+            
+        def get_background_items(self, *args):
+            return []
+  '';
+
   dconf.settings = {
     "org/gnome/shell" = {
       enabled-extensions = [
