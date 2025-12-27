@@ -21,7 +21,6 @@ guardRole "desktop" {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     supportedFilesystems = [ "ntfs" ];
-    kernelParams = [ "mem_sleep_default=deep" ];
   };
   fileSystems."/mnt/storage" = {
     device = "/dev/disk/by-uuid/EC68C95668C92066";

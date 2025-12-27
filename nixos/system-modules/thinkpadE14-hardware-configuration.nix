@@ -24,6 +24,19 @@ guardRole "thinkpadE14" {
       "sd_mod"
     ];
     initrd.kernelModules = [ ];
+    kernelParams = [
+      "mem_sleep_default=s2idle"
+      "nvme.noacpi=1"
+      "pcie_aspm=force"
+
+      # "tpm_tis.interrupts=0"
+      # "tpm.disable=1"
+      # "i915.enable_dc=1"
+      # "i915.enable_psr=1"
+      # "pm_async=0"
+      # "pci=noaer"
+      # "modprobe.blacklist=ucsi_acpi,intel_vbtn,thunderbolt,tpm,tpm_tis,tpm_crb,tpm_tis_core"
+    ];
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
   };
