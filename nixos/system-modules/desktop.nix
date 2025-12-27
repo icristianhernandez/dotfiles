@@ -33,6 +33,8 @@ guardRole "desktop" {
     ];
   };
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   services = {
     dbus.enable = true;
     accounts-daemon.enable = true;
