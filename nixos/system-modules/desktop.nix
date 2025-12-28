@@ -16,6 +16,19 @@ guardRole "desktop" {
   boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.enableAllFirmware = true;
 
+  services.logind = {
+    settings = {
+      Login = {
+        HandleLidSwitch = "suspend-then-hibernate";
+        HandleLidSwitchExternalPower = "suspend-then-hibernate";
+      };
+    };
+  };
+
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=5min
+  '';
+
   # my storage partition
   boot = {
     loader.systemd-boot.enable = true;
