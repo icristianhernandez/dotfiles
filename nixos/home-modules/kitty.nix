@@ -8,7 +8,7 @@ guardRole "desktop" {
     enable = true;
     font = {
       name = "JetBrainsMono Nerd Font";
-      size = 14;
+      size = 13;
     };
 
     keybindings = {
