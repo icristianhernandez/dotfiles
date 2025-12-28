@@ -9,6 +9,7 @@ let
     "thinkpadE14"
     "dms"
     "gnome"
+    "gaming"
   ];
 
   validateRoles =
@@ -16,10 +17,7 @@ let
     let
       unknown = lib.filter (r: !(lib.elem r allowedRoles)) roles;
     in
-    if unknown == [ ] then
-      true
-    else
-      builtins.throw ("Unknown roles: " + lib.concatStringsSep ", " unknown);
+    if unknown == [ ] then true else throw ("Unknown roles: " + lib.concatStringsSep ", " unknown);
 
   mkHelpers =
     roles:

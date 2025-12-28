@@ -57,6 +57,7 @@
             "desktop"
             "thinkpadE14"
             "dms"
+            "gaming"
           ];
         };
         gnomedesktop = {
@@ -68,6 +69,7 @@
             "desktop"
             "thinkpadE14"
             "gnome"
+            "gaming"
           ];
         };
       };
