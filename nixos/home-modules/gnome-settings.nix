@@ -150,6 +150,7 @@ guardRole "gnome" {
       isolate-workspaces = true;
       hide-overview-on-startup = true;
       group-apps = false;
+      group-apps-label-max-width = lib.hm.gvariant.mkInt32 80;
     };
 
     "org/gnome/shell/extensions/super-key" = {
