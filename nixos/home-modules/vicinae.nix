@@ -12,6 +12,12 @@ guardRole "desktop" {
       autoStart = true;
       target = "graphical-session.target";
     };
+
+    settings = {
+      file_search = {
+        search_locations = [ "/mnt/storage" ];
+      };
+    };
   };
 
   home.file.".local/share/applications/darkman-toggle.desktop" = {
