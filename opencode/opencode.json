@@ -21,8 +21,10 @@
                 "webfetch": "allow",
                 "edit": "allow",
                 "external_directory": "ask",
+                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
+                    "true": "allow",
                     "nix run ./nixos#ci": "allow",
                     "nix run ./nixos#nixos-ci": "allow",
                     "nix run ./nixos#nvim-ci": "allow",
@@ -47,8 +49,7 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
-                },
-                "doom_loop": "deny"
+                }
             }
         },
         "plan": {
@@ -56,8 +57,10 @@
                 "webfetch": "allow",
                 "edit": "deny",
                 "external_directory": "allow",
+                "doom_loop": "deny",
                 "bash": {
                     "*": "ask",
+                    "true": "allow",
                     "nix run ./nixos#ci": "allow",
                     "nix run ./nixos#nixos-ci": "allow",
                     "nix run ./nixos#nvim-ci": "allow",
@@ -82,8 +85,7 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
-                },
-                "doom_loop": "deny"
+                }
             }
         }
     }

@@ -62,6 +62,7 @@ core_permissions = {
     "doom_loop": "deny",
     "bash": {
         "*": "ask",
+        "true": "allow",
         "nix run ./nixos#ci": "allow",
         "nix run ./nixos#nixos-ci": "allow",
         "nix run ./nixos#nvim-ci": "allow",
