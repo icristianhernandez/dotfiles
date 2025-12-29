@@ -15,6 +15,7 @@ guardRole "desktop" {
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
   hardware.enableAllFirmware = true;
+  programs.dconf.enable = true;
 
   services.logind = {
     settings = {
