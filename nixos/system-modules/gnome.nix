@@ -13,9 +13,10 @@ guardRole "gnome" {
     tumbler.enable = true;
   };
 
-  programs.kdeconnect = {
+  qt = {
     enable = true;
-    package = pkgs.gnomeExtensions.gsconnect;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
 
   networking.firewall = {
