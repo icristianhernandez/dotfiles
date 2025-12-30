@@ -15,7 +15,8 @@ guardRole "gaming" {
 
   programs.gamescope = {
     enable = true;
-    capSysNice = true;
+    # the next crashes launch games with gamescope in other compositors
+    # capSysNice = true;
   };
 
   programs.steam = {
@@ -33,15 +34,6 @@ guardRole "gaming" {
     package = pkgs.steam.override {
       extraPkgs =
         pkgs: with pkgs; [
-          ## for gamescopeSession compatibility
-          xorg.libXcursor
-          xorg.libXi
-          xorg.libXinerama
-          xorg.libXScrnSaver
-          libpng
-          libpulseaudio
-          libvorbis
-          stdenv.cc.cc.lib
           libkrb5
           keyutils
         ];
