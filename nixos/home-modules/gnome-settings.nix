@@ -10,7 +10,6 @@ guardRole "gnome" {
     gnomeExtensions.dash-to-panel
     gnomeExtensions.vicinae
     gnomeExtensions.super-key
-    gnomeExtensions.blur-my-shell
   ];
 
   xdg.dataFile."nautilus-python/extensions/backspace-back.py".text = ''
@@ -56,14 +55,15 @@ guardRole "gnome" {
             return []
   '';
 
+  # Ensure sensors support is available for Vitals
+  # system packages and services added in system module
+
   dconf.settings = {
     "org/gnome/shell" = {
       enabled-extensions = [
         "dash-to-panel@jderose9.github.com"
         "vicinae@dagimg-dot"
         "super-key@tommimon.github.com"
-        "gsconnect@andyholmes.github.io"
-        "blur-my-shell@aunetx"
       ];
     };
 
