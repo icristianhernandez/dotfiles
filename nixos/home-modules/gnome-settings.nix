@@ -96,6 +96,7 @@ guardRole "gnome" {
 
     "org/gnome/desktop/interface" = {
       show-battery-percentage = lib.hm.gvariant.mkBoolean true;
+      clock-format = "12h";
       enable-hot-corners = lib.hm.gvariant.mkBoolean false;
       enable-animations = lib.hm.gvariant.mkBoolean false;
       cursor-size = lib.hm.gvariant.mkInt32 28;
