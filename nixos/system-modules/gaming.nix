@@ -7,6 +7,10 @@
 guardRole "gaming" {
   environment.systemPackages = with pkgs; [
     lutris
+    wineWowPackages.stable
+    winetricks
+    heroic
+
     tower-pixel-dungeon
     shattered-pixel-dungeon
     crawlTiles
