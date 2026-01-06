@@ -48,6 +48,12 @@ guardRole "desktop" {
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  zramSwap = {
+    enable = true;
+    # algorithm = "zstd";
+    algorithm = "lz4";
+  };
+
   services = {
     dbus.enable = true;
     accounts-daemon.enable = true;
