@@ -10,6 +10,8 @@ guardRole "gnome" {
     gnomeExtensions.dash-to-panel
     gnomeExtensions.vicinae
     gnomeExtensions.super-key
+    gnomeExtensions.appindicator
+    libayatana-appindicator
   ];
 
   xdg.dataFile."nautilus-python/extensions/backspace-back.py".text = ''
@@ -157,6 +159,17 @@ guardRole "gnome" {
 
     "org/gnome/shell/extensions/super-key" = {
       overlay-key-action = "vicinae toggle";
+    };
+
+    "org/gnome/shell/extensions/vicinae" = {
+      show-status-indicator = lib.hm.gvariant.mkBoolean false;
+    };
+
+    "org/gnome/shell/extensions/appindicator" = {
+      legacy-tray-enabled = lib.hm.gvariant.mkBoolean true;
+      icon-size = lib.hm.gvariant.mkInt32 0; # use theme default
+      tray-pos = "right";
+      tray-order = lib.hm.gvariant.mkInt32 1;
     };
 
     # doesn't do anything, need fix.
