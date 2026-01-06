@@ -9,7 +9,8 @@ in
   systemState = "25.11";
   homeState = "25.11";
   timezone = "America/Caracas";
-  locale = "en_US.UTF-8";
+  systemLanguage = "en_US.UTF-8";
+  parametersLanguage = "es_ES.UTF-8";
   userDescription = "cristian hernandez";
   git = {
     name = "cristian";
