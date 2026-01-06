@@ -29,7 +29,7 @@ guardRole "thinkpadE14" {
       "usbhid"
       "sd_mod"
     ];
-    initrd.kernelModules = [ ];
+    initrd.kernelModules = [ "lz4_compress" ];
     kernelParams = [
       "mem_sleep_default=s2idle"
       "nvme.noacpi=1"
@@ -40,6 +40,7 @@ guardRole "thinkpadE14" {
       "zswap.compressor=lz4"
       "zswap.zpool=zsmalloc"
       "zswap.max_pool_percent=20"
+      "zswap.shrinker_enabled=1"
       "transparent_hugepage=madvise"
 
       # "tpm_tis.interrupts=0"
@@ -69,29 +70,31 @@ guardRole "thinkpadE14" {
 
   };
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/66a22e12-f98e-4a05-bcfc-a40240d99ba7";
-    fsType = "ext4";
-  };
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/66a22e12-f98e-4a05-bcfc-a40240d99ba7";
+      fsType = "ext4";
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/19F1-B8A6";
-    fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
-  };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/19F1-B8A6";
+      fsType = "vfat";
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
+    };
 
-  fileSystems."/mnt/storage" = {
-    device = "/dev/disk/by-uuid/148a5427-36f4-4947-951b-3b23dfbcd974";
-    fsType = "ext4";
-    options = [
-      "nofail"
-      "defaults"
-      "noatime"
-      "acl"
-    ];
+    "/mnt/storage" = {
+      device = "/dev/disk/by-uuid/148a5427-36f4-4947-951b-3b23dfbcd974";
+      fsType = "ext4";
+      options = [
+        "nofail"
+        "defaults"
+        "noatime"
+        "acl"
+      ];
+    };
   };
 
   boot.resumeDevice = "/dev/disk/by-uuid/2853ed37-6fdb-4bd7-bd2e-840b7775ee15";
