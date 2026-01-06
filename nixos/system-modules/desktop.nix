@@ -34,16 +34,6 @@ guardRole "desktop" {
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    supportedFilesystems = [ "ntfs" ];
-  };
-  fileSystems."/mnt/storage" = {
-    device = "/dev/disk/by-uuid/EC68C95668C92066";
-    fsType = "ntfs3";
-    options = [
-      "nofail"
-      "rw"
-      "uid=1000"
-    ];
   };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

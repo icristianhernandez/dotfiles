@@ -14,6 +14,9 @@ guardRole "thinkpadE14" {
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  systemd.tmpfiles.rules = [
+    "d /mnt/storage 0755 cristian users -"
+  ];
   boot = {
     initrd.availableKernelModules = [
       "xhci_pci"
@@ -52,6 +55,17 @@ guardRole "thinkpadE14" {
     options = [
       "fmask=0077"
       "dmask=0077"
+    ];
+  };
+
+  fileSystems."/mnt/storage" = {
+    device = "/dev/disk/by-uuid/148a5427-36f4-4947-951b-3b23dfbcd974";
+    fsType = "ext4";
+    options = [
+      "nofail"
+      "defaults"
+      "noatime"
+      "acl"
     ];
   };
 
