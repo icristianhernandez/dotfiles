@@ -8,10 +8,35 @@ guardRole "desktop" {
   environment.systemPackages = with pkgs; [
     google-chrome
     discord
-    nerd-fonts.jetbrains-mono
     telegram-desktop
     wl-clipboard
     xclip
+  ];
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-lgc-plus
+    noto-fonts-color-emoji
+    noto-fonts-monochrome-emoji
+    noto-fonts-emoji-blob-bin
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    nerd-fonts.symbols-only
+    nerd-fonts.jetbrains-mono
+    # source-han-sans
+    # source-han-serif
+    # source-han-mono
+    # source-han-code-jp
+    # ipafont
+    # ipaexfont
+    # unifont
+    # symbola
+    # stix-otf
+    # stix-two
+    # dejavu_fonts
+    # libertinus
+    # powerline-symbols
+    # material-symbols
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
