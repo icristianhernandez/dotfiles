@@ -9,6 +9,7 @@ guardRole "desktop" {
     google-chrome
     discord
     nerd-fonts.jetbrains-mono
+    telegram-desktop
     wl-clipboard
     xclip
   ];
