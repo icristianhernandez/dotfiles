@@ -14,9 +14,12 @@ guardRole "thinkpadE14" {
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  zramSwap.enable = false;
+
   systemd.tmpfiles.rules = [
     "d /mnt/storage 0755 cristian users -"
   ];
+
   boot = {
     initrd.availableKernelModules = [
       "xhci_pci"
@@ -32,6 +35,13 @@ guardRole "thinkpadE14" {
       "nvme.noacpi=1"
       "pcie_aspm=force"
 
+      # zswap related config
+      "zswap.enabled=1"
+      "zswap.compressor=lz4"
+      "zswap.zpool=zsmalloc"
+      "zswap.max_pool_percent=20"
+      "transparent_hugepage=madvise"
+
       # "tpm_tis.interrupts=0"
       # "tpm.disable=1"
       # "i915.enable_dc=1"
@@ -40,8 +50,23 @@ guardRole "thinkpadE14" {
       # "pci=noaer"
       # "modprobe.blacklist=ucsi_acpi,intel_vbtn,thunderbolt,tpm,tpm_tis,tpm_crb,tpm_tis_core"
     ];
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [
+      "kvm-intel"
+
+      # zswap related config
+      "zstd"
+      "zsmalloc"
+    ];
     extraModulePackages = [ ];
+
+    # zswap related config
+    kernel.sysctl = {
+      "vm.swappiness" = 100;
+      "vm.page-cluster" = 0;
+      "vm.watermark_boost_factor" = 0;
+      "vm.min_free_kbytes" = 65536;
+    };
+
   };
 
   fileSystems."/" = {
