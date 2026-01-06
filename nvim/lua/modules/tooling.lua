@@ -101,6 +101,7 @@ return {
             methods = {
                 formatting = false,
             },
+            handlers = {},
         },
     },
     {
