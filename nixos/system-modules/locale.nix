@@ -5,7 +5,6 @@
   ...
 }:
 let
-  loc = const.locale;
   localeCategories = [
     "LC_ADDRESS"
     "LC_IDENTIFICATION"
@@ -19,10 +18,6 @@ let
   ];
 in
 guardRole "base" {
-  i18n.defaultLocale = loc;
-  i18n.extraLocaleSettings = lib.genAttrs localeCategories (_: loc) // {
-    LC_TIME = "es_ES.UTF-8";
-    LC_MEASUREMENT = "es_ES.UTF-8";
-    LC_MONETARY = "es_ES.UTF-8";
-  };
+  i18n.defaultLocale = const.systemLanguage;
+  i18n.extraLocaleSettings = lib.genAttrs localeCategories (_: const.parametersLanguage);
 }
