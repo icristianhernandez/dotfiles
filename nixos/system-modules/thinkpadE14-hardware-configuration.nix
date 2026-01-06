@@ -29,7 +29,6 @@ guardRole "thinkpadE14" {
       "usbhid"
       "sd_mod"
     ];
-    initrd.kernelModules = [ "lz4_compress" ];
     kernelParams = [
       "mem_sleep_default=s2idle"
       "nvme.noacpi=1"
@@ -37,6 +36,8 @@ guardRole "thinkpadE14" {
 
       # zswap related config
       "zswap.enabled=1"
+      ## for some reason, lz4 is not detected in boot so the other compressor is
+      ## used, need to be fixed
       "zswap.compressor=lz4"
       "zswap.zpool=zsmalloc"
       "zswap.max_pool_percent=20"
@@ -53,10 +54,6 @@ guardRole "thinkpadE14" {
     ];
     kernelModules = [
       "kvm-intel"
-
-      # zswap related config
-      "zstd"
-      "zsmalloc"
     ];
     extraModulePackages = [ ];
 
