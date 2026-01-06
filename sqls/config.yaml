@@ -1,0 +1,9 @@
+connections:
+  - alias: local_supabase
+    driver: postgresql
+    proto: tcp
+    user: postgres
+    passwd: postgres
+    host: 127.0.0.1
+    port: 54322
+    dbName: postgres

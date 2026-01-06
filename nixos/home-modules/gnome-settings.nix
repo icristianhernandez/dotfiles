@@ -60,10 +60,11 @@ guardRole "gnome" {
 
   dconf.settings = {
     "org/gnome/shell" = {
-      enabled-extensions = [
-        "dash-to-panel@jderose9.github.com"
-        "vicinae@dagimg-dot"
-        "super-key@tommimon.github.com"
+      enabled-extensions = with pkgs.gnomeExtensions; [
+        dash-to-panel.extensionUuid
+        vicinae.extensionUuid
+        super-key.extensionUuid
+        appindicator.extensionUuid
       ];
     };
 
