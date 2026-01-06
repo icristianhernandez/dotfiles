@@ -41,6 +41,7 @@ guardRole "desktop" {
   services = {
     dbus.enable = true;
     accounts-daemon.enable = true;
+    resolved.enable = true;
 
     pipewire = {
       enable = true;
