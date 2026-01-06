@@ -48,10 +48,15 @@ guardRole "desktop" {
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+  };
+
   zramSwap = {
     enable = true;
-    # algorithm = "zstd";
     algorithm = "lz4";
+    memoryPercent = 25;
+    priority = 100;
   };
 
   services = {
