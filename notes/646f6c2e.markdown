@@ -5,3 +5,5 @@ disable notify for paste operations
 fuzzy finder in mini.files like zoxode
 
 -- review the linters config, they are not so good defined
+
+lz4 is not working
