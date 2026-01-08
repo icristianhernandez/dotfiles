@@ -2,12 +2,14 @@
   guardRole,
   lib,
   pkgs,
+  config,
   ...
 }:
 
 guardRole "gnome" {
   home.packages = with pkgs; [
     gnomeExtensions.dash-to-panel
+    # gnomeExtensions.luminus-desktop
     gnomeExtensions.vicinae
     gnomeExtensions.super-key
     gnomeExtensions.appindicator
@@ -57,13 +59,18 @@ guardRole "gnome" {
             return []
   '';
 
-  # Ensure sensors support is available for Vitals
-  # system packages and services added in system module
+  home.file."Templates/Untitled Document".text = "";
+  xdg.userDirs = {
+    enable = true;
+    templates = "${config.home.homeDirectory}/Templates";
+    createDirectories = true;
+  };
 
   dconf.settings = {
     "org/gnome/shell" = {
       enabled-extensions = with pkgs.gnomeExtensions; [
         dash-to-panel.extensionUuid
+        # luminus-desktop.extensionUuid
         vicinae.extensionUuid
         super-key.extensionUuid
         appindicator.extensionUuid
@@ -143,7 +150,6 @@ guardRole "gnome" {
     };
 
     # Dash to Panel: bottom panel showing running apps
-
     "org/gnome/shell/extensions/dash-to-panel" = {
       panel-position = "BOTTOM";
       show-running-apps = true;
