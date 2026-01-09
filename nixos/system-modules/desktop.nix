@@ -9,6 +9,13 @@ guardRole "desktop" {
     google-chrome
     discord
     telegram-desktop
+    ## libreoffice and spellchecker with hunspell
+    # libreoffice
+    # hunspell
+    # hunspellDicts.es_VE
+    # hunspellDicts.en_US
+    ## font fix: https://wiki.nixos.org/wiki/ONLYOFFICE
+    onlyoffice-desktopeditors
     wl-clipboard
     xclip
   ];
