@@ -274,26 +274,23 @@ local stacks = {
 
     databases = {
         parsers = { "sql" },
-        lsps = { { name = "sqls", install = true, enable = true } },
+        lsps = { { name = "postgres_lsp", install = true, enable = true } },
 
-        -- Formatting: prefer a dedicated SQL formatter for SQL filetypes.
-        formatters_by_ft = (function()
-            local sql_formatter_factory = function()
-                local e = make_conform_filetype_entry("pg_format")
-                -- keep lsp_format/filetype-level opts at the filetype level; only add fallback formatter here
-                table.insert(e, { name = "sql-formatter", install = true })
-                return e
-            end
-
-            local filetypes = {
-                "sql",
-                "pgsql",
-                "mysql",
-                "plsql",
-            }
-
-            return map_filetypes_to_conform_entries(filetypes, sql_formatter_factory)
-        end)(),
+        -- formatters_by_ft = (function()
+        --     local sql_formatter_factory = function()
+        --         -- Use sqlfluff exclusively as the formatter; disable LSP formatting fallback.
+        --         return make_conform_filetype_entry("sqlfmt", { stop_after_first = true, lsp_format = "none" })
+        --     end
+        --
+        --     local filetypes = {
+        --         "sql",
+        --         "pgsql",
+        --         "mysql",
+        --         "plsql",
+        --     }
+        --
+        --     return map_filetypes_to_conform_entries(filetypes, sql_formatter_factory)
+        -- end)(),
 
         linters = {
             { name = "sqlfluff", install = true },
