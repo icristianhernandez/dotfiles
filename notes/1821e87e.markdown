@@ -1,0 +1,76 @@
+for agent: idempotent migration files
+
+configure well sqls and check SELECT 1;
+
+1. Local Supbase (done)
+   1.1) Connect nvim to the DB? And ensure toolkits (lsp, etc)
+   1.5) check all missign things to achieve that DB
+2. All DB scheming
+   2.a) scheming
+   2.b) rls
+   2.c) machine and autologic
+   2.d) blob, vaults, documents
+
+lookup for:
+
+- uniqueness in data
+- relations
+- defaults value
+- integrity (x value, need to have a y value, based on z workflow)
+- also integrity (well formatted data)
+- data that need to hold value
+- ensure idempotency
+- correct datatype
+
+-- constrains example with checks
+alter table products
+add constraint price_must_be_positive
+check (price > 0);
+
+alter table profiles
+add constraint username_length
+check (char_length(username) >= 3);
+
+--- with functions
+create or replace function is_valid_sku(sku text)
+returns boolean as $$
+begin
+  return sku ~ '^[A-Z]{3}-\d{4}$'; -- Example: ABC-1234
+end;
+
+$$
+language plpgsql immutable;
+
+--- Apply it to the table
+alter table inventory
+add constraint valid_sku_format
+check (is_valid_sku(sku_code));
+$$
+
+| Use Case                                          | Recommended Tool     | Why?                                             |
+| :------------------------------------------------ | :------------------- | :----------------------------------------------- |
+| **Simple logic** (A > 0, B is not null)           | **Constraint**       | Fastest, self-documenting.                       |
+| **Inter-column logic** (End > Start)              | **Table Constraint** | Keeps related logic together.                    |
+| **Reference checks** (ID exists in Table B)       | **Foreign Key**      | Built-in, high-performance indexing.             |
+| **Cross-table logic** (Sum of items < Limit)      | **Trigger**          | Constraints can't easily "look" at other tables. |
+| **Side effects** (Logging, updating `updated_at`) | **Trigger**          | Constraints only validate; they don't _act_.     |
+
+-- examples for create rls
+create policy faculties_select on public.faculties
+for select
+using (public.has_role(public.staff_roles()) or public.has_role(array['student']));
+
+create policy faculties_insert on public.faculties
+for insert
+with check (public.has_role(public.staff_roles()));
+
+create policy faculties_update on public.faculties
+for update
+using (public.has_role(public.staff_roles()))
+with check (public.has_role(public.staff_roles()));
+
+create policy faculties_no_delete on public.faculties
+for delete
+using (false);
+
+-- for roles: a role column referencing a role table
