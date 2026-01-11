@@ -132,7 +132,7 @@ local stacks = {
 
     -- Data and docs: JSON, YAML, Markdown, TOML
     data_and_docs = {
-        parsers = { "json", "jsonc", "json5", "yaml", "markdown", "markdown_inline", "toml", "ini" },
+        parsers = { "json", "json5", "yaml", "markdown", "markdown_inline", "toml", "ini" },
         lsps = {
             "marksman",
             "taplo",
@@ -188,7 +188,7 @@ local stacks = {
 
     -- Docs and misc parsers
     docs = {
-        parsers = { "regex", "latex", "typst", "norg" },
+        parsers = { "regex", "latex", "typst" },
         lsps = { "texlab", "tinymist" },
         formatters_by_ft = {
             tex = { { name = "latexindent", install = true } },
