@@ -18,10 +18,8 @@ in
 guardRole "desktop" {
   home = {
     packages = with pkgs; [
-      graphite-gtk-theme
       tela-circle-icon-theme
       simp1e-cursors
-      gnomeExtensions.user-themes
     ];
 
     pointerCursor = {
