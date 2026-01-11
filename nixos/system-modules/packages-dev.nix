@@ -11,6 +11,7 @@ guardRole "dev" {
     (python313.withPackages (ps: [ ps.pip ]))
     go
     mermaid-cli
+    postgresql
 
     # Dev Environment
     lazygit
