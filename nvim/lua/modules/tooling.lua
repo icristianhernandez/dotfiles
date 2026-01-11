@@ -155,4 +155,34 @@ return {
             null_ls.setup({ sources = sources })
         end,
     },
+
+    {
+        "kristijanhusak/vim-dadbod-ui",
+        dependencies = {
+            { "tpope/vim-dadbod", lazy = true },
+        },
+        cmd = {
+            "DBUI",
+            "DBUIToggle",
+            "DBUIAddConnection",
+            "DBUIFindBuffer",
+        },
+        init = function()
+            vim.g.db_ui_use_nerd_fonts = 1
+            vim.g.dbs = {
+                {
+                    name = "supabase-local",
+                    url = "postgresql://postgres:postgres@127.0.0.1:54322/postgres?sslmode=disable",
+                },
+            }
+        end,
+        keys = {
+            {
+                -- that's need to be added to whichkey as groupspace
+                "<leader>du",
+                "<cmd>DBUIToggle<cr>",
+                desc = "Toggle Database UI",
+            },
+        },
+    },
 }
