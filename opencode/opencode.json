@@ -18,10 +18,10 @@
     "agent": {
         "build": {
             "permission": {
-                "webfetch": "allow",
-                "edit": "allow",
                 "external_directory": "ask",
                 "doom_loop": "deny",
+                "webfetch": "allow",
+                "edit": "allow",
                 "bash": {
                     "*": "ask",
                     "true": "allow",
@@ -35,6 +35,8 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
+                    "sqlfluff fix *": "allow",
+                    "sqlfluff lint *": "allow",
                     "nix eval *": "allow",
                     "nix search *": "allow",
                     "rg *": "allow",
@@ -54,10 +56,10 @@
         },
         "plan": {
             "permission": {
-                "webfetch": "allow",
-                "edit": "deny",
                 "external_directory": "allow",
                 "doom_loop": "deny",
+                "webfetch": "allow",
+                "edit": "deny",
                 "bash": {
                     "*": "ask",
                     "true": "allow",
@@ -71,6 +73,8 @@
                     "nix run ./nixos#nvim-lint": "allow",
                     "nix run ./nixos#workflows-fmt": "allow",
                     "nix run ./nixos#workflows-lint": "allow",
+                    "sqlfluff fix *": "allow",
+                    "sqlfluff lint *": "allow",
                     "nix eval *": "allow",
                     "nix search *": "allow",
                     "rg *": "allow",
