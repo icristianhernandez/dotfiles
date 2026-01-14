@@ -2,14 +2,18 @@
   description = "Personal NixOS configuration for WSL with Home Manager";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+
+    nixpkgs-unstable = {
+      url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
 
     nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL/main";
+      url = "github:nix-community/nixos-wsl/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -26,13 +30,24 @@
       const = import ./lib/const.nix;
 
       systems = [ "x86_64-linux" ];
+      unstableOverlay = final: _prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          inherit (final.stdenv.hostPlatform) system;
+          config = {
+            allowUnfree = true;
+          };
+        };
+      };
       eachSystem =
         f:
         lib.genAttrs systems (
           system:
           f {
             inherit system;
-            pkgs = nixpkgs.legacyPackages.${system};
+            pkgs = import nixpkgs {
+              inherit system;
+              overlays = [ unstableOverlay ];
+            };
           }
         );
 
@@ -95,6 +110,13 @@
           modules = [
             rolesSpec.module
             { inherit roles; }
+
+            {
+              nixpkgs = {
+                overlays = [ unstableOverlay ];
+                config.allowUnfree = true;
+              };
+            }
 
             {
               imports = import ./lib/import-modules.nix {

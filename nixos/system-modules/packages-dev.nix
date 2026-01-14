@@ -15,5 +15,6 @@ guardRole "dev" {
 
     # Dev Environment
     lazygit
+    unstable.github-copilot-cli
   ];
 }

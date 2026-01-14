@@ -15,7 +15,7 @@
             NIX_RUN=( "$NIX" --extra-experimental-features "nix-command flakes" run )
           ''
         else
-          '''';
+          "";
     in
     ''
       set -euo pipefail

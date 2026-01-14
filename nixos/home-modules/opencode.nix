@@ -11,5 +11,5 @@ guardRole "dev" {
     source = config.lib.file.mkOutOfStoreSymlink "${const.dotfilesDir}/opencode/opencode.json";
   };
 
-  home.packages = with pkgs; [ opencode ];
+  home.packages = [ pkgs.unstable.opencode ];
 }
