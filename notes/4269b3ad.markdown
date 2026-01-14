@@ -1,0 +1,17 @@
+# DankMaterialShell prerequisites (NixOS)
+
+Upstream DMS Nix modules (`home.nix`, `options.nix`, `common.nix`, `niri.nix`) only install the shell/plugins and add an optional user systemd unit. They do **not** bring up the base desktop services. You still need to configure the usual system pieces yourself:
+
+- Session plumbing: `services.dbus.enable = true;`, `security.polkit.enable = true;`
+- Graphics stack (e.g., `hardware.graphics.enable = true;` / drivers for your GPU)
+- Audio stack (PipeWire with ALSA/Pulse: `services.pipewire.enable = true; services.pipewire.alsa.enable = true; services.pipewire.pulse.enable = true;`)
+- Networking: `networking.networkmanager.enable = true;` (+ any VPN daemon you use)
+- XDG portals for your compositor: `xdg.portal.enable = true; xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-wlr or pkgs.xdg-desktop-portal-gtk/etc. ]`
+- A Wayland compositor/DM and login/session management (e.g., Niri + `programs.niri`, `wayland.windowManager.*`, etc.)
+
+DMS will:
+
+- Install `dms-shell` and optional helpers (`dgop`, `matugen`, `cava`, `khal`, `networkmanager` pkg) when their feature flags are on.
+- Set up a user `dms.service` tied to `wayland.systemd.target` when `programs.dank-material-shell.systemd.enable = true`.
+
+Treat DMS as the shell layer; bring your own base system services and hardware enablement.
