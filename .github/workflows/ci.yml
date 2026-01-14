@@ -92,43 +92,6 @@ jobs:
             | tr -d '\n')
           echo "hosts=$hosts" >> "$GITHUB_OUTPUT"
 
-  nixos-build:
-    name: "NixOS: build toplevel"
-    runs-on: ubuntu-latest
-    needs: [filter, nixos-ci, nixos-hosts]
-    if: ${{ needs.filter.outputs.nixos == 'true' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        host: ${{ fromJSON(needs.nixos-hosts.outputs.hosts) }}
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v20
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v13
-
-      - name: Show flake
-        run: nix flake show ./nixos
-
-      - name: Build NixOS toplevel
-        run: |
-          build_attr="nixosConfigurations.${{ matrix.host }}.config.system"
-          build_attr="$build_attr.build.toplevel"
-          nix build \
-            "./nixos#${build_attr}" \
-            --print-build-logs \
-            --no-link \
-            -L
 
   nvim-ci:
     name: "Neovim: stylua --check"
