@@ -9,7 +9,13 @@ guardRole "gaming" {
     lutris
     wineWowPackages.stable
     winetricks
-    heroic
+
+    (heroic.override {
+      extraPkgs =
+        pkgs: with pkgs; [
+          libgdiplus
+        ];
+    })
 
     tower-pixel-dungeon
     shattered-pixel-dungeon
@@ -30,17 +36,29 @@ guardRole "gaming" {
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
 
-    # # I don't understand what the next thing does but can be useful
-    # extest.enable = true;
-
-    extraCompatPackages = [ pkgs.proton-ge-bin ];
+    extraCompatPackages = with pkgs; [ proton-ge-bin ];
 
     package = pkgs.steam.override {
       extraPkgs =
         pkgs: with pkgs; [
           libkrb5
           keyutils
+          libgdiplus
         ];
+
+      extraEnv = {
+        # PIPEWIRE_NODE = "Game";
+        # PULSE_SINK = "Game";
+        # STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
+        # PROTON_ENABLE_WAYLAND = true; # If games crash, delete this line
+        PROTON_USE_WOW64 = true;
+      };
+
+      extraProfile = ''
+        unset TZ
+      '';
+
+      privateTmp = false;
     };
   };
 }
