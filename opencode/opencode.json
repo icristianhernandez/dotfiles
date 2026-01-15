@@ -15,13 +15,11 @@
         "messages_half_page_up": "ctrl+u",
         "messages_half_page_down": "ctrl+d"
     },
+    "default_agent": "plan",
+    "autoupdate": "false",
     "agent": {
         "build": {
             "permission": {
-                "external_directory": "ask",
-                "doom_loop": "deny",
-                "webfetch": "allow",
-                "edit": "allow",
                 "bash": {
                     "*": "ask",
                     "true": "allow",
@@ -51,15 +49,31 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
+                },
+                "todowrite": "allow",
+                "websearch": "allow",
+                "edit": "allow",
+                "skill": "allow",
+                "question": "allow",
+                "webfetch": "allow",
+                "*": "ask",
+                "todoread": "allow",
+                "list": "allow",
+                "doom_loop": "deny",
+                "external_directory": "ask",
+                "task": "ask",
+                "grep": "allow",
+                "glob": "allow",
+                "read": {
+                    "*": "allow",
+                    "*.env": "deny",
+                    "*.env.*": "deny",
+                    "*.env.example": "allow"
                 }
             }
         },
         "plan": {
             "permission": {
-                "external_directory": "allow",
-                "doom_loop": "deny",
-                "webfetch": "allow",
-                "edit": "deny",
                 "bash": {
                     "*": "ask",
                     "true": "allow",
@@ -89,6 +103,26 @@
                     "mmdc *": "allow",
                     "*git push*": "deny",
                     "*git commit*": "deny"
+                },
+                "todowrite": "allow",
+                "websearch": "allow",
+                "edit": "deny",
+                "skill": "allow",
+                "question": "allow",
+                "webfetch": "allow",
+                "*": "ask",
+                "todoread": "allow",
+                "list": "allow",
+                "doom_loop": "deny",
+                "external_directory": "allow",
+                "task": "ask",
+                "grep": "allow",
+                "glob": "allow",
+                "read": {
+                    "*": "allow",
+                    "*.env": "deny",
+                    "*.env.*": "deny",
+                    "*.env.example": "allow"
                 }
             }
         }

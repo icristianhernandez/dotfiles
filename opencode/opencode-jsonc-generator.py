@@ -25,6 +25,8 @@ BASE_CONFIG: OpencodeJSON = {
         "messages_half_page_up": "ctrl+u",
         "messages_half_page_down": "ctrl+d",
     },
+    "default_agent": "plan",
+    "autoupdate": "false",
 }
 
 
@@ -56,10 +58,26 @@ def merge_permissions_deep(
 
 
 core_permissions = {
+    "*": "ask",
+    "task": "ask",
+    "external_directory": "ask",
     "webfetch": "allow",
     "edit": "allow",
-    "external_directory": "ask",
+    "grep": "allow",
+    "glob": "allow",
+    "list": "allow",
+    "skill": "allow",
+    "todowrite": "allow",
+    "todoread": "allow",
+    "question": "allow",
+    "websearch": "allow",
     "doom_loop": "deny",
+    "read": {
+        "*": "allow",
+        "*.env": "deny",
+        "*.env.*": "deny",
+        "*.env.example": "allow",
+    },
     "bash": {
         "*": "ask",
         "true": "allow",
