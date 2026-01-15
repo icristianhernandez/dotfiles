@@ -26,7 +26,6 @@ BASE_CONFIG: OpencodeJSON = {
         "messages_half_page_down": "ctrl+d",
     },
     "default_agent": "plan",
-    "autoupdate": "false",
 }
 
 

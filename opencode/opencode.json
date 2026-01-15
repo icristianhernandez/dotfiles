@@ -16,7 +16,6 @@
         "messages_half_page_down": "ctrl+d"
     },
     "default_agent": "plan",
-    "autoupdate": "false",
     "agent": {
         "build": {
             "permission": {
@@ -50,26 +49,26 @@
                     "*git push*": "deny",
                     "*git commit*": "deny"
                 },
-                "todowrite": "allow",
                 "websearch": "allow",
-                "edit": "allow",
-                "skill": "allow",
+                "list": "allow",
+                "glob": "allow",
+                "*": "ask",
                 "question": "allow",
                 "webfetch": "allow",
-                "*": "ask",
                 "todoread": "allow",
-                "list": "allow",
+                "todowrite": "allow",
+                "edit": "allow",
                 "doom_loop": "deny",
-                "external_directory": "ask",
                 "task": "ask",
+                "skill": "allow",
                 "grep": "allow",
-                "glob": "allow",
                 "read": {
                     "*": "allow",
                     "*.env": "deny",
                     "*.env.*": "deny",
                     "*.env.example": "allow"
-                }
+                },
+                "external_directory": "ask"
             }
         },
         "plan": {
@@ -104,26 +103,26 @@
                     "*git push*": "deny",
                     "*git commit*": "deny"
                 },
-                "todowrite": "allow",
                 "websearch": "allow",
-                "edit": "deny",
-                "skill": "allow",
+                "list": "allow",
+                "glob": "allow",
+                "*": "ask",
                 "question": "allow",
                 "webfetch": "allow",
-                "*": "ask",
                 "todoread": "allow",
-                "list": "allow",
+                "todowrite": "allow",
+                "edit": "deny",
                 "doom_loop": "deny",
-                "external_directory": "allow",
                 "task": "ask",
+                "skill": "allow",
                 "grep": "allow",
-                "glob": "allow",
                 "read": {
                     "*": "allow",
                     "*.env": "deny",
                     "*.env.*": "deny",
                     "*.env.example": "allow"
-                }
+                },
+                "external_directory": "allow"
             }
         }
     }
