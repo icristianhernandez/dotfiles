@@ -7,3 +7,80 @@ fuzzy finder in mini.files like zoxode
 -- review the linters config, they are not so good defined
 
 lz4 is not working
+
+
+
+
+
+
+{
+  pkgs,
+  guardRole,
+  ...
+}:
+
+let
+
+  gtkThemeLight = "adw-gtk3";
+  gtkThemeDark = "adw-gtk3-dark";
+
+  applyTheme =
+    {
+      colorScheme,
+      gtk,
+      icon,
+      cursor,
+    }:
+    let
+      dconf = "${pkgs.dconf}/bin/dconf";
+    in
+    ''
+      ${dconf} write /org/gnome/desktop/interface/color-scheme "'${colorScheme}'"
+      ${dconf} write /org/gnome/desktop/interface/gtk-theme "'${gtk}'"
+      ${dconf} write /org/gnome/desktop/interface/icon-theme "'${icon}'"
+      ${dconf} write /org/gnome/desktop/interface/cursor-theme "'${cursor}'"
+    '';
+in
+guardRole "desktop" {
+  home = {
+    packages = with pkgs; [
+      tela-circle-icon-theme
+      simp1e-cursors
+      adw-gtk3
+      gnomeExtensions.user-themes
+    ];
+
+    pointerCursor = {
+      gtk.enable = true;
+      x11.enable = true;
+      package = pkgs.simp1e-cursors;
+      name = "Simp1e-Adw-Dark";
+      size = 34;
+    };
+  };
+
+  services.darkman = {
+    enable = true;
+    settings = {
+      lat = 10.5;
+      lng = -66.9;
+      usegeoclue = false;
+      portal = true;
+    };
+
+    darkModeScripts.unified-theme = applyTheme {
+      colorScheme = "prefer-dark";
+      gtk = gtkThemeDark;
+      icon = "Tela-circle-dark";
+      cursor = "Simp1e-Adw";
+    };
+
+    lightModeScripts.unified-theme = applyTheme {
+      colorScheme = "default";
+      gtk = gtkThemeLight;
+      icon = "Tela-circle";
+      cursor = "Simp1e-Adw-Dark";
+    };
+  };
+}
+
