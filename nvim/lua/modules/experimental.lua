@@ -179,19 +179,20 @@ return {
         -- stevearc/overseer.nvim: task runner for ad-hoc commands
         "stevearc/overseer.nvim",
         opts = function()
-            local repo_root = vim.fn.expand("~") .. "/dotfiles"
+            local dotfiles_root = vim.fn.expand("~") .. "/dotfiles"
             local script_name = "git-auto-commit-opencode.sh"
-            local script_path = (vim.fs and vim.fs.joinpath(repo_root, "scripts", script_name))
-                or (repo_root .. "/scripts/" .. script_name)
+            local script_path = (vim.fs and vim.fs.joinpath(dotfiles_root, "scripts", script_name))
+                or (dotfiles_root .. "/scripts/" .. script_name)
 
             local overseer = require("overseer")
 
             overseer.register_template({
                 name = "Auto commit with OpenCode",
                 builder = function()
+                    local cwd = vim.fn.getcwd()
                     return {
                         cmd = { "bash", script_path },
-                        cwd = repo_root,
+                        cwd = cwd,
                         name = "auto-commit-opencode",
                     }
                 end,
