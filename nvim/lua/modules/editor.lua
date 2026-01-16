@@ -171,7 +171,17 @@ return {
                     })
                 end,
             },
-            "onsails/lspkind.nvim",
+            {
+                -- onsails/lspkind.nvim: VS Code-like pictograms for LSP kinds
+                "onsails/lspkind.nvim",
+                lazy = false,
+                opts = {
+                    preset = "default",
+                },
+                config = function(_, opts)
+                    require("lspkind").init(opts)
+                end,
+            },
         },
 
         ---@module 'blink.cmp'

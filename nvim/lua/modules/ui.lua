@@ -203,18 +203,6 @@ return {
     },
 
     {
-        -- onsails/lspkind.nvim: VS Code-like pictograms for LSP kinds
-        "onsails/lspkind.nvim",
-        lazy = false,
-        opts = {
-            preset = "default",
-        },
-        config = function(_, opts)
-            require("lspkind").init(opts)
-        end,
-    },
-
-    {
         -- catgoose/nvim-colorizer.lua: highlight color codes inline
         -- #389812
         "catgoose/nvim-colorizer.lua",
