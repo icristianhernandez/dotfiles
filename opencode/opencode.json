@@ -1,6 +1,6 @@
 {
     "$schema": "https://opencode.ai/config.json",
-    "model": "github-copilot/oswe-vscode-prime",
+    "model": "github-copilot/gpt-5-mini",
     "small_model": "github-copilot/grok-code-fast-1",
     "disabled_providers": [
         "opencode"
@@ -17,8 +17,33 @@
     },
     "default_agent": "plan",
     "agent": {
+        "general": {
+            "model": "github-copilot/gpt-5-mini"
+        },
+        "explore": {
+            "model": "github-copilot/gpt-5-mini"
+        },
+        "compaction": {
+            "model": "github-copilot/gpt-5-mini"
+        },
+        "summary": {
+            "model": "github-copilot/gpt-5-mini"
+        },
         "build": {
             "permission": {
+                "question": "allow",
+                "*": "ask",
+                "glob": "allow",
+                "edit": "allow",
+                "grep": "allow",
+                "list": "allow",
+                "task": "ask",
+                "doom_loop": "deny",
+                "external_directory": "ask",
+                "webfetch": "allow",
+                "todowrite": "allow",
+                "websearch": "allow",
+                "todoread": "allow",
                 "bash": {
                     "*": "ask",
                     "true": "allow",
@@ -49,30 +74,29 @@
                     "*git push*": "deny",
                     "*git commit*": "deny"
                 },
-                "websearch": "allow",
-                "list": "allow",
-                "glob": "allow",
-                "*": "ask",
-                "question": "allow",
-                "webfetch": "allow",
-                "todoread": "allow",
-                "todowrite": "allow",
-                "edit": "allow",
-                "doom_loop": "deny",
-                "task": "ask",
-                "skill": "allow",
-                "grep": "allow",
                 "read": {
                     "*": "allow",
                     "*.env": "deny",
                     "*.env.*": "deny",
                     "*.env.example": "allow"
-                },
-                "external_directory": "ask"
+                }
             }
         },
         "plan": {
             "permission": {
+                "question": "allow",
+                "*": "ask",
+                "glob": "allow",
+                "edit": "deny",
+                "grep": "allow",
+                "list": "allow",
+                "task": "ask",
+                "doom_loop": "deny",
+                "external_directory": "allow",
+                "webfetch": "allow",
+                "todowrite": "allow",
+                "websearch": "allow",
+                "todoread": "allow",
                 "bash": {
                     "*": "ask",
                     "true": "allow",
@@ -103,26 +127,12 @@
                     "*git push*": "deny",
                     "*git commit*": "deny"
                 },
-                "websearch": "allow",
-                "list": "allow",
-                "glob": "allow",
-                "*": "ask",
-                "question": "allow",
-                "webfetch": "allow",
-                "todoread": "allow",
-                "todowrite": "allow",
-                "edit": "deny",
-                "doom_loop": "deny",
-                "task": "ask",
-                "skill": "allow",
-                "grep": "allow",
                 "read": {
                     "*": "allow",
                     "*.env": "deny",
                     "*.env.*": "deny",
                     "*.env.example": "allow"
-                },
-                "external_directory": "allow"
+                }
             }
         }
     }

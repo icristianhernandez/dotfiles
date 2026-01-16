@@ -12,7 +12,7 @@ OpencodeJSONPermissions: TypeAlias = dict[str, str | dict[str, str]]
 
 BASE_CONFIG: OpencodeJSON = {
     "$schema": "https://opencode.ai/config.json",
-    "model": "github-copilot/oswe-vscode-prime",
+    "model": "github-copilot/gpt-5-mini",
     "small_model": "github-copilot/grok-code-fast-1",
     "disabled_providers": ["opencode"],
     "tui": {
@@ -65,7 +65,6 @@ core_permissions = {
     "grep": "allow",
     "glob": "allow",
     "list": "allow",
-    "skill": "allow",
     "todowrite": "allow",
     "todoread": "allow",
     "question": "allow",
@@ -118,6 +117,18 @@ plan_agent_specific_permissions: OpencodeJSONPermissions = {
 opencode_json = {
     **BASE_CONFIG,
     "agent": {
+        "general": {
+            "model": "github-copilot/gpt-5-mini",
+        },
+        "explore": {
+            "model": "github-copilot/gpt-5-mini",
+        },
+        "compaction": {
+            "model": "github-copilot/gpt-5-mini",
+        },
+        "summary": {
+            "model": "github-copilot/gpt-5-mini",
+        },
         "build": {
             "permission": merge_permissions_deep(
                 core_permissions, build_agent_specific_permissions
