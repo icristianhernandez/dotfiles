@@ -15,5 +15,11 @@ guardRole "dev" {
 
     # Dev Environment
     lazygit
+    vscode.fhs
   ];
+
+  # programs.vscode = {
+  #   enable = true;
+  #   package = pkgs.vscode.fhs;
+  # };
 }
