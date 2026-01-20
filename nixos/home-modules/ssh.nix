@@ -7,7 +7,7 @@ guardRole "interactive" {
     matchBlocks = {
       "*" = {
         extraOptions = {
-          "AddKeysToAgent" = "ask";
+          "AddKeysToAgent" = "yes";
           "HashKnownHosts" = "yes";
           "VerifyHostKeyDNS" = "yes";
           "ForwardAgent" = "no";
@@ -15,16 +15,5 @@ guardRole "interactive" {
         };
       };
     };
-  };
-
-  programs.keychain = {
-    enable = true;
-    keys = [ "id_ed25519" ];
-    extraFlags = [
-      "--quiet"
-      "--timeout 180"
-    ];
-    enableBashIntegration = true;
-    enableFishIntegration = true;
   };
 }
