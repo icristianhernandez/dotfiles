@@ -1,4 +1,4 @@
-# AGENTS — short
+# AGENTS.md
 
 ## Purpose
 
@@ -8,46 +8,34 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 
 - Clarification: Run the CI commands as-is (e.g., `nix run ./nixos#nvim-ci`). They don't support flags.
 
-### NixOS / Home Manager
+- **NixOS / Home Manager** (`nixos/**`)
+  - CI: `nix run ./nixos#nixos-ci` (nixfmt, statix/deadnix, flake check)
+  - Entry: `nixos/flake.nix`
+  - Modules: `nixos/system-modules/*`, `nixos/home-modules/*` (auto-imported, sorted)
+  - Roles: `nixos/roles.nix` (`hasRole`, `mkIfRole`, `guardRole`) for host role gating.
+  - Hosts: all defined in `nixos/flake.nix` with their roles.
 
-- Path: `nixos/**`
-- CI: `nix run ./nixos#nixos-ci` (nixfmt, statix/deadnix, flake check)
-- Flake/Entry Point: `nixos/flake.nix`
-- System modules: `nixos/system-modules/` auto-imported via `nixos/lib/import-modules.nix`
-- Home modules: `nixos/home-modules/` auto-imported via `nixos/lib/import-modules.nix`
-- Auto import is sorted.
-- Roles/guards: `nixos/roles.nix` (`hasRole`, `mkIfRole`, `guardRole`) control role-based module blocks for hosts in `nixos/flake.nix`
+- **Nix Apps / CI** (`nixos/apps/**`)
+  - CI: `nix run ./nixos#ci` (runs `nixos-ci`, `nvim-ci`, `workflows-ci`)
+  - Key files: `nixos/apps/ci.nix`, `nixos/apps/default.nix`, `nixos/apps/helpers.nix`
+  - Path constants: `nixos/apps/helpers.nix` defines `nixosDir`, `nvimCfgDir`, `workflowsDir`
 
-### Nix Apps / CI
+- **Neovim** (`nvim/**`)
+  - CI: `nix run ./nixos#nvim-ci`
+  - Entry: `nvim/init.lua`
+  - Nvim config: `nvim/lua/core/*`
+  - Plugins: `nvim/lua/modules/*`
 
-- Path: `nixos/apps/**`
-- CI entry: `nix run ./nixos#ci` (runs `nixos-ci`, `nvim-ci`, `workflows-ci`)
-- Key files: `nixos/apps/ci.nix`, `nixos/apps/default.nix`, `nixos/apps/helpers.nix`
-- Paths constants: `nixos/apps/helpers.nix` defines `nixosDir`, `nvimCfgDir`, `workflowsDir`
+- **GitHub Workflows** (`.github/workflows/ci.yml`)
+  - CI: `nix run ./nixos#workflows-ci`
 
-### Neovim
+- **Scripts** (`scripts/`)
+  - CI: none (manual)
+  - Key files: `scripts/*.sh` (review before running)
 
-- Path: `nvim/`
-- CI: `nix run ./nixos#nvim-ci`
-- Key files: `nvim/init.lua`, `nvim/lua/core/`, `nvim/lua/modules/`
-
-### Github Workflows
-
-- Path: `.github/workflows/`
-- CI: `nix run ./nixos#workflows-ci`
-- Key files: `.github/workflows/ci.yml`, `.github/workflows/*`
-
-### Scripts
-
-- Path: `scripts/`
-- CI: none (manual)
-- Key files: `scripts/*.sh` (review before running)
-
-### Full Repo
-
-- Path: `/`
-- CI: `nix run ./nixos#ci`
-- Use that CI when change scope spans multiple domains.
+- **Full repo**
+  - CI: `nix run ./nixos#ci`
+  - Use when changes span multiple domains
 
 ## Core rules
 
