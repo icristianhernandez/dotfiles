@@ -16,6 +16,43 @@ A reproducible NixOS/Home Manager flake with a modular, lazy-loaded Neovim confi
 - Symlink Neovim config: `ln -s /path/to/repo/nvim ~/.config/nvim`
 - Open Neovim to auto-bootstrap plugins.
 
+## Fedora + Nix Setup
+
+These instructions are for setting up the Home Manager configuration on a Fedora system with Nix.
+
+1.  **Install Nix:**
+
+    Follow the official instructions to install the Nix package manager on Fedora:
+
+    ```bash
+    sh <(curl -L https://nixos.org/nix/install) --daemon
+    ```
+
+2.  **Clone the repository:**
+
+    ```bash
+    git clone <your-fork-url> ~/dotfiles
+    cd ~/dotfiles
+    ```
+
+3.  **Activate the Home Manager configuration:**
+
+    Use the following command to build and activate the Home Manager configuration for your user:
+
+    ```bash
+    nix run ./fedora#homeConfigurations.wsl.activation-script
+    ```
+
+    *Note: Replace `wsl` with your desired host if you define a different one in `fedora/flake.nix`.*
+
+4.  **WSL Configuration (for WSL hosts only):**
+
+    If you are setting up a WSL host, you will need to copy the generated `.wslconf` file to `/etc/wsl.conf`. This step requires `sudo` privileges.
+
+    ```bash
+    sudo cp ~/.wslconf /etc/wsl.conf
+    ```
+
 ## Repo layout
 
 - `nixos/` - Nix flake (`nixos/flake.nix`), home- and system-modules, CI apps (`nixos/apps`).
