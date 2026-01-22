@@ -15,7 +15,14 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
   - Roles: `nixos/roles.nix` (`hasRole`, `mkIfRole`, `guardRole`) for host role gating.
   - Hosts: all defined in `nixos/flake.nix` with their roles.
 
-- **Nix Apps / CI** (`nixos/apps/**`)
+- **Fedora / Home Manager** (`fedora/**`)
+  - CI: `nix flake check ./fedora -L` (nixfmt, flake check)
+  - Entry: `fedora/flake.nix`
+  - Modules: `fedora/home-modules/*` (auto-imported, sorted)
+  - Roles: `fedora/roles.nix` (`hasRole`, `mkIfRole`, `guardRole`) for host role gating.
+  - Hosts: all defined in `fedora/flake.nix` with their roles.
+
+- **Nix Apps / CI** (`nixos/apps/**`, `fedora/apps/**`)
   - CI: `nix run ./nixos#ci` (runs `nixos-ci`, `nvim-ci`, `workflows-ci`)
   - Key files: `nixos/apps/ci.nix`, `nixos/apps/default.nix`, `nixos/apps/helpers.nix`
   - Path constants: `nixos/apps/helpers.nix` defines `nixosDir`, `nvimCfgDir`, `workflowsDir`
