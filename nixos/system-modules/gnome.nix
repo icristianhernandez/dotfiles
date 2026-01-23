@@ -60,4 +60,13 @@ guardRole "gnome" {
     # camera tool
     snapshot
   ];
+
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    gnome-user-docs
+    epiphany
+    gnome-terminal
+    geary
+  ];
+
 }
