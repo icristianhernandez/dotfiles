@@ -58,9 +58,11 @@ def merge_permissions_deep(
 
 core_permissions = {
     "*": "ask",
-    "task": "ask",
     "external_directory": "ask",
     "webfetch": "allow",
+    "task": "allow",
+    "codesearch": "allow",
+    "lsp": "allow",
     "edit": "allow",
     "grep": "allow",
     "glob": "allow",
