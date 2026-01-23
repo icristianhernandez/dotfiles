@@ -75,26 +75,31 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 
 ## Minimal agent workflow (extra steps for this repo)
 
-You are encouraged to use subagents to delegate or orchestrate subtasks at any stage of the process and in any quantity, by both build and plan mode. Examples of tasks that can be delegated (which serve as guidelines for determining if other tasks are suitable for delegation) include:
+You are encouraged to use subagents to delegate or orchestrate subtasks at any stage of the process and in any quantity, in both build and plan mode. The examples below are illustrative guidelines to help decide when a subagent is appropriate and what it should deliver when finished.
 
-For exploration:
+For exploration (recommended deliverables: list of file paths or refs, a 1–3 sentence summary of findings, and any suggested next steps):
 
-- Get the documentation URL for [app] version [x.y.z].
-- List every component that will break if I change the signature of [function].
-- Find all places where we are still using the deprecated [legacy API] instead of the [modern API].
-- Find all implementations of [interface/trait].
-- Identify all "dead code" paths for this feature flag.
-- Etc.
+- Get the documentation URL for a given app and version.
+- List every component that will break if a function signature changes.
+- Find all places still using a deprecated API instead of the modern API.
+- Find all implementations of an interface or trait.
+- Identify dead-code paths related to a feature flag.
 
-For general tasks:
+For general tasks (recommended deliverables: a short plan, produced artifacts or patches, and verification notes):
 
-- Generate a [standard] unit test suite for [file/function/module/...].
-- Add exhaustive [doc standard] documentation to this file based on the implementation logic.
-- Audit this file for 2026 accessibility (A11Y) standards and fix any violations.
-- Refactor [file/function/...] to follow the [paradigm] paradigm.
-- Etc.
+- Generate a unit test suite for a file, function, or module.
+- Add documentation to a file based on its implementation logic.
+- Audit a file for current accessibility (A11Y) standards and propose fixes.
+- Refactor a file or function to follow a specified paradigm.
 
-### Before the normal workflow
+Guidelines and constraints:
+
+- Replace placeholder tokens (e.g., `[app]`, `[file/function/...]`) with concrete inputs when launching a subagent.
+- Do not delegate tasks that would allow a subagent to bypass repository or agent permissions; subagents must not perform actions that require explicit approval (writes, pushes, or other state-changing operations) unless the user or client interface has authorized them.
+- Prefer launching subagents for broad, multi-file discovery and long-running analyses (exploration). Perform single-file edits, quick clarifications, or narrowly-scoped changes inline when possible.
+- When in doubt, require the subagent to return a concise plan and a list of files it would change, rather than making changes automatically.
+
+### Before the normal workflow (of the system prompt)
 
 1. Confirm scope/domain(s) and assumptions for this repo.
 
