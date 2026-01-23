@@ -75,17 +75,34 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 
 ## Minimal agent workflow (extra steps for this repo)
 
-You can and are encouraged to use subagents to delegate or orchestrate subtasks at any stage of the process and in any amount.
+You are encouraged to use subagents to delegate or orchestrate subtasks at any stage of the process and in any quantity, by both build and plan mode. Examples of tasks that can be delegated (which serve as guidelines for determining if other tasks are suitable for delegation) include:
 
-### Before the normal workflow:
+For exploration:
+
+- Get the documentation URL for [app] version [x.y.z].
+- List every component that will break if I change the signature of [function].
+- Find all places where we are still using the deprecated [legacy API] instead of the [modern API].
+- Find all implementations of [interface/trait].
+- Identify all "dead code" paths for this feature flag.
+- Etc.
+
+For general tasks:
+
+- Generate a [standard] unit test suite for [file/function/module/...].
+- Add exhaustive [doc standard] documentation to this file based on the implementation logic.
+- Audit this file for 2026 accessibility (A11Y) standards and fix any violations.
+- Refactor [file/function/...] to follow the [paradigm] paradigm.
+- Etc.
+
+### Before the normal workflow
 
 1. Confirm scope/domain(s) and assumptions for this repo.
 
-### During the normal workflow:
+### During the normal workflow
 
 1. Validate assumptions via read-only inspection and scoped CI when needed.
 2. List repo/stack side effects and required complementary changes (docs/tests/CI/migrations).
 
-### After implementing the plan:
+### After implementing the plan
 
 1. Run the adequately scoped CI and resolve failures before stopping.
