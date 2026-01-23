@@ -1,3 +1,8 @@
+---
+name: nixos-config-agent
+description: Agent guidelines for NixOS/Home Manager/Neovim dotfiles
+---
+
 # AGENTS.md
 
 ## Purpose
@@ -75,6 +80,8 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 
 ## Minimal agent workflow (extra steps for this repo)
 
+### Subagent Orchestration
+
 You are encouraged to use subagents to delegate or orchestrate subtasks at any stage of the process and in any quantity, in both build and plan mode. The examples below are illustrative guidelines to help decide when a subagent is appropriate and what it should deliver when finished.
 
 For exploration (recommended deliverables: list of file paths or refs, a 1–3 sentence summary of findings, and any suggested next steps):
@@ -94,7 +101,6 @@ For general tasks (recommended deliverables: a short plan, produced artifacts or
 
 Guidelines and constraints:
 
-- Replace placeholder tokens (e.g., `[app]`, `[file/function/...]`) with concrete inputs when launching a subagent.
 - Do not delegate tasks that would allow a subagent to bypass repository or agent permissions; subagents must not perform actions that require explicit approval (writes, pushes, or other state-changing operations) unless the user or client interface has authorized them.
 - Prefer launching subagents for broad, multi-file discovery and long-running analyses (exploration). Perform single-file edits, quick clarifications, or narrowly-scoped changes inline when possible.
 - When in doubt, require the subagent to return a concise plan and a list of files it would change, rather than making changes automatically.
