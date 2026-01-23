@@ -47,7 +47,7 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 
 - Implement minimal, single-responsibility changes.
 - Write descriptive, well-named, understandable, and readable code; use comments only to explain rare design decisions, relying on clear variable names and proper structure for clarity.
-- The final output to the user must be direct, concise, and stripped of conversational filler, while retaining all essential technical or factual details.
+- The final answer (user facing response) to the user must be direct, concise, and stripped of conversational filler, while retaining all essential technical or factual details.
 - Ask clarifying questions when the scope, constraints, or intent is unclear.
 - Ask clarifying questions when they are useful for improving answers or eliminating alternatives.
 - Validate assumptions with read-only repository inspection, internet research, questions to the user, and scoped CI when needed.
@@ -74,6 +74,8 @@ Concise rules for LLM agents operating on this monorepo (NixOS flake + Home Mana
 - Anything not clearly read-only or not explicitly listed as safe in this repo’s CI guidance.
 
 ## Minimal agent workflow (extra steps for this repo)
+
+You can and are encouraged to use subagents to delegate or orchestrate subtasks at any stage of the process and in any amount.
 
 ### Before the normal workflow:
 
