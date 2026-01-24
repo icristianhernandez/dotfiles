@@ -5,10 +5,12 @@
 }:
 
 guardRole "gaming" {
-  environment.systemPackages = with pkgs; [
-    lutris
-    wineWowPackages.stable
+  environment.systemPackages = with pkgs.unstable; [
+    wineWowPackages.stagingFull
+    winePackages.fonts
     winetricks
+    # things needed for winetricks
+    cabextract
 
     (heroic.override {
       extraPkgs =
@@ -21,10 +23,16 @@ guardRole "gaming" {
     shattered-pixel-dungeon
     crawlTiles
     mindustry-wayland
+
+  ];
+
+  fonts.packages = with pkgs; [
+    wineWowPackages.fonts
   ];
 
   programs.gamescope = {
     enable = true;
+    package = pkgs.unstable.gamescope;
     # the next crashes launch games with gamescope in other compositors
     # capSysNice = true;
   };
@@ -38,7 +46,7 @@ guardRole "gaming" {
 
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
 
-    package = pkgs.steam.override {
+    package = pkgs.unstable.steam.override {
       extraPkgs =
         pkgs: with pkgs; [
           libkrb5
@@ -46,13 +54,13 @@ guardRole "gaming" {
           libgdiplus
         ];
 
-      extraEnv = {
-        # PIPEWIRE_NODE = "Game";
-        # PULSE_SINK = "Game";
-        # STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
-        # PROTON_ENABLE_WAYLAND = true; # If games crash, delete this line
-        PROTON_USE_WOW64 = true;
-      };
+      # extraEnv = {
+      #   # PIPEWIRE_NODE = "Game";
+      #   # PULSE_SINK = "Game";
+      #   # STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
+      #   # PROTON_ENABLE_WAYLAND = true; # If games crash, delete this line
+      #   # PROTON_USE_WOW64 = true;
+      # };
 
       extraProfile = ''
         unset TZ
