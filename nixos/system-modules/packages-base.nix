@@ -15,4 +15,8 @@ guardRole "base" {
     unzip
     unrar
   ];
+
+  environment.variables = {
+    SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
+  };
 }

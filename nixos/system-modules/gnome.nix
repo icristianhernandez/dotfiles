@@ -8,6 +8,7 @@ guardRole "gnome" {
   services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
+    gnome.gnome-keyring.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
     tumbler.enable = true;
