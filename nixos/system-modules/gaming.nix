@@ -13,10 +13,9 @@ guardRole "gaming" {
     cabextract
 
     (heroic.override {
-      extraPkgs =
-        pkgs: with pkgs.unstable; [
-          libgdiplus
-        ];
+      extraPkgs = pkgsArg: [
+        pkgsArg.libgdiplus
+      ];
     })
 
     tower-pixel-dungeon
@@ -53,12 +52,11 @@ guardRole "gaming" {
     extraCompatPackages = with pkgs.unstable; [ proton-ge-bin ];
 
     package = pkgs.unstable.steam.override {
-      extraPkgs =
-        pkgs: with pkgs.unstable; [
-          libkrb5
-          keyutils
-          libgdiplus
-        ];
+      extraPkgs = pkgsArg: [
+        pkgsArg.libkrb5
+        pkgsArg.keyutils
+        pkgsArg.libgdiplus
+      ];
 
       # extraEnv = {
       #   # PIPEWIRE_NODE = "Game";
