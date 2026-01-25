@@ -14,7 +14,7 @@ guardRole "gaming" {
 
     (heroic.override {
       extraPkgs =
-        pkgs: with pkgs; [
+        pkgs: with pkgs.unstable; [
           libgdiplus
         ];
     })
@@ -26,13 +26,19 @@ guardRole "gaming" {
 
   ];
 
-  fonts.packages = with pkgs; [
+  fonts.packages = with pkgs.unstable; [
     wineWowPackages.fonts
   ];
 
   programs.gamescope = {
     enable = true;
     package = pkgs.unstable.gamescope;
+    args = [
+      "--width 1280"
+      "--height 720"
+      "--scaling stretch"
+      "--fullscreen"
+    ];
     # the next crashes launch games with gamescope in other compositors
     # capSysNice = true;
   };
@@ -44,11 +50,11 @@ guardRole "gaming" {
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
 
-    extraCompatPackages = with pkgs; [ proton-ge-bin ];
+    extraCompatPackages = with pkgs.unstable; [ proton-ge-bin ];
 
     package = pkgs.unstable.steam.override {
       extraPkgs =
-        pkgs: with pkgs; [
+        pkgs: with pkgs.unstable; [
           libkrb5
           keyutils
           libgdiplus

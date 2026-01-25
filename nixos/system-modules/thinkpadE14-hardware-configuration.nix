@@ -32,7 +32,7 @@ guardRole "thinkpadE14" {
     kernelParams = [
       "mem_sleep_default=s2idle"
       "nvme.noacpi=1"
-      "pcie_aspm=force"
+      # "pcie_aspm=force"
 
       # zswap related config
       "zswap.enabled=1"
