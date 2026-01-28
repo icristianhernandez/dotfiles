@@ -184,9 +184,9 @@ guardRole "gnome" {
     };
 
     # Nautilus default sorting: newest modified first
-    "org/gnome/nautilus/preferences" = {
-      default-sort-order = "mtime";
-      default-sort-in-reverse-order = lib.hm.gvariant.mkBoolean true;
-    };
+    # "org/gnome/nautilus/preferences" = {
+    #   default-sort-order = "mtime";
+    #   default-sort-in-reverse-order = lib.hm.gvariant.mkBoolean true;
+    # };
   };
 }
