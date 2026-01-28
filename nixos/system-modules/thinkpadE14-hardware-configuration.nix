@@ -66,7 +66,7 @@ guardRole "thinkpadE14" {
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/66a22e12-f98e-4a05-bcfc-a40240d99ba7";
+      device = "/dev/disk/by-uuid/a0888c81-f4ae-4adf-861b-505933919cd3";
       fsType = "ext4";
     };
 

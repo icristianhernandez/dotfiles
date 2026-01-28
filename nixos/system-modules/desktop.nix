@@ -46,7 +46,7 @@ guardRole "desktop" {
     # material-symbols
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages;
   hardware.enableAllFirmware = true;
   programs.dconf.enable = true;
 
