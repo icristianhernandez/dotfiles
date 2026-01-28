@@ -24,8 +24,11 @@ guardRole "thinkpadE14" {
         vpl-gpu-rt
         intel-compute-runtime
       ];
-      extraPackages32 = with pkgs.pkgsi686Linux; [ intel-vaapi-driver ];
-
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        intel-media-driver
+        # the below is more stable, the above is for consistency
+        # intel-vaapi-driver
+      ];
     };
     enableRedistributableFirmware = true;
   };
