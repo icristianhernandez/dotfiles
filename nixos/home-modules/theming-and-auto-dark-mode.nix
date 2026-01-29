@@ -1,4 +1,10 @@
-{ pkgs, guardRole, ... }:
+{
+  lib,
+  pkgs,
+  guardRole,
+  hasRole,
+  ...
+}:
 
 let
   applyTheme =
@@ -7,12 +13,16 @@ let
       gtk,
       icon,
       cursor,
+      plasmaLookAndFeel,
     }:
     ''
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'${colorScheme}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme "'${gtk}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/icon-theme "'${icon}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/cursor-theme "'${cursor}'"
+    ''
+    + lib.optionalString (hasRole "plasma") ''
+      ${lib.getExe pkgs.kdePackages.kconfig} --file kdeglobals --group KDE --key LookAndFeelPackage "${plasmaLookAndFeel}"
     '';
 in
 guardRole "desktop" {
@@ -44,6 +54,7 @@ guardRole "desktop" {
       gtk = "Adwaita-dark";
       icon = "Tela-circle-dark";
       cursor = "Simp1e-Adw";
+      plasmaLookAndFeel = "org.kde.breezedark.desktop";
     };
 
     lightModeScripts.unified-theme = applyTheme {
@@ -51,6 +62,7 @@ guardRole "desktop" {
       gtk = "Adwaita";
       icon = "Tela-circle";
       cursor = "Simp1e-Adw-Dark";
+      plasmaLookAndFeel = "org.kde.breeze.desktop";
     };
   };
 
