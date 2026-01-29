@@ -24,7 +24,6 @@ guardRole "plasma" {
     enable = true;
     workspace = {
       clickItemTo = "select";
-      lookAndFeel = "org.kde.breezedark.desktop";
     };
 
     panels = [
@@ -73,18 +72,15 @@ guardRole "plasma" {
       kdeglobals = {
         KDE = {
           AnimationDurationFactor = 0.0;
-          LookAndFeelPackage = "org.kde.breezedark.desktop";
           SingleClick = false;
           widgetStyle = "Breeze";
         };
         General = {
           TerminalApplication = "kitty";
-          TerminalService = "org.kde.konsole.desktop";
           XftAntialias = true;
           XftHintStyle = "hintslight";
           XftSubPixel = "rgb";
         };
-        Icons.Theme = "Tela-circle";
       };
 
       kcminputrc = {
@@ -95,7 +91,6 @@ guardRole "plasma" {
         };
         Mouse = {
           X11LibInputXAccelProfileFlat = true;
-          cursorTheme = "Simp1e-Adw";
           cursorSize = 34;
         };
       };

@@ -156,9 +156,9 @@
                 users = {
                   "${const.user}" = {
                     imports =
-                      [
+                      (lib.optionals (helpers.hasRole "plasma") [
                         inputs.plasma-manager.homeManagerModules.plasma-manager
-                      ]
+                      ])
                       ++ (import ./lib/import-modules.nix {
                         inherit lib;
                         dir = ./home-modules;

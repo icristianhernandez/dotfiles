@@ -1,4 +1,10 @@
-{ pkgs, guardRole, ... }:
+{
+  lib,
+  pkgs,
+  guardRole,
+  hasRole,
+  ...
+}:
 
 let
   applyTheme =
@@ -14,7 +20,9 @@ let
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme "'${gtk}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/icon-theme "'${icon}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/cursor-theme "'${cursor}'"
-      ${pkgs.libsForQt5.kconfig}/bin/kwriteconfig5 --file kdeglobals --group KDE --key LookAndFeelPackage "${plasmaLookAndFeel}"
+    ''
+    + lib.optionalString (hasRole "plasma") ''
+      ${lib.getExe pkgs.kdePackages.kconfig} --file kdeglobals --group KDE --key LookAndFeelPackage "${plasmaLookAndFeel}"
     '';
 in
 guardRole "desktop" {
