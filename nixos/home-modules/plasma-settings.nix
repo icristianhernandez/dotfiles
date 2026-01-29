@@ -118,7 +118,7 @@ guardRole "plasma" {
       effects.desktopSwitching.animation = "off";
     };
 
-    # Screenshot shortcut (matching GNOME show-screenshot-ui = Shift+Super+s)
+    # Screenshot shortcut (matching GNOME show-screenshot-ui = Shift+Meta+S)
     shortcuts = {
       "org.kde.spectacle.desktop" = {
         "RectangularRegionScreenShot" = "Shift+Meta+S";
@@ -135,10 +135,6 @@ guardRole "plasma" {
     configFile = {
       # Show hidden files in file dialogs (matching GNOME show-hidden = true)
       kdeglobals.KFileDialog.ShowHidden = true;
-
-      # Allow volume above 100% (matching GNOME allow-volume-above-100-percent)
-      # This is handled by the plasma-pa applet settings
-      "plasma-org.kde.plasma.desktop-appletsrc"."Containments/1/Applets/2/Configuration/General".volumeOverflow = true;
 
       # Battery percentage shown (matching GNOME show-battery-percentage)
       # Plasma shows battery percentage by default in the system tray

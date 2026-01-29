@@ -22,21 +22,27 @@ let
     '';
 
   # Plasma theme application via plasma-apply-* commands
+  # Only defined when plasma role is active to avoid unnecessary kdePackages evaluation
   applyPlasmaTheme =
-    {
-      colorScheme,
-      icon,
-      cursor,
-    }:
-    ''
-      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-colorscheme ${colorScheme}
-      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-desktoptheme ${
-        if colorScheme == "BreezeDark" then "breeze-dark" else "breeze-light"
-      }
-      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-cursortheme ${cursor}
-      # Icon theme change requires kwriteconfig6
-      ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group Icons --key Theme "${icon}"
-    '';
+    if hasRole "plasma" then
+      (
+        {
+          colorScheme,
+          icon,
+          cursor,
+        }:
+        ''
+          ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-colorscheme ${colorScheme}
+          ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-desktoptheme ${
+            if colorScheme == "BreezeDark" then "breeze-dark" else "breeze-light"
+          }
+          ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-cursortheme ${cursor}
+          # Icon theme change requires kwriteconfig6
+          ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group Icons --key Theme "${icon}"
+        ''
+      )
+    else
+      (_: "");
 
   isGnome = hasRole "gnome";
   isPlasma = hasRole "plasma";
