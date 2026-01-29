@@ -16,6 +16,10 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -87,6 +91,18 @@
             "gaming"
           ];
         };
+        plasmadesktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+            "thinkpadE14"
+            "plasma"
+            "gaming"
+          ];
+        };
       };
     in
     {
@@ -139,10 +155,14 @@
                 };
                 users = {
                   "${const.user}" = {
-                    imports = import ./lib/import-modules.nix {
-                      inherit lib;
-                      dir = ./home-modules;
-                    };
+                    imports =
+                      [
+                        inputs.plasma-manager.homeManagerModules.plasma-manager
+                      ]
+                      ++ (import ./lib/import-modules.nix {
+                        inherit lib;
+                        dir = ./home-modules;
+                      });
                   };
                 };
               };

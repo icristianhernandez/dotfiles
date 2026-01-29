@@ -46,6 +46,7 @@ Defined in `nixos/flake.nix`:
 - `wsl` — base + interactive + dev + wsl
 - `dmsdesktop` — base + interactive + dev + desktop + thinkpadE14 + dms + gaming
 - `gnomedesktop` — base + interactive + dev + desktop + thinkpadE14 + gnome + gaming
+- `plasmadesktop` — base + interactive + dev + desktop + thinkpadE14 + plasma + gaming
 
 ## Design decisions (facts only)
 
@@ -67,6 +68,7 @@ Examples:
 - `sudo nixos-rebuild switch --flake ./nixos#wsl`
 - `sudo nixos-rebuild switch --flake ./nixos#dmsdesktop`
 - `sudo nixos-rebuild switch --flake ./nixos#gnomedesktop`
+- `sudo nixos-rebuild switch --flake ./nixos#plasmadesktop`
 
 ### Run CI locally (Nix apps)
 
