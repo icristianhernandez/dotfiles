@@ -9,6 +9,7 @@ let
     "thinkpadE14"
     "dms"
     "gnome"
+    "plasma"
     "gaming"
   ];
 

@@ -16,6 +16,11 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -87,6 +92,18 @@
             "gaming"
           ];
         };
+        plasmadesktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+            "thinkpadE14"
+            "plasma"
+            "gaming"
+          ];
+        };
       };
     in
     {
@@ -131,6 +148,8 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 backupFileExtension = "backup";
+                sharedModules =
+                  lib.optionals (helpers.hasRole "plasma") [ inputs.plasma-manager.homeModules.plasma-manager ];
                 extraSpecialArgs = {
                   inherit const roles hostName;
                   inherit (helpers) hasRole mkIfRole guardRole;

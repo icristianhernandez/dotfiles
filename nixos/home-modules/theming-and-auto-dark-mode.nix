@@ -1,7 +1,13 @@
-{ pkgs, guardRole, ... }:
+{
+  pkgs,
+  guardRole,
+  hasRole,
+  ...
+}:
 
 let
-  applyTheme =
+  # GNOME theme application via dconf
+  applyGnomeTheme =
     {
       colorScheme,
       gtk,
@@ -14,6 +20,26 @@ let
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/icon-theme "'${icon}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/cursor-theme "'${cursor}'"
     '';
+
+  # Plasma theme application via plasma-apply-* commands
+  applyPlasmaTheme =
+    {
+      colorScheme,
+      icon,
+      cursor,
+    }:
+    ''
+      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-colorscheme ${colorScheme}
+      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-desktoptheme ${
+        if colorScheme == "BreezeDark" then "breeze-dark" else "breeze-light"
+      }
+      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-cursortheme ${cursor}
+      # Icon theme change requires kwriteconfig6
+      ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group Icons --key Theme "${icon}"
+    '';
+
+  isGnome = hasRole "gnome";
+  isPlasma = hasRole "plasma";
 in
 guardRole "desktop" {
   home = {
@@ -39,19 +65,39 @@ guardRole "desktop" {
       usegeoclue = false;
     };
 
-    darkModeScripts.unified-theme = applyTheme {
-      colorScheme = "prefer-dark";
-      gtk = "Adwaita-dark";
-      icon = "Tela-circle-dark";
-      cursor = "Simp1e-Adw";
-    };
+    darkModeScripts.unified-theme =
+      if isGnome then
+        applyGnomeTheme {
+          colorScheme = "prefer-dark";
+          gtk = "Adwaita-dark";
+          icon = "Tela-circle-dark";
+          cursor = "Simp1e-Adw";
+        }
+      else if isPlasma then
+        applyPlasmaTheme {
+          colorScheme = "BreezeDark";
+          icon = "Tela-circle-dark";
+          cursor = "Simp1e-Adw";
+        }
+      else
+        "";
 
-    lightModeScripts.unified-theme = applyTheme {
-      colorScheme = "default";
-      gtk = "Adwaita";
-      icon = "Tela-circle";
-      cursor = "Simp1e-Adw-Dark";
-    };
+    lightModeScripts.unified-theme =
+      if isGnome then
+        applyGnomeTheme {
+          colorScheme = "default";
+          gtk = "Adwaita";
+          icon = "Tela-circle";
+          cursor = "Simp1e-Adw-Dark";
+        }
+      else if isPlasma then
+        applyPlasmaTheme {
+          colorScheme = "BreezeLight";
+          icon = "Tela-circle";
+          cursor = "Simp1e-Adw-Dark";
+        }
+      else
+        "";
   };
 
 }
