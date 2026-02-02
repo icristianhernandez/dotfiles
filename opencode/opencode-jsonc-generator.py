@@ -14,7 +14,7 @@ BASE_CONFIG: OpencodeJSON = {
     "$schema": "https://opencode.ai/config.json",
     "model": "github-copilot/gpt-5-mini",
     "small_model": "github-copilot/grok-code-fast-1",
-    "disabled_providers": ["opencode"],
+    # "disabled_providers": ["opencode"],
     "tui": {
         "scroll_speed": 3,
         "scroll_acceleration": {
@@ -33,25 +33,43 @@ def merge_permissions_deep(
     base_permissions: OpencodeJSONPermissions,
     override_permissions: OpencodeJSONPermissions,
 ) -> OpencodeJSONPermissions:
-    """Return a new OpencodeJSONPermissions which is the deep merge of base_permissions and override_permissions.
+    """Return a new OpencodeJSONPermissions merged deterministically.
+
+    OpenCode permission configs are order-sensitive in practice (pattern matching where
+    the last matching rule wins). This function preserves insertion order and ensures
+    that a catch-all "*" rule stays first when present.
 
     Inputs are not mutated; override_permissions wins.
     """
-    merged: OpencodeJSONPermissions = {}
 
-    all_keys = set(base_permissions) | set(override_permissions)
+    def star_first(d: dict[str, str]) -> dict[str, str]:
+        if "*" not in d:
+            return dict(d)
+        ordered: dict[str, str] = {"*": d["*"]}
+        for k, v in d.items():
+            if k == "*":
+                continue
+            ordered[k] = v
+        return ordered
 
-    for key in all_keys:
-        if key in override_permissions:
-            base_val = base_permissions.get(key)
-            override_val = override_permissions[key]
+    # Start with base (preserve insertion order)
+    merged: OpencodeJSONPermissions = dict(base_permissions)
 
-            if isinstance(base_val, dict) and isinstance(override_val, dict):
-                merged[key] = {**base_val, **override_val}
-            else:
-                merged[key] = override_val
+    # Apply overrides in override insertion order
+    for key, override_val in override_permissions.items():
+        base_val = base_permissions.get(key)
+
+        if isinstance(base_val, dict) and isinstance(override_val, dict):
+            nested = dict(base_val)
+            # Overlay nested overrides preserving order
+            nested.update(override_val)
+            merged[key] = star_first(nested)
         else:
-            merged[key] = base_permissions[key]
+            merged[key] = override_val
+
+    # Keep top-level catch-all first, if present
+    if "*" in merged:
+        merged = {"*": merged["*"], **{k: v for k, v in merged.items() if k != "*"}}
 
     return merged
 
@@ -95,15 +113,21 @@ core_permissions = {
         "sqlfluff lint *": "allow",
         "nix eval *": "allow",
         "nix search *": "allow",
+        "rg": "allow",
         "rg *": "allow",
+        "git status": "allow",
         "git status *": "allow",
         "cd *": "allow",
+        "git diff": "allow",
         "git diff *": "allow",
         "pwd": "allow",
+        "ls": "allow",
         "ls *": "allow",
         "curl *": "allow",
         "wget *": "allow",
+        "grep": "allow",
         "grep *": "allow",
+        "mmdc": "allow",
         "mmdc *": "allow",
         "*git push*": "deny",
         "*git commit*": "deny",
@@ -119,18 +143,18 @@ plan_agent_specific_permissions: OpencodeJSONPermissions = {
 opencode_json = {
     **BASE_CONFIG,
     "agent": {
-        "general": {
-            "model": "github-copilot/gpt-5-mini",
-        },
-        "explore": {
-            "model": "github-copilot/gpt-5-mini",
-        },
-        "compaction": {
-            "model": "github-copilot/gpt-5-mini",
-        },
-        "summary": {
-            "model": "github-copilot/gpt-5-mini",
-        },
+        # "general": {
+        #     "model": "github-copilot/gpt-5-mini",
+        # },
+        # "explore": {
+        #     "model": "github-copilot/gpt-5-mini",
+        # },
+        # "compaction": {
+        #     "model": "github-copilot/gpt-5-mini",
+        # },
+        # "summary": {
+        #     "model": "github-copilot/gpt-5-mini",
+        # },
         "build": {
             "permission": merge_permissions_deep(
                 core_permissions, build_agent_specific_permissions
