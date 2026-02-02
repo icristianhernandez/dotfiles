@@ -32,12 +32,12 @@ guardRole "gaming" {
   programs.gamescope = {
     enable = true;
     package = pkgs.unstable.gamescope;
-    args = [
-      "--width 1280"
-      "--height 720"
-      "--scaling stretch"
-      "--fullscreen"
-    ];
+    # args = [
+    #   "--width 1280"
+    #   "--height 720"
+    #   # "--scaling stretch"
+    #   "--fullscreen"
+    # ];
     # the next crashes launch games with gamescope in other compositors
     # capSysNice = true;
   };
