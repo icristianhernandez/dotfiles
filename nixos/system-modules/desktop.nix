@@ -9,6 +9,7 @@ guardRole "desktop" {
     google-chrome
     discord
     telegram-desktop
+    pinta
     ## libreoffice and spellchecker with hunspell
     # libreoffice
     # hunspell
