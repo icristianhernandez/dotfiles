@@ -385,14 +385,29 @@ return {
                 end,
                 desc = "Open Lazygit",
             },
-            -- terminal
+            -- terminal: toggle last terminal on <c-space>
             {
                 "<c-space>",
                 function()
-                    Snacks.terminal()
+                    require("modules.extras.snacks_term").toggle_last()
                 end,
-                desc = "Terminal (cwd)",
+                desc = "Toggle last snacks terminal",
                 mode = { "n", "t", "i" },
+            },
+            -- snacks terminal picker / toggle-last mappings
+            {
+                "<leader>tl",
+                function()
+                    require("modules.extras.snacks_term").pick()
+                end,
+                desc = "Select snacks terminal",
+            },
+            {
+                "<leader>tn",
+                function()
+                    require("modules.extras.snacks_term").open(nil, { interactive = true, new = true })
+                end,
+                desc = "New snacks terminal",
             },
             {
                 "<C-n>",
