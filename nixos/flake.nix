@@ -87,6 +87,18 @@
             "gaming"
           ];
         };
+        plasmadesktop = {
+          system = builtins.head systems;
+          roles = [
+            "base"
+            "interactive"
+            "dev"
+            "desktop"
+            "thinkpadE14"
+            "plasma"
+            "gaming"
+          ];
+        };
       };
     in
     {
