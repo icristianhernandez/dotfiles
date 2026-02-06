@@ -25,6 +25,8 @@ guardRole "thinkpadE14" {
       "usb_storage"
       "usbhid"
       "sd_mod"
+      "lz4_compress"
+      "lz4"
     ];
     kernelParams = [
       "mem_sleep_default=s2idle"
