@@ -204,6 +204,55 @@ return {
 
             return {}
         end,
+        config = function(_, opts)
+            require("overseer").setup(opts)
+
+            -- Monkeypatch: Inject dummy template when only 1 template exists to force picker display
+            local template = require("overseer.template")
+            local original_list = template.list
+
+            template.list = function(search_opts, callback)
+                return original_list(search_opts, function(templates)
+                    templates = vim.tbl_filter(function(tmpl)
+                        return not tmpl.hide
+                    end, templates)
+
+                    if #templates == 1 then
+                        table.insert(templates, {
+                            name = "Cancel",
+                            desc = "Do not run any task",
+                            builder = function()
+                                return {
+                                    cmd = "true",
+                                    args = {},
+                                    name = "Cancelled",
+                                    components = {
+                                        "on_complete_dispose",
+                                    },
+                                }
+                            end,
+                        })
+                    end
+
+                    return callback(templates)
+                end)
+            end
+
+            vim.api.nvim_create_autocmd("BufEnter", {
+                group = vim.api.nvim_create_augroup("overseer_task_float", { clear = true }),
+                callback = function(args)
+                    if vim.b[args.buf].overseer_task then
+                        vim.keymap.set("n", "q", function()
+                            vim.api.nvim_win_close(0, false)
+                        end, {
+                            buffer = args.buf,
+                            silent = true,
+                            desc = "Close task output window",
+                        })
+                    end
+                end,
+            })
+        end,
         keys = {
             {
                 "<leader>ac",
@@ -226,7 +275,14 @@ return {
                 function()
                     require("overseer").toggle()
                 end,
-                desc = "Toggle Overseer task list",
+                desc = "Toggle Overseer task running list",
+            },
+            {
+                "<leader>tr",
+                function()
+                    require("overseer").run_task({ first = false })
+                end,
+                desc = "Show available tasks (no auto-run)",
             },
         },
     },
