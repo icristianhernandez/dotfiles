@@ -24,14 +24,6 @@ revert or break these guidelines.
   asks otherwise.
 
 - Implement minimal, single-responsibility changes.
-- Write descriptive, well-named, understandable, and readable code. Use
-  comments only to explain rare design decisions, and rely on clear
-  variable names and proper structure for clarity. Descriptive variable
-  names, modular functions, adherence to established style guides, and
-  avoidance of clever or obscure constructs are preferred.
-- Prioritize maintainability and clarity over brevity or cleverness.
-- When multiple implementation options exist, prefer the one that
-  minimizes complexity and maximizes readability.
 - The user-facing part of the response needs to be stripped of
   conversational and formatting fillers, allowing the user to receive a
   short, direct answer without losing important information.
@@ -63,6 +55,27 @@ revert or break these guidelines.
 - I'm using NixOS 25.11 with flakes and home manager. The default host
   is `gnomedesktop`, declared in `nixos/flake.nix`, unless the user says
   something different.
+
+## Code Quality Standars
+
+- Write descriptive, well-named, understandable, and readable code. That means:
+  descriptive variable names, modular functions, clearly defined interfaces/structure,
+  and a clear separation of concerns.
+- Use comments only to explain rare design decisions, and rely on clear variable
+  names and proper structure for clarity.
+- Adherence to established style guides.
+- Don't use obscure, inusual, or not convention constructs/patterns.
+- Prioritize maintainability and clarity over brevity or cleverness.
+- When multiple implementation options exist, prefer the one that minimizes
+  complexity and maximizes readability.
+- Do not write complex nested functions. Use other patterns to modularize the code.
+- Extract constants to a top-level block.
+- Remove dead code.
+- Ensure consistent naming with the rest of the files.
+- Use logical grouping. Organize code into sections (e.g.,
+  constants → helpers → public API).
+- Avoid writing comments; rely on them only for writing rationales (the "why",
+  never the "what" or "how") and use them very sparingly.
 
 ## Workflows
 
@@ -96,6 +109,29 @@ revert or break these guidelines.
   side effects of the changes, and identify what needs updating to
   provide a detailed plan. It is assumed research is complete when the
   plan is written, so no separate research step is foreseen.
+
+- Review all proposals against core rules (minimalism, readability, side
+  effects) before finalizing. If the answer doesn't adhere to core rules, enter
+  in a correction loop to achieve that adherence.
+
+## Response Format
+
+- Format your answers using the sections below. Include only the sections that
+  are relevant to the work performed or needed (keep responses short):
+  - **Researchs Done**
+  - **Research Findings**
+  - **Assumptions**
+  - **Rationale / Design Decisions**
+  - **Proposed Changes**
+  - **Changes Done**
+  - **Verification Results**
+  - **Side Effects/Updates Needed**
+  - **Manual Actions**
+  - **Next Steps**
+  - **Clarifying Questions**
+
+- Responses must be short and focused; prefer concise bullet points.
+  Only add a section when it contains content.
 
 ## Boundaries, safety and permissions
 
