@@ -53,18 +53,30 @@ guardRole "gaming" {
 
     package = pkgs.unstable.steam.override {
       extraPkgs = pkgsArg: [
+        # If crash/bugs happen with gamescope, adding/removing the next
+        # dependencies can be the fix
         pkgsArg.libkrb5
         pkgsArg.keyutils
         pkgsArg.libgdiplus
+
+        pkgsArg.xorg.libXcursor
+        pkgsArg.xorg.libXi
+        pkgsArg.xorg.libXinerama
+        pkgsArg.xorg.libXScrnSaver
+        pkgsArg.libpng
+        pkgsArg.libpulseaudio
+        pkgsArg.libvorbis
+        pkgsArg.stdenv.cc.cc.lib
       ];
 
-      # extraEnv = {
-      #   # PIPEWIRE_NODE = "Game";
-      #   # PULSE_SINK = "Game";
-      #   # STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
-      #   # PROTON_ENABLE_WAYLAND = true; # If games crash, delete this line
-      #   # PROTON_USE_WOW64 = true;
-      # };
+      extraEnv = {
+        # PIPEWIRE_NODE = "Game";
+        # PULSE_SINK = "Game";
+        STEAM_FORCE_DESKTOPUI_SCALING = "1.5";
+        # PROTON_ENABLE_WAYLAND = "1"; # If games crash, delete this line
+        # PROTON_USE_WOW64 = "1";
+        # SDL_VIDEODRIVER = "wayland";
+      };
 
       extraProfile = ''
         unset TZ
