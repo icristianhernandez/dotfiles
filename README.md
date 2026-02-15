@@ -24,6 +24,7 @@ Personal NixOS + Home Manager + Neovim configuration for WSL and desktop hosts.
 - `.github/workflows/` — CI workflows that call Nix apps
 - `scripts/` — helper shell scripts
 - `opencode/` — OpenCode configuration
+- `.copilot/` — GitHub Copilot CLI configuration (mirrors OpenCode where possible)
 
 ### NixOS layout
 

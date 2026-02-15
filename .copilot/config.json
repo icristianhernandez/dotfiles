@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/github/copilot-cli/main/schema/config.schema.json",
+  "model": "github-copilot/gpt-5-mini",
+  "allowedTools": [
+    "bash",
+    "edit",
+    "grep",
+    "glob",
+    "read",
+    "create",
+    "view",
+    "web_fetch"
+  ],
+  "deniedTools": [],
+  "experimental": true,
+  "logging": {
+    "level": "info"
+  }
+}
