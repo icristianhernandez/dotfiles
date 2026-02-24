@@ -1,7 +1,12 @@
-{ pkgs, guardRole, ... }:
+{
+  pkgs,
+  guardRole,
+  hasRole,
+  ...
+}:
 
 let
-  applyTheme =
+  applyGnomeTheme =
     {
       colorScheme,
       gtk,
@@ -13,6 +18,21 @@ let
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme "'${gtk}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/icon-theme "'${icon}'"
       ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/cursor-theme "'${cursor}'"
+    '';
+
+  applyPlasmaTheme =
+    {
+      colorScheme,
+      desktopTheme,
+      iconTheme,
+      cursorTheme,
+      cursorSize,
+    }:
+    ''
+      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-colorscheme ${colorScheme}
+      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-desktoptheme ${desktopTheme}
+      ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group Icons --key Theme ${iconTheme}
+      ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-cursortheme --size ${toString cursorSize} ${cursorTheme}
     '';
 in
 guardRole "desktop" {
@@ -26,8 +46,8 @@ guardRole "desktop" {
       gtk.enable = true;
       x11.enable = true;
       package = pkgs.simp1e-cursors;
-      name = "Simp1e-Adw-Dark";
-      size = 34;
+      name = "Simp1e-Adw";
+      size = 36;
     };
   };
 
@@ -37,21 +57,53 @@ guardRole "desktop" {
       lat = 10.5;
       lng = -66.9;
       usegeoclue = false;
+      portal = true;
     };
 
-    darkModeScripts.unified-theme = applyTheme {
-      colorScheme = "prefer-dark";
-      gtk = "Adwaita-dark";
-      icon = "Tela-circle-dark";
-      cursor = "Simp1e-Adw";
-    };
+    darkModeScripts = {
+      unified-theme = applyGnomeTheme {
+        colorScheme = "prefer-dark";
+        gtk = "Adwaita-dark";
+        icon = "Tela-circle-dark";
+        cursor = "Simp1e-Adw";
+      };
+    }
+    // (
+      if hasRole "plasma" then
+        {
+          plasma-theme = applyPlasmaTheme {
+            colorScheme = "BreezeDark";
+            desktopTheme = "breeze-dark";
+            iconTheme = "Tela-circle-dark";
+            cursorTheme = "Simp1e-Adw";
+            cursorSize = 36;
+          };
+        }
+      else
+        { }
+    );
 
-    lightModeScripts.unified-theme = applyTheme {
-      colorScheme = "default";
-      gtk = "Adwaita";
-      icon = "Tela-circle";
-      cursor = "Simp1e-Adw-Dark";
-    };
+    lightModeScripts = {
+      unified-theme = applyGnomeTheme {
+        colorScheme = "default";
+        gtk = "Adwaita";
+        icon = "Tela-circle";
+        cursor = "Simp1e-Adw-Dark";
+      };
+    }
+    // (
+      if hasRole "plasma" then
+        {
+          plasma-theme = applyPlasmaTheme {
+            colorScheme = "BreezeLight";
+            desktopTheme = "breeze";
+            iconTheme = "Tela-circle";
+            cursorTheme = "Simp1e-Adw-Dark";
+            cursorSize = 36;
+          };
+        }
+      else
+        { }
+    );
   };
-
 }

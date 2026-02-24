@@ -16,6 +16,12 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
@@ -151,10 +157,14 @@
                 };
                 users = {
                   "${const.user}" = {
-                    imports = import ./lib/import-modules.nix {
-                      inherit lib;
-                      dir = ./home-modules;
-                    };
+                    imports =
+                      (import ./lib/import-modules.nix {
+                        inherit lib;
+                        dir = ./home-modules;
+                      })
+                      ++ lib.optionals (helpers.hasRole "plasma") [
+                        inputs.plasma-manager.homeModules.plasma-manager
+                      ];
                   };
                 };
               };

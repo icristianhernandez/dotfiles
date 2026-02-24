@@ -1,22 +1,23 @@
 {
   pkgs,
   guardRole,
+  hasRole,
   ...
 }:
 
 guardRole "desktop" {
-  services.gnome.gnome-keyring.enable = true;
+  services.gnome.gnome-keyring.enable = !hasRole "plasma";
   programs.ssh.startAgent = false;
 
   security.pam.services = {
     login.enableGnomeKeyring = true; # For TTY logins (Niri/Sway)
-    sddm.enableGnomeKeyring = true; # For Plasma (if using SDDM)
+    sddm.enableGnomeKeyring = !hasRole "plasma"; # Only for GNOME (Plasma uses KWallet)
     gdm.enableGnomeKeyring = true; # For GNOME
     greetd.enableGnomeKeyring = true; # For Greetd users
   };
 
-  # GUI for secrets (I don't need that too much, really)
-  programs.seahorse.enable = true;
+  # GUI for secrets - disable on Plasma (uses KDE tools instead)
+  programs.seahorse.enable = !hasRole "plasma";
 
   environment.systemPackages = with pkgs; [
     # For terminal (ssh, mostly)
