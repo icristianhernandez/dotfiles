@@ -22,24 +22,50 @@ return {
         "NickvanDyke/opencode.nvim",
         dependencies = {
             {
-                ---@module 'snacks'
-                { "folke/snacks.nvim" },
+                "folke/snacks.nvim",
+                optional = true,
+                opts = {
+                    input = {},
+                    picker = {
+                        actions = {
+                            opencode_send = function(...)
+                                return require("opencode").snacks_picker_send(...)
+                            end,
+                        },
+                        win = {
+                            input = {
+                                keys = {
+                                    ["<a-a>"] = { "opencode_send", mode = { "n", "i" } },
+                                },
+                            },
+                        },
+                    },
+                },
             },
         },
         config = function()
-            -- Required for `opts.auto_reload`.
             vim.o.autoread = true
+
+            local opencode_cmd = "opencode --port"
+            local snacks_terminal_opts = {
+                win = { position = "float", enter = true },
+            }
 
             ---@type opencode.Opts
             vim.g.opencode_opts = {
                 events = {
-                    permissions = {
-                        enabled = false,
-                    },
+                    permissions = { enabled = false },
                 },
-                provider = {
-                    enabled = "snacks",
-                    snacks = { win = { position = "float", enter = true } },
+                server = {
+                    start = function()
+                        require("snacks.terminal").open(opencode_cmd, snacks_terminal_opts)
+                    end,
+                    stop = function()
+                        require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts):close()
+                    end,
+                    toggle = function()
+                        require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts)
+                    end,
                 },
             }
 

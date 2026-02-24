@@ -90,11 +90,11 @@ return {
         -- kylechui/nvim-surround: add/change/delete surrounding delimiters (quotes, brackets)
         "kylechui/nvim-surround",
         event = "VeryLazy",
-        opts = {
-            keymaps = { visual = "ñ" },
-        },
         config = function()
-            require("nvim-surround").setup({ keymaps = { visual = "ñ" } })
+            vim.g.nvim_surround_no_visual_mappings = true
+            vim.keymap.set("x", "ñ", "<Plug>(nvim-surround-visual)", {
+                desc = "Add a surrounding pair around a visual selection",
+            })
         end,
     },
 
