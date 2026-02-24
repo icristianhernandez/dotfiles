@@ -40,20 +40,21 @@ guardRole "thinkpadE14" {
 
   ### changing to i915 drivers
   boot.kernelParams = [
-    "i915.enable_guc=3"
+    # "i915.enable_guc=3"
+    "i915.enable_guc=7"
     "i915.enable_fbc=1"
   ];
 
   #### changing to Xe drivers
-  #boot.initrd.kernelModules = [ "xe" ];
-  #boot.kernelParams = [
-  #  "i915.enable_guc=3"
-  #  "i915.enable_fbc=1"
-  #  "i915.force_probe=!9a49"
-  #  "xe.force_probe=9a49"
-  #];
+  # boot.initrd.kernelModules = [ "xe" ];
+  # boot.kernelParams = [
+  #   "i915.enable_guc=3"
+  #   "i915.enable_fbc=1"
+  #   "i915.force_probe=!9a49"
+  #   "xe.force_probe=9a49"
+  # ];
   #
-  #services.udev.extraRules = ''
-  #  ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0x9A49", ATTR{driver_override}="xe"
-  #'';
+  # services.udev.extraRules = ''
+  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0x9A49", ATTR{driver_override}="xe"
+  # '';
 }
