@@ -12,8 +12,8 @@ OpencodeJSONPermissions: TypeAlias = dict[str, str | dict[str, str]]
 
 BASE_CONFIG: OpencodeJSON = {
     "$schema": "https://opencode.ai/config.json",
-    "model": "github-copilot/gpt-5-mini",
-    "small_model": "github-copilot/grok-code-fast-1",
+    "model": "opencode/minimax-m2.5-free",
+    "small_model": "opencode/gpt-5-nano",
     # "disabled_providers": ["opencode"],
     "tui": {
         "scroll_speed": 3,

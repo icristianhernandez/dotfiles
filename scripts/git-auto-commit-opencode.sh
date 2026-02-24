@@ -3,7 +3,7 @@ set -euo pipefail
 
 GENERATE_STAGE_COMMIT_PROMPT="You are a professional Git commit message writer. Read the staged diff from stdin, passed in the prompt. Produce ONE commit message that strictly follows Conventional Commits (types: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert). Output ONLY the commit message text — no commentary, no quotes, no code fences, no labels, no extra whitespace or blank lines. Format: type(scope?): short imperative summary (<=50 chars, no trailing period). Optionally include a body separated by a blank line, wrapped at 72 chars, and footers (BREAKING CHANGE: , Closes #NNN). When the body lists multiple changes, use bullet points prefixed with '- ' and start each with a concise area tag (e.g., 'deps:', 'editor:', 'experimental:') followed by a terse active-voice fragment; keep each bullet on one line when possible (<=72 chars) and include file/dir hints when it fits. Use 'chore' by default for dependency bumps, config tweaks, refactors, renames, or load-mode adjustments; use 'fix' only for clear runtime bug fixes. Choose a scope if a single file/dir is affected; otherwise omit scope. If the change is trivial (formatting, whitespace), prefer style/chore. If you cannot produce a suitable commit message, output an empty string."
 # Can explore the models with: opencode models
-OPENCODE_MODEL_FLAG="--model=github-copilot/grok-code-fast-1"
+OPENCODE_MODEL_FLAG="--model=github-copilot/gpt-4.1"
 
 DEBUG_BASE="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/opencode"
 DEBUG_COMMIT_MSG="${DEBUG_BASE}/commit-message.txt"
