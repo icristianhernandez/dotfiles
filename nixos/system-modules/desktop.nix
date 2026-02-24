@@ -7,9 +7,11 @@
 guardRole "desktop" {
   environment.systemPackages = with pkgs; [
     google-chrome
+    librewolf
     discord
     telegram-desktop
     pinta
+
     ## libreoffice and spellchecker with hunspell
     # libreoffice
     # hunspell
@@ -17,6 +19,7 @@ guardRole "desktop" {
     # hunspellDicts.en_US
     ## font fix: https://wiki.nixos.org/wiki/ONLYOFFICE
     onlyoffice-desktopeditors
+
     wl-clipboard
     xclip
   ];
@@ -31,23 +34,9 @@ guardRole "desktop" {
     noto-fonts-cjk-serif
     nerd-fonts.symbols-only
     nerd-fonts.jetbrains-mono
-    # source-han-sans
-    # source-han-serif
-    # source-han-mono
-    # source-han-code-jp
-    # ipafont
-    # ipaexfont
-    # unifont
-    # symbola
-    # stix-otf
-    # stix-two
-    # dejavu_fonts
-    # libertinus
-    # powerline-symbols
-    # material-symbols
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod_stable;
   hardware.enableAllFirmware = true;
   programs.dconf.enable = true;
 
