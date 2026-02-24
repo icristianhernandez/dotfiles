@@ -6,7 +6,7 @@
 
 guardRole "gaming" {
   environment.systemPackages = with pkgs.unstable; [
-    wineWowPackages.stagingFull
+    wineWow64Packages.unstableFull
     winePackages.fonts
     winetricks
     # things needed for winetricks
@@ -22,11 +22,10 @@ guardRole "gaming" {
     shattered-pixel-dungeon
     crawlTiles
     mindustry-wayland
-
   ];
 
   fonts.packages = with pkgs.unstable; [
-    wineWowPackages.fonts
+    wineWow64Packages.fonts
   ];
 
   programs.gamescope = {
@@ -52,22 +51,23 @@ guardRole "gaming" {
     extraCompatPackages = with pkgs.unstable; [ proton-ge-bin ];
 
     package = pkgs.unstable.steam.override {
-      extraPkgs = pkgsArg: [
-        # If crash/bugs happen with gamescope, adding/removing the next
-        # dependencies can be the fix
-        pkgsArg.libkrb5
-        pkgsArg.keyutils
-        pkgsArg.libgdiplus
+      extraPkgs =
+        pkgsArg: with pkgsArg; [
+          # If crash/bugs happen with gamescope, adding/removing the next
+          # dependencies can be the fix
+          libkrb5
+          keyutils
+          libgdiplus
 
-        pkgsArg.xorg.libXcursor
-        pkgsArg.xorg.libXi
-        pkgsArg.xorg.libXinerama
-        pkgsArg.xorg.libXScrnSaver
-        pkgsArg.libpng
-        pkgsArg.libpulseaudio
-        pkgsArg.libvorbis
-        pkgsArg.stdenv.cc.cc.lib
-      ];
+          libxcursor
+          libxi
+          libxinerama
+          libxscrnsaver
+          libpng
+          libpulseaudio
+          libvorbis
+          stdenv.cc.cc.lib
+        ];
 
       extraEnv = {
         # PIPEWIRE_NODE = "Game";
