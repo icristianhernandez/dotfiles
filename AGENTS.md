@@ -24,6 +24,9 @@ revert or break these guidelines.
   asks otherwise.
 
 - Implement minimal, single-responsibility changes.
+- Only do what the user explicitly asks. Never proactively enhance, add features,
+  fix unrelated issues or do things outside the request scope. Stay within the
+  scope of the request.
 - The user-facing part of the response needs to be stripped of
   conversational and formatting fillers, allowing the user to receive a
   short, direct answer without losing important information.
@@ -109,6 +112,9 @@ revert or break these guidelines.
   side effects of the changes, and identify what needs updating to
   provide a detailed plan. It is assumed research is complete when the
   plan is written, so no separate research step is foreseen.
+- That gives you complete permission to run commands in plan mode that are
+  necessary to diagnose, debug, get logs, or inspect the system to gather
+  information for the plan. You can also use subagents for that.
 
 - Review all proposals against core rules (minimalism, readability, side
   effects) before finalizing. If the answer doesn't adhere to core rules, enter
@@ -129,9 +135,16 @@ revert or break these guidelines.
   - **Manual Actions**
   - **Next Steps**
   - **Clarifying Questions**
+  - **STATUS**: [ON_TRACK | BLOCKED | AWAITING_APPROVAL]
 
 - Responses must be short and focused; prefer concise bullet points.
   Only add a section when it contains content.
+
+- If any tool available accomplishs task needed in the output, always, without
+  exception use these, for example:
+  - A tool for asking questions
+  - A tool for creating a plan
+  - Etc.
 
 ## Boundaries, safety and permissions
 
