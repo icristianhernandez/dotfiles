@@ -14,9 +14,10 @@ guardRole "desktop" {
     };
 
     settings = {
-      file_search = {
-        search_locations = [ "/mnt/storage" ];
+      providers.clipboard = {
+        enabled = false;
       };
+      # close_on_focus_loss = true;
     };
   };
 

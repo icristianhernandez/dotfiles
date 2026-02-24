@@ -109,7 +109,7 @@ guardRole "gnome" {
       clock-format = "12h";
       enable-hot-corners = lib.hm.gvariant.mkBoolean false;
       enable-animations = lib.hm.gvariant.mkBoolean false;
-      cursor-size = lib.hm.gvariant.mkInt32 28;
+      cursor-size = lib.hm.gvariant.mkInt32 36;
       overlay-scrolling = lib.hm.gvariant.mkBoolean false;
     };
 
@@ -139,6 +139,18 @@ guardRole "gnome" {
 
     "org/gnome/shell/keybindings" = {
       show-screenshot-ui = [ "<Shift><Super>s" ];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/copyq/"
+      ];
+    };
+
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/copyq" = {
+      name = "CopyQ";
+      command = "copyq toggle";
+      binding = "<Control>Ntilde";
     };
 
     "org/gnome/desktop/wm/preferences" = {
