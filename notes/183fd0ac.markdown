@@ -1,3 +1,57 @@
+Tengo que ponerme a revisar exhaustivamente las cosas que me faltan, pero por ahora:
+
+1- comprobar que funciona el bucket (tu y en cloud)
+2- generación/encriptación/cantidad de intentos/caducidad para tokens
+3- enviar correo con el token al momento de crear invitación (flujo local y en nube)
+4- ver que todo funcione para avanzar/dar revisiones en un proyecto (creo que sí, aunque agregar validaciones y limitaciones en esta etapa es esencial y eso falta, cambiando el flujo + necesito resguardar que no hayan documentos fantasmas)
+5- flujo de creación de notificaciones (por el momento, solo tengo placeholder de como serían las tablas, pero no el flujo)
+6- envío de correo para las notificaciones (flujo local y en nube)
+7- validaciones para todos los tipos de datos + uniqueness/null constraints 
+8- resguardar permisos y privilegios para todo (por el momento, casi nada está protegido  y lo protegido son plantillas o requisitos muy lazos).
+9- Estoy pensando en un refactor general para hacer ĺa estructura de la DB más legible
+
+
+Questions:
+- Coordinators are per faculties or per schools?
+- Can be more than one coordinator/tutor per school?
+
+Changes:
+- [x] Remove faculty from students, with the school that data can be deducted.
+- [ ] 'schools.school_name'/faculties can be shortened to 'name' and can be create some time 
+   of 'degrees' where school name takes the name in a generic/seeding date way.
+   Appears to be an sql logical conflic
+- [ ] For the above seeding things, need to be dynamic, a table. Or maybe like the
+enums with defined limits, but these enums need to be expanded.
+- [ ] Seed the data for countries/states/cities in Venezuela scope or at least
+USM-scope
+- [ ] Seed roles with permission_level
+   - 'student', 1
+   - 'administrative', 2
+   - 'tutor', 3
+   - 'coordinator', 4
+   - 'dean', 5
+   - 'sysadmin', 6
+- [x] 'invitations.role_id' to 'role_to_have_id'
+- 'db.seed' is for seeding data for production or debugging? if is test, the
+seed data is added in migrations normally?
+- [ ] notifications
+- [  ] email service when:
+   - [ ] creating account (and the data related to the account creation)
+   - [ ] sending a notification (so, they need to be registered/triggered in the
+   backend? and consumed in the front? something like a table of notifs that the
+   front read and some triggers add to the table in the backend and when added,
+   other trigger send them via mail)
+- [ ] project flow
+- [ ] roles + access level (accumulative? or by set?)
+
+
+
+
+
+Que para confirmar: notificaciones + notificaciones a correo, tres niveles de acceso + roles, flujo de proyecto [preproyecto, N entregas (o son exactamente 3?), validación] (mostrar estado e historial), emisión de certificado, invitación a correo
+
+
+
 I need to:
 - Adapt schemas to new requirements
 - Blobs, vault, documents
