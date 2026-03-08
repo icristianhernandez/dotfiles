@@ -44,6 +44,7 @@ guardRole "thinkpadE14" {
     "i915.enable_guc=7"
     "i915.enable_fbc=1"
   ];
+  boot.blacklistedKernelModules = [ "xe" ];
 
   #### changing to Xe drivers
   # boot.initrd.kernelModules = [ "xe" ];
