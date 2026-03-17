@@ -26,9 +26,11 @@ guardRole "base" {
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-generations +3";
+      options = "--delete-older-than 30d";
     };
   };
+
+  boot.loader.systemd-boot.configurationLimit = 5;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
