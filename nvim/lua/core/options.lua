@@ -146,4 +146,7 @@ vim.opt.jumpoptions = "clean"
 
 -- Define what constitutes a word. Currently includes letters, numbers, underscore,
 -- and characters with ASCII values from 192 to 255, as well as the hyphen
-vim.opt.iskeyword = "@,48-57,_,192-255,-"
+-- test: as23-1-aa_aa_33_.txt
+-- vim.opt.iskeyword = "@,48-57,_,192-255,-"
+
+vim.opt.iskeyword = "@,48-57,192-255"
