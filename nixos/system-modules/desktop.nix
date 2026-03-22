@@ -38,7 +38,13 @@ guardRole "desktop" {
 
   boot.kernelPackages = pkgs.linuxPackages_xanmod_stable;
   hardware.enableAllFirmware = true;
-  programs.dconf.enable = true;
+  programs = {
+    dconf.enable = true;
+    obs-studio = {
+      enable = true;
+      enableVirtualCamera = true;
+    };
+  };
 
   services.logind = {
     settings = {

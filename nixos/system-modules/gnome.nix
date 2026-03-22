@@ -16,7 +16,7 @@ guardRole "gnome" {
   qt = {
     enable = true;
     platformTheme = "gnome";
-    style = "adwaita-dark";
+    style = "adwaita";
   };
 
   networking.firewall = {
@@ -59,6 +59,7 @@ guardRole "gnome" {
 
     # camera tool
     snapshot
+    cameractrls-gtk4
   ];
 
   environment.gnome.excludePackages = with pkgs; [

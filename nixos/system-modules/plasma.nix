@@ -22,7 +22,6 @@ guardRole "plasma" {
   qt = {
     enable = true;
     platformTheme = "kde";
-    style = "breeze";
   };
 
   networking.firewall = {
