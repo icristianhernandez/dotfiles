@@ -12,7 +12,7 @@ OpencodeJSONPermissions: TypeAlias = dict[str, str | dict[str, str]]
 
 BASE_CONFIG: OpencodeJSON = {
     "$schema": "https://opencode.ai/config.json",
-    "model": "opencode/minimax-m2.5-free",
+    "model": "opencode/mimo-v2-omni-free",
     "small_model": "opencode/gpt-5-nano",
     # "disabled_providers": ["opencode"],
     "tui": {
@@ -26,6 +26,7 @@ BASE_CONFIG: OpencodeJSON = {
         "messages_half_page_down": "ctrl+d",
     },
     "default_agent": "plan",
+    "plugin": ["opencode-gemini-auth@latest"],
 }
 
 
@@ -114,6 +115,7 @@ core_permissions = {
         ".venv/bin/sqlfluff lint supabase/migrations/*.sql supabase/seed.sql": "allow",
         ".venv/bin/sqlfluff fix supabase/migrations/*.sql supabase/seed.sql": "allow",
         "npx supabase db reset": "allow",
+        "npx supabase status": "allow",
         "node scripts/seed-tests-accounts.js": "allow",
         "nix eval *": "allow",
         "nix search *": "allow",
@@ -144,21 +146,23 @@ plan_agent_specific_permissions: OpencodeJSONPermissions = {
     "external_directory": "allow",
 }
 
+subagent_model = "opencode/minimax-m2.5-free"
+
 opencode_json = {
     **BASE_CONFIG,
     "agent": {
-        # "general": {
-        #     "model": "github-copilot/gpt-5-mini",
-        # },
-        # "explore": {
-        #     "model": "github-copilot/gpt-5-mini",
-        # },
-        # "compaction": {
-        #     "model": "github-copilot/gpt-5-mini",
-        # },
-        # "summary": {
-        #     "model": "github-copilot/gpt-5-mini",
-        # },
+        "general": {
+            "model": subagent_model,
+        },
+        "explore": {
+            "model": subagent_model,
+        },
+        "compaction": {
+            "model": subagent_model,
+        },
+        "summary": {
+            "model": subagent_model,
+        },
         "build": {
             "permission": merge_permissions_deep(
                 core_permissions, build_agent_specific_permissions
