@@ -13,10 +13,6 @@ guardRole "thinkpadE14" {
 
   zramSwap.enable = false;
 
-  systemd.tmpfiles.rules = [
-    "d /mnt/storage 0755 cristian users -"
-  ];
-
   boot = {
     initrd.availableKernelModules = [
       "xhci_pci"
@@ -66,6 +62,11 @@ guardRole "thinkpadE14" {
 
   };
 
+  systemd.tmpfiles.rules = [
+    "d /mnt/storage 0755 cristian users -"
+    "d /mnt/storage/home  0755 root root -"
+  ];
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-uuid/a0888c81-f4ae-4adf-861b-505933919cd3";
@@ -90,6 +91,13 @@ guardRole "thinkpadE14" {
         "noatime"
         "acl"
       ];
+    };
+
+    "/home" = {
+      device = "/mnt/storage/home";
+      fsType = "none";
+      options = [ "bind" ];
+      depends = [ "/mnt/storage" ];
     };
   };
 
