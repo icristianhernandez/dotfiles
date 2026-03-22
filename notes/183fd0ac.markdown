@@ -1,58 +1,165 @@
+### sources to read
+
+https://supabase.com/docs/reference/cli/supabase-secrets
+https://supabase.com/docs/guides/api/api-keys
+https://supabase.com/docs/guides/functions/secrets
+https://supabase.com/docs/guides/functions/background-tasks
+https://supabase.com/docs/guides/database/connecting-to-postgres
+https://docs.deno.com/runtime/getting_started/setup_your_environment/#skills-for-ai-assistants
+https://supabase.com/docs/guides/database/webhooks
+https://supabase.com/docs/guides/functions/quickstart
+https://github.com/supabase/supabase/tree/master/examples/edge-functions
+https://www.youtube.com/watch?v=codAs9-NeHM (edge functions)
+https://www.youtube.com/watch?v=miRQPbIJOuQ (cron job) ^ both using the dashboard, I need a better approach
+https://supabase.com/docs/guides/cron
+https://supabase.com/docs/guides/auth/auth-smtp#additional-best-practices
+https://www.reddit.com/r/webdev/comments/1losnjj/best_transactional_email_service/
+https://www.youtube.com/shorts/rYtXIGYiFls (short about smtp local mailsmp maybe?)
+
+### email type:
+
+-- 1. Enable the case-insensitive text extension
+create extension if not exists citext;
+
+-- 2. Create a reusable "email*address" type with a standard constraint
+create domain email_address as citext
+check (
+value ~ '^[a-zA-Z0-9.!#$%&''\*+/=?^*`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)\*$'
+);
+
+-- 3. Use it in your tables just like a regular data type
+create table profiles (
+id uuid primary key default auth.uid(),
+contact_email email_address unique,
+display_name text
+);
+
+Secrets: store credentials in Supabase project secrets and access them via environment variables.
+
+- token:
+  - generate token
+  - store token
+  - expired/reclaimed_at
+  - failed_attempt
+  - clear tokens at proceed/failure
+- cron:
+  - add cron extension
+  - define a cron each minute to call invitations ED. worker
+- add notifs events: project add/updates/invitations send
+- EF. worker for notifs and call EF. emails if emails available
+- edge functions to send notifications (standard payload)
+
+``create extension if not exists pg_cron;
+create extension if not exists pg_net;
+create extension if not exists vault;
+
+create or replace function public.invoke_notification_worker()
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+v_project_url text;
+v_worker_secret text;
+begin
+select decrypted_secret
+into v_project_url
+from vault.decrypted_secrets
+where name = 'project_url'
+limit 1;
+
+    select decrypted_secret
+    into v_worker_secret
+    from vault.decrypted_secrets
+    where name = 'notification_worker_secret'
+    limit 1;
+
+    if v_project_url is null then
+        raise exception 'Missing vault secret: project_url';
+    end if;
+
+    if v_worker_secret is null then
+        raise exception 'Missing vault secret: notification_worker_secret';
+    end if;
+
+    perform net.http_post(
+        url := v_project_url || '/functions/v1/notification-worker',
+        headers := jsonb_build_object(
+            'Content-Type', 'application/json',
+            'Authorization', 'Bearer ' || v_worker_secret
+        ),
+        body := jsonb_build_object(
+            'source', 'pg_cron',
+            'triggered_at', now()
+        ),
+        timeout_milliseconds := 5000
+    );
+
+end;
+
+$$
+;
+
+select cron.schedule(
+    'notification-worker-every-minute',
+    '* * * * *',
+$$
+
+    select public.invoke_notification_worker();
+    $$
+
+);
+`
+
 Tengo que ponerme a revisar exhaustivamente las cosas que me faltan, pero por ahora:
 
-1- comprobar que funciona el bucket (tu y en cloud)
-2- generación/encriptación/cantidad de intentos/caducidad para tokens
-3- enviar correo con el token al momento de crear invitación (flujo local y en nube)
-4- ver que todo funcione para avanzar/dar revisiones en un proyecto (creo que sí, aunque agregar validaciones y limitaciones en esta etapa es esencial y eso falta, cambiando el flujo + necesito resguardar que no hayan documentos fantasmas)
-5- flujo de creación de notificaciones (por el momento, solo tengo placeholder de como serían las tablas, pero no el flujo)
-6- envío de correo para las notificaciones (flujo local y en nube)
-7- validaciones para todos los tipos de datos + uniqueness/null constraints 
-8- resguardar permisos y privilegios para todo (por el momento, casi nada está protegido  y lo protegido son plantillas o requisitos muy lazos).
-9- Estoy pensando en un refactor general para hacer ĺa estructura de la DB más legible
-
+1- generación/encriptación/cantidad de intentos/caducidad para tokens
+2- enviar correo con el token al momento de crear invitación (flujo local y en nube)
+3- flujo de creación de notificaciones (por el momento, solo tengo placeholder de como serían las tablas, pero no el flujo)
+4- envío de correo para las notificaciones (flujo local y en nube)
+5- validaciones para todos los tipos de datos + uniqueness/null constraints
+6- resguardar permisos y privilegios para todo (por el momento, casi nada está protegido y lo protegido son plantillas o requisitos muy lazos).
 
 Questions:
+
 - Coordinators are per faculties or per schools?
 - Can be more than one coordinator/tutor per school?
 
 Changes:
+
 - [x] Remove faculty from students, with the school that data can be deducted.
-- [ ] 'schools.school_name'/faculties can be shortened to 'name' and can be create some time 
-   of 'degrees' where school name takes the name in a generic/seeding date way.
-   Appears to be an sql logical conflic
+- [ ] 'schools.school_name'/faculties can be shortened to 'name' and can be create some time
+      of 'degrees' where school name takes the name in a generic/seeding date way.
+      Appears to be an sql logical conflic
 - [ ] For the above seeding things, need to be dynamic, a table. Or maybe like the
-enums with defined limits, but these enums need to be expanded.
+      enums with defined limits, but these enums need to be expanded.
 - [ ] Seed the data for countries/states/cities in Venezuela scope or at least
-USM-scope
+      USM-scope
 - [ ] Seed roles with permission_level
-   - 'student', 1
-   - 'administrative', 2
-   - 'tutor', 3
-   - 'coordinator', 4
-   - 'dean', 5
-   - 'sysadmin', 6
+  - 'student', 1
+  - 'administrative', 2
+  - 'tutor', 3
+  - 'coordinator', 4
+  - 'dean', 5
+  - 'sysadmin', 6
 - [x] 'invitations.role_id' to 'role_to_have_id'
 - 'db.seed' is for seeding data for production or debugging? if is test, the
-seed data is added in migrations normally?
+  seed data is added in migrations normally?
 - [ ] notifications
-- [  ] email service when:
-   - [ ] creating account (and the data related to the account creation)
-   - [ ] sending a notification (so, they need to be registered/triggered in the
-   backend? and consumed in the front? something like a table of notifs that the
-   front read and some triggers add to the table in the backend and when added,
-   other trigger send them via mail)
+- [ ] email service when:
+  - [ ] creating account (and the data related to the account creation)
+  - [ ] sending a notification (so, they need to be registered/triggered in the
+        backend? and consumed in the front? something like a table of notifs that the
+        front read and some triggers add to the table in the backend and when added,
+        other trigger send them via mail)
 - [ ] project flow
 - [ ] roles + access level (accumulative? or by set?)
 
-
-
-
-
 Que para confirmar: notificaciones + notificaciones a correo, tres niveles de acceso + roles, flujo de proyecto [preproyecto, N entregas (o son exactamente 3?), validación] (mostrar estado e historial), emisión de certificado, invitación a correo
 
-
-
 I need to:
+
 - Adapt schemas to new requirements
 - Blobs, vault, documents
 - Validations
@@ -60,13 +167,12 @@ I need to:
 - Automatizations
 
 Create a plan to fix the next issues:
+
 - Data type
 - Document bucket id definition
 - (don't include changes for the other issues)
 
 npx supabase db dump --local --schema public -f schema2.sql
-
-
 
 I've applied the requested fixes to bootstrap.sql:
 https://www.reddit.com/r/Supabase/comments/15u79lv/how_do_i_prevent_users_from_signing_up_directly/
