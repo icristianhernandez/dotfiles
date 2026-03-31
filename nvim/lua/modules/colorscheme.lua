@@ -21,7 +21,6 @@ return {
         priority = 1000,
 
         opts = {
-            show_end_of_buffer = true,
             term_colors = true,
             -- transparent_background = true,
             float = {
@@ -38,7 +37,8 @@ return {
         },
         config = function(_, opts)
             require("catppuccin").setup(opts)
-            vim.cmd("colorscheme catppuccin")
+            vim.cmd("colorscheme catppuccin-nvim")
+            vim.opt.fillchars:append({ eob = " " })
         end,
     },
 }
