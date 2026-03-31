@@ -15,19 +15,6 @@ guardRole "plasma" {
       Icon=application-launcher
     '';
   };
-
-  home.file.".local/share/applications/copyq-toggle.desktop" = {
-    text = ''
-      [Desktop Entry]
-      Name=CopyQ Toggle
-      Exec=copyq toggle
-      Terminal=false
-      Type=Application
-      Categories=Utility;
-      Icon=copyq
-    '';
-  };
-
   programs.plasma = {
     enable = true;
     overrideConfig = true;
@@ -38,9 +25,8 @@ guardRole "plasma" {
           "_k_friendly_name" = "Vicinae Launcher";
           "_launch" = "Meta\tMeta,Meta,Launch Vicinae";
         };
-        "copyq-toggle.desktop" = {
-          "_k_friendly_name" = "CopyQ Toggle";
-          "_launch" = "Ctrl+Ñ\tCtrl+Ñ,Ctrl+Ñ,Toggle CopyQ";
+        "plasmashell" = {
+          "show-on-mouse-pos" = "Ctrl+N,,Show Clipboard History";
         };
         "plasmashell.desktop"."_launch" = "none\tMeta,Meta,Show Application Launcher";
       };
@@ -66,7 +52,6 @@ guardRole "plasma" {
         "Libinput/12815/20480/Evision RGB Keyboard" = {
           ScrollFactor = 2;
         };
-        Mouse.cursorTheme = "Simp1e-Dark";
       };
 
       kdeglobals = {
@@ -77,6 +62,7 @@ guardRole "plasma" {
         KDE = {
           AnimationDurationFactor = 0;
           SmoothScroll = false;
+          AutomaticLookAndFeel = true;
         };
         "KFileDialog Settings" = {
           "Allow Expansion" = false;
@@ -101,7 +87,7 @@ guardRole "plasma" {
         Effect-overview.BorderActivate = 9;
         Plugins.shakecursorEnabled = false;
         Wayland.EnablePrimarySelection = false;
-        Xwayland.Scale = 2;
+        Xwayland.Scale = 1.5;
       };
 
       plasmaparc = {

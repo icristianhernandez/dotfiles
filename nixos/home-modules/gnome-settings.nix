@@ -6,6 +6,9 @@
   ...
 }:
 
+let
+  theme = import ../lib/theme.nix;
+in
 guardRole "gnome" {
   home.packages = with pkgs; [
     gnomeExtensions.dash-to-panel
@@ -109,7 +112,7 @@ guardRole "gnome" {
       clock-format = "12h";
       enable-hot-corners = lib.hm.gvariant.mkBoolean false;
       enable-animations = lib.hm.gvariant.mkBoolean false;
-      cursor-size = lib.hm.gvariant.mkInt32 36;
+      cursor-size = lib.hm.gvariant.mkInt32 theme.cursorSize;
       overlay-scrolling = lib.hm.gvariant.mkBoolean false;
     };
 

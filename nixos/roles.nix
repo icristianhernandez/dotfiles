@@ -26,9 +26,20 @@ let
       hasRole = role: lib.elem role roles;
       mkIfRole = role: lib.mkIf (hasRole role);
       guardRole = role: block: if hasRole role then block else { };
+      guardRoles =
+        {
+          include ? [ ],
+          exclude ? [ ],
+        }:
+        block: if (lib.any hasRole include) && !(lib.any hasRole exclude) then block else { };
     in
     {
-      inherit hasRole mkIfRole guardRole;
+      inherit
+        hasRole
+        mkIfRole
+        guardRole
+        guardRoles
+        ;
     };
 
   module = {
