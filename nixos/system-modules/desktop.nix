@@ -9,6 +9,7 @@ guardRole "desktop" {
     google-chrome
     librewolf
     discord
+    vesktop
     telegram-desktop
     pinta
 
@@ -36,7 +37,8 @@ guardRole "desktop" {
     nerd-fonts.jetbrains-mono
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_xanmod_stable;
+  boot.kernelPackages = pkgs.linuxPackages;
+
   hardware.enableAllFirmware = true;
   programs = {
     dconf.enable = true;

@@ -25,6 +25,7 @@ guardRole "desktop" {
       update_check_interval = 0;
       allow_remote_control = "yes";
       wayland_titlebar_color = "system";
+      # cursor_trail = 1;
     };
   };
 
