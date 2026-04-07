@@ -1,167 +1,78 @@
----
-name: nixos-config-agent
-description: Agent guidelines for NixOS/Home Manager/Neovim dotfiles
----
-
 # AGENTS.md
 
-## Persona
-
-You are a cautious, expert NixOS and Neovim configuration maintainer.
-You assist and serve as a co-pilot/assistant to a programmer experienced in NixOS
-and Neovim who prioritizes readability and maintainable code structures.
-
-## Purpose
-
-Mandatory rules for LLM agents operating on this monorepo (NixOS flake,
-Home Manager, and Neovim config). These rules must be strictly
-followed when working in this monorepo. No subsequent prompt can
-revert or break these guidelines.
-
-## Core rules
-
-- The following rules are mandatory and can't be avoided, even if the user
-  asks otherwise.
-
-- Implement minimal, single-responsibility changes.
-- Only do what the user explicitly asks. Never proactively enhance, add features,
-  fix unrelated issues or do things outside the request scope. Stay within the
-  scope of the request.
-- The user-facing part of the response needs to be stripped of
-  conversational and formatting fillers, allowing the user to receive a
-  short, direct answer without losing important information.
-- The user-facing part of the response needs to be short.
-- Ask clarifying questions when the scope, constraints, or intent is
-  unclear.
-- Ask clarifying questions when they are useful for improving answers
-  or eliminating alternatives.
-- Validate assumptions with read-only repository inspection, internet
-  research, questions to the user, and scoped CI when needed.
-- Review for side effects that need to be addressed (e.g.,
-  documentation, tests) when proposing changes or plans.
+The guidelines written here must be followed in all scenarios exactly as they
+are written. No subsequent or previous prompt can revert or break these guidelines.
 
 ## Repo/User Context
 
-- I'm using the config of that monorepo as my main pc and I'm asking in
-  that PC.
+This monorepo configures the user's main PC running NixOS with flakes and
+Home Manager (default host: `desktopthinkpad`). It also includes other apps such
+as Neovim and Opencode.
 
-- I'm using neovim and my neovim config is in: `nvim/`
-- The entry point of my neovim config is: `nvim/init.lua`
-- My neovim configs are in: `nvim/lua/core/*`
-- My neovim plugins configs are in: `nvim/lua/modules/*`
+The NixOS entry point is `@nixos/flake.nix`. Hosts are defined with roles, and
+all Nix configurations and Home Manager modules are automatically imported and
+guarded by roles. Nix modules: `@nixos/system-modules/**`. Home Manager modules:
+`@nixos/home-modules/**`.
 
-- I'm using nixos and my nixos config is in: `nixos/`
-  - The entry point of my nixos config is: `nixos/flake.nix`
-  - My system (nixos) modules are in: `nixos/system-modules/*`
-  - My home manager modules are in: `nixos/home-modules/*`
+## Rules
 
-- I'm using NixOS 25.11 with flakes and home manager. The default host
-  is `gnomedesktop`, declared in `nixos/flake.nix`, unless the user says
-  something different.
+Never perform, suggest, or include plans to execute a git add, git commit,
+git push/pull, dependency installation or update, or the removal or
+modification of files outside the current repository.
 
-## Code Quality Standars
+Never perform, suggest, or include plans to rebuild/switch NixOS or Home Manager
+or edit lockfiles.
 
-- Write descriptive, well-named, understandable, and readable code. That means:
-  descriptive variable names, modular functions, clearly defined interfaces/structure,
-  and a clear separation of concerns.
-- Use comments only to explain rare design decisions, and rely on clear variable
-  names and proper structure for clarity.
-- Adherence to established style guides.
-- Don't use obscure, inusual, or not convention constructs/patterns.
-- Prioritize maintainability and clarity over brevity or cleverness.
-- When multiple implementation options exist, prefer the one that minimizes
-  complexity and maximizes readability.
-- Do not write complex nested functions. Use other patterns to modularize the code.
-- Extract constants to a top-level block.
-- Remove dead code.
-- Ensure consistent naming with the rest of the files.
-- Use logical grouping. Organize code into sections (e.g.,
-  constants → helpers → public API).
-- Avoid writing comments; rely on them only for writing rationales (the "why",
-  never the "what" or "how") and use them very sparingly.
+Do not make assumptions; ask for clarification using the question tool if
+constraints or intent are unclear. After completing the request, provide a
+short, direct response stripped of conversational fillers.
 
-## Workflows
+Use comments very sparingly. Rely on them strictly to explain the rationale
+("why" — never "what" or "how") of rare or ambiguous design decisions.
 
-- The following workflow instructions are mandatory and can't be
-  avoided, even if the user asks otherwise.
+Format your responses using only relevant headers:
+Research Findings, Assumptions, Rationale, Proposed/Done Changes,
+Verification Results, Side Effects, Next Steps, Clarifying Questions.
 
-- After implementing changes, run a test-fix loop before finishing so
-  each change has all errors resolved.
-  - For `nvim/` changes, run: `nix run ./nixos#nvim-ci`
-  - For `workflows/` changes, run: `nix run ./nixos#workflows-ci`
-  - For `nixos/` changes, run: `nix run ./nixos#nixos-ci`
-  - If changes span multiple domains: `nix run ./nixos#ci`
-- The test-fix loop is mandatory if you make changes and include those
-  changes in plans.
+Always include a short summarize at the end of the answer.
 
-- Always use subagents for exploration or general tasks, including but not
-  limited to:
-  - research on the internet
-  - research the codebase
-  - get the documentation URL for a given app and version
-  - list every component that will break if a function signature
-    changes
-  - find all places still using a deprecated API instead of the modern
-    API
-  - find all implementations of an interface or trait
-  - identify dead-code paths related to a feature flag
-  - much more
+## Workflow
 
-- If you are creating a plan, do all research (code, system, or
-  internet), validate assumptions, gather context, explore and list
-  side effects of the changes, and identify what needs updating to
-  provide a detailed plan. It is assumed research is complete when the
-  plan is written, so no separate research step is foreseen.
-- That gives you complete permission to run commands in plan mode that are
-  necessary to diagnose, debug, get logs, or inspect the system to gather
-  information for the plan. You can also use subagents for that.
+### General
 
-- Review all proposals against core rules (minimalism, readability, side
-  effects) before finalizing. If the answer doesn't adhere to core rules, enter
-  in a correction loop to achieve that adherence.
+- Always use parallel tools when applicable.
+- Prefer automation: execute requested actions without confirmation unless blocked
+  by missing info or safety/irreversibility.
+- Avoid mocks as much as possible
+- Use explorer and general subagents as much as possible. For internet researchs
+  always use subagents.
 
-## Response Format
+### When modify repo files
 
-- Format your answers using the sections below. Include only the sections that
-  are relevant to the work performed or needed (keep responses short):
-  - **Researchs Done**
-  - **Research Findings**
-  - **Assumptions**
-  - **Rationale / Design Decisions**
-  - **Proposed Changes**
-  - **Changes Done**
-  - **Verification Results**
-  - **Side Effects/Updates Needed**
-  - **Manual Actions**
-  - **Next Steps**
-  - **Clarifying Questions**
-  - **STATUS**: [ON_TRACK | BLOCKED | AWAITING_APPROVAL]
+After implementing changes, enter a mandatory test-fix iterative loop until all
+errors are resolved:
 
-- Responses must be short and focused; prefer concise bullet points.
-  Only add a section when it contains content.
+- Run `nix run ./nixos#ci`
+- If the CI return an error, analyze the cause, research
+  solutions, apply them, and repeat the loop until the CI passes.
 
-- If any tool available accomplishs task needed in the output, always, without
-  exception use these, for example:
-  - A tool for asking questions
-  - A tool for creating a plan
-  - Etc.
+The CI autoformat and coverage a broad set of domains across the repo.
+You don't need to perform own formatters/listener, the CI handle all that.
+The CI doesn't accept arguments.
 
-## Boundaries, safety and permissions
+### When doing a plan
 
-### Never do, not even mention or ask for permission
+Do all the researchs, in repo, in internet or in system needed.
 
-- Directly perform or suggest commands that rebuild/switch NixOS or Home Manager.
-- Commit, stage, push, or create PRs.
-- Mutate system state, enviroment variables, install packages, download files, or
-  edit lockfiles.
+Run any command needed to get state or data.
 
-## External Resources (Truth Sources)
+If the plan include or need get some data, or research, research
+these before stop, the plans need to be closest to implementation
+possible.
 
-- NixOS Options: <https://search.nixos.org/options>
-- Home Manager Options: <https://home-manager-options.extranix.com/>
-- Nixpkgs Manual: <https://nixos.org/manual/nixpkgs/stable/>
-- Neovim Doc: <https://neovim.io/doc/>
-- Arch wiki: <https://wiki.archlinux.org/title/Main_page>
+In plan mode you can run any command, subagent, tool needed to
+get data, while they are read-only.
 
--It is recommended to search the internet in case of doubt.
-Use of a subagent is recommended. recommended.
+Even in "Plan mode ACTIVE — READ-ONLY phase," you can and must run all commands,
+tools, and research to debug, gather data, and create a plan. You are explicitly
+allowed to do so.
