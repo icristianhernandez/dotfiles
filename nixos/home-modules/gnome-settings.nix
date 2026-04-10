@@ -22,6 +22,7 @@ guardRole "gnome" {
     }))
     gnomeExtensions.super-key
     gnomeExtensions.appindicator
+    gnomeExtensions.user-themes
     libayatana-appindicator
   ];
 
@@ -83,7 +84,12 @@ guardRole "gnome" {
         vicinae.extensionUuid
         super-key.extensionUuid
         appindicator.extensionUuid
+        user-themes.extensionUuid
       ];
+    };
+
+    "org/gnome/shell/extensions/user-theme" = {
+      name = theme.gtk.dark.shellTheme;
     };
 
     "org/gnome/settings-daemon/plugins/power" = {
@@ -114,6 +120,9 @@ guardRole "gnome" {
     };
 
     "org/gnome/desktop/interface" = {
+      font-name = theme.fonts.regular;
+      document-font-name = theme.fonts.document;
+      monospace-font-name = theme.fonts.monospace;
       show-battery-percentage = lib.hm.gvariant.mkBoolean true;
       clock-format = "12h";
       enable-hot-corners = lib.hm.gvariant.mkBoolean false;
@@ -163,6 +172,8 @@ guardRole "gnome" {
     };
 
     "org/gnome/desktop/wm/preferences" = {
+      titlebar-font = theme.fonts.titlebar;
+      titlebar-uses-system-font = lib.hm.gvariant.mkBoolean false;
       switch-windows = "current";
     };
 
@@ -181,7 +192,7 @@ guardRole "gnome" {
       isolate-workspaces = true;
       hide-overview-on-startup = true;
       group-apps = false;
-      group-apps-label-max-width = lib.hm.gvariant.mkInt32 80;
+      group-apps-label-max-width = lib.hm.gvariant.mkInt32 0;
     };
 
     "org/gnome/shell/extensions/super-key" = {

@@ -1,8 +1,6 @@
 {
-  lib,
   pkgs,
   guardRoles,
-  hasRole,
   ...
 }:
 
@@ -12,34 +10,11 @@ let
   applyGtkTheme = profile: ''
     ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'${profile.colorScheme}'"
     ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme "'${profile.theme}'"
+    ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/accent-color "'${profile.accentColor}'"
     ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/icon-theme "'${profile.iconTheme}'"
     ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/cursor-theme "'${profile.cursorTheme}'"
+    ${pkgs.dconf}/bin/dconf write /org/gnome/shell/extensions/user-theme/name "'${profile.shellTheme}'"
   '';
-
-  applyPlasmaTheme = profile: ''
-    ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-colorscheme ${lib.escapeShellArg profile.colorScheme}
-    ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-desktoptheme ${lib.escapeShellArg profile.desktopTheme}
-    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kdeglobals --group Icons --key Theme ${lib.escapeShellArg profile.iconTheme}
-    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kcminputrc --group Mouse --key cursorTheme ${lib.escapeShellArg profile.cursorTheme}
-    ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 --file kcminputrc --group Mouse --key cursorSize ${toString theme.cursorSize}
-    ${pkgs.kdePackages.plasma-workspace}/bin/plasma-apply-cursortheme --size ${toString theme.cursorSize} ${lib.escapeShellArg profile.cursorTheme}
-  '';
-
-  plasmaDarkModeScripts =
-    if hasRole "plasma" then
-      {
-        plasma-theme = applyPlasmaTheme theme.plasma.dark;
-      }
-    else
-      { };
-
-  plasmaLightModeScripts =
-    if hasRole "plasma" then
-      {
-        plasma-theme = applyPlasmaTheme theme.plasma.light;
-      }
-    else
-      { };
 in
 guardRoles
   {
@@ -49,8 +24,7 @@ guardRoles
   {
     home = {
       packages = [
-        pkgs.${theme.packages.iconTheme}
-        pkgs.${theme.packages.cursorTheme}
+        pkgs.yaru-theme
       ];
 
       pointerCursor = {
@@ -73,12 +47,10 @@ guardRoles
 
       darkModeScripts = {
         gtk-theme = applyGtkTheme theme.gtk.dark;
-      }
-      // plasmaDarkModeScripts;
+      };
 
       lightModeScripts = {
         gtk-theme = applyGtkTheme theme.gtk.light;
-      }
-      // plasmaLightModeScripts;
+      };
     };
   }

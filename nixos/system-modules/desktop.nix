@@ -26,6 +26,7 @@ guardRole "desktop" {
   ];
 
   fonts.packages = with pkgs; [
+    inter
     noto-fonts
     noto-fonts-lgc-plus
     noto-fonts-color-emoji

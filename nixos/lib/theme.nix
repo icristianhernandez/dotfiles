@@ -1,44 +1,43 @@
 let
   cursorSize = 32;
-  cursorName = "Simp1e-Adw";
+  cursorName = "Yaru";
+  fontName = "Inter";
+  monospaceFontName = "JetBrainsMono Nerd Font";
+  fontSize = 11;
 in
 {
   inherit cursorSize cursorName;
 
+  fonts = {
+    regular = "${fontName} ${builtins.toJSON fontSize}";
+    document = "${fontName} ${builtins.toJSON fontSize}";
+    monospace = "${monospaceFontName} ${builtins.toJSON (fontSize + 1.5)}";
+    titlebar = "${fontName} Bold ${builtins.toJSON (fontSize + 1)}";
+  };
+
   packages = {
-    iconTheme = "tela-circle-icon-theme";
-    cursorTheme = "simp1e-cursors";
+    cursorTheme = "yaru-theme";
   };
 
   gtk = {
     dark = {
       colorScheme = "prefer-dark";
-      theme = "Adwaita-dark";
-      iconTheme = "Tela-circle-dark";
-      cursorTheme = "Simp1e-Adw";
+      theme = "Yaru-dark";
+      # shellTheme = "Yaru-dark";
+      shellTheme = "Default";
+      accentColor = "blue";
+      iconTheme = "Yaru-dark";
+      cursorTheme = "Yaru";
     };
 
     light = {
       colorScheme = "default";
-      theme = "Adwaita";
-      iconTheme = "Tela-circle";
-      cursorTheme = "Simp1e-Adw-Dark";
-    };
-  };
-
-  plasma = {
-    dark = {
-      colorScheme = "BreezeDark";
-      desktopTheme = "breeze-dark";
-      iconTheme = "Tela-circle-dark";
-      cursorTheme = "Simp1e-Adw";
-    };
-
-    light = {
-      colorScheme = "BreezeLight";
-      desktopTheme = "breeze-light";
-      iconTheme = "Tela-circle";
-      cursorTheme = "Simp1e-Adw-Dark";
+      theme = "Yaru";
+      # shellTheme = "Yaru";
+      shellTheme = "Default";
+      accentColor = "blue";
+      iconTheme = "Yaru";
+      cursorTheme = "Yaru";
     };
   };
 }
