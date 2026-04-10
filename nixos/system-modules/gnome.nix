@@ -33,41 +33,46 @@ guardRole "gnome" {
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    nautilus-python
+  environment = {
+    # Fix for: https://github.com/NixOS/nixpkgs/issues/409755
+    # But that maybe can also affects other things, both the issue and the fix
+    sessionVariables.GST_PLUGIN_PATH = "${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0";
 
-    # select a file and press [Space] to preview without opening
-    sushi
+    systemPackages = with pkgs; [
+      nautilus-python
 
-    # Thumbnails for everything (files)
-    webp-pixbuf-loader
-    gnome-epub-thumbnailer
-    ffmpegthumbnailer
+      # select a file and press [Space] to preview without opening
+      sushi
 
-    # Archiving in Files
-    file-roller
-    p7zip
+      # Thumbnails for everything (files)
+      webp-pixbuf-loader
+      gnome-epub-thumbnailer
+      ffmpegthumbnailer
 
-    # GStreamer codecs and plugins
-    gst_all_1.gstreamer
-    gst_all_1.gst-plugins-base
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
-    gst_all_1.gst-libav # Critical: Uses FFmpeg for most common video formats
-    gst_all_1.gst-vaapi # Hardware acceleration
+      # Archiving in Files
+      file-roller
+      p7zip
 
-    # camera tool
-    snapshot
-    cameractrls-gtk4
-  ];
+      # GStreamer codecs and plugins
+      gst_all_1.gstreamer
+      gst_all_1.gst-plugins-base
+      gst_all_1.gst-plugins-good
+      gst_all_1.gst-plugins-bad
+      gst_all_1.gst-plugins-ugly
+      gst_all_1.gst-libav # Critical: Uses FFmpeg for most common video formats
+      gst_all_1.gst-vaapi # Hardware acceleration
 
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-user-docs
-    epiphany
-    gnome-terminal
-    geary
-  ];
+      # camera tool
+      snapshot
+      cameractrls-gtk4
+    ];
 
+    gnome.excludePackages = with pkgs; [
+      gnome-tour
+      gnome-user-docs
+      epiphany
+      gnome-terminal
+      geary
+    ];
+  };
 }
