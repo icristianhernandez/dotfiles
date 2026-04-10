@@ -97,6 +97,12 @@ guardRole "plasma" {
 
       plasmarc.Wallpapers.usersWallpapers = "/mnt/storage/wallpapers/wallhaven-5yl7x5_1920x1080.png";
 
+      kwalletrc = {
+        "KSecretD" = {
+          Enabled = false;
+        };
+      };
+
       systemsettingsrc."KFileDialog Settings" = {
         detailViewIconSize = 32;
         iconViewIconSize = 256;
