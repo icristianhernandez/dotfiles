@@ -17,6 +17,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -78,7 +83,7 @@
             "desktop"
             "thinkpadE14"
             # dms, gnome, plasma :
-            "plasma"
+            "gnome"
             "gaming"
           ];
         };
