@@ -21,17 +21,30 @@ let
           appPrefixAttr = true;
         }}
 
-        run_sub() {
-          name="$1"; shift || true
-          log "start $name"
-          "''${NIX_RUN[@]}" "''${APP_PREFIX}.$name" -- "$@" || { rc=$?; log "$name failed (exit $rc)"; exit $rc; }
-          log "done $name"
+        if [ "$#" -ne 0 ]; then
+          log "workflows-ci does not accept arguments"
+          echo "usage: workflows-ci"
+          exit 2
+        fi
+
+        run_step() {
+          local label="$1"; shift
+          local tmp_log
+          local rc=0
+          tmp_log="$(mktemp)"
+          if "$@" >"$tmp_log" 2>&1; then
+            rm -f "$tmp_log"
+            return 0
+          fi
+          rc=$?
+          log "$label failed (exit $rc)"
+          cat "$tmp_log" >&2
+          rm -f "$tmp_log"
+          return "$rc"
         }
 
-        SUBCIS=( workflows-lint )
-        for name in "''${SUBCIS[@]}"; do
-          run_sub "$name" "$@"
-        done
+        run_step "workflows-lint" "''${NIX_RUN[@]}" "''${APP_PREFIX}.workflows-lint"
+        echo "workflows-ci: passed - formatters and linters completed"
       '';
     };
 in

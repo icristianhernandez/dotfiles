@@ -21,11 +21,31 @@ let
           appPrefixAttr = true;
         }}
 
-        log "format (apply fixes)"
-        "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- "$@"
+        if [ "$#" -ne 0 ]; then
+          log "nvim-ci does not accept arguments"
+          echo "usage: nvim-ci"
+          exit 2
+        fi
 
-        log "stylua check"
-        "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- --check "$@"
+        run_step() {
+          local label="$1"; shift
+          local tmp_log
+          local rc=0
+          tmp_log="$(mktemp)"
+          if "$@" >"$tmp_log" 2>&1; then
+            rm -f "$tmp_log"
+            return 0
+          fi
+          rc=$?
+          log "$label failed (exit $rc)"
+          cat "$tmp_log" >&2
+          rm -f "$tmp_log"
+          return "$rc"
+        }
+
+        run_step "nvim-fmt" "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt"
+        run_step "nvim-fmt-check" "''${NIX_RUN[@]}" "''${APP_PREFIX}.nvim-fmt" -- --check
+        echo "nvim-ci: passed - formatters and linters completed"
       '';
     };
 in

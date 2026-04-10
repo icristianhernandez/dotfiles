@@ -21,22 +21,37 @@ let
           appPrefixAttr = true;
         }}
 
-        run_app() {
-          name="$1"; shift || true
-          log "start $name"
-          "''${NIX_RUN[@]}" "''${APP_PREFIX}.$name" -- "$@" || { rc=$?; log "ERROR: $name failed (exit $rc)"; exit $rc; }
-          log "done $name"
+        if [ "$#" -ne 0 ]; then
+          log "nixos-ci does not accept arguments"
+          echo "usage: nixos-ci"
+          exit 2
+        fi
+
+        run_step() {
+          local label="$1"; shift
+          local tmp_log
+          local rc=0
+          tmp_log="$(mktemp)"
+          if "$@" >"$tmp_log" 2>&1; then
+            rm -f "$tmp_log"
+            return 0
+          fi
+          rc=$?
+          log "$label failed (exit $rc)"
+          cat "$tmp_log" >&2
+          rm -f "$tmp_log"
+          return "$rc"
         }
 
-        log "format (apply fixes)"
+        run_app() {
+          local name="$1"
+          run_step "$name" "''${NIX_RUN[@]}" "''${APP_PREFIX}.$name"
+        }
+
         run_app nixos-fmt
-        log "lint"
         run_app nixos-lint
-
-        log "flake check"
-        "$NIX" --extra-experimental-features "nix-command flakes" flake check ./nixos -L || { rc=$?; log "ERROR: flake check failed (exit $rc)"; exit $rc; }
-
-        log "completed successfully"
+        run_step "flake-check" "$NIX" --extra-experimental-features "nix-command flakes" flake check ./nixos --quiet
+        echo "nixos-ci: passed - formatters and linters completed"
       '';
     };
 in

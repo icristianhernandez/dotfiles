@@ -20,7 +20,7 @@
     ''
       set -euo pipefail
       ${nixPart}
-      log() { printf '%s %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "[${name}] $1" >&2; }
+      log() { printf '[%s] %s\n' "${name}" "$1" >&2; }
     '';
 
   parseMode = ''
