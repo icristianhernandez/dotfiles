@@ -140,7 +140,7 @@ guardRole "gnome" {
     };
 
     "org/gnome/desktop/sound" = {
-      allow-volume-above-100-percent = lib.hm.gvariant.mkBoolean true;
+      allow-volume-above-100-percent = lib.hm.gvariant.mkBoolean false;
     };
 
     "org/gnome/desktop/privacy" = {
