@@ -16,7 +16,8 @@ guardRole "dev" {
     # Dev Environment
     lazygit
     unstable.vscode.fhs
-    unstable.github-copilot-cli
+    # unstable.github-copilot-cli
+    # unstable.pi-coding-agent
   ];
 
   # programs.vscode = {

@@ -4,7 +4,6 @@
   hasRole,
   pkgs,
   lib,
-  config,
   input,
   ...
 }:
