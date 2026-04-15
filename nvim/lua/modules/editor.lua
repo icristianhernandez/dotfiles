@@ -436,20 +436,20 @@ return {
             },
 
             -- find
-            -- {
-            --     "<leader>ff",
-            --     function()
-            --         Snacks.picker.files()
-            --     end,
-            --     desc = "Find Files (Root Dir)",
-            -- },
             {
                 "<leader>ff",
                 function()
-                    Snacks.picker.smart()
+                    Snacks.picker.files()
                 end,
-                desc = "Smart Find Files",
+                desc = "Find Files (Root Dir)",
             },
+            -- {
+            --     "<leader>ff",
+            --     function()
+            --         Snacks.picker.smart()
+            --     end,
+            --     desc = "Smart Find Files",
+            -- },
             {
                 "<leader>fF",
                 function()
