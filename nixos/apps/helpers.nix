@@ -1,4 +1,7 @@
 { pkgs }:
+let
+  const = import ../lib/const.nix;
+in
 {
   prelude =
     {
@@ -19,6 +22,7 @@
     in
     ''
       set -euo pipefail
+      export REPO_ROOT="${const.dotfilesDir}"
       ${nixPart}
       log() { printf '[%s] %s\n' "${name}" "$1" >&2; }
     '';
@@ -31,9 +35,9 @@
   '';
 
   paths = {
-    nixosDir = "nixos";
-    nvimCfgDir = "nvim";
-    workflowsDir = ".github/workflows";
-    statixConfig = "statix.toml";
+    nixosDir = "${const.dotfilesDir}/nixos";
+    nvimCfgDir = "${const.dotfilesDir}/nvim";
+    workflowsDir = "${const.dotfilesDir}/.github/workflows";
+    statixConfig = "${const.dotfilesDir}/statix.toml";
   };
 }

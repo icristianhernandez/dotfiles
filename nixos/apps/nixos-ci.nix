@@ -50,7 +50,7 @@ let
 
         run_app nixos-fmt
         run_app nixos-lint
-        run_step "flake-check" "$NIX" --extra-experimental-features "nix-command flakes" flake check ./nixos --quiet
+        run_step "flake-check" "$NIX" --extra-experimental-features "nix-command flakes" flake check "$REPO_ROOT/nixos" --quiet
         echo "nixos-ci: passed - formatters and linters completed"
       '';
     };

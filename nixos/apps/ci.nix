@@ -42,7 +42,8 @@ let
         done
 
         check_changes() {
-          dir="$1"
+          local dir="$1"
+          cd "$REPO_ROOT" || return 1
           if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
             return 0
           fi
