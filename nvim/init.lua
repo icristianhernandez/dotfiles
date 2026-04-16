@@ -12,4 +12,4 @@ if os.IS_WSL then
     require("core.wsl")
 end
 
-require("core.lazy-setup")
+_G.Pack = require("core.pack")
