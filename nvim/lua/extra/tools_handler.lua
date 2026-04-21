@@ -57,7 +57,7 @@ local stacks = {
         treesitter = { "latex", "markdown", "markdown_inline", "mermaid", "typst" },
         formatters = { "latexindent" },
         linters = {
-            markdown = { "vale" },
+            markdown = { "markdownlint" },
         },
     },
     shell = {
@@ -447,47 +447,6 @@ function M.resolve_all_ensure_installed()
     end
 
     return result
-end
-
-function M.install_mason_tools(tools)
-    local ok, registry = pcall(require, "mason-registry")
-    if not ok then
-        vim.notify("[tools_handler] Mason registry unavailable", vim.log.levels.ERROR)
-        return
-    end
-
-    local results = {
-        installed = {},
-        already_installed = {},
-        not_found = {},
-        install_failed = {},
-    }
-
-    for _, tool in ipairs(tools) do
-        local ok_pkg, pkg = pcall(registry.get_package, tool)
-        if not ok_pkg or not pkg then
-            table.insert(results.not_found, tool)
-        elseif pkg:is_installed() then
-            table.insert(results.already_installed, tool)
-        else
-            vim.notify("[tools_handler] Installing " .. tool .. "...", vim.log.levels.INFO)
-            pkg:install({
-                success = function()
-                    vim.notify("[tools_handler] " .. tool .. " installed", vim.log.levels.INFO)
-                end,
-                failure = function(err)
-                    vim.notify("[tools_handler] " .. tool .. " install failed: " .. tostring(err), vim.log.levels.ERROR)
-                end,
-            })
-        end
-    end
-
-    if #results.not_found > 0 then
-        vim.notify(
-            "[tools_handler] Not in Mason registry: " .. table.concat(results.not_found, ", "),
-            vim.log.levels.WARN
-        )
-    end
 end
 
 M.stacks = STACKS

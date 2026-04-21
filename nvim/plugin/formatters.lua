@@ -6,10 +6,6 @@ vim.pack.add({
 
 local formatters = tools.resolve("formatters")
 
-vim.defer_fn(function()
-    tools.install_mason_tools(formatters.ensure_installed)
-end, 0)
-
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 require("conform").setup({
