@@ -5,6 +5,11 @@
 }:
 
 guardRole "gnome" {
+  programs.nautilus-open-any-terminal = {
+    enable = true;
+    terminal = "kitty";
+  };
+
   services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
