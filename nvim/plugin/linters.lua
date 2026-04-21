@@ -24,7 +24,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     end,
 })
 
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
     group = lint_augroup,
     callback = function()
         if vim.bo.modified then
