@@ -116,6 +116,33 @@ end
 -- new tab
 create_keymap("n", "<leader><Tab><Tab>", "<cmd>tabnew<CR>", "Open a new tab")
 -- close current tab
-create_keymap("n", "<leader><Tab>d", "<cmd>tabclose<CR>", "Close current tab")
+create_keymap("n", "<leader><Tab>q", "<cmd>tabclose<CR>", "Close current tab")
 -- close Other Tabs
 create_keymap("n", "<leader><Tab>o", "<cmd>tabonly<CR>", "Close Other Tabs")
+
+-- Enter = expand selection (parent), Backspace = shrink (child)
+vim.keymap.set({ "n", "x", "o" }, "<CR>", function()
+    if vim.treesitter.get_parser(nil, nil, { error = false }) then
+        require("vim.treesitter._select").select_parent(vim.v.count1)
+    else
+        vim.lsp.buf.selection_range(vim.v.count1)
+    end
+end, { desc = "Select parent treesitter node or outer incremental lsp selections" })
+
+vim.keymap.set({ "n", "x", "o" }, "<BS>", function()
+    if vim.treesitter.get_parser(nil, nil, { error = false }) then
+        require("vim.treesitter._select").select_child(vim.v.count1)
+    else
+        vim.lsp.buf.selection_range(-vim.v.count1)
+    end
+end, { desc = "Select child treesitter node or inner incremental lsp selections" })
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "qf",
+    callback = function()
+        vim.keymap.set({ "n", "x", "o" }, "<CR>", "<CR>", { buffer = true, desc = "Use default <CR> in quickfix" })
+    end,
+})
+
+-- To view diffs an dupdate
+vim.keymap.set("n", "<leader>l", vim.pack.update)
