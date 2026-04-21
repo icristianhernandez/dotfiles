@@ -1,3 +1,13 @@
+#
+
+1. Las acciones han de rellenar notifications_events
+2. Un worker procesa los eventos a notification_recipients (targets resolution +
+   user references)
+3. Otro worker (o subproceso del anterior) rellena la planilla en user_inbox y  
+   notifications_external_deliveries
+4. Un cron job que cada X tiempo invoca un webhook a una edge function que gestione
+   notifications_external_deliveries en tandas de Y.
+
 ### sources to read
 
 https://supabase.com/docs/reference/cli/supabase-secrets
