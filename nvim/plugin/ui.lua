@@ -63,6 +63,16 @@ require("smear_cursor").setup({
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
 vim.schedule(MiniIcons.tweak_lsp_kind)
+vim.diagnostic.config({
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = require("mini.icons").get("lsp", "error"),
+            [vim.diagnostic.severity.WARN] = require("mini.icons").get("lsp", "warn"),
+            [vim.diagnostic.severity.INFO] = require("mini.icons").get("lsp", "info"),
+            [vim.diagnostic.severity.HINT] = require("mini.icons").get("lsp", "hint"),
+        },
+    },
+})
 
 require("gitsigns").setup({
     signs_staged = {
