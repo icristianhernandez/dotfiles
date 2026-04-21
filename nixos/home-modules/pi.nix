@@ -1,7 +1,5 @@
 # Just trying that.
 {
-  config,
-  const,
   pkgs,
   guardRole,
   ...
@@ -223,13 +221,17 @@ let
 in
 
 guardRole "dev" {
-  home.packages = with pkgs; [
-    pkgs.unstable.pi-coding-agent
-    pkgs.libnotify
-    pkgs.glib
-  ];
+  home = {
+    packages = with pkgs; [
+      pkgs.unstable.pi-coding-agent
+      pkgs.libnotify
+      pkgs.glib
+    ];
 
-  home.file.".pi/agent/settings.json".text = piSettings;
-  home.file.".pi/agent/SYSTEM.md".text = piSystemPrompt;
-  home.file.".pi/agent/extensions/approval-gate.ts".text = piApprovalGate;
+    file = {
+      ".pi/agent/settings.json".text = piSettings;
+      ".pi/agent/SYSTEM.md".text = piSystemPrompt;
+      ".pi/agent/extensions/approval-gate.ts".text = piApprovalGate;
+    };
+  };
 }

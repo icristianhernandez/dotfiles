@@ -35,12 +35,13 @@ let
           if "$@" >"$tmp_log" 2>&1; then
             rm -f "$tmp_log"
             return 0
+          else
+            rc=$?
+            log "$label failed (exit $rc)"
+            cat "$tmp_log" >&2
+            rm -f "$tmp_log"
+            return "$rc"
           fi
-          rc=$?
-          log "$label failed (exit $rc)"
-          cat "$tmp_log" >&2
-          rm -f "$tmp_log"
-          return "$rc"
         }
 
         run_app() {
