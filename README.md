@@ -31,9 +31,10 @@
 ⣿⣾⣿⣿⣿⣿⣿⣿⢿⡿⡆⠀⠀⠀⠀⢠⣿⣿⣿⣿⣾⣿⢷⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⣿⣿⣿⣏⣿⣿⢿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣧⠀⠀⠀⠀⢾⣿⣿⣿⣷⣻⣟⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠀⢠⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⢸⣿⣿⣿⠿⡝⣽⣿⣿⣿⣿⣿
 
-Personal NixOS + Home Manager monorepo for multiple hosts.
 
 ## Summary
+
+Personal NixOS + Home Manager monorepo for multiple systems.
 
 NixOS and Home Manager for a declarative system, using a custom (small) role-based guard for modules.
 
