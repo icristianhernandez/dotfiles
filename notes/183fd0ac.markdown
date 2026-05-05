@@ -1,12 +1,29 @@
 #
 
-1. Las acciones han de rellenar notifications_events
-2. Un worker procesa los eventos a notification_recipients (targets resolution +
-   user references)
+1. Actions must populate 'notifications_events'
+        For now, focus only on updates in 'project_progress'.
+        The jsonb will contain: tutor, coordinator, student, project phase, and project state.
+        * The keys in the jsonb must be named exactly like the attributes from which they are retrieved (for example, 'project_state_id').
+
+        The 'notification_type' must be resolved before adding the notification, as it is the source of action for 'notification_recipients_rules'.
+
+        Is it possible to resolve the notification type dynamically instead of hardcoding it during the setup for each type of behavior?
+
+        In general, what is the most maintainable way to add these? Keep in mind that the type will be unique for each change and element—for example, 'project-update-preproject-approved' or something similar.
+
+2. A worker processes events for notification_recipients by performing target resolution and handling user references
+        Based on the notification_type, resolve all notification rules. For now, just implement the ones for projects changes, only using 'payload' rule_target_kind and use the same key name that is going to have in the jsonb in 'recipient_target', so the thing that fill up the 'notification_recipients' is going to have a generic filter for 'payload' that filter in the payload the content of the same exact name as 'recipient_target'.
+
+        Furthermore, the notification_recipients_rules are based solely on the notification_type; therefore, the notification_type needs to be granular or have various options for many different cases.
+
 3. Otro worker (o subproceso del anterior) rellena la planilla en user_inbox y  
    notifications_external_deliveries
+        Just template fill in based on the targes guarded by user preferances
 4. Un cron job que cada X tiempo invoca un webhook a una edge function que gestione
    notifications_external_deliveries en tandas de Y.
+        cron job creation
+        webhook creation
+        next, email for that...
 
 ### sources to read
 
