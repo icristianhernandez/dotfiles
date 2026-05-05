@@ -1,5 +1,5 @@
 {
-  pkgs,
+  config,
   const,
   guardRole,
   ...
@@ -18,7 +18,7 @@ guardRole "dev" {
 
       # Testing these
       pull.rebase = true;
-      core.editor = "${pkgs.neovim}/bin/nvim";
+      core.editor = "${config.programs.neovim.finalPackage}/bin/nvim";
       fetch.prune = true;
       diff.algorithm = "histogram";
     };
