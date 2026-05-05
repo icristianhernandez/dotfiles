@@ -18,7 +18,6 @@ vim.pack.add({
     --
     "https://github.com/MunifTanjim/nui.nvim",
     "https://github.com/smjonas/inc-rename.nvim",
-    "https://github.com/folke/noice.nvim",
 })
 
 require("lualine").setup({
@@ -130,37 +129,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.keymap.set("n", "grn", ":IncRename ", { buffer = bufnr, desc = "IncRename (LSP)" })
         end
     end,
-})
-
-require("noice").setup({
-    lsp = {
-        signature = { enabled = false },
-        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-        override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-        },
-    },
-
-    presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
-        inc_rename = true, -- enables an input dialog for inc-rename.nvim
-    },
-
-    cmdline = {
-        format = {
-            filter = false,
-            lua = false,
-            help = false,
-        },
-    },
-
-    views = {
-        cmdline_popup = {
-            border = { style = "single", padding = { 0, 2 } },
-            -- filter_options = {},
-            -- win_options = { winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder" },
-        },
-    },
 })

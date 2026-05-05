@@ -146,3 +146,5 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- To view diffs an dupdate
 vim.keymap.set("n", "<leader>l", vim.pack.update)
+
+vim.keymap.set("n", "<leader>n", "<cmd>messages<cr>", { desc = "Show messages", noremap = true, silent = true })

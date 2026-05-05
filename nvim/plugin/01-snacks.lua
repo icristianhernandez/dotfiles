@@ -8,10 +8,6 @@ if vim.g.neovide then
 end
 
 require("snacks").setup({
-    notifier = {
-        enabled = true,
-    },
-
     scroll = {
         enabled = true,
     },
@@ -100,9 +96,6 @@ require("snacks").setup({
         },
     },
 })
-
--- Override vim.notify to use snacks notifier (from ui.lua)
-vim.notify = require("snacks").notifier
 
 -- ============================================================================
 -- KEYMAPS
@@ -212,14 +205,6 @@ end, { desc = "Resume" })
 vim.keymap.set("n", "<leader>uc", function()
     require("snacks").picker.colorschemes()
 end, { desc = "Colorschemes" })
-
-vim.keymap.set("n", "<leader>uq", function()
-    require("snacks").notifier.hide()
-end, { desc = "Dismiss All Notifications" })
-
-vim.keymap.set("n", "<leader>n", function()
-    require("snacks").notifier.show_history()
-end, { desc = "Notification History" })
 
 -- UI - Toggles
 vim.keymap.set("n", "<leader>us", function()

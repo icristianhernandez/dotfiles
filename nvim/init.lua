@@ -1,3 +1,5 @@
+require("core.ui2")
+
 local os = require("core.os")
 
 require("core.options")
