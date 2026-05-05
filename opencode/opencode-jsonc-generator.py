@@ -12,7 +12,7 @@ OpencodeJSONPermissions: TypeAlias = dict[str, str | dict[str, str]]
 
 BASE_CONFIG: OpencodeJSON = {
     "$schema": "https://opencode.ai/config.json",
-    "model": "opencode/minimax-m2.5-free",
+    "model": "opencode-go/deepseek-v4-flash",
     "small_model": "opencode/gpt-5-nano",
     # "disabled_providers": ["opencode"],
     "tui": {
@@ -27,6 +27,9 @@ BASE_CONFIG: OpencodeJSON = {
     },
     "default_agent": "plan",
     "plugin": ["opencode-gemini-auth@latest"],
+    "compaction": {
+        "prune": False,
+    },
 }
 
 
@@ -146,7 +149,7 @@ plan_agent_specific_permissions: OpencodeJSONPermissions = {
     "external_directory": "allow",
 }
 
-subagent_model = "opencode/minimax-m2.5-free"
+subagent_model = "opencode-go/deepseek-v4-flash"
 
 opencode_json = {
     **BASE_CONFIG,
