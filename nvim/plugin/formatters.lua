@@ -1,4 +1,4 @@
-local tools = require("extra.tools_handler")
+local tools = require("extra.tools_resolver")
 
 vim.pack.add({
     "https://github.com/stevearc/conform.nvim",

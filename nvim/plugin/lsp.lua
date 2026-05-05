@@ -1,4 +1,4 @@
-local tools = require("extra.tools_handler")
+local tools = require("extra.tools_resolver")
 
 vim.pack.add({
     "https://github.com/mason-org/mason.nvim",
@@ -19,7 +19,7 @@ require("mason-lspconfig").setup({
 })
 
 require("mason-tool-installer").setup({
-    ensure_installed = tools.resolve_all_ensure_installed(),
+    ensure_installed = tools.resolve_mason_tools(),
     run_on_start = true,
 })
 
@@ -37,3 +37,5 @@ end
 for _, server in ipairs(lsp.enable) do
     vim.lsp.enable(server)
 end
+
+require("clangd_extensions").setup()

@@ -1,4 +1,4 @@
-local tools = require("extra.tools_handler")
+local tools = require("extra.tools_resolver")
 
 vim.api.nvim_create_autocmd("PackChanged", {
     callback = function(ev)
@@ -37,6 +37,4 @@ require("treesitter-context").setup({
 require("treesitter-modules").setup({
     ensure_installed = treesitter.ensure_installed,
     auto_install = true,
-    highlight = { enable = true },
-    indent = { enable = true },
 })
