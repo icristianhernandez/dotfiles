@@ -104,6 +104,7 @@ core_permissions = {
         "*": "ask",
         "true": "allow",
         "nix run ./nixos#ci": "allow",
+        "nix run ./nixos#ci 2>&1": "allow",
         "nix run ./nixos#nixos-ci": "allow",
         "nix run ./nixos#nvim-ci": "allow",
         "nix run ./nixos#workflows-ci": "allow",
