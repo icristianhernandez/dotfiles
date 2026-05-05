@@ -78,6 +78,7 @@ guardRole "gnome" {
       epiphany
       gnome-terminal
       geary
+      evince
     ];
   };
 }
