@@ -6,7 +6,10 @@
 
 guardRole "desktop" {
   environment.systemPackages = with pkgs; [
-    google-chrome
+    # TODO: the next are for thinkpade14, need to have a guard?
+    (google-chrome.override {
+      commandLineArgs = "--ignore-gpu-blocklist --enable-zero-copy --disable-features=Vulkan,UseChromeOSDirectVideoDecoder --disable-gpu-program-cache --enable-features=VaapiVideoDecode";
+    })
     librewolf
     discord
     vesktop
