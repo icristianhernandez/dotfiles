@@ -12,7 +12,6 @@ vim.pack.add({
     "https://github.com/OXY2DEV/helpview.nvim",
     "https://github.com/sphamba/smear-cursor.nvim",
     "https://github.com/nvim-mini/mini.nvim",
-    "https://github.com/lewis6991/gitsigns.nvim",
     "https://github.com/shortcuts/no-neck-pain.nvim",
 
     --
@@ -72,25 +71,13 @@ vim.diagnostic.config({
         },
     },
 })
+require("mini.trailspace").setup()
 
-require("gitsigns").setup({
-    signs_staged = {
-        add = { text = "+" },
-        change = { text = "~" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-        untracked = { text = "┆" },
-    },
-    signs = {
-        add = { text = "▎" },
-        change = { text = "▎" },
-        delete = { text = "" },
-        topdelete = { text = "" },
-        changedelete = { text = "▎" },
-        untracked = { text = "▎" },
-    },
-})
+require("mini.diff").setup()
+
+vim.keymap.set("n", "<leader>gh", function()
+    vim.fn.setqflist(MiniDiff.export("qf"))
+end, { desc = "Hunks quickfix" })
 
 require("no-neck-pain").setup({
     width = 98,

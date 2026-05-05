@@ -59,10 +59,6 @@
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
-    "gitsigns.nvim": {
-      "rev": "6d808f99bd63303646794406e270bd553ad7792e",
-      "src": "https://github.com/lewis6991/gitsigns.nvim"
-    },
     "grapple.nvim": {
       "rev": "b41ddfc1c39f87f3d1799b99c2f0f1daa524c5f7",
       "src": "https://github.com/cbochs/grapple.nvim"
