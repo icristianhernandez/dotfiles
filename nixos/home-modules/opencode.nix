@@ -15,5 +15,10 @@ guardRole "dev" {
     source = config.lib.file.mkOutOfStoreSymlink "${const.dotfilesDir}/opencode/plugins/";
   };
 
-  home.packages = [ pkgs.unstable.opencode ];
+  home.packages = with pkgs; [
+    unstable.opencode
+    libnotify
+    libcanberra-gtk3
+    sound-theme-freedesktop
+  ];
 }

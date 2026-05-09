@@ -1,6 +1,6 @@
 export const NotificationPlugin = async ({ $ }) => {
-  const notify = (msg) => $`notify-send "OpenCode" ${msg}`;
-  const bell = () => $`printf '\a'`;
+  const notify = (msg) => $`notify-send --app-name="OpenCode" "OpenCode" ${msg}`;
+  const bell = () => $`canberra-gtk-play --id=complete`;
 
   return {
     event: async ({ event }) => {
