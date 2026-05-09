@@ -1,4 +1,5 @@
 {
+  config,
   guardRole,
   pkgs,
   lib,
@@ -17,6 +18,10 @@ guardRole "desktop" {
           extensionRepos = [
             "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"
           ]
+          backupPath = "${config.home.homeDirectory}/dotfiles/backups/suwayomi"
+          backupInterval = 1
+          backupTime = "03:00"
+          backupTTL = 90
         }
       '';
 
