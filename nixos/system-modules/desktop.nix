@@ -1,32 +1,41 @@
 {
   pkgs,
   guardRole,
+  hasRole,
   ...
 }:
 
 guardRole "desktop" {
-  environment.systemPackages = with pkgs; [
-    # TODO: the next are for thinkpade14, need to have a guard?
-    (google-chrome.override {
-      commandLineArgs = "--ignore-gpu-blocklist --enable-zero-copy --disable-features=Vulkan,UseChromeOSDirectVideoDecoder --disable-gpu-program-cache --enable-features=VaapiVideoDecode";
-    })
-    librewolf
-    discord
-    vesktop
-    telegram-desktop
-    pinta
+  environment.systemPackages =
+    with pkgs;
+    let
+      chrome =
+        if hasRole "thinkpadE14" then
+          google-chrome.override {
+            commandLineArgs = "--ignore-gpu-blocklist --disable-vulkan --enable-features=VaapiVideoDecode --disable-features=UseChromeOSDirectVideoDecoder --use-angle=gl --disable-gpu-program-cache";
+          }
+        else
+          google-chrome;
+    in
+    [
+      chrome
+      librewolf
+      discord
+      vesktop
+      telegram-desktop
+      pinta
 
-    ## libreoffice and spellchecker with hunspell
-    # libreoffice
-    # hunspell
-    # hunspellDicts.es_VE
-    # hunspellDicts.en_US
-    ## font fix: https://wiki.nixos.org/wiki/ONLYOFFICE
-    onlyoffice-desktopeditors
+      ## libreoffice and spellchecker with hunspell
+      # libreoffice
+      # hunspell
+      # hunspellDicts.es_VE
+      # hunspellDicts.en_US
+      ## font fix: https://wiki.nixos.org/wiki/ONLYOFFICE
+      onlyoffice-desktopeditors
 
-    wl-clipboard
-    xclip
-  ];
+      wl-clipboard
+      xclip
+    ];
 
   fonts.packages = with pkgs; [
     inter
