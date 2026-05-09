@@ -80,7 +80,11 @@ def merge_permissions_deep(
 
 core_permissions = {
     "*": "ask",
-    "external_directory": "ask",
+    "external_directory": {
+        "*": "ask",
+        "/tmp/*": "allow",
+        "/nix/store/*": "allow",
+    },
     "webfetch": "allow",
     "task": "allow",
     "codesearch": "allow",
@@ -105,6 +109,7 @@ core_permissions = {
         "true": "allow",
         "nix run ./nixos#ci": "allow",
         "nix run ./nixos#ci 2>&1": "allow",
+        "nix run ./nixos#ci 2>&1 | tail -30": "allow",
         "nix run ./nixos#nixos-ci": "allow",
         "nix run ./nixos#nvim-ci": "allow",
         "nix run ./nixos#workflows-ci": "allow",
