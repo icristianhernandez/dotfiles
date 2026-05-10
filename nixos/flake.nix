@@ -30,13 +30,9 @@
   };
 
   outputs =
-    inputs@{
-      nixpkgs,
-      nixos-wsl,
-      home-manager,
-      ...
-    }:
+    { self, ... }@inputs:
     let
+      inherit (inputs) nixpkgs nixos-wsl home-manager;
       inherit (nixpkgs) lib;
       const = import ./lib/const.nix;
 
@@ -168,6 +164,6 @@
 
       formatter = eachSystem ({ pkgs, ... }: pkgs.nixfmt);
 
-      apps = import ./apps { inherit nixpkgs systems; };
+      apps = import ./apps { inherit nixpkgs systems self; };
     };
 }

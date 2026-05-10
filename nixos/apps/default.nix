@@ -1,6 +1,7 @@
 {
   nixpkgs,
   systems,
+  self,
 }:
 let
   for_each_system = nixpkgs.lib.genAttrs systems;
@@ -10,9 +11,9 @@ for_each_system (
   let
     pkgs = nixpkgs.legacyPackages.${system};
     mkApp = import ../lib/mk-app.nix { inherit pkgs; };
-    appHelpers = import ./helpers.nix { inherit pkgs; };
+    dotfilesDir = builtins.dirOf self.outPath;
 
-    importApp = name: import (./. + "/${name}") { inherit pkgs mkApp appHelpers; };
+    importApp = name: import (./. + "/${name}") { inherit pkgs mkApp dotfilesDir; };
 
     appFiles = builtins.readDir ./.;
 

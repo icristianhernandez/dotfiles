@@ -1,13 +1,14 @@
 {
   pkgs,
   mkApp,
+  dotfilesDir,
   ...
 }:
 let
   inherit (pkgs) stylua;
   script =
     let
-      helpers = import ./helpers.nix { inherit pkgs; };
+      helpers = import ./helpers.nix { inherit pkgs dotfilesDir; };
     in
     pkgs.writeShellApplication {
       name = "nvim-fmt";
