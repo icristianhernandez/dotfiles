@@ -23,11 +23,11 @@ let
           withNix = false;
         }}
         STATIX_ARGS=( check )
-        if [ -f ${helpers.paths.statixConfig} ]; then
-          STATIX_ARGS+=( --config ${helpers.paths.statixConfig} )
+        if [ -f "${helpers.paths.statixConfig}" ]; then
+          STATIX_ARGS+=( --config "${helpers.paths.statixConfig}" )
         fi
         log "statix"
-        ${statix}/bin/statix "''${STATIX_ARGS[@]}" ${helpers.paths.nixosDir}
+        ${statix}/bin/statix "''${STATIX_ARGS[@]}" "${helpers.paths.nixosDir}"
 
         DEADNIX_ARGS=(
           --fail --hidden
@@ -42,7 +42,7 @@ let
           .venv
         )
         log "deadnix"
-        ${deadnix}/bin/deadnix "''${DEADNIX_ARGS[@]}" --exclude "''${DEADNIX_EXCLUDES[@]}" -- ${helpers.paths.nixosDir}
+        ${deadnix}/bin/deadnix "''${DEADNIX_ARGS[@]}" --exclude "''${DEADNIX_EXCLUDES[@]}" -- "${helpers.paths.nixosDir}"
       '';
     };
 in

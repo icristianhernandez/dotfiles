@@ -24,7 +24,7 @@ let
         }}
         ${helpers.parseMode}
 
-        FIND_CMD=( find ${helpers.paths.nixosDir} -type f -name '*.nix' -print0 )
+        FIND_CMD=( find "${helpers.paths.nixosDir}" -type f -name '*.nix' -print0 )
         if [ "$mode" = "check" ]; then
           log "nixfmt check"
           "''${FIND_CMD[@]}" | xargs -0 -r ${nixfmt}/bin/nixfmt --check

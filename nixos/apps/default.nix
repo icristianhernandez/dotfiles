@@ -1,7 +1,6 @@
 {
   nixpkgs,
   systems,
-  self,
 }:
 let
   for_each_system = nixpkgs.lib.genAttrs systems;
@@ -11,7 +10,7 @@ for_each_system (
   let
     pkgs = nixpkgs.legacyPackages.${system};
     mkApp = import ../lib/mk-app.nix { inherit pkgs; };
-    dotfilesDir = builtins.dirOf self.outPath;
+    dotfilesDir = "$(git rev-parse --show-toplevel 2>/dev/null || pwd)";
 
     importApp = name: import (./. + "/${name}") { inherit pkgs mkApp dotfilesDir; };
 
