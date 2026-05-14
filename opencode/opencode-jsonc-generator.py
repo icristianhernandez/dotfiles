@@ -13,7 +13,7 @@ OpencodeJSONPermissions: TypeAlias = dict[str, str | dict[str, str]]
 BASE_CONFIG: OpencodeJSON = {
     "$schema": "https://opencode.ai/config.json",
     "model": "opencode-go/deepseek-v4-flash",
-    "small_model": "opencode/gpt-5-nano",
+    "small_model": "opencode/deepseek-v4-flash-free",
     # "disabled_providers": ["opencode"],
     "tui": {
         "scroll_speed": 3,
