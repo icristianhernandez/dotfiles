@@ -7,19 +7,21 @@ local scale_delta = 0.1
 
 vim.o.guifont = "JetBrainsMonoNL Nerd Font:h13"
 
-if vim.g.neovide then
-    vim.g.snacks_animate = false
-end
+-- For snacks.nvim plugin if added, no making effect otherwise
+vim.g.snacks_animate = false
 
 -- vim.g.neovide_cursor_antialiasing = true
 vim.opt.linespace = 0
 -- vim.g.neovide_refresh_rate = 120
 vim.g.neovide_fullscreen = true
+-- vim.g.neovide_opacity = 1
 -- vim.g.neovide_underline_stroke_scale = 3
--- vim.g.neovide_cursor_smooth_blink = true
+vim.g.neovide_cursor_smooth_blink = true
 vim.g.neovide_padding_right = centered_padding
 vim.g.neovide_padding_left = centered_padding
 vim.g.neovide_scroll_animation_far_lines = -1
+vim.g.neovide_cursor_trail_size = 0.65
+-- vim.g.neovide_cursor_short_animation_length = 0.0
 -- vim.g.neovide_scroll_animation_length = 0
 
 ---- neovide keymaps
