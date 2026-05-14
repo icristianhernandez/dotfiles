@@ -23,6 +23,10 @@ local treesitter = tools.resolve("treesitter")
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
     callback = function(args)
+        local ft = vim.bo[args.buf].filetype
+        if vim.tbl_contains({ "msg", "cmd", "dialog", "pager" }, ft) then
+            return
+        end
         pcall(vim.treesitter.start, args.buf)
         vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end,
