@@ -61,6 +61,8 @@ require("snacks").setup({
                     ["<Down>"] = { "select_and_next", mode = { "i", "n" } },
                     ["<Tab>"] = { "list_down", mode = { "i", "n" } },
                     ["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
+                    -- to use system clipboard keymap
+                    ["<C-v>"] = false,
                 },
             },
         },

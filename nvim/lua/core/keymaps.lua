@@ -25,16 +25,30 @@ create_keymap("n", "<leader>wv", "<cmd>vsplit<cr>", "Vertical Split Window")
 -- Keep nvim's default registers for normal y/p to avoid mixing with OS clipboard
 create_keymap("x", "<C-c>", '"+y', "Yank selection to system clipboard")
 create_keymap("n", "<C-c>", '"+yy', "Yank current line to system clipboard")
-create_keymap("n", "<C-v>", '"+p', "Paste from system clipboard after cursor")
-create_keymap("i", "<C-v>", "<C-r>+", "Paste from system clipboard")
--- terminal mode clipboard mappings
-create_keymap("t", "<C-v>", [[<C-\><C-n>"+p]], "Paste from system clipboard in terminal mode")
+
+create_keymap({ "n", "x" }, "<C-v>", '"+p', "Paste from system clipboard after cursor")
+create_keymap({ "i" }, "<C-v>", "<C-r>+", "Paste from system clipboard")
+
+create_keymap({ "c" }, "<C-v>", function()
+    local keys = vim.api.nvim_replace_termcodes("<C-r>+", true, false, true)
+    vim.api.nvim_feedkeys(keys, "n", false)
+end, "Paste from system clipboard")
+
+create_keymap("t", "<C-v>", function()
+    local chan = vim.b.terminal_job_id
+    if chan then
+        vim.api.nvim_chan_send(chan, vim.fn.getreg("+"))
+    end
+end, "Paste from system clipboard in terminal mode")
 
 -- keep last yanked when nvim pasting
 create_keymap("x", "p", '"_dP', "Keep last yanked when pasting", { remap = true })
 
 -- reload the current buffer
 create_keymap("n", "<leader>wr", "<cmd>edit!<CR>", "Reload the current buffer")
+
+-- reload neovim (0.12+)
+create_keymap("n", "<leader>wR", "<cmd>restart<CR>", "Reload the entere nvim instance")
 
 -- better up/down
 create_keymap({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", "Down", { expr = true, silent = true })
