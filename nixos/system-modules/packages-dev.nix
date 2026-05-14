@@ -18,7 +18,11 @@ guardRole "dev" {
     statix
     unstable.vscode.fhs
     # unstable.github-copilot-cli
-    # unstable.pi-coding-agent
+    unstable.pi-coding-agent
+    unstable.neovide
+
+    anydesk
+
   ];
 
   # programs.vscode = {
