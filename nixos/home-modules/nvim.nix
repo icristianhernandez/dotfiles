@@ -9,10 +9,21 @@
 guardRole "dev" {
   warnings = pkgs.lib.optional (pkgs.lib.versionAtLeast pkgs.neovim-unwrapped.version "0.12.0") "Neovim in stable nixpkgs reached or surpass version 0.12.0. Consider switching back from unstable.neovim-unwrapped in nvim.nix.";
 
+  home.packages = with pkgs; [
+    bat
+    delta
+  ];
+
   home.sessionVariables = {
     MANPAGER = "nvim +Man!";
-    PAGER = "nvim";
-    GIT_PAGER = "nvim";
+    MANWIDTH = "999";
+    PAGER = "bat";
+    GIT_PAGER = "delta";
+  };
+
+  systemd.user.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   xdg.configFile."nvim" = {
