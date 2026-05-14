@@ -18,7 +18,7 @@ guardRole "desktop" {
           extensionRepos = [
             "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"
           ]
-          backupPath = "${config.home.homeDirectory}/dotfiles/backups/suwayomi"
+          backupPath = "${config.home.homeDirectory}/dotfiles/suwayomi-backups"
           backupInterval = 1
           backupTime = "03:00"
           backupTTL = 90
