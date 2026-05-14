@@ -49,14 +49,16 @@ require("hlsearch").setup()
 
 require("helpview").setup()
 
-require("smear_cursor").setup({
-    -- never_draw_over_target = false
+if not vim.g.neovide then
+    require("smear_cursor").setup({
+        -- never_draw_over_target = false
 
-    -- without smear
-    stiffness = 0.5,
-    trailing_stiffness = 0.5,
-    matrix_pixel_threshold = 0.5,
-})
+        -- without smear
+        stiffness = 0.5,
+        trailing_stiffness = 0.5,
+        matrix_pixel_threshold = 0.5,
+    })
+end
 
 require("mini.icons").setup()
 MiniIcons.mock_nvim_web_devicons()
@@ -94,15 +96,10 @@ require("no-neck-pain").setup({
         skipEnteringNoNeckPainBuffer = true,
     },
     mappings = {
-        enabled = true,
-        toggle = "<leader>un",
-        toggleLeftSide = false,
-        toggleRightSide = false,
-        widthUp = false,
-        widthDown = false,
-        scratchPad = false,
+        enabled = false,
     },
 })
+vim.keymap.set("n", "<leader>un", ":NoNeckPain<CR>", { desc = "NoNeckPain Toggle" })
 
 require("inc_rename").setup({})
 
