@@ -12,14 +12,10 @@ ui.enable({
             completion = "msg",
             echo = "msg",
             echomsg = "msg",
-            echoerr = "msg",
-            emsg = "msg",
             empty = "msg",
-            lua_error = "msg",
             lua_print = "msg",
             progress = "msg",
             quickfix = "msg",
-            rpc_error = "msg",
             search_cmd = "msg",
             search_count = "msg",
             shell_cmd = "msg",
@@ -29,13 +25,19 @@ ui.enable({
             typed_cmd = "msg",
             undo = "msg",
             wildlist = "msg",
-            wmsg = "msg",
 
             confirm = "dialog",
             confirm_sub = "dialog",
 
             list_cmd = "pager",
             verbose = "pager",
+            rpc_error = "pager",
+            echoerr = "pager",
+            emsg = "pager",
+            lua_error = "pager",
+
+            -- NOTE: If pager becomes too noisy with warnings, revert to "msg"
+            wmsg = "pager",
         },
         cmd = { height = 0.5 },
         dialog = { height = 0.5 },
@@ -196,3 +198,22 @@ o_api.nvim_win_set_width = function(win, width)
     end
     return orig_set_width(win, width)
 end
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    once = true,
+    callback = function()
+        vim.defer_fn(function()
+            local msgs = vim.fn.execute("silent messages")
+            local count = 0
+            for _ in msgs:gmatch("E%d%d%d%d%:") do
+                count = count + 1
+            end
+            if msgs:match("Error in.-\\S+%.lua") then
+                count = math.max(count, 1)
+            end
+            if count > 0 then
+                vim.notify(("Startup errors detected (%d). Run :messages to view."):format(count), vim.log.levels.ERROR)
+            end
+        end, 50)
+    end,
+})
