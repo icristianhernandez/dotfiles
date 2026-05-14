@@ -54,12 +54,18 @@ guardRole "thinkpadE14" {
 
     # zswap related config
     kernel.sysctl = {
-      "vm.swappiness" = 100;
+      "vm.swappiness" = 150;
       "vm.page-cluster" = 0;
       "vm.watermark_boost_factor" = 0;
-      "vm.min_free_kbytes" = 65536;
+      "vm.min_free_kbytes" = 157286;
     };
 
+  };
+
+  systemd.oomd = {
+    enable = true;
+    enableUserSlices = true;
+    settings.OOM.DefaultMemoryPressureLimit = "60%";
   };
 
   systemd.tmpfiles.rules = [
