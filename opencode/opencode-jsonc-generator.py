@@ -30,6 +30,7 @@ BASE_CONFIG: OpencodeJSON = {
     "compaction": {
         "prune": False,
     },
+    "autoupdate": False,
 }
 
 
