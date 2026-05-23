@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.8/schema.json
+---
+cv:
+  name: Cristian Hernandez
+  location: "Caracas, Venezuela (VET, UTC−4)"
+  email: cristianhernandez9007@gmail.com
+  phone: "+584241919084"
+  social_networks:
+    - network: LinkedIn
+      username: cristian-hernández-66b457304
+    - network: GitHub
+      username: icristianhernandez
+  sections:
+    professional_summary:
+      - >
+        Software Engineer with experience in backend, web development,
+        cloud infrastructure, and technical leadership. Developed enterprise
+        integration APIs (Azure AD, Dynamics 365), academic platforms on
+        PostgreSQL/Supabase for 600+ users, and Chrome and Revit extensions
+        with Python and JavaScript.
+
+    experience:
+      - company: Santillana
+        position: Backend Developer - Contract
+        start_date: 2026-04
+        end_date: 2026-05
+        location: Remote
+        highlights:
+          - >
+            Developed a Python API with Azure AD and
+            Dynamics 365 to sync inventory between
+            branches in Venezuela and Spain, eliminating manual
+            international stock reconciliation.
+          - >
+            Integrated 9 endpoints and OAuth to unify order
+            data in a centralized endpoint, enabling the
+            client to digitize and track cross-branch operations
+            for the first time.
+      - company: Universidad Santa María (USM)
+        position: Backend Developer - Contract
+        start_date: 2025-12
+        end_date: present
+        location: Caracas, Venezuela
+        highlights:
+          - >
+            Designed a PostgreSQL/Supabase backend with 32 tables
+            and 7 roles, replacing a paper-based system for ~600
+            students and ~30 administrative staff across 2 campuses.
+          - >
+            Modeled the database schema and workflow automations
+            that eliminated the the manual submission, review, and tracking
+            workflow  for projects between students and staff.
+          - >
+            Managed Supabase cloud infrastructure optimizing
+            costs to maintain cost-efficiency, and coordinated technical
+            alignment with executive administration while reporting
+            progress to university leadership.
+
+      - company: VRA
+        position: Technical Lead & Developer - Contract
+        start_date: 2024-05
+        end_date: 2024-08
+        location: Caracas, Venezuela
+        highlights:
+          - >
+            Led a team of 8 developers delivering a Revit extension
+            (PyRevit) for quantity takeoffs and cost estimation under
+            COVENIN standards, coordinating weekly sprints and
+            completing the project in 3 months within the planned
+            deadline.
+          - >
+            Implemented the core calculation engine in Python/PyRevit with
+            COVENIN report generation by material, blueprint, or
+            full project, with Excel and PDF export for academic
+            and professional use.
+
+    projects:
+      - name: MiCupo
+        start_date: 2024-01
+        end_date: 2024-10
+        highlights:
+          - >
+            Created a Chrome extension (JavaScript, Manifest V3) that
+            monitors real-time course availability on Terna and
+            automatically selects released slots, eliminating days of
+            manual checking and fully automating the course registration
+            process.
+
+    skills:
+      - label: Backend
+        details: Python, Node.js, SQL, PostgreSQL, Supabase, REST API, CRUD, OAuth, Azure AD, Dynamics 365
+      - label: Frontend
+        details: JavaScript, React, HTML, CSS
+      - label: Tools
+        details: ClaudeCode, LangChain, Git, Bash, Linux, Revit Extensions, Chrome Extensions, Opencode, NixOS
+      - label: Languages
+        details: Spanish (Native), English C1 (EF SET)
+
+    education:
+      - institution: Universidad Santa María (USM)
+        area: Systems Engineering
+        degree: B.S.
+        start_date: 2022
+        end_date: 2027
+        location: Caracas, Venezuela
+        highlights:
+          - >
+            Curriculum focused on software engineering, database and systems design.
+
+design:
+  theme: classic
+  page:
+    show_footer: false
+    show_top_note: false
+locale:
+  language: english
+settings:
+  current_date: today
+  render_command:
+    output_folder: rendercv_output
+    design:
+    locale:
+    typst_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ
+    pdf_path: ./pdf_cv/NAME_IN_SNAKE_CASE_CV.pdf
+    markdown_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md
+    html_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html
+    png_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png
+    dont_generate_markdown: true
+    dont_generate_html: true
+    dont_generate_typst: false
+    dont_generate_pdf: false
+    dont_generate_png: false
+  pdf_title: NAME - CV

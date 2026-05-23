@@ -1,0 +1,149 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.8/schema.json
+---
+cv:
+  name: Cristian Hernández
+  location: "Caracas, Venezuela (VET, UTC−4)"
+  email: cristianhernandez9007@gmail.com
+  phone: "+584241919084"
+  social_networks:
+    - network: LinkedIn
+      username: cristian-hernández-66b457304
+    - network: GitHub
+      username: icristianhernandez
+  sections:
+    perfil_profesional:
+      - >
+        Ingeniero de Software con experiencia en backend, desarrollo web,
+        infraestructura cloud y liderazgo técnico. Desarrollé APIs de integración
+        empresarial (Azure AD, Dynamics 365), plataformas académicas en
+        PostgreSQL/Supabase para 600+ usuarios, y extensiones de Chrome y Revit
+        con Python y JavaScript.
+
+    experiencia:
+      - company: Santillana
+        position: Desarrollador Backend - Por Proyecto
+        start_date: 2026-04
+        end_date: 2026-05
+        location: Remoto
+        highlights:
+          - >
+            Desarrollé una API en Python con Azure AD y
+            Dynamics 365 para sincronizar inventarios entre sedes
+            Venezuela-España, eliminando conciliación manual de
+            stock internacional.
+          - >
+            Integré 9 endpoints y OAuth para unificar datos de pedidos
+            en un punto de consumo, permitiendo al cliente digitalizar
+            y rastrear operaciones inter-sede por primera vez.
+      - company: Universidad Santa María (USM)
+        position: Desarrollador Backend - Por Proyecto
+        start_date: 2025-12
+        end_date: present
+        location: Caracas, Venezuela
+        highlights:
+          - >
+            Diseño el backend en PostgreSQL/Supabase con 32 tablas
+            y 7 roles, reemplazando un sistema en papel para ~600
+            estudiantes y ~30 administrativos en 2 sedes.
+          - >
+            Modelo el esquema de base de datos y las automatizaciones
+            de flujo de trabajo que eliminaron el proceso manual de
+            entrega, corrección y seguimiento de proyectos entre
+            estudiantes y administrativos.
+          - >
+            Gestiono la infraestructura cloud en Supabase optimizando
+            costos para mantener la rentabilidad del servidor, y
+            coordino la alineación técnica con la dirección general
+            reportando avances ante las autoridades universitarias.
+
+      - company: VRA
+        position: Líder Técnico y Desarrollador - Por Proyecto
+        start_date: 2024-05
+        end_date: 2024-08
+        location: Caracas, Venezuela
+        highlights:
+          - >
+            Lideré un equipo de 8 desarrolladores en la entrega de una
+            extensión Revit (PyRevit) para cómputos métricos y
+            presupuestos bajo normativa COVENIN, coordinando sprints
+            semanales y completando el proyecto en 3 meses dentro del
+            plazo previsto.
+          - >
+            Implementé el núcleo de cómputos en Python/PyRevit con
+            generación de reportes COVENIN por material, plano o
+            proyecto completo, con exportación a Excel y PDF para su
+            uso en entornos académicos y profesionales.
+
+    proyectos:
+      - name: MiCupo
+        start_date: 2024-01
+        end_date: 2024-10
+        highlights:
+          - >
+            Creé una extensión Chrome (JavaScript, Manifest V3) que
+            monitorea disponibilidad de materias en Terna en tiempo
+            real y selecciona automáticamente cupos liberados,
+            eliminando días de revisión manual y reduciendo
+            inscripción a una automatización efectiva.
+
+    habilidades:
+      - label: Backend
+        details: Python, Node.js, SQL, PostgreSQL, Supabase, api REST, CRUD, OAuth, Azure AD, Dynamics 365
+      - label: Frontend
+        details: JavaScript, React, HTML, CSS
+      - label: Herramientas
+        details: ClaudeCode, LangChain, Git, Bash, Linux, Revit Extensions, Chrome Extensions, Opencode, NixOS
+      - label: Idiomas
+        details: Español (Nativo), Inglés C1 (EF SET)
+
+    educación:
+      - institution: Universidad Santa María (USM)
+        area: Ingeniería en Sistemas
+        degree: Ing.
+        start_date: 2022
+        end_date: 2027
+        location: Caracas, Venezuela
+        highlights:
+          - >
+            Formación en desarrollo de software con énfasis en ingeniería de software.
+
+design:
+  theme: classic
+  page:
+    show_footer: false
+    show_top_note: false
+locale:
+  language: spanish
+settings:
+  current_date: today
+  render_command:
+    output_folder: rendercv_output
+    design:
+    locale:
+    typst_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ
+    pdf_path: ./pdf_cv/NAME_IN_SNAKE_CASE_CV.pdf
+    markdown_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md
+    html_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html
+    png_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png
+    dont_generate_markdown: true
+    dont_generate_html: true
+    dont_generate_typst: false
+    dont_generate_pdf: false
+    dont_generate_png: false
+  # bold_keywords:
+  # Solo resaltar palabras relevantes a un perfil/puesto de trabajo
+  # - Python
+  # - PostgreSQL
+  # - Supabase
+  # - Azure AD
+  # - Dynamics 365
+  # - PyRevit
+  # - OAuth
+  # - REST
+  # - JavaScript
+  # - React
+  # - Node.js
+  # - SQL
+  # - Git
+  # - Linux
+  pdf_title: NAME - CV

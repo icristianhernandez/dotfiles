@@ -6,3 +6,5 @@ debug
 foo.*
 *.log
 data
+cv-resume/rendercv_output/
+cv-resume/*.pdf

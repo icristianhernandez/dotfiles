@@ -1,0 +1,28 @@
+1. Decide between spray and pray vs tailored applications (I prefer the last).
+2. Research the company, lightly for the tailoring, strongly for the interview.
+Search:
+- Industry the company operates in (obvious, but you’d be surprised how many candidates skip this)
+- Their core products, services, and revenue model (B2B vs. B2C, subscription-based vs. one-time purchases, etc.)
+- Public reputation (Glassdoor reviews, customer feedback, press coverage)
+- Recent news and initiatives (mergers, acquisitions, new product launches, leadership changes)
+- Corporate culture and values (their mission statement, employee engagement, DEI efforts)
+- Projects and partnerships (ongoing work, collaborations, social responsibility efforts)
+In:
+- Company website: Read the About, Newsroom, and Careers pages.
+- LinkedIn: Check recent posts, company updates, and employee profiles.
+- Glassdoor & Indeed: See what employees say about leadership and culture.
+- News & Press Releases: Google the company name + “news” to see recent developments.
+- Investor Relations (for public companies): Quarterly reports give insight into financial health and strategy.
+- C-level leadership (who’s running the company and what their background is)
+
+3) Hiring managers don’t just want to know what you did—they want to know what difference you made
+
+- If you see a job you’re interested in via job board/LinkedIn, try to track it down and apply directly onto the company website as opposed to using the job board itself.
+
+- Try to track down the specific job poster via LinkedIn. When you do reach out to them, make their job easy and let them know the specific job ID you applied to OR the literal URL if the ID is not available
+
+- Boolean search in linkedin:
+(“Title” OR “Alternative Title”) AND “Hiring” AND “Skill 1” AND “skill 2”)
+
+- For international students and new grads, do your research and target companies and roles that have historically sponsored visas or are known to be more open to international candidates can improve your chances. Additionally, being upfront about your need for sponsorship can help set the right expectations from the start.
+

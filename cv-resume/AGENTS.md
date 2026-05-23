@@ -1,0 +1,2 @@
+- For rendercv usage, load the rendercv skill, then use the general command `nix develop -c rendercv <subcommand> <args>`.
+- For all answers, unless the user asks differently, answer shortly, directly, and tersely, in a single sentence or a maximum of only a few short paragraphs if absolutely needed.
