@@ -35,11 +35,10 @@ create_keymap({ "c" }, "<C-v>", function()
 end, "Paste from system clipboard")
 
 create_keymap("t", "<C-v>", function()
-    local chan = vim.b.terminal_job_id
-    if chan then
-        vim.api.nvim_chan_send(chan, vim.fn.getreg("+"))
-    end
+    vim.api.nvim_paste(vim.fn.getreg("+"), false, -1)
 end, "Paste from system clipboard in terminal mode")
+
+create_keymap("t", "<esc><esc>", "<C-\\><C-n>", "Exit terminal mode")
 
 -- keep last yanked when nvim pasting
 create_keymap("x", "p", '"_dP', "Keep last yanked when pasting", { remap = true })

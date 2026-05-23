@@ -8,6 +8,7 @@ vim.pack.add({
     "https://github.com/folke/which-key.nvim",
     "https://github.com/nvim-mini/mini.nvim",
     "https://github.com/chrisgrieser/nvim-recorder",
+    "https://github.com/NeogitOrg/neogit",
 })
 
 require("quicker").setup()
@@ -89,12 +90,28 @@ vim.api.nvim_create_autocmd("User", {
     end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+    group = group,
+    pattern = "MiniFilesExplorerOpen",
+    callback = function()
+        local MiniFiles = require("mini.files")
+        local state = MiniFiles.get_explorer_state()
+        if not state then
+            return
+        end
+        if vim.fn.isdirectory(state.anchor) == 1 then
+            MiniFiles.set_bookmark("a", state.anchor, { desc = "Anchor" })
+        end
+        MiniFiles.set_bookmark("b", vim.fn.getcwd(), { desc = "Working directory" })
+    end,
+})
+
 vim.keymap.set({ "n", "x" }, "<leader>e", "", { desc = "+file explorer" })
 
 vim.keymap.set({ "n", "x" }, "<leader>ee", function()
     local MiniFiles = require("mini.files")
     local current_file = vim.api.nvim_buf_get_name(0)
-    MiniFiles.open(current_file, false)
+    MiniFiles.open(current_file, true)
     MiniFiles.reveal_cwd()
 end, { desc = "Open mini.files (Directory of Current File)" })
 
@@ -123,3 +140,12 @@ require("mini.files").setup({
 })
 
 require("recorder").setup({})
+
+vim.keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", { desc = "Open Neogit UI" })
+require("neogit").setup({
+    mappings = {
+        status = {
+            ["<leader>gg"] = "Close",
+        },
+    },
+})

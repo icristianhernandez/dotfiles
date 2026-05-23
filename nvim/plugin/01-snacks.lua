@@ -135,45 +135,6 @@ vim.keymap.set("n", "<leader>fr", function()
     require("snacks").picker.recent()
 end, { desc = "Recent opened files" })
 
--- Git
-vim.keymap.set("n", "<leader>gg", function()
-    require("snacks").lazygit.open()
-end, { desc = "Open Lazygit" })
-
-vim.keymap.set("n", "<leader>gb", function()
-    require("snacks").picker.git_branches()
-end, { desc = "Git Branches" })
-
--- vim.keymap.set("n", "<leader>gl", function()
---     require("snacks").picker.git_log()
--- end, { desc = "Git Log" })
-
-vim.keymap.set("n", "<leader>gl", function()
-    require("snacks").picker.git_log_line()
-end, { desc = "Git Log Line" })
-
-vim.keymap.set("n", "<leader>gf", function()
-    require("snacks").picker.git_log_file()
-end, { desc = "Git Log File" })
-
-vim.keymap.set("n", "<leader>gd", function()
-    require("snacks").picker.git_diff()
-end, { desc = "Git Diff (hunks)" })
-
-vim.keymap.set("n", "<leader>gs", function()
-    require("snacks").picker.git_status()
-end, { desc = "Git Status" })
-
-vim.keymap.set("n", "<leader>gS", function()
-    require("snacks").picker.git_stash()
-end, { desc = "Git Stash" })
-
--- Git Browse
--- TODO: que e eto?
-vim.keymap.set({ "n", "x" }, "<leader>gx", function()
-    require("snacks").gitbrowse()
-end, { desc = "Git Browse" })
-
 -- Search
 vim.keymap.set("n", "<leader>/", function()
     require("snacks").picker.grep()
