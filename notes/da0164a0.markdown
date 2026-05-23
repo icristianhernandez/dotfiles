@@ -1,0 +1,13 @@
+Reddit guides (r/vzla / r/venezuela):
+- Remote international CV guide: https://old.reddit.com/r/vzla/comments/18eu9tg/lo_que_debe_y_no_debe_tener_un_cv_para_trabajar/
+- Venezuela local/presencial CV guide: https://old.reddit.com/r/vzla/comments/18gm9jo/spin_off_lo_que_debe_tener_un_cv_para_trabajar_en/
+- "Qué formato de CV se estila hoy en día en Vzla?": https://old.reddit.com/r/venezuela/comments/1c7heja/qu%C3%A9_formato_de_cv_se_estila_hoy_en_d%C3%ADa_en_vzla/
+
+Template sources:
+- Overleaf CV templates: https://www.overleaf.com/latex/templates/tagged/cv
+- RenderCV (YAML→LaTeX): https://github.com/rendercv/rendercv
+- Rezi: https://rezi.ai
+- ResuTex: https://www.resutex.com
+- Tu Curriculum (free Spanish builder): https://tu-curriculum.com
+- Harvard resume template (Google Docs): search "Harvard resume template" or https://docs.google.com/document/d/1NyBW7UxkVDvqnaNMWgudNe5ttG4Bkr8W/edit (linked from r/resumes wiki)
+- Best AI Resume / Overleaf vs AI builders (2026): https://bestairesumes.com/en/blog/resume-overleaf

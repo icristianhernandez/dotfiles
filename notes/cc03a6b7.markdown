@@ -1,0 +1,105 @@
+Para el perfil profesional, quiero discutir algo: en realidad, siento que soy un desarrollador con experiencia en backend, web, infra, liderazgo. No sé si ponerlo solo como genérico en esta descripción y luego (no en este plan) crear una variante de cv por cada área y ahí si mencionarme como 'Desarrollador X' o algo así.
+
+VRA es un proyecto que desarrolló una extensión para Revit de funcionalidad de
+generación de reporte apegado a la normativa COVENIN
+Esos summary solo deben abarcar una línea por que el espacio está siendo un
+problema para que no se desborde a 2 páginas.
+
+Headline: al igual que con el perfil profesional, no sé si darle una dirección
+de una vez como 'desarollador backend' o en cambio solo hacer de este genérico
+como 'ingeniero de software' y que luego cada variante se especialice.
+
+#18 me parecen bien
+
+#23 deja el desarrollé en santillana, en el de usm lo escribí en presente porque sigo participando en ese proyecto
+
+Respecto al programa de la USM, si bien es una aplicación real, es mi servicio
+comunitario. ¿Igualmente aplica? Eso sí, mi desarrollo se escapó de los límites
+del servicio comunitario en tiempo (mucho más que las 120h requeridas), en
+alcance (no solo desarrollo, también asesorías e implementación) y capacidades
+(presentación y negociación con las autoridades).
+
+#3:
+Santillana 1: desconozco volumen pero tal vez (bajo-mediano) y desconozco cuanto
+tomaba antes o que dificultades tenían antes o mejoras obtuvieron. Era
+principalmente entre la sede venezolana y la española (tal vez el resto de
+sedes, desconozco).
+Santillana 2: poder sincronizar los pedidos entre las sedes para digitalizar y
+poder hacer seguimientos sobre esas operaciones
+
+VRA 1: desconozco
+VRA 2: desconozco, solo sé que se uso pedagógicamente 
+
+USM 1: todavía desconozemos el impcto
+USM 2: no sé si mencionarlo de esa manera, se elimina el proceso de entrega y
+retroalimentación manual/seguimiento por parte de los miembros
+USM 3: no incluiré monto
+
+
+
+
+
+
+
+Ahora desempeñaras como asesor, guía y elaborador del currículo. Los aspectos a mejorar son correctos, entonces entraremos en un proceso iterativo extenso donde desarrolles los cambios, me pidas información y me cuestiones los enfoques y direcciones tomadas, hasta que se pueda desarrollar un plan completo con los detalles de cambios para la mejora integral del CV como ha sido propuesto.
+
+Por ahora, información preliminar que proporciono a espera de preguntas (es
+necesario pulir para solo tener la información relevante / encontrar todo lo que
+falta todavía / cambiar enfoques / etc):
+Estamos a mayo del 2026 y la carrera la termino en febrero del 2027. No sé si sea relevante/conveniento incluir de alguna manera la fecha de término al ser pronto. De los proyectos que coloqué en la sección de 'Experiencia', uno era extracurricular y con un cliente (VRA), el otro era un proyecto personal (MiCupo) que aunque se tenía intención de desplegar comercialmente, al final nunca se realizó y solo fue una solución para yo y mi compañero que lo desarrollamos y nuestros allegados.
+
+Desde la escritura de esos, he participado en dos nuevos proyectos:
+
+- Un proyecto como contratista para una funcionalidad de un proyecto para Santillana, de paga de 400$, en donde participé principalmente en labor técnica desarrollando el backend de conexión con las api de una nueva infraestructura en Azure en un proyecto de refactorización/modernización de tecnologías en Santillana. Mi consumo de api se encargaba de conecatarme con las instancias de Azure y manejar la autenticación y consumo de datos. La funcionalidad específica para la cual ese manejo de api se propuso utilizarse fue para sincronizar la sede de Santillana venezolana con la española y poder sincronizar inventarios y tener información sobre los pedidos de materiales, libros, entre una sede y otra.
+
+- Un proyecto (que aunque es de servicio comunitario, su scope se extendió a mucho más cuando el director general de servicio comunitario me encargo desarrollar y aplicar la app para la universidad) para la usm (mi universidad) de gestión de servicios comunitarios. La plataforma permite un registro por invitación a estudiantes y autoridades académicas y del proceso de servicio comunitario y permite la digitilización y carga/soporte de toda la dinámica/proceso de entregas del servicio comunitario en la página, con controles de acceso, api e interacciones para otras plataformas de la universidad y soporte a todas las sedes. El proyecto sigue en desarrollo, comenzó aproximadamente en diciembre de 2025. Es mi proyecto a escala técnico más complejo hasta el momento.
+
+Mis tareas técnicas fueron: el desarrollo completo del backend en supabase, postgressql, en local y producción, manejo de servicio de correos, de direccionamiento y generación de presupuesto de la infraestructura. Las tareas en el backend fueron el diseño del esquema de la base de datos, el desarrollo de la db, automatizaciones, validaciones complejas, el control de permisos y accesos de roles y el control de la api para consumo del frontend.
+
+A nivel de proyecto, fue la coordinación de las funcionalidades y tiempos de
+entrega con los clientes así como presentaciones. En pocos días tendré una
+penúltima entrega antes de la presentación final (la semana que viene) ante
+todas la autoridades académicas, para juicio de despliegue (y coordinado
+presentaciones, documentación y asesorias por facultad junto a presentación por
+facultad acompañando el despliegue).
+
+La intención de este proyecto es poder digitalizar el proceso para darle
+seguridad a los estudiantes al poder ver las etapas y avance del proceso, para
+el profesorado tener una plataforma donde poder tener todo el material de los
+proyectos y ayudas de fiabilidad y de tiempo al tener los documentos y
+correcciones ahí presentes, y académicamente al ser un sistema que de soberanía
+al stack tecnologíco de la universidad, una fuente para validar información y
+por tanto también para trabajo cruzado con otros departamentos.
+
+- Sobre mi cupo, el volumen de transacciones eran iteracciones cada X tiempo (5s
+  default) a una uri específica para fetchear la data más específica posible y
+  parsearla para evaluar el contexto y tomar decisiones al respecto. Fue
+  desarrollada en el ambiente de extensiones de chrome, por tanto con js y chrome
+  extensions manifest, etc. Permitió con su uso que en vez de estar pegado a la
+  página en espera de disponibilidad de cupos, el usuario solo tuviese que
+  activarlo y tener garantizado que las materias que el específico se vayan a
+  seleccionar apenas esten disponibles. De estar horas revisando cupos con
+  atención dedicada o semidedicada, a unos pocos minutos eligiendo cuales
+  materias y activando el bot. No presentó errores, incluso llegando a 'robar'
+  cupos de estudiantes que se salieran un momento, antes de que pudieran volver a
+  inscribirlos. Las funcionalidades eran elegir materias, secciones de esas
+  materias en base a varios criterios (cualquiera, una en específica, todas menos
+  una), de la frecuencia de revisión y la capacidad de detectar la disponibilidad
+  de materias y de seleccionarlas.
+
+- En RVA se desarrolló con python, el tiempo de entrega fue la duración
+  presentada en el proyecto y no hubo retrasos y cumplimientos y satisfacción en
+  cada entrega. Las funcionalidades eran la generación de reportes automáticos
+  sobre el presupuesto, obteniendo los cómputos métricos del proyecto y listando
+  todos los materiales, adaptado todo al manual COVENIN para sus cálculos y al
+  mercado venezolano para su precio. Se presenta para (a) facilitar la adopción de
+  Revit industrialmente en venezuela, (b) darle un espacio a la universidad como
+  impulsora de estos movimientos, (c) agilizar la generacción de presupuestos ya
+  planteados para la realidad venezolana, legalmente y a nivel de mercado. Habían
+  opciones para incluir/descartar materiales, para ordenarlo de otra manera y para
+  exportar a excel o pdf. Este fue el proyecto más fuerte en administración de equipo.
+
+Siento que la mejor organización podría ser poner de experiencia la
+modernización de infra de santillana + la plataforma de gestión + rva, y poner como proyectos micupo (y tal vez rva si se considera académico?). Creería que un orden como: educación > trabajo > proyectos?
+
+Todos esos proyectos, excepto micupo y el de santillana están en mi github.

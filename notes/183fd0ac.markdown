@@ -1,4 +1,98 @@
 #
+### 2. Validaciones de integridad
+- **Tiempo:** Bajo | **Importancia:** Alta
+- Sin títulos repetidos: `UNIQUE` en `projects.title`
+- Solo PDF: validación en upload de documentos al bucket `project`
+- No agregar más gente a un grupo: restricción al alcanzar el máximo
+
+### 3. Sedear cuentas de autoridades académicas
+- **Tiempo:** Bajo | **Importancia:** Media
+- Insertar perfiles predefinidos para decanos, coordinadores, subcoordinadores con sus roles correspondientes.
+
+### 4. Roles nuevos
+- **Tiempo:** Bajo | **Importancia:** Media
+- Vicerrector académico y vicerrector administrativo
+- Secretaria / Asistente (permiso: Ver/Inscribir)
+- Planeamiento y Admisión
+- Solo agregar filas en `roles` + seed.
+
+### 5. Sedes: agregar campus Puerto La Cruz
+- **Tiempo:** Bajo | **Importancia:** Baja
+- Ya existe Caracas (`Universidad Santa Maria - La Florencia`). Insertar en `campuses`, `locations`, `cities`, `states`.
+
+### 7. Many-to-many: subcoordinador ↔ escuelas
+- **Tiempo:** Medio-Alto | **Importancia:** Alta
+- Un subcoordinador puede atender varias escuelas; una escuela puede tener varios subcoordinadores, o ligarse solo a la facultad.
+- Implica: tabla puente `school_subcoordinator_profiles` (o similar), migrar FK actual, actualizar triggers de auto-asignación en `set_project_staff_on_insert()`.
+
+### 9. Fases de consignación de documentos: Entrega → Entregado → Aprobado → Consignado
+- Incluye: flags de estado por cada fase (ej. `is_delivered`, `is_approved`, `is_consigned`).
+- **Tiempo:** Alto | **Importancia:** Alta
+- Nuevos estados en `project_states` o nuevo `phase_kind` en `project_phases`, lógica de transición en `validate_project_progress_phase_transition()`, integración con notificaciones.
+
+11. los correos de avance de etapa deben notificar el recaudo de documentos
+
+### 11. Flujo de exoneración
+- Lo aprueba el coordinador. Requiere: título obtenido, notas, constancia de cumplimiento (único obligatorio). Mensajes de consignar original y copia de documentos (¿dónde?, ¿después de aprobado?).
+- **Tiempo:** Alto | **Importancia:** Alta
+- Nueva tabla `exoneration_requests` (profile_id, coordinator_id, estado, documentos), flujo de aprobación, uploads asociados.
+
+### 12. Período académico, certificados y plantillas
+- Tabla `academic_periods` (vigente, asociado al proyecto) para validaciones y certificados.
+- Generar y guardar certificados sin firmas (PDF programático → bucket `certificates`).
+- Sedear plantillas para certificados (¿formato PDF o Word? definir antes de implementar).
+- **Tiempo:** Alto | **Importancia:** Media-Alta
+
+---
+
+¿Quieres que ajuste algo o procedo con algún punto?
+
+[frontend]
+
+- Filtro por nombre y cédula para usuarios y para proyectos
+- El coordinador puede ver las notas de correcciones previas en la misma fase en la UI de aceptación.
+  - Idealmente ver un diff de cambios de la entrega
+- Notificar que deben entregarse en físico los documentos una vez aprobada la fase.
+- Cambiar "Tutores" -> "Subcoordinadores"
+- Dashboards para planeación que solo miren proyectos terminados y fechas y chequeos de entregas
+- Los "No Responsables" miembros de un grupo solo pueden ver sin modificar
+- Solo subir PDF
+- Imprimir certificados en lote
+  - El coordinador
+- Indicar al coordinador que debe enviar el expediente a planeamiento
+  - Opción para imprimir expediente + (en lote)
+  - UI para nuevas fases
+- Nombre en la landing: Sistema Central Servicio Comunitario
+- UI para exoneración (estudiante, coordinador, planeamiento)
+- Cambiar roles, anular cuentas ( sysadmin -> ¿quien? )
+
+[backend]
+
+4. Sedear cuentas de toda la usm (estructura)
+6. Roles para: vicerrectores, planeamiento, asistente
+7. Flujo completo de consigna a planeamiento
+8. Flujo completo de exoneración
+10. Solo pdf en los archivos de documentos aceptados
+11. Manejo del periodo académico vigente / periodo académico de la emisión /
+    periodo de comienzo
+12. un coordinador/sub puede tener varias escuelas. Una escuela puede tener varios coordinadores o solo facultad?
+13. Para ambas sedes (sedeo)
+
+- Rol para secretaria / asistente / Ver/Inscribir
+- Sedear cuentas de las autoridades académicas
+- ¿Generar y guardar los certificados? (Sin Firmas)
+- Sedear las plantillas
+  - ¿PDF, Word? ¿Como?
+- Guardar el Período académico vigente y del proyecto para uso en certificados, validaciones
+- Flujo para exoneración
+  - lo aprueba el coordinador
+  - Título obtenido
+  - Notas
+  - Constancia Cumplimiento -> Solo esto es obligatorio
+  - Mensajes de consignar original y copia de esos documentos. ("¿Donde?") ("¿Después de aprobado?")
+- Sedes: Caracas, Puerto La Cruz
+- no se puede agregar más gente a un grupo
+- un coordinador/sub puede tener varias escuelas. Una escuela puede tener varios coordinadores o solo facultad?
 
 1. Actions must populate 'notifications_events'
         For now, focus only on updates in 'project_progress'.
