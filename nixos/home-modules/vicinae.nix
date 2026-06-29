@@ -4,7 +4,6 @@
   hasRole,
   pkgs,
   lib,
-  input,
   ...
 }:
 
@@ -14,20 +13,16 @@ let
   );
 in
 guardRole "desktop" {
-  disabledModules = [ "programs/vicinae.nix" ];
-  imports = [
-    "${input.home-manager-unstable}/modules/programs/vicinae"
-  ];
-
-  warnings = lib.optional (lib.versionAtLeast pkgs.vicinae.version "0.17.0") "Vicinae in stable nixpkgs reached version ${pkgs.vicinae.version}. Consider switching back from unstable.vicinae in vicinae.nix (unstable overlay and home manager fix).";
-
   xdg.configFile."vicinae/base_config.json".text = builtins.toJSON {
     close_on_focus_loss = false;
     pop_to_root_on_close = true;
     pop_on_backspace = false;
     activate_on_single_click = true;
     providers = {
-      applications.preferences.defaultAction = "launch";
+      applications.preferences = {
+        defaultAction = "launch";
+        launchPrefix = "systemd-run --user --scope --";
+      };
       clipboard.enabled = false;
       files = {
         preferences.paths = filesProviderPaths;
@@ -52,8 +47,7 @@ guardRole "desktop" {
 
   programs.vicinae = {
     enable = true;
-    # unstable to have vicinae v 0.20.x, if stable reach or pass that, change it
-    package = pkgs.unstable.vicinae;
+    package = pkgs.vicinae;
     systemd = {
       enable = true;
       autoStart = true;

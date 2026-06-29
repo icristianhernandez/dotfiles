@@ -7,8 +7,6 @@
 }:
 
 guardRole "dev" {
-  warnings = pkgs.lib.optional (pkgs.lib.versionAtLeast pkgs.neovim-unwrapped.version "0.12.0") "Neovim in stable nixpkgs reached or surpass version 0.12.0. Consider switching back from unstable.neovim-unwrapped in nvim.nix.";
-
   home.packages = with pkgs; [
     bat
     delta
@@ -28,12 +26,12 @@ guardRole "dev" {
 
   xdg.configFile."nvim" = {
     source = config.lib.file.mkOutOfStoreSymlink "${const.dotfilesDir}/nvim";
-    recursive = true;
   };
 
   programs.neovim = {
     enable = true;
-    package = pkgs.unstable.neovim-unwrapped;
+    sideloadInitLua = true;
+    package = pkgs.neovim-unwrapped;
     defaultEditor = true;
     withNodeJs = true;
     withPython3 = true;
