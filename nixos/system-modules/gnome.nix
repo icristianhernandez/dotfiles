@@ -23,21 +23,6 @@ guardRole "gnome" {
     platformTheme = "gnome";
     style = "adwaita";
   };
-
-  networking.firewall = {
-    # presumeed for wifi hotpost
-    allowedTCPPorts = [
-      53
-      80
-      443
-    ];
-    allowedUDPPorts = [
-      53
-      67
-      68
-    ];
-  };
-
   environment = {
     # Fix for: https://github.com/NixOS/nixpkgs/issues/409755
     # But that maybe can also affects other things, both the issue and the fix

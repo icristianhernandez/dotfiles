@@ -10,16 +10,16 @@ let
   theme = import ../lib/theme.nix;
 in
 guardRole "gnome" {
-  warnings = lib.optional (lib.versionAtLeast pkgs.vicinae.version "0.17.0") "Vicinae in stable nixpkgs reached version ${pkgs.vicinae.version}. Remove the local vicinae override in this file (the gnomeExtensions.vicinae.overrideAttrs block that patches windows-service.js) and then remove this warning.";
-
   home.packages = with pkgs; [
+    gcr
     gnomeExtensions.dash-to-panel
     # gnomeExtensions.luminus-desktop
-    (gnomeExtensions.vicinae.overrideAttrs (oldAttrs: {
-      postInstall = (oldAttrs.postInstall or "") + ''
-        sed -i 's/return JSON.stringify(filteredWindows);/return "[]";/g' $out/share/gnome-shell/extensions/vicinae@dagimg-dot/core/dbus/services/windows-service.js
-      '';
-    }))
+    # (gnomeExtensions.vicinae.overrideAttrs (oldAttrs: {
+    #   postInstall = (oldAttrs.postInstall or "") + ''
+    #     sed -i 's/return JSON.stringify(filteredWindows);/return "[]";/g' $out/share/gnome-shell/extensions/vicinae@dagimg-dot/core/dbus/services/windows-service.js
+    #   '';
+    # }))
+    gnomeExtensions.vicinae
     gnomeExtensions.super-key
     gnomeExtensions.appindicator
     gnomeExtensions.user-themes

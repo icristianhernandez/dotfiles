@@ -12,7 +12,7 @@ guardRole "desktop" {
       chrome =
         if hasRole "thinkpadE14" then
           google-chrome.override {
-            commandLineArgs = "--ignore-gpu-blocklist --disable-vulkan --enable-features=VaapiVideoDecode --disable-features=UseChromeOSDirectVideoDecoder --use-angle=gl --disable-gpu-program-cache";
+            commandLineArgs = "--ignore-gpu-blocklist --disable-vulkan --enable-features=VaapiVideoDecode --disable-features=UseChromeOSDirectVideoDecoder --use-angle=gl --disable-gpu-program-cache --password-store=gnome-libsecret";
           }
         else
           google-chrome;
@@ -70,9 +70,7 @@ guardRole "desktop" {
     };
   };
 
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=5min
-  '';
+  systemd.sleep.settings.Sleep.HibernateDelaySec = "5min";
 
   boot = {
     loader.systemd-boot.enable = true;

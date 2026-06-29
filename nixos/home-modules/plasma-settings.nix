@@ -1,23 +1,32 @@
 {
   guardRole,
+  pkgs,
   ...
 }:
 
 guardRole "plasma" {
-  home.file.".local/share/applications/vicinae-launcher.desktop" = {
-    text = ''
-      [Desktop Entry]
-      Name=Vicinae Launcher
-      Exec=vicinae toggle
-      Terminal=false
-      Type=Application
-      Categories=Utility;
-      Icon=application-launcher
-    '';
+  home = {
+    packages = with pkgs; [
+      gcr
+      kdePackages.kwalletmanager
+    ];
+
+    file = {
+      ".local/share/applications/vicinae-launcher.desktop" = {
+        text = ''
+          [Desktop Entry]
+          Name=Vicinae Launcher
+          Exec=vicinae toggle
+          Terminal=false
+          Type=Application
+          Categories=Utility;
+          Icon=application-launcher
+        '';
+      };
+    };
   };
   programs.plasma = {
     enable = true;
-    overrideConfig = true;
 
     configFile = {
       "kglobalshortcutsrc" = {
@@ -26,9 +35,15 @@ guardRole "plasma" {
           "_launch" = "Meta\tMeta,Meta,Launch Vicinae";
         };
         "plasmashell" = {
-          "show-on-mouse-pos" = "Ctrl+N,,Show Clipboard History";
+          "show-on-mouse-pos" = "Ctrl+Ñ,Ctrl+Ñ";
         };
         "plasmashell.desktop"."_launch" = "none\tMeta,Meta,Show Application Launcher";
+      };
+      "plasma-org.kde.plasma.desktop-appletsrc" = {
+        "Containments][2][Applets][7][General" = {
+          extraItems = "org.kde.plasma.cameraindicator,org.kde.plasma.manage-inputmethod,org.kde.plasma.keyboardlayout,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.devicenotifier,org.kde.kscreen,org.kde.plasma.networkmanagement,org.kde.plasma.printmanager,org.kde.plasma.volume,org.kde.plasma.keyboardindicator,org.kde.plasma.brightness,org.kde.plasma.battery,org.kde.plasma.weather";
+          knownItems = "org.kde.plasma.cameraindicator,org.kde.plasma.manage-inputmethod,org.kde.plasma.keyboardlayout,org.kde.plasma.mediacontroller,org.kde.plasma.notifications,org.kde.plasma.devicenotifier,org.kde.kscreen,org.kde.plasma.networkmanagement,org.kde.plasma.printmanager,org.kde.plasma.volume,org.kde.plasma.keyboardindicator,org.kde.plasma.brightness,org.kde.plasma.battery,org.kde.plasma.weather";
+        };
       };
       dolphinrc = {
         General.ViewPropsTimestamp = "2026,2,14,14,13,49.493";
@@ -57,7 +72,11 @@ guardRole "plasma" {
       kdeglobals = {
         General = {
           UseSystemBell = true;
-          Scale = 1.5;
+          fixed = "JetBrainsMono Nerd Font,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+          font = "Inter,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+          menuFont = "Inter,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+          smallestReadableFont = "Inter,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+          toolBarFont = "Inter,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
         };
         KDE = {
           AnimationDurationFactor = 0;
@@ -87,15 +106,12 @@ guardRole "plasma" {
         Effect-overview.BorderActivate = 9;
         Plugins.shakecursorEnabled = false;
         Wayland.EnablePrimarySelection = false;
-        Xwayland.Scale = 1.5;
       };
 
       plasmaparc = {
         General.RaiseMaximumVolume = true;
         General.VolumeStep = 3;
       };
-
-      plasmarc.Wallpapers.usersWallpapers = "/mnt/storage/wallpapers/wallhaven-5yl7x5_1920x1080.png";
 
       kwalletrc = {
         "KSecretD" = {

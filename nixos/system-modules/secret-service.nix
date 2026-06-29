@@ -1,37 +1,29 @@
 {
   pkgs,
+  lib,
   guardRole,
   ...
 }:
 
 guardRole "desktop" {
   services.gnome.gnome-keyring.enable = true;
-  programs.ssh.startAgent = false;
+  programs = {
+    dconf.enable = true;
+    ssh.startAgent = false;
+    ssh.askPassword = lib.mkForce "${pkgs.gcr}/libexec/seahorse/ssh-askpass";
+    seahorse.enable = true;
+  };
+
+  xdg.portal.extraPortals = [ pkgs.gnome-shell ];
 
   security.pam.services = {
-    login.enableGnomeKeyring = true; # For TTY logins (Niri/Sway)
-    sddm.enableGnomeKeyring = true; # For both GNOME and Plasma
-    gdm.enableGnomeKeyring = true; # For GNOME
-    greetd.enableGnomeKeyring = true; # For Greetd users
+    login.enableGnomeKeyring = true;
+    gdm-password.enableGnomeKeyring = true;
+    gdm-autologin.enableGnomeKeyring = true;
+    greetd.enableGnomeKeyring = true;
   };
-
-  # GUI for secrets - enable on both GNOME and Plasma
-  programs.seahorse.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # For terminal (ssh, mostly)
     libsecret
   ];
-
-  services.dbus.packages = [ pkgs.gcr ];
-
-  # that can be brittle, so can be removed in future for debugging purposes
-  environment.sessionVariables = {
-    # Forces all OpenSSL-linked apps to use the NixOS system bundle
-    SSL_CERT_FILE = "/etc/ssl/certs/ca-certificates.crt";
-    SSL_CERT_DIR = "/etc/ssl/certs";
-
-    # Specifically for Node.js-based CLIs (like Copilot)
-    NODE_EXTRA_CA_CERTS = "/etc/ssl/certs/ca-certificates.crt";
-  };
 }
