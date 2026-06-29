@@ -18,10 +18,11 @@ guardRole "gaming" {
       ];
     })
 
-    tower-pixel-dungeon
     shattered-pixel-dungeon
     crawlTiles
     mindustry-wayland
+    cataclysm-dda
+    brogue-ce
   ];
 
   fonts.packages = with pkgs.unstable; [
