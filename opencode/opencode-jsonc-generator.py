@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+from pathlib import Path
 
 from typing import TypeAlias
 
@@ -9,11 +10,13 @@ OpencodeJSON: TypeAlias = dict[
 
 OpencodeJSONPermissions: TypeAlias = dict[str, str | dict[str, str]]
 
+subagent_model = "opencode-go/deepseek-v4-flash"
 
 BASE_CONFIG: OpencodeJSON = {
     "$schema": "https://opencode.ai/config.json",
     "model": "opencode-go/deepseek-v4-flash",
-    "small_model": "opencode/deepseek-v4-flash-free",
+    "small_model": "opencode-go/deepseek-v4-flash",
+    # "small_model": "opencode/minimax-m3-free",
     # "disabled_providers": ["opencode"],
     "tui": {
         "scroll_speed": 3,
@@ -26,10 +29,12 @@ BASE_CONFIG: OpencodeJSON = {
         "messages_half_page_down": "ctrl+d",
     },
     "default_agent": "plan",
-    "plugin": ["opencode-gemini-auth@latest"],
-    "compaction": {
-        "prune": False,
-    },
+    "plugin": [
+        "opencode-gemini-auth@latest",
+    ],
+    # "compaction": {
+    #     "prune": False,
+    # },
     "autoupdate": False,
 }
 
@@ -84,7 +89,7 @@ core_permissions = {
     "external_directory": {
         "*": "ask",
         "/tmp/*": "allow",
-        "/nix/store/*": "allow",
+        "/nix/*": "allow",
     },
     "webfetch": "allow",
     "task": "allow",
@@ -104,6 +109,8 @@ core_permissions = {
         "*.env": "deny",
         "*.env.*": "deny",
         "*.env.example": "allow",
+        "/nix/*": "allow",
+        "/tmp/*": "allow",
     },
     "bash": {
         "*": "ask",
@@ -146,7 +153,7 @@ core_permissions = {
         "mmdc": "allow",
         "mmdc *": "allow",
         "*git push*": "deny",
-        "*git commit*": "deny",
+        "*git commit*": "allow",
     },
 }
 
@@ -155,8 +162,6 @@ plan_agent_specific_permissions: OpencodeJSONPermissions = {
     "edit": "deny",
     "external_directory": "allow",
 }
-
-subagent_model = "opencode-go/deepseek-v4-flash"
 
 opencode_json = {
     **BASE_CONFIG,
@@ -186,5 +191,6 @@ opencode_json = {
     },
 }
 
-with open("opencode.json", "w") as opened_file:
+output = Path(__file__).resolve().parent / "opencode.json"
+with open(output, "w") as opened_file:
     json.dump(opencode_json, opened_file, indent=4)

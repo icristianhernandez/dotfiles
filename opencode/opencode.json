@@ -1,176 +1,178 @@
 {
-  "$schema": "https://opencode.ai/config.json",
-  "model": "opencode-go/deepseek-v4-flash",
-  "small_model": "opencode/deepseek-v4-flash-free",
-  "autoupdate": false,
-  "tui": {
-    "scroll_speed": 3,
-    "scroll_acceleration": {
-      "enabled": false
-    }
-  },
-  "keybinds": {
-    "messages_half_page_up": "ctrl+u",
-    "messages_half_page_down": "ctrl+d"
-  },
-  "default_agent": "plan",
-  "plugin": ["opencode-gemini-auth@latest"],
-  "compaction": {
-    "prune": false
-  },
-  "agent": {
-    "general": {
-      "model": "opencode-go/deepseek-v4-flash"
-    },
-    "explore": {
-      "model": "opencode-go/deepseek-v4-flash"
-    },
-    "compaction": {
-      "model": "opencode-go/deepseek-v4-flash"
-    },
-    "summary": {
-      "model": "opencode-go/deepseek-v4-flash"
-    },
-    "build": {
-      "permission": {
-        "*": "ask",
-        "external_directory": {
-          "*": "ask",
-          "/tmp/*": "allow",
-          "/nix/store/*": "allow"
-        },
-        "webfetch": "allow",
-        "task": "allow",
-        "codesearch": "allow",
-        "lsp": "allow",
-        "edit": "allow",
-        "grep": "allow",
-        "glob": "allow",
-        "list": "allow",
-        "todowrite": "allow",
-        "todoread": "allow",
-        "question": "allow",
-        "websearch": "allow",
-        "doom_loop": "deny",
-        "read": {
-          "*": "allow",
-          "*.env": "deny",
-          "*.env.*": "deny",
-          "*.env.example": "allow"
-        },
-        "bash": {
-          "*": "ask",
-          "true": "allow",
-          "nix run ./nixos#ci": "allow",
-          "nix run ./nixos#ci 2>&1": "allow",
-          "nix run ./nixos#ci 2>&1 | tail -30": "allow",
-          "nix run ./nixos#nixos-ci": "allow",
-          "nix run ./nixos#nvim-ci": "allow",
-          "nix run ./nixos#workflows-ci": "allow",
-          "nix run ./nixos#nixos-fmt": "allow",
-          "nix run ./nixos#nixos-lint": "allow",
-          "nix run ./nixos#nvim-fmt": "allow",
-          "nix run ./nixos#nvim-lint": "allow",
-          "nix run ./nixos#workflows-fmt": "allow",
-          "nix run ./nixos#workflows-lint": "allow",
-          "sqlfluff fix *": "allow",
-          "sqlfluff lint *": "allow",
-          ".venv/bin/sqlfluff lint supabase/migrations/*.sql supabase/seed.sql": "allow",
-          ".venv/bin/sqlfluff fix supabase/migrations/*.sql supabase/seed.sql": "allow",
-          "npx supabase db reset": "allow",
-          "npx supabase status": "allow",
-          "node scripts/seed-tests-accounts.js": "allow",
-          "nix eval *": "allow",
-          "nix search *": "allow",
-          "rg": "allow",
-          "rg *": "allow",
-          "git status": "allow",
-          "git status *": "allow",
-          "cd *": "allow",
-          "git diff": "allow",
-          "git diff *": "allow",
-          "pwd": "allow",
-          "ls": "allow",
-          "ls *": "allow",
-          "curl *": "allow",
-          "wget *": "allow",
-          "grep": "allow",
-          "grep *": "allow",
-          "mmdc": "allow",
-          "mmdc *": "allow",
-          "*git push*": "deny",
-          "*git commit*": "deny"
+    "$schema": "https://opencode.ai/config.json",
+    "model": "opencode-go/deepseek-v4-flash",
+    "small_model": "opencode-go/deepseek-v4-flash",
+    "tui": {
+        "scroll_speed": 3,
+        "scroll_acceleration": {
+            "enabled": false
         }
-      }
     },
-    "plan": {
-      "permission": {
-        "*": "ask",
-        "external_directory": "allow",
-        "webfetch": "allow",
-        "task": "allow",
-        "codesearch": "allow",
-        "lsp": "allow",
-        "edit": "deny",
-        "grep": "allow",
-        "glob": "allow",
-        "list": "allow",
-        "todowrite": "allow",
-        "todoread": "allow",
-        "question": "allow",
-        "websearch": "allow",
-        "doom_loop": "deny",
-        "read": {
-          "*": "allow",
-          "*.env": "deny",
-          "*.env.*": "deny",
-          "*.env.example": "allow"
+    "keybinds": {
+        "messages_half_page_up": "ctrl+u",
+        "messages_half_page_down": "ctrl+d"
+    },
+    "default_agent": "plan",
+    "plugin": [
+        "opencode-gemini-auth@latest"
+    ],
+    "autoupdate": false,
+    "agent": {
+        "general": {
+            "model": "opencode-go/deepseek-v4-flash"
         },
-        "bash": {
-          "*": "ask",
-          "true": "allow",
-          "nix run ./nixos#ci": "allow",
-          "nix run ./nixos#ci 2>&1": "allow",
-          "nix run ./nixos#ci 2>&1 | tail -30": "allow",
-          "nix run ./nixos#nixos-ci": "allow",
-          "nix run ./nixos#nvim-ci": "allow",
-          "nix run ./nixos#workflows-ci": "allow",
-          "nix run ./nixos#nixos-fmt": "allow",
-          "nix run ./nixos#nixos-lint": "allow",
-          "nix run ./nixos#nvim-fmt": "allow",
-          "nix run ./nixos#nvim-lint": "allow",
-          "nix run ./nixos#workflows-fmt": "allow",
-          "nix run ./nixos#workflows-lint": "allow",
-          "sqlfluff fix *": "allow",
-          "sqlfluff lint *": "allow",
-          ".venv/bin/sqlfluff lint supabase/migrations/*.sql supabase/seed.sql": "allow",
-          ".venv/bin/sqlfluff fix supabase/migrations/*.sql supabase/seed.sql": "allow",
-          "npx supabase db reset": "allow",
-          "npx supabase status": "allow",
-          "node scripts/seed-tests-accounts.js": "allow",
-          "nix eval *": "allow",
-          "nix search *": "allow",
-          "rg": "allow",
-          "rg *": "allow",
-          "git status": "allow",
-          "git status *": "allow",
-          "cd *": "allow",
-          "git diff": "allow",
-          "git diff *": "allow",
-          "pwd": "allow",
-          "ls": "allow",
-          "ls *": "allow",
-          "curl *": "allow",
-          "wget *": "allow",
-          "grep": "allow",
-          "grep *": "allow",
-          "mmdc": "allow",
-          "mmdc *": "allow",
-          "*git push*": "deny",
-          "*git commit*": "deny"
+        "explore": {
+            "model": "opencode-go/deepseek-v4-flash"
+        },
+        "compaction": {
+            "model": "opencode-go/deepseek-v4-flash"
+        },
+        "summary": {
+            "model": "opencode-go/deepseek-v4-flash"
+        },
+        "build": {
+            "permission": {
+                "*": "ask",
+                "external_directory": {
+                    "*": "ask",
+                    "/tmp/*": "allow",
+                    "/nix/*": "allow"
+                },
+                "webfetch": "allow",
+                "task": "allow",
+                "codesearch": "allow",
+                "lsp": "allow",
+                "edit": "allow",
+                "grep": "allow",
+                "glob": "allow",
+                "list": "allow",
+                "todowrite": "allow",
+                "todoread": "allow",
+                "question": "allow",
+                "websearch": "allow",
+                "doom_loop": "deny",
+                "read": {
+                    "*": "allow",
+                    "*.env": "deny",
+                    "*.env.*": "deny",
+                    "*.env.example": "allow",
+                    "/nix/*": "allow",
+                    "/tmp/*": "allow"
+                },
+                "bash": {
+                    "*": "ask",
+                    "true": "allow",
+                    "nix run ./nixos#ci": "allow",
+                    "nix run ./nixos#ci 2>&1": "allow",
+                    "nix run ./nixos#ci 2>&1 | tail -30": "allow",
+                    "nix run ./nixos#nixos-ci": "allow",
+                    "nix run ./nixos#nvim-ci": "allow",
+                    "nix run ./nixos#workflows-ci": "allow",
+                    "nix run ./nixos#nixos-fmt": "allow",
+                    "nix run ./nixos#nixos-lint": "allow",
+                    "nix run ./nixos#nvim-fmt": "allow",
+                    "nix run ./nixos#nvim-lint": "allow",
+                    "nix run ./nixos#workflows-fmt": "allow",
+                    "nix run ./nixos#workflows-lint": "allow",
+                    "sqlfluff fix *": "allow",
+                    "sqlfluff lint *": "allow",
+                    ".venv/bin/sqlfluff lint supabase/migrations/*.sql supabase/seed.sql": "allow",
+                    ".venv/bin/sqlfluff fix supabase/migrations/*.sql supabase/seed.sql": "allow",
+                    "npx supabase db reset": "allow",
+                    "npx supabase status": "allow",
+                    "node scripts/seed-tests-accounts.js": "allow",
+                    "nix eval *": "allow",
+                    "nix search *": "allow",
+                    "rg": "allow",
+                    "rg *": "allow",
+                    "git status": "allow",
+                    "git status *": "allow",
+                    "cd *": "allow",
+                    "git diff": "allow",
+                    "git diff *": "allow",
+                    "pwd": "allow",
+                    "ls": "allow",
+                    "ls *": "allow",
+                    "curl *": "allow",
+                    "wget *": "allow",
+                    "grep": "allow",
+                    "grep *": "allow",
+                    "mmdc": "allow",
+                    "mmdc *": "allow",
+                    "*git push*": "deny",
+                    "*git commit*": "allow"
+                }
+            }
+        },
+        "plan": {
+            "permission": {
+                "*": "ask",
+                "external_directory": "allow",
+                "webfetch": "allow",
+                "task": "allow",
+                "codesearch": "allow",
+                "lsp": "allow",
+                "edit": "deny",
+                "grep": "allow",
+                "glob": "allow",
+                "list": "allow",
+                "todowrite": "allow",
+                "todoread": "allow",
+                "question": "allow",
+                "websearch": "allow",
+                "doom_loop": "deny",
+                "read": {
+                    "*": "allow",
+                    "*.env": "deny",
+                    "*.env.*": "deny",
+                    "*.env.example": "allow",
+                    "/nix/*": "allow",
+                    "/tmp/*": "allow"
+                },
+                "bash": {
+                    "*": "ask",
+                    "true": "allow",
+                    "nix run ./nixos#ci": "allow",
+                    "nix run ./nixos#ci 2>&1": "allow",
+                    "nix run ./nixos#ci 2>&1 | tail -30": "allow",
+                    "nix run ./nixos#nixos-ci": "allow",
+                    "nix run ./nixos#nvim-ci": "allow",
+                    "nix run ./nixos#workflows-ci": "allow",
+                    "nix run ./nixos#nixos-fmt": "allow",
+                    "nix run ./nixos#nixos-lint": "allow",
+                    "nix run ./nixos#nvim-fmt": "allow",
+                    "nix run ./nixos#nvim-lint": "allow",
+                    "nix run ./nixos#workflows-fmt": "allow",
+                    "nix run ./nixos#workflows-lint": "allow",
+                    "sqlfluff fix *": "allow",
+                    "sqlfluff lint *": "allow",
+                    ".venv/bin/sqlfluff lint supabase/migrations/*.sql supabase/seed.sql": "allow",
+                    ".venv/bin/sqlfluff fix supabase/migrations/*.sql supabase/seed.sql": "allow",
+                    "npx supabase db reset": "allow",
+                    "npx supabase status": "allow",
+                    "node scripts/seed-tests-accounts.js": "allow",
+                    "nix eval *": "allow",
+                    "nix search *": "allow",
+                    "rg": "allow",
+                    "rg *": "allow",
+                    "git status": "allow",
+                    "git status *": "allow",
+                    "cd *": "allow",
+                    "git diff": "allow",
+                    "git diff *": "allow",
+                    "pwd": "allow",
+                    "ls": "allow",
+                    "ls *": "allow",
+                    "curl *": "allow",
+                    "wget *": "allow",
+                    "grep": "allow",
+                    "grep *": "allow",
+                    "mmdc": "allow",
+                    "mmdc *": "allow",
+                    "*git push*": "deny",
+                    "*git commit*": "allow"
+                }
+            }
         }
-      }
     }
-  }
 }
-
