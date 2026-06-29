@@ -2,18 +2,18 @@
   description = "Personal NixOS configuration for WSL with Home Manager";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     nixpkgs-unstable = {
       url = "github:NixOS/nixpkgs/nixos-unstable";
     };
 
     nixos-wsl = {
-      url = "github:nix-community/nixos-wsl/release-25.11";
+      url = "github:nix-community/nixos-wsl/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -26,6 +26,11 @@
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
+    };
+
+    freesmlauncher = {
+      url = "github:FreesmTeam/FreesmLauncher/c5e133fe06f5";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -132,6 +137,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 backupFileExtension = "backup";
+                overwriteBackup = true;
                 extraSpecialArgs = {
                   inherit const roles hostName;
                   inherit (helpers)
