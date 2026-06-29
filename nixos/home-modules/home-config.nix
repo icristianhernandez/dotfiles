@@ -17,4 +17,6 @@ guardRole "base" {
       NIXOS_HOST = hostName;
     };
   };
+  # TODO: the following line is being set as a compat, I think can be removed
+  xdg.userDirs.setSessionVariables = true;
 }
