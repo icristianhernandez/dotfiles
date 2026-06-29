@@ -19,19 +19,16 @@ require("copilot").setup({
 
 vim.o.autoread = true
 
+local opencode_cmd = "opencode --port"
+local opencode_term = { win = { position = "float", enter = true } }
+
 vim.g.opencode_opts = {
     events = {
         permissions = { enabled = false },
     },
     server = {
         start = function()
-            require("snacks.terminal").open("opencode --port", { win = { position = "float", enter = true } })
-        end,
-        stop = function()
-            require("snacks.terminal").get("opencode --port", { win = { position = "float" } }):close()
-        end,
-        toggle = function()
-            require("snacks.terminal").toggle("opencode --port", { win = { position = "float", enter = true } })
+            require("snacks.terminal").open(opencode_cmd, opencode_term)
         end,
     },
 }
@@ -46,5 +43,5 @@ vim.keymap.set({ "n", "x" }, "<leader>ao", function()
     require("opencode").prompt("@this")
 end, { desc = "Add to opencode" })
 vim.keymap.set({ "n", "t" }, "<c-a>", function()
-    require("opencode").toggle()
+    require("snacks.terminal").toggle(opencode_cmd, opencode_term)
 end, { desc = "Toggle opencode" })

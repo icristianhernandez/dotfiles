@@ -106,6 +106,47 @@ vim.api.nvim_create_autocmd("User", {
     end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+    group = group,
+    pattern = "MiniFilesBufferCreate",
+    callback = function(args)
+        local buf_id = args.data.buf_id
+        vim.keymap.set("n", "<leader>ff", function()
+            local MiniFiles = require("mini.files")
+            local original_tab = vim.api.nvim_get_current_tabpage()
+
+            vim.cmd.tabnew()
+            local picker_tab = vim.api.nvim_get_current_tabpage()
+            local handled = false
+
+            require("snacks").picker.pick({
+                source = "files",
+                cwd = vim.fn.getcwd(),
+                confirm = function(picker, item)
+                    if item and item.file then
+                        handled = true
+                        local file = item.file
+                        picker:close()
+                        vim.schedule(function()
+                            pcall(vim.cmd, "tabclose")
+                            vim.api.nvim_set_current_tabpage(original_tab)
+                            MiniFiles.set_branch({ vim.fs.dirname(file), file }, { depth_focus = 2 })
+                        end)
+                    end
+                end,
+                on_close = function()
+                    if not handled then
+                        vim.schedule(function()
+                            pcall(vim.cmd, "tabclose")
+                            vim.api.nvim_set_current_tabpage(original_tab)
+                        end)
+                    end
+                end,
+            })
+        end, { buffer = buf_id, desc = "Find file (navigate in mini.files)" })
+    end,
+})
+
 vim.keymap.set({ "n", "x" }, "<leader>e", "", { desc = "+file explorer" })
 
 vim.keymap.set({ "n", "x" }, "<leader>ee", function()

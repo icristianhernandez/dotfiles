@@ -1,10 +1,7 @@
 -- MISSING:
--- 2. Lualine or something related to the statusline
--- 4. Notifications (ui2 enough?)
--- 5. Cmdline at the top-center of the screen
+-- Notifications (ui2 enough?)
 
 vim.pack.add({
-    "https://github.com/nvim-lualine/lualine.nvim",
     "https://github.com/saghen/blink.indent",
     "https://github.com/HiPhish/rainbow-delimiters.nvim",
     "https://github.com/catgoose/nvim-colorizer.lua",
@@ -17,19 +14,8 @@ vim.pack.add({
     --
     "https://github.com/MunifTanjim/nui.nvim",
     "https://github.com/smjonas/inc-rename.nvim",
-})
 
-require("lualine").setup({
-    options = {
-        always_show_tabline = false,
-        -- component_separators = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
-    },
-    tabline = {
-        lualine_b = {
-            { "tabs", mode = 2, max_length = vim.o.columns },
-        },
-    },
+    "https://github.com/nvim-lualine/lualine.nvim",
 })
 
 require("blink.indent").setup({
@@ -113,4 +99,68 @@ vim.api.nvim_create_autocmd("LspAttach", {
             vim.keymap.set("n", "grn", ":IncRename ", { buffer = bufnr, desc = "IncRename (LSP)" })
         end
     end,
+})
+
+local function get_parts()
+    local path = vim.api.nvim_buf_get_name(0)
+    if path == "" then
+        return nil
+    end
+    return vim.split(path, "/", { plain = true, trimempty = true })
+end
+
+local function parent_path()
+    local parts = get_parts()
+    if not parts then
+        return ""
+    end
+    local raw = "/" .. table.concat(vim.list_slice(parts, 1, #parts - 2), "/") .. "/"
+    local home = vim.fn.expand("~")
+    if raw:sub(1, #home) == home then
+        raw = "~" .. raw:sub(#home + 1)
+    end
+    return raw .. "..."
+end
+
+local function parent_path_cond()
+    local parts = get_parts()
+    return parts ~= nil and #parts > 2
+end
+
+require("lualine").setup({
+    options = {
+        always_show_tabline = false,
+        -- section_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
+        -- section_separators = { left = "", right = "" },
+        -- component_separators = { left = "", right = "" },
+    },
+    tabline = {
+        lualine_b = {
+            { "tabs", mode = 2, max_length = vim.o.columns },
+        },
+    },
+    sections = {
+        lualine_a = {
+            {
+                "filename",
+                path = 4,
+            },
+        },
+        lualine_b = {
+            { parent_path, cond = parent_path_cond },
+        },
+        lualine_c = {},
+        lualine_x = { "diagnostics" },
+        lualine_y = { "branch" },
+        lualine_z = { { "datetime", style = "%I:%M %p" } },
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { "filename" },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+    },
 })
