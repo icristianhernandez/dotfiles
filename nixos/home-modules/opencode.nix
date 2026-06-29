@@ -26,5 +26,8 @@ guardRole "dev" {
     libnotify
     libcanberra-gtk3
     sound-theme-freedesktop
+
+    # models tend to use it a lot, I'm testing it...
+    github-cli
   ];
 }

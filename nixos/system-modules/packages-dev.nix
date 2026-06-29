@@ -10,19 +10,13 @@ guardRole "dev" {
     gcc
     (python313.withPackages (ps: [ ps.pip ]))
     go
-    mermaid-cli
     postgresql
 
     # Dev Environment
     lazygit
     statix
     unstable.vscode.fhs
-    # unstable.github-copilot-cli
-    unstable.pi-coding-agent
     unstable.neovide
-
-    anydesk
-
   ];
 
   # programs.vscode = {
