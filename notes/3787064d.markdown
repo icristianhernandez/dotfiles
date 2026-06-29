@@ -1,0 +1,82 @@
+1) Variable
+Funcionamiento de la IIP
+- vulnerabilidad estructural
+- Patrón Histórico de Inyección (sql...)
+* Aquí me falta investigar para saber que más agregar
+
+Capacidad Operacional
+- Ingreso de datos en prompt (tal vez no, al ser esto de las inyecciones directas)
+- Ingreso de datos por agente
+- Fuentes subsceptibles de envenenamiento (es compleja de por sí y puede
+sintetizar la primera y la segunda, siendo aún más compleja, o separarse en un
+nuevo indicador y luego listar cada fuente)
+- Alteración en el comportamiento del agente (dependiendo de como se desarolle puede ir en otro lado)
+
+Técnicas de Ataque
+- Manipulación de contexto (compleja, o se separa en cada una [simular ser el sistema, ignorar instrucciones, dar nuevas instrucciones, etc...])
+- Uso de otros idiomas
+- Uso de otros formatos (compleja: imagen, doc, texto, texto enriquecido, etc...)
+- Ofuscación de información
+- Envenamiento de tecnologías complementarias (compleja: mcp, skills, markets de estas tecnologias, etc. Como las otras complejas puede separarse en varios subindicadores o indicador-subindicadores propio)
+- Combinación de técnicas
+* Falta investigar mucho
+
+Impacto y Consecuencias
+- Robo de información
+- Manipulación de contenido
+- Spam y publicidad indeseada
+- Sabotaje al agente (sin interés o resultado adicional a solo dañar la tarea del agente)
+* Falta investigar mucho
+
+
+
+2)
+Superficie de integración
+- Intermediar la lectura/recibida de información.
+- Intermediar la generación de texto del modelo.
+- Intermediar las capacidades del agente.
+
+Utilización de LLM y agentes laboralmente
+- Agentes utilizados (complejo)
+- Modelos utilizados (complejo)
+- Viabilidad de un sistema intermediario ante las necesidades y uso (no sé como agregar esto la verdad)
+
+Restricciones del contexto venezolano 
+(no quiero incluir nada de esto)
+- Mercado únicamente consumidor de servicios de LLM
+- Capacidad de desarrollar otras alternativas (como reentreno, finetuning, etc).
+
+
+3)
+(cada uno de los modelos y sus capacidades)
+Módulo de detección
+- Patrones
+- Revisión de texto por otro contexto de LLM
+- Correlación multivariable
+* estoy seguro de que aquí puede ir más
+
+Módulo de sanitización
+- Eliminación completa de detecciones
+- Modifición/parafraseo del contenido (IA)
+- Etiquetado/catalogazión del potencial ataque (puede ir normalización)
+
+Módulo de normalización
+- Separación de cada bloque de contenido a través de un formato (md, html, u
+otro tipo de texto enriquecido o lenguaje de enmarcado, se puede separar por
+cada uno)
+
+Módulo de alerta
+- Alerta por correlación de ataque.
+- Descripción y muestreo del ataque.
+
+Módulo de contención
+- Detección de filtrado de información
+- Detección de cambio operacional
+- Aislar y actuar sobre lo vulnerado.
+
+Módulo de experimetación
+- Simulación de flujos de agente 
+- Bateria de pruebas de IIP
+- Métricas 
+
+
